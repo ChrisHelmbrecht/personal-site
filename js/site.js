@@ -93,12 +93,6 @@
     $('teide').addEventListener('pointerenter', ride);
     $('teide').addEventListener('click', ride);
     if (!calm) { setTimeout(ride, 6000); setInterval(ride, 23000); }
-    // A skater rolls down the path through the jaw
-    const walker = $('walker');
-    const roll = () => { if (!calm && !walker.classList.contains('go')) { walker.classList.add('go'); setTimeout(() => walker.classList.remove('go'), 5300); } };
-    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', roll);
-    if (!calm) { setTimeout(roll, 14000); setInterval(roll, 31000); }
-
     // Mushrooms sprout wherever you click the skull itself
     const sprouts = $('sprouts'), tilt = skull.querySelector('.tilt');
     let grown = 0;
@@ -122,6 +116,20 @@
       shakes = 0; gone = true; owl.classList.add('away');
       setTimeout(() => { owl.classList.remove('away'); owl.classList.add('back'); }, 14000);
       setTimeout(() => { owl.classList.remove('back'); gone = false; }, 15700);
+    });
+    // Dive: fly into the clicked doorway, then open its page. The sharp 4K image loads in the background for the close-up
+    const hires = $('hires'), veil = $('veil');
+    if (!calm) addEventListener('load', () => { hires.onload = () => hires.classList.add('ready'); hires.src = 'assets/skull-4k.webp'; });
+    spots.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
+      if (calm || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      const st = s.style;
+      tilt.style.transformOrigin = `${parseFloat(st.left) + parseFloat(st.width) / 2}% ${parseFloat(st.top) + parseFloat(st.height) / 2}%`;
+      document.documentElement.classList.add('diving'); skull.classList.add('dive'); veil.classList.add('on');
+      setTimeout(() => { location.href = s.href; }, 1000);
+    }));
+    addEventListener('pageshow', () => { // coming back with the browser's back button
+      document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on');
     });
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }

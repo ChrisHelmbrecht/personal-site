@@ -216,17 +216,7 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
   75% { transform: translate(200%, -125%) scale(.75, .62) rotate(26deg); opacity: 1; }
   100% { transform: translate(330%, -180%) scale(.45) rotate(30deg); opacity: 0; }
 }
-.walker { position: absolute; left: 48.6%; top: 58.2%; width: 4.6%; pointer-events: none; opacity: 0; }
-.walker img, .sprouts img { position: static; width: 100%; height: auto; }
-.walker.go { animation: roll 5.2s ease-in forwards; }
-@keyframes roll {
-  0% { opacity: 0; transform: translate(40%, 0) scale(.35); }
-  10% { opacity: 1; }
-  35% { transform: translate(-10%, 95%) scale(.6) rotate(-4deg); }
-  65% { transform: translate(-55%, 240%) scale(.95) rotate(5deg); }
-  88% { opacity: 1; }
-  100% { opacity: 0; transform: translate(35%, 420%) scale(1.35) rotate(-3deg); }
-}
+.sprouts img { position: static; width: 100%; height: auto; }
 .sprouts { position: absolute; inset: 0; pointer-events: none; }
 .sprouts span { position: absolute; width: 5.2%; margin: -5% 0 0 -2.6%; transform-origin: 50% 100%; animation: sprout 7s ease-out forwards; }
 @keyframes sprout {
@@ -236,4 +226,16 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
   85% { transform: scale(1); opacity: 1; }
   100% { transform: scale(.9); opacity: 0; }
 }
-@media (prefers-reduced-motion: reduce) { .city { transform: none; } .moonglow, .stars i, .clouds i, .owl > div { animation: none !important; } .tilt, .owl { transform: none; } }
+/* Dive: clicking a doorway flies into it before the next page opens */
+.skull .hires { opacity: 0; pointer-events: none; }
+.skull.dive { -webkit-mask-image: none; mask-image: none; z-index: 30; }
+.skull.dive .tilt { transform: scale(7); transition: transform 1s cubic-bezier(.7, 0, .85, .35); }
+.skull.dive .hires.ready { opacity: 1; }
+.skull.dive .tilt > img { -webkit-mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%); }
+.skull.dive .spot, .skull.dive .trip { opacity: 0; transition: opacity .2s; }
+.veil { position: fixed; inset: 0; z-index: 40; background: var(--paper); opacity: 0; pointer-events: none; }
+.veil.on { opacity: 1; transition: opacity .45s ease-in .55s; }
+html.diving { overflow: hidden; }
+.page { animation: arrive .7s ease-out both; }
+@keyframes arrive { from { opacity: 0; transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .page { animation: none; } .city { transform: none; } .moonglow, .stars i, .clouds i, .owl > div { animation: none !important; } .tilt, .owl { transform: none; } }
