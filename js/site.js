@@ -85,7 +85,7 @@
     // The owl blinks, and now and then leans over for a look
     const owl = $('owl');
     const once = (cls, ms) => { owl.classList.add(cls); setTimeout(() => owl.classList.remove(cls), ms); };
-    const blink = () => { once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
+    const blink = () => { if (!owl.classList.contains('away')) once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
     if (!calm) { setTimeout(blink, 1800); setInterval(() => once('peek', 2400), 17000); }
     // A snowboarder drops in on the Teide: on hover, and every so often on his own
     const rider = $('rider');
@@ -93,6 +93,36 @@
     $('teide').addEventListener('pointerenter', ride);
     $('teide').addEventListener('click', ride);
     if (!calm) { setTimeout(ride, 6000); setInterval(ride, 23000); }
+    // A skater rolls down the path through the jaw
+    const walker = $('walker');
+    const roll = () => { if (!calm && !walker.classList.contains('go')) { walker.classList.add('go'); setTimeout(() => walker.classList.remove('go'), 5300); } };
+    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', roll);
+    if (!calm) { setTimeout(roll, 14000); setInterval(roll, 31000); }
+
+    // Mushrooms sprout wherever you click the skull itself
+    const sprouts = $('sprouts'), tilt = skull.querySelector('.tilt');
+    let grown = 0;
+    tilt.addEventListener('click', e => {
+      if (e.target.closest('.spot, .branch, .teide')) return;
+      const b = tilt.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 100, y = (e.clientY - b.top) / b.height * 100;
+      if (Math.hypot(x - 50, (y - 50) * .82) > 37) return; // only on the skull, not the paper
+      const m = document.createElement('span');
+      m.style.cssText = `left:${x}%;top:${y}%`; m.innerHTML = '<img src="assets/mushrooms.webp" alt="">';
+      if (Math.random() < .5) m.firstChild.style.transform = 'scaleX(-1)';
+      sprouts.appendChild(m); setTimeout(() => m.remove(), 7000);
+      // easter egg: ten mushrooms and the whole skull trips for a while
+      if (++grown % 10 === 0) { skull.classList.add('full'); setTimeout(() => skull.classList.remove('full'), 9000); }
+    });
+
+    // Easter egg: shake the branch three times and the owl takes off
+    let shakes = 0, gone = false;
+    $('branch').addEventListener('click', () => {
+      if (gone) return;
+      if (++shakes < 3) return once('hoot', 700);
+      shakes = 0; gone = true; owl.classList.add('away');
+      setTimeout(() => { owl.classList.remove('away'); owl.classList.add('back'); }, 14000);
+      setTimeout(() => { owl.classList.remove('back'); gone = false; }, 15700);
+    });
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 
