@@ -87,6 +87,12 @@
     const once = (cls, ms) => { owl.classList.add(cls); setTimeout(() => owl.classList.remove(cls), ms); };
     const blink = () => { once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
     if (!calm) { setTimeout(blink, 1800); setInterval(() => once('peek', 2400), 17000); }
+    // A snowboarder drops in on the Teide: on hover, and every so often on his own
+    const rider = $('rider');
+    const ride = () => { if (!calm && !rider.classList.contains('go')) { rider.classList.add('go'); setTimeout(() => rider.classList.remove('go'), 3300); } };
+    $('teide').addEventListener('pointerenter', ride);
+    $('teide').addEventListener('click', ride);
+    if (!calm) { setTimeout(ride, 6000); setInterval(ride, 23000); }
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 

@@ -186,4 +186,18 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 @keyframes peek { 0%, 100% { transform: rotate(0); } 25%, 70% { transform: rotate(-3.2deg) translateX(-1.5%); } }
 .lid { position: absolute; width: 11.5%; height: 7%; margin: -3.5% 0 0 -5.75%; border-radius: 50%; background: linear-gradient(var(--lid) 0 52%, var(--ink-deep) 52% 64%, var(--lid) 64%); transform: scaleY(0); transform-origin: 50% 0; transition: transform .09s ease-in; }
 .owl.blink .lid { transform: scaleY(1); }
-@media (prefers-reduced-motion: reduce) { .moonglow, .stars i, .clouds i, .owl > div { animation: none !important; } .tilt, .owl { transform: none; } }
+.city { position: absolute; inset: 0; pointer-events: none; transform: translate(calc(var(--tx, 0) * .42%), calc(var(--ty, 0) * .2%)); }
+.city > img { position: absolute; inset: auto; }
+.teide { position: absolute; display: block; }
+.rider { position: absolute; left: 54.6%; top: 35.2%; width: 8%; pointer-events: none; opacity: 0; }
+.rider img { position: static; width: 100%; height: auto; }
+.rider.go { animation: ride 3.4s cubic-bezier(.45, .05, .6, 1) forwards; }
+@keyframes ride {
+  0% { opacity: 0; transform: translate(0, 0) scale(.5) rotate(-8deg); }
+  12% { opacity: 1; }
+  45% { transform: translate(42%, 30%) scale(.8) rotate(6deg); }
+  70% { transform: translate(74%, 54%) scale(1) rotate(-5deg); }
+  86% { opacity: 1; }
+  100% { opacity: 0; transform: translate(104%, 74%) scale(1.08) rotate(4deg); }
+}
+@media (prefers-reduced-motion: reduce) { .city { transform: none; } .moonglow, .stars i, .clouds i, .owl > div { animation: none !important; } .tilt, .owl { transform: none; } }
