@@ -4,11 +4,14 @@ Chris Helmbrecht's private website. A blue-ink skull is the navigation: every el
 
 ## Run it
 
-Open `index.html` in a browser. No build step.
+No build step. Serve the folder (`python3 -m http.server`) and open it, or open `index.html` directly.
 
 ## Files
 
-- `index.html` – the page (markup, styles, script)
+- `index.html` – start page: the skull and the night-sound switch
+- `music.html`, `bio.html`, `writing.html`, `timeline.html`, `blog.html`, `contact.html` – one page per room
+- `css/site.css`, `js/site.js` – shared styles and script (the menu is built in `site.js`)
+- `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)
 - `assets/skull.webp` – web version of the skull
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
 - `timeline-data.js` – the timeline's years and photos (generated)
