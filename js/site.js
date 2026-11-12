@@ -52,6 +52,42 @@
     });
     skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); });
     spots.forEach(s => s.addEventListener('focus', () => { idle = false; lightSpot(s); }));
+
+    // Depth: the skull leans towards the pointer; when nobody moves it, it sways on its own
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let goal = [0, 0], now = [0, 0], lastMove = 0;
+    addEventListener('pointermove', e => {
+      if (e.pointerType === 'touch') return;
+      goal = [(e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2]; lastMove = performance.now();
+    });
+    const lean = t => {
+      if (t - lastMove > 2500) goal = [Math.sin(t / 2900) * .55, Math.cos(t / 3700) * .4];
+      now = now.map((v, k) => v + (goal[k] - v) * .06);
+      skull.style.setProperty('--tx', now[0].toFixed(3)); skull.style.setProperty('--ty', now[1].toFixed(3));
+      requestAnimationFrame(lean);
+    };
+    if (!calm) requestAnimationFrame(lean);
+
+    // Stars in the dome
+    const stars = $('stars');
+    [[37, 17], [40.5, 12.5], [43, 19.5], [44.5, 10.5], [41, 23], [60.5, 11], [62.5, 16], [64, 21.5], [59.5, 18.5], [66, 26], [35, 25], [61.5, 24]].forEach(([x, y], k) => {
+      stars.insertAdjacentHTML('beforeend', `<i style="left:${x}%;top:${y}%;animation-delay:${-(k * .83 % 3.4).toFixed(2)}s;animation-duration:${2.6 + k % 4 * .7}s"></i>`);
+    });
+
+    // The Frauenkirche clocks show Munich time
+    const clocks = skull.querySelectorAll('.clock');
+    const tick = () => {
+      const [h, m] = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date()).split(':').map(Number);
+      clocks.forEach(c => { c.querySelector('.h').style.setProperty('--a', (h % 12 + m / 60) * 30 + 'deg'); c.querySelector('.m').style.setProperty('--a', m * 6 + 'deg'); });
+    };
+    tick(); setInterval(tick, 20000);
+
+    // The owl blinks, and now and then leans over for a look
+    const owl = $('owl');
+    const once = (cls, ms) => { owl.classList.add(cls); setTimeout(() => owl.classList.remove(cls), ms); };
+    const blink = () => { once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
+    if (!calm) { setTimeout(blink, 1800); setInterval(() => once('peek', 2400), 17000); }
+    window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 
   // Night sound: browsers only allow audio after a click, so it starts from the switch
@@ -67,6 +103,16 @@
           const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
           const node = ctx.createBufferSource(); node.buffer = buf; node.loop = true;
           gain = ctx.createGain(); gain.gain.value = 0; node.connect(gain).connect(ctx.destination); node.start();
+          // the owl in the picture moves when the owl in the recording calls
+          const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
+          const buf2 = new Float32Array(ear.fftSize);
+          const listen = () => {
+            ear.getFloatTimeDomainData(buf2);
+            const rms = Math.sqrt(buf2.reduce((a, v) => a + v * v, 0) / buf2.length);
+            if (on && rms > .09 && window.owlHoot) window.owlHoot();
+            requestAnimationFrame(listen);
+          };
+          listen();
         }
         gain.gain.linearRampToValueAtTime(VOL, ctx.currentTime + 1.5);
       } catch (err) { // opened straight from disk: plain audio element instead
