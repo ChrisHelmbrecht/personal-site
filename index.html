@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--page-->
+<title>Chris Helmbrecht Skull</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one ink-drawn skull centred on ruled paper; every room of the site hangs off it. Single look by choice (the paper is the artwork's own). */
+@property --mx { syntax: "<percentage>"; inherits: true; initial-value: 50%; }
+@property --my { syntax: "<percentage>"; inherits: true; initial-value: 30%; }
+@property --r  { syntax: "<length>"; inherits: true; initial-value: 0px; }
+:root {
+  --paper: #d6d9d6;
+  --paper-rule: rgba(255, 255, 255, .34);
+  --ink: #1f3f97;
+  --ink-deep: #12265f;
+  --ink-soft: rgba(31, 63, 151, .16);
+  --ink-mid: rgba(18, 38, 95, .72);
+  --card: #e6e8e5;
+  --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper) repeating-linear-gradient(to bottom, transparent 0 4px, var(--paper-rule) 4px 6px);
+  color: var(--ink-deep);
+  font-family: var(--display);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+a { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* Top bar */
+.bar {
+  position: fixed; inset: 0 0 auto; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) var(--gr) 12px var(--gl);
+  pointer-events: none;
+}
+.bar > * { pointer-events: auto; }
+.name { font: 500 .78rem/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; text-decoration: none; color: var(--ink-deep); }
+.burger {
+  width: 46px; height: 46px; border: 1.5px solid var(--ink); border-radius: 50%;
+  background: var(--card); cursor: pointer; display: grid; place-content: center; gap: 5px;
+}
+.burger span { display: block; width: 18px; height: 1.5px; background: var(--ink); transition: transform .25s; }
+.burger[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.burger[aria-expanded="true"] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+.menu {
+  position: fixed; z-index: 19; top: 0; right: 0; bottom: 0; width: min(340px, 100%);
+  background: var(--ink-deep); color: var(--paper);
+  padding: calc(84px + env(safe-area-inset-top, 0px)) calc(var(--gr) + 12px) 32px 28px;
+  display: flex; flex-direction: column; gap: 4px; overflow-y: auto;
+  transform: translateX(102%); transition: transform .35s cubic-bezier(.2, .8, .2, 1); visibility: hidden;
+}
+.menu.open { transform: none; visibility: visible; }
+.menu a { color: var(--paper); text-decoration: none; font: italic 600 2rem/1.25 var(--display); }
+.menu a:hover { text-decoration: underline; text-underline-offset: 6px; }
+.menu small { font: .7rem var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .6; margin-top: 18px; }
+
+/* Skull */
+.hero { padding: calc(64px + env(safe-area-inset-top, 0px)) var(--gr) 8px var(--gl); display: grid; justify-items: center; gap: 6px; }
+.skull {
+  position: relative; width: min(100%, 86vh, 900px); aspect-ratio: 1; max-width: 100%;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%);
+          mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%);
+}
+.skull img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+.skull .trip {
+  filter: hue-rotate(60deg) saturate(2.6) contrast(1.08);
+  animation: trip 7s linear infinite;
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), #000 45%, transparent 100%);
+          mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), #000 45%, transparent 100%);
+  transition: --r .55s cubic-bezier(.2, .8, .2, 1), --mx .5s cubic-bezier(.2, .8, .2, 1), --my .5s cubic-bezier(.2, .8, .2, 1);
+  pointer-events: none;
+}
+.skull.follow .trip { transition: --r .45s; }
+@keyframes trip { from { filter: hue-rotate(40deg) saturate(2.6) contrast(1.08); } to { filter: hue-rotate(400deg) saturate(2.6) contrast(1.08); } }
+.spot { position: absolute; display: block; border-radius: 50%; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.spot::before { /* pulsing ink dot that says "something is here" */
+  content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px;
+  border-radius: 50%; background: var(--card); box-shadow: 0 0 0 1.5px var(--ink-deep);
+  animation: ping 2.6s ease-out infinite; animation-delay: var(--d, 0s);
+}
+@keyframes ping { 0% { box-shadow: 0 0 0 1.5px var(--ink-deep), 0 0 0 0 rgba(230, 232, 229, .9); } 70%, 100% { box-shadow: 0 0 0 1.5px var(--ink-deep), 0 0 0 14px rgba(230, 232, 229, 0); } }
+.spot b {
+  position: absolute; left: 50%; top: calc(50% + 14px); transform: translate(-50%, 4px); white-space: nowrap;
+  font: 500 .68rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+  background: var(--ink-deep); color: var(--card); padding: 7px 10px 6px; border-radius: 2px;
+  opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 2;
+}
+.spot:hover b, .spot:focus-visible b, .spot.lit b { opacity: 1; transform: translate(-50%, 0); }
+.spot:hover::before, .spot.lit::before { background: var(--ink-deep); }
+.hint { font: .72rem var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-mid); margin: 0; text-align: center; }
+
+/* Rooms */
+main { padding-left: var(--gl); padding-right: var(--gr); padding-block: 40px 96px; }
+.room { max-width: 760px; margin: 0 auto; padding-block: 56px 8px; scroll-margin-top: 40px; }
+.room h2 { font: italic 600 clamp(2.4rem, 7vw, 3.6rem)/1 var(--display); margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
+.room p { margin: 0 0 12px; max-width: 62ch; }
+.tag { font: .7rem var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
+
+/* Timeline */
+.years { list-style: none; margin: 28px 0 0; padding: 0 0 0 26px; border-left: 1.5px solid var(--ink); display: grid; gap: 34px; }
+.years li { position: relative; display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 20px; align-items: center; }
+.years li::before { content: ""; position: absolute; left: -32.5px; top: 50%; width: 11px; height: 11px; margin-top: -5.5px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--ink); }
+.cover {
+  aspect-ratio: 4 / 3; width: 100%; max-width: 100%; border: 1.5px solid var(--ink); background: var(--ink-soft) center / cover;
+  cursor: pointer; padding: 0; display: grid; place-items: center; color: var(--ink);
+  font: .62rem var(--mono); letter-spacing: .14em; text-transform: uppercase; transition: transform .25s;
+}
+.cover:hover { transform: rotate(-2deg) scale(1.03); }
+.year { font: 600 clamp(2.2rem, 8vw, 3.4rem)/1 var(--display); font-variant-numeric: lining-nums; color: var(--ink); }
+.years p { margin: 4px 0 0; font-size: 1.05rem; }
+@media (max-width: 480px) { .years li { grid-template-columns: minmax(0, 104px) minmax(0, 1fr); gap: 14px; } }
+
+/* Gallery pop-up */
+dialog { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; margin: 0; }
+dialog::backdrop { background: rgba(18, 38, 95, .93); }
+.stage { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px; padding: calc(18px + env(safe-area-inset-top, 0px)) var(--gr) calc(18px + env(safe-area-inset-bottom, 0px)) var(--gl); color: var(--card); }
+.stage header, .stage footer { display: flex; justify-content: space-between; align-items: center; font: .72rem var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.stage header strong { font: italic 600 2rem/1 var(--display); letter-spacing: 0; text-transform: none; }
+.stage button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--card); background: none; border: 1.5px solid var(--card); padding: 10px 16px; cursor: pointer; border-radius: 2px; }
+.stage button:focus-visible { outline-color: var(--card); }
+.slide { min-height: 0; display: grid; place-items: center; cursor: pointer; background: none; border: 0; padding: 0; width: 100%; }
+.slide img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.slide .ph { width: min(100%, 720px); aspect-ratio: 4 / 3; max-height: 100%; border: 1.5px dashed var(--card); display: grid; place-items: center; text-align: center; padding: 20px; font: 1rem var(--mono); letter-spacing: .1em; color: var(--card); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .skull .trip { animation: none; transition: none; }
+  .spot::before { animation: none; }
+  .menu, .cover { transition: none; }
+}
+</style>
+
+<header class="bar">
+  <a class="name" href="#top">Chris Helmbrecht</a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+</header>
+<nav class="menu" id="menu" aria-label="Site">
+  <a href="#music">Music</a>
+  <a href="#bio">Bio</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#blog">Blog</a>
+  <a href="#shop">Shop</a>
+  <a href="#socials">Socials</a>
+  <small>Elsewhere</small>
+  <a href="https://dieneue.social" target="_blank" rel="noopener">dieneue.social</a>
+  <a href="https://fuckingmoskau.de" target="_blank" rel="noopener">Fucking Moskau</a>
+</nav>
+
+<section class="hero" id="top">
+  <div class="skull" id="skull">
+    <img src="assets/skull.webp" alt="Blue ink skull holding an owl, the moon and a skyline of Moscow, Munich, Tenerife and New York">
+    <img class="trip" src="assets/skull.webp" alt="" aria-hidden="true">
+    <a class="spot" href="#music" style="left:42.5%;top:23%;width:6%;height:11%;--d:0s"><b>Music</b></a>
+    <a class="spot" href="#bio" style="left:47%;top:13%;width:12%;height:21%;--d:.3s"><b>Bio</b></a>
+    <a class="spot" href="#blog" style="left:31%;top:22%;width:11%;height:17%;--d:.6s"><b>Blog</b></a>
+    <a class="spot" href="https://fuckingmoskau.de" target="_blank" rel="noopener" style="left:30%;top:39.5%;width:10.5%;height:17%;--d:.9s"><b>The book: Fucking Moskau</b></a>
+    <a class="spot" href="https://dieneue.social" target="_blank" rel="noopener" style="left:40.5%;top:35%;width:11.5%;height:22%;--d:1.2s"><b>Work: dieneue.social</b></a>
+    <a class="spot" href="#timeline" style="left:44%;top:62%;width:10%;height:9%;--d:1.5s"><b>Timeline</b></a>
+    <a class="spot" href="#socials" style="left:36%;top:71.5%;width:28%;height:9%;--d:1.8s"><b>Socials</b></a>
+    <a class="spot" href="#shop" style="left:45%;top:88.5%;width:10%;height:8%;--d:2.1s"><b>Shop</b></a>
+  </div>
+  <p class="hint">Move over the skull. Everything in it leads somewhere.</p>
+</section>
+
+<main>
+  <section class="room" id="timeline">
+    <span class="tag">The path through the jaw</span>
+    <h2>Timeline</h2>
+    <p>Munich, New York, Moscow, Tenerife and back. Pick a year, flip through its photos, and the gallery closes itself after the last one.</p>
+    <p class="tag" id="tl-note"></p>
+    <ol class="years" id="years"></ol>
+  </section>
+  <section class="room" id="music">
+    <span class="tag">The moon</span>
+    <h2>Music</h2>
+    <p>Indie dance, melodic techno, afro house. The mixes and their skull covers move in here, with a player that keeps running while you wander.</p>
+  </section>
+  <section class="room" id="bio">
+    <span class="tag">The owl</span>
+    <h2>Bio</h2>
+    <p>Born in Munich. Roughly 25 years away in New York, Moscow and Tenerife. DJ, author of <em>Fucking Moskau</em>, mountain guide, brand consultant. The long version goes here.</p>
+  </section>
+  <section class="room" id="blog">
+    <span class="tag">The trees</span>
+    <h2>Blog</h2>
+    <p>Not open yet.</p>
+  </section>
+  <section class="room" id="shop">
+    <span class="tag">The flower</span>
+    <h2>Shop</h2>
+    <p>Not open yet.</p>
+  </section>
+  <section class="room" id="socials">
+    <span class="tag">The teeth</span>
+    <h2>Socials</h2>
+    <p>One tooth per platform. Links follow.</p>
+  </section>
+</main>
+
+<dialog id="gallery" aria-label="Photo gallery">
+  <div class="stage">
+    <header><strong id="g-year"></strong><button id="g-close" type="button">Close</button></header>
+    <button class="slide" id="g-slide" type="button" aria-label="Next photo"></button>
+    <footer><span id="g-count"></span><span>Tap for the next one</span></footer>
+  </div>
+</dialog>
+
+<script src="timeline-data.js"></script>
+<script>
+(() => {
+  // Menu
+  const burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  const setMenu = open => { menu.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); };
+  burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  // Skull: a pool of colour follows the pointer and swells over each doorway
+  const skull = document.getElementById('skull'), spots = [...skull.querySelectorAll('.spot')];
+  const light = (xPct, yPct, rPx) => {
+    skull.style.setProperty('--mx', xPct + '%'); skull.style.setProperty('--my', yPct + '%'); skull.style.setProperty('--r', rPx + 'px');
+  };
+  const lightSpot = s => {
+    const st = s.style, w = parseFloat(st.width), h = parseFloat(st.height);
+    light(parseFloat(st.left) + w / 2, parseFloat(st.top) + h / 2, Math.max(w, h) / 100 * skull.clientWidth * .72);
+  };
+  let idle = true, tour = 0, lit = null;
+  const wander = () => {
+    if (!idle) return;
+    lit && lit.classList.remove('lit');
+    lit = spots[tour++ % spots.length]; lit.classList.add('lit'); lightSpot(lit);
+  };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) { wander(); setInterval(wander, 2600); } else { lightSpot(spots[1]); }
+  skull.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    idle = false; lit && lit.classList.remove('lit');
+    const spot = e.target.closest('.spot');
+    skull.classList.toggle('follow', !spot);
+    if (spot) return lightSpot(spot);
+    const b = skull.getBoundingClientRect();
+    light((e.clientX - b.left) / b.width * 100, (e.clientY - b.top) / b.height * 100, b.width * .075);
+  });
+  skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); });
+  spots.forEach(s => s.addEventListener('focus', () => { idle = false; lightSpot(s); }));
+
+  // Timeline: one cover per year, pop-up gallery that closes itself after the last photo
+  const data = window.TIMELINE || [], years = document.getElementById('years');
+  const dlg = document.getElementById('gallery'), slide = document.getElementById('g-slide');
+  if (data.some(y => !y.images.length)) document.getElementById('tl-note').textContent = 'Example years. Your photos replace the dashed frames.';
+  let cur = null, i = 0;
+  const frames = y => y.images.length || 4;
+  const show = () => {
+    const src = cur.images[i];
+    slide.innerHTML = src ? `<img src="${src}" alt="${cur.year}, photo ${i + 1}">` : `<span class="ph">${cur.year}<br>photo ${i + 1} of ${frames(cur)} goes here</span>`;
+    document.getElementById('g-count').textContent = `${i + 1} / ${frames(cur)}`;
+  };
+  const next = () => { if (++i >= frames(cur)) return dlg.close(); show(); };
+  const prev = () => { if (i > 0) { i--; show(); } };
+  data.forEach(y => {
+    const li = document.createElement('li');
+    const cover = y.cover || y.images[0];
+    li.innerHTML = `<button class="cover" type="button" aria-label="Open ${y.year} gallery" ${cover ? `style="background-image:url('${cover}')"` : ''}>${cover ? '' : 'Cover photo'}</button>
+      <div><div class="year">${y.year}</div>${y.label ? `<p>${y.label}</p>` : ''}</div>`;
+    li.querySelector('button').addEventListener('click', () => { cur = y; i = 0; document.getElementById('g-year').textContent = y.year + (y.label ? ' · ' + y.label : ''); show(); dlg.showModal(); });
+    years.appendChild(li);
+  });
+  slide.addEventListener('click', next);
+  document.getElementById('g-close').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); } if (e.key === 'ArrowLeft') prev(); });
+})();
+</script>
+<!--/page-->
+</body>
+</html>
