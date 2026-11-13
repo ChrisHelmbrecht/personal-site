@@ -90,9 +90,8 @@
     const owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
     if (!calm) addEventListener('load', () => {
       loadFilm(owlFilm, 'assets/video/owl.mp4', () => owlBox.classList.add('filmed'));
-      const city = $('cityfilm'), water = $('waterfilm');
-      loadFilm(city, 'assets/video/city.mp4', () => city.classList.add('on'));
-      loadFilm(water, 'assets/video/water.mp4', () => water.classList.add('on'));
+      // 'moon', 'tree' and 'crown' have their places in the page already; add them here once their films are in assets/video
+      ['city', 'water'].forEach(n => { const v = $(n + 'film'); loadFilm(v, `assets/video/${n}.mp4`, () => v.classList.add('on')); });
       pathFilm.preload = 'auto'; pathFilm.src = 'assets/video/path.mp4'; pathFilm.load();
       pathFilm.addEventListener('canplaythrough', () => setTimeout(wanderOff, 4000), { once: true });
     });

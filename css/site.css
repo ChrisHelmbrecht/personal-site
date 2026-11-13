@@ -187,6 +187,9 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 @keyframes flap { to { transform: translate3d(-87.5%, 0, 0); } }
 .flock .girl { width: 3.4%; aspect-ratio: 1; margin: -1.7% 0 0 -1.7%; }
 .flock .girl img { position: static; display: block; width: 100%; height: 100%; }
+.moonfilm { left: 29%; top: 20%; width: 27%; height: 20.25%; }
+.treefilm { left: 57%; top: 27.5%; width: 16%; height: 12%; }
+.crownfilm { left: 36%; top: .3%; width: 28%; height: 12%; }
 .cityfilm { left: 51%; top: 37.5%; width: 22%; height: 16.5%; }
 .waterfilm { left: 22%; top: 75.5%; width: 56%; height: 24%; }
 .pathfilm { left: 40.039%; top: 61.035%; width: 18.066%; height: 24.097%; transition-duration: .5s; }
