@@ -115,49 +115,90 @@
     }
   };
 
-  // Sound: a few oscillators and some noise, nothing recorded. Shares the site's mute memory
-  let ac = null, out = null, noise = null, muted = false;
-  try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+  // Sound: synthesised the way an 80s cabinet did it, with square waves, a triangle and crunchy noise. Nothing is recorded.
+  // The game has its own switch, so muting the night sound on the skull does not silence it
+  const LOUD = 3;
+  let ac = null, out = null, echo = null, noise = null, muted = false;
+  try { muted = localStorage.getItem('owl-sound') === 'off'; } catch (e) {}
   const audio = () => {
     if (muted) return;
     try {
       if (!ac) {
-        ac = new (window.AudioContext || window.webkitAudioContext)(); out = ac.createGain(); out.gain.value = .5; out.connect(ac.destination);
-        noise = ac.createBuffer(1, ac.sampleRate * .4, ac.sampleRate); const d = noise.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+        ac = new (window.AudioContext || window.webkitAudioContext)();
+        // loud enough to be heard on laptop speakers; a soft clip catches the moments when everything fires at once
+        const soft = ac.createWaveShaper(); soft.curve = Float32Array.from({ length: 513 }, (_, i) => Math.tanh((i / 256 - 1) * 1.4) / Math.tanh(1.4)); soft.connect(ac.destination);
+        out = ac.createGain(); out.gain.value = LOUD; out.connect(soft);
+        const d = ac.createDelay(.5), back = ac.createGain(); d.delayTime.value = .17; back.gain.value = .3;    // a short echo for whatever should sparkle
+        echo = ac.createGain(); echo.connect(out); echo.connect(d); d.connect(back); back.connect(d); d.connect(out);
+        noise = ac.createBuffer(1, Math.floor(ac.sampleRate * .5), ac.sampleRate); const n = noise.getChannelData(0); for (let i = 0; i < n.length; i++) n[i] = Math.random() * 2 - 1;
       }
-      if (ac.state === 'suspended') ac.resume();
+      if (ac.state !== 'running') ac.resume();
     } catch (e) { ac = null; }
   };
-  const tone = (f0, f1, dur, vol = .08, type = 'square', when = 0) => {
+  // browsers only let sound start inside a real gesture, and for a finger that is the lift, not the touch
+  const unlock = () => { audio(); if (ac && ac.state === 'running') ['pointerup', 'touchend', 'click', 'keydown'].forEach(n => removeEventListener(n, unlock)); };
+  ['pointerup', 'touchend', 'click', 'keydown'].forEach(n => addEventListener(n, unlock, { passive: true }));
+  const now = () => ac ? ac.currentTime : 0;
+  const midi = m => 440 * 2 ** ((m - 69) / 12);
+  const glide = (a, b, n = 12) => Array.from({ length: n }, (_, i) => a * (b / a) ** (i / (n - 1)));
+  // one voice. f is a pitch in Hz, or a list of pitches it slides through
+  const tone = (f, dur, vol = .08, type = 'square', when = 0, bus = out) => {
     if (!ac || muted) return; const t = when || ac.currentTime, o = ac.createOscillator(), v = ac.createGain();
-    o.type = type; o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t + dur);
-    v.gain.setValueAtTime(vol, t); v.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(v).connect(out); o.start(t); o.stop(t + dur + .02);
+    o.type = type; if (Array.isArray(f)) o.frequency.setValueCurveAtTime(Float32Array.from(f), t, dur); else o.frequency.setValueAtTime(f, t);
+    v.gain.setValueAtTime(.0001, t); v.gain.linearRampToValueAtTime(vol, t + .004); v.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(v).connect(bus); o.start(t); o.stop(t + dur + .03);
   };
-  const hiss = (dur, vol = .08, when = 0, high = 0) => {
-    if (!ac || muted) return; const t = when || ac.currentTime, n = ac.createBufferSource(), v = ac.createGain(); n.buffer = noise;
+  // noise. Played slowly it turns into the gritty rumble of an old explosion chip; the speed slides from r0 to r1
+  const crunch = (dur, vol = .08, r0 = 1, r1 = r0, when = 0, high = 0) => {
+    if (!ac || muted) return; const t = when || ac.currentTime, n = ac.createBufferSource(), v = ac.createGain(); n.buffer = noise; n.loop = true;
+    n.playbackRate.setValueAtTime(r0, t); if (r1 !== r0) n.playbackRate.exponentialRampToValueAtTime(r1, t + dur);
     v.gain.setValueAtTime(vol, t); v.gain.exponentialRampToValueAtTime(.0001, t + dur);
     if (high) { const f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = high; n.connect(f).connect(v); } else n.connect(v);
-    v.connect(out); n.start(t); n.stop(t + dur + .02);
+    v.connect(out); n.start(t, Math.random() * .3); n.stop(t + dur + .03);
   };
-  const run = (notes, gap, vol, type) => { if (ac && !muted) notes.forEach((f, i) => tone(f, f, gap * 1.4, vol, type, ac.currentTime + i * gap)); };
+  // a row of notes (MIDI numbers, 0 is a rest)
+  const tune = (notes, gap, vol = .06, type = 'square', bus = out, wait = 0) => { if (ac && !muted) notes.forEach((m, i) => { if (m) tone(midi(m), gap * 1.5, vol, type, ac.currentTime + wait + i * gap, bus); }); };
   const sfx = {
-    hoot: () => tone(620, 380, .08, .06, 'sine'), pop: () => { tone(700, 180, .12, .06); hiss(.08, .05); }, clink: () => tone(1900, 1700, .03, .035),
-    die: () => { tone(420, 50, .7, .12, 'sawtooth'); hiss(.4, .1); }, star: () => run([660, 880, 1320], .07, .06, 'square'), clear: () => run([523, 659, 784, 1047, 1319], .1, .07, 'triangle'),
-    hurt: () => { tone(180, 90, .15, .1); hiss(.1, .06); }, yawn: () => tone(110, 230, .45, .06, 'triangle'), glitch: () => run([1200, 300, 900, 200], .03, .04, 'square'), land: () => hiss(.12, .05),
+    start: () => tune([72, 76, 79, 84], .06, .06),                                                              // a coin drops
+    night: n => tune(LEVELS[n].motif, .1, .05, 'square', echo, .35),                                              // every city has its own few notes
+    hoot: () => tone([540, 470, 430, 400], .1, .04, 'sine'),
+    moth: () => { tone(glide(1100, 300), .09, .05, 'triangle'); crunch(.07, .05, 1.6, 1, 0, 3000); },            // papery
+    bug: () => { tone(glide(1500, 120), .11, .05); crunch(.1, .05, .5, .15); },                                  // a zap and some static
+    mush: () => { tone(glide(260, 900), .1, .05, 'sine'); tone(glide(180, 520), .14, .04, 'sine', now() + .05); },   // bloop
+    doll: d => { const f = [220, 330, 520][d.size]; tone(glide(f * 1.6, f), .08, .07, 'triangle'); crunch(.04, .04, 1.2); if (d.size < 2) tone(glide(f * 2, f * 2.7), .07, .04, 'square', now() + .07); }, // a wooden knock, and the next one pops out
+    pop: () => { tone(glide(500, 120), .12, .06); crunch(.14, .07, .6, .2); },
+    clink: () => { tone(2093, .04, .03); tone(2794, .05, .02); },
+    dive: () => tone(glide(1300, 600), .32, .022, 'sine'),
+    plink: () => tone(glide(420, 240), .06, .028),                                                              // something is dropped
+    spit: () => tone(glide(520, 140), .16, .05, 'sawtooth'),                                                    // the skull's eyes
+    teeth: () => { for (let i = 0; i < 6; i++) crunch(.03, .05, 2.4, 2.4, now() + i * .045, 2500); },
+    yawn: () => tone([70, 95, 150, 170, 150, 110], .7, .07, 'sawtooth'),
+    hurt: () => { tone(glide(240, 70), .2, .07); crunch(.16, .07, .35, .12); },
+    boom: () => { crunch(.9, .12, .3, .05); tone(glide(140, 30), .8, .1, 'triangle'); },
+    glitch: () => tune([91, 67, 86, 62, 89], .028, .035),
+    through: () => tune([57, 0, 57, 0, 57], .09, .06, 'sawtooth'),
+    land: () => { tone(glide(160, 60), .1, .06, 'triangle'); crunch(.2, .04, 1.5, 2.5, now() + .03, 4000); },
+    girl: () => tune([96, 91, 88, 84], .07, .025, 'triangle', echo),
+    star: () => { tune([76, 79, 84, 88, 91], .05, .05, 'square', echo); for (let i = 0; i < 3; i++) tone(glide(3200, 4600), .05, .025, 'sine', now() + .3 + i * .09); }, // and the swallows chirp
+    fade: () => tune([72, 67], .1, .04),
+    die: () => { tone([420, 380, 300, 330, 220, 250, 140, 160, 60], .75, .08, 'sawtooth'); crunch(.6, .08, .5, .08); },
+    clear: () => tune([72, 76, 79, 84, 0, 79, 84, 88], .09, .06, 'triangle', echo),
+    over: () => tune([64, 0, 60, 0, 57, 0, 52, 52], .16, .06, 'triangle', echo),
+    win: () => tune([69, 72, 76, 81, 0, 76, 81, 84, 0, 88, 86, 84, 88, 93], .11, .06, 'square', echo, .3),
+    pause: () => tune([72, 60], .06, .04),
   };
-  const midi = m => 440 * 2 ** ((m - 69) / 12);
   let step = 0, nextT = 0;
-  const music = () => {                                     // four on the floor, off-beat bass, an arpeggio from Tenerife on
+  const music = () => {                // four on the floor and an off-beat bass; hats from New York, an arpeggio from Tenerife, a clap from Moscow
     if (!ac || muted || ac.state !== 'running' || (state !== 'play' && state !== 'intro')) { nextT = 0; return; }
     const spb = 60 / (LEVELS[level].bpm + night * 4) / 4;
     if (nextT < ac.currentTime) { nextT = ac.currentTime + .05; step = 0; }
     while (nextT < ac.currentTime + .15) {
-      const s = step % 16, root = (level === 3 ? [45, 50, 52, 45] : [45, 41, 48, 43])[(step >> 4) % 4], third = root === 45 || root === 50 ? 3 : 4;
-      if (s % 4 === 0) tone(150, 45, .13, .2, 'sine', nextT);
-      if (s % 4 === 2) { tone(midi(root + 12), midi(root + 12), .12, .09, 'triangle', nextT); if (level > 0) hiss(.03, .025, nextT, 6000); }
+      const s = step % 16, root = (level === 3 ? [45, 50, 52, 45] : level === 4 ? [45, 45, 46, 44] : [45, 41, 48, 43])[(step >> 4) % 4], third = root === 41 || root === 48 || root === 43 || root === 52 ? 4 : 3;
+      if (s % 4 === 0) tone(glide(150, 45), .13, .085, 'sine', nextT);
+      if (s % 4 === 2) { tone(midi(root + 12), .12, .05, 'triangle', nextT); if (level > 0) crunch(.03, .014, 1, 1, nextT, 6000); }
+      if (level > 2 && s % 8 === 4) crunch(.07, .02, 1.4, 1.4, nextT, 1500);
       const k = [0, 3, 6, 9, 12, 14].indexOf(s);
-      if (level > 1 && k >= 0) { const n = root + 24 + [0, third, 7, 12, 7, third][k]; tone(midi(n), midi(n), .1, .03, 'square', nextT); }
+      if (level > 1 && k >= 0) { const n = root + 24 + [0, third, 7, 12, 7, third][k]; tone(midi(n), .1, .016, 'square', nextT); }
       nextT += spb; step++;
     }
   };
@@ -174,7 +215,7 @@
   const go = s => { state = s; t = 0; };
   const hit = (a, b) => Math.abs(a.x - b.x) < (a.w + b.w) / 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2;
   const burst = (x, y, n = 10) => { const h0 = rnd(360); for (let i = 0; i < n; i++) { const a = rnd(6.283), v = .4 + rnd(1.6); sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 18 + rnd(16), hue: h0 + i * 36 }); } };
-  const kill = e => { foes.splice(foes.indexOf(e), 1); score += e.pts * (e.dive ? 2 : 1); burst(e.x, e.y); sfx.pop(); };
+  const kill = e => { foes.splice(foes.indexOf(e), 1); score += e.pts * (e.dive ? 2 : 1); burst(e.x, e.y); (sfx[e.kind] || sfx.pop)(e); };
   const ink = (x, y, vx, vy) => ({ kind: 'ink', x, y, vx, vy, w: 3, h: 5 });
   const die = () => { P.dead = 80; P.wing = 0; spare--; burst(P.x, H - 24, 26); shake = 14; sfx.die(); };
 
@@ -182,11 +223,11 @@
   const mothStep = (m, sway) => {
     if (m.dive) {
       m.dt++; m.y += 1.3 * speed(); m.x += Math.sin(m.dt / 11) * 1.7 + clamp((P.x - m.x) * .012, -.7, .7);
-      if (m.dt === m.fireAt && !P.dead) drops.push(ink(m.x, m.y + 4, 0, 1.9));
+      if (m.dt === m.fireAt && !P.dead) { drops.push(ink(m.x, m.y + 4, 0, 1.9)); sfx.plink(); }
       if (m.y > H + 10) { m.y = -14; m.dive = false; }
     } else { m.x += (m.sx + sway - m.x) * .07; m.y += (m.sy + Math.sin(frame / 23 + m.ph) * 2 - m.y) * .07; }
   };
-  const sendMoth = () => { const home = foes.filter(m => m.kind === 'moth' && !m.dive && Math.abs(m.y - m.sy) < 6); if (home.length) Object.assign(pick(home), { dive: true, dt: 0, fireAt: 24 + Math.floor(rnd(40)) }); };
+  const sendMoth = () => { const home = foes.filter(m => m.kind === 'moth' && !m.dive && Math.abs(m.y - m.sy) < 6); if (home.length) { Object.assign(pick(home), { dive: true, dt: 0, fireAt: 24 + Math.floor(rnd(40)) }); sfx.dive(); } };
   const moth = (sx, sy, x, y) => ({ kind: 'moth', sx, sy, x, y, w: 11, h: 7, pts: 20, ph: rnd(6) });
   const moths = () => {
     for (let r = 0; r < (night ? 5 : 4); r++) for (let c = 0; c < 6; c++) foes.push(moth(28 + c * 24, 36 + r * 17, 28 + c * 24 + (c - 2.5) * 30, -20 - r * 26 - c * 8));
@@ -209,8 +250,8 @@
         down += down < 0 ? 1.6 : .03 * k;
         if (--glitchIn <= 0) { const r = pick(rows); r.v = -r.v; r.glitch = 24; glitchIn = 200 + rnd(160); sfx.glitch(); }
         foes.forEach(b => { const row = rows[b.r]; if (b.hurt) b.hurt--; b.x = ((b.c * 40 + row.off) % WR + WR) % WR - 12 + (row.glitch ? (frame % 4 < 2 ? 3 : -3) : 0); b.y = 34 + b.r * 15 + down; });
-        if (--fireIn <= 0) { const b = pick(foes.filter(b => b.x > 6 && b.x < W - 6)); if (b && !P.dead) drops.push({ kind: 'bit', x: b.x, y: b.y + 5, vx: 0, vy: 1.7 * speed(), w: 3, h: 4 }); fireIn = (30 + foes.length * 1.4) / speed(); }
-        if (foes.some(b => b.y > H - 40)) { down -= 80; if (!P.dead && !P.safe) die(); }   // they got through
+        if (--fireIn <= 0) { const b = pick(foes.filter(b => b.x > 6 && b.x < W - 6)); if (b && !P.dead) { drops.push({ kind: 'bit', x: b.x, y: b.y + 5, vx: 0, vy: 1.7 * speed(), w: 3, h: 4 }); sfx.plink(); } fireIn = (30 + foes.length * 1.4) / speed(); }
+        if (foes.some(b => b.y > H - 40)) { down -= 80; sfx.through(); if (!P.dead && !P.safe) die(); }   // they got through
       },
       shot(b) { if (b.hp > 1) { b.hp--; b.hurt = 8; sfx.clink(); } else kill(b); },
       done: () => !foes.length,
@@ -244,7 +285,7 @@
           d.x += d.vx * k; d.y += d.vy * k; if (d.born) d.born--;
           if ((d.x < 9 && d.vx < 0) || (d.x > W - 9 && d.vx > 0)) d.vx = -d.vx;
           if ((d.y < 24 && d.vy < 0) || (d.y > H - d.floor && d.vy > 0)) d.vy = -d.vy;
-          if (d.size < 2 && --d.drip <= 0) { d.drip = 150 + rnd(170); if (!P.dead) drops.push(ink(d.x, d.y + d.h / 2, 0, 1.6)); }
+          if (d.size < 2 && --d.drip <= 0) { d.drip = 150 + rnd(170); if (!P.dead) { drops.push(ink(d.x, d.y + d.h / 2, 0, 1.6)); sfx.plink(); } }
         }
       },
       shot(d) { kill(d); if (d.size < 2) for (const s of [-1, 1]) add(d.x + s * 4, d.y, s * (Math.abs(d.vx) * 1.2 + .15), -Math.abs(d.vy) * 1.15, d.size + 1); },
@@ -267,9 +308,9 @@
         const top = B.y - 27;
         if (B.t > 90 && B.t % Math.round(84 / k) === 0 && !P.dead) {            // the eyes take turns
           eye = -eye; const ex = B.x + eye * 13, ey = top + 26, dx = P.x - ex, dy = H - 24 - ey, n = Math.hypot(dx, dy);
-          drops.push(ink(ex, ey, dx / n * 1.7, dy / n * 1.7));
+          drops.push(ink(ex, ey, dx / n * 1.7, dy / n * 1.7)); sfx.spit();
         }
-        if (c === 110 && !P.dead) { const gap = Math.floor(rnd(7)); for (let i = 0; i < 7; i++) if (i !== gap) drops.push({ kind: 'tooth', x: B.x + (i - 3) * 5, y: top + 56, vx: (i - 3) * .36, vy: 1.3, w: 5, h: 6 }); }
+        if (c === 110 && !P.dead) { sfx.teeth(); const gap = Math.floor(rnd(7)); for (let i = 0; i < 7; i++) if (i !== gap) drops.push({ kind: 'tooth', x: B.x + (i - 3) * 5, y: top + 56, vx: (i - 3) * .36, vy: 1.3, w: 5, h: 6 }); }
         if (waves < 2 && B.hp <= full * (2 - waves) / 3) { waves++; for (let i = 0; i < 4; i++) foes.push(moth(28 + i * 40, 122, B.x, B.y + 20)); }
         const sway = Math.sin(frame / 70) * 16; foes.forEach(m => mothStep(m, sway));
         if (--next <= 0) { sendMoth(); next = 110 / k; }
@@ -283,24 +324,24 @@
         if (inJaw && B.jaw >= 4) {
           if (B.flash > 3) return;                                       // one hoot at a time counts, swallows or not
           B.hp--; B.flash = 10; score += 100; burst(s.x, s.y, 8); sfx.hurt(); shake = 5;
-          if (B.hp <= 0) { B.dying = 1; score += 2000; foes.forEach(m => burst(m.x, m.y)); foes = []; drops = []; }
+          if (B.hp <= 0) { sfx.boom(); B.dying = 1; score += 2000; foes.forEach(m => burst(m.x, m.y)); foes = []; drops = []; }
         } else { sfx.clink(); sparks.push({ x: s.x, y: s.y, vx: rnd(1) - .5, vy: 1, life: 8, hue: 220 }); }
       },
       done: () => B.dying > 170,
     };
   };
   const LEVELS = [
-    { city: 'MUNICH', lines: ['MOTHS ATE THE MOONLIGHT.'], sky: 'munich', skyX: 116, make: moths, bpm: 112 },
-    { city: 'NEW YORK', lines: ['BUGS IN THE SYSTEM.'], sky: 'nyc', skyX: 29, make: bugs, bpm: 116 },
-    { city: 'TENERIFE', lines: ['SOMETHING IS IN THE AIR.'], sky: 'teide', skyX: 13, make: spores, bpm: 118 },
-    { city: 'MOSCOW', lines: ['DOLLS WITHIN DOLLS.'], sky: 'moscow', skyX: 8, make: dolls, bpm: 122 },
-    { city: 'THE SKULL', lines: ['IT SWALLOWED THE MOON.', 'HOOT WHEN IT YAWNS.'], make: skullBoss, bpm: 128 },
+    { city: 'MUNICH', motif: [67, 72, 76, 79, 76, 79], lines: ['MOTHS ATE THE MOONLIGHT.'], sky: 'munich', skyX: 116, make: moths, bpm: 112 },
+    { city: 'NEW YORK', motif: [69, 72, 75, 76, 79, 81], lines: ['BUGS IN THE SYSTEM.'], sky: 'nyc', skyX: 29, make: bugs, bpm: 116 },
+    { city: 'TENERIFE', motif: [60, 62, 64, 66, 68, 70, 72], lines: ['SOMETHING IS IN THE AIR.'], sky: 'teide', skyX: 13, make: spores, bpm: 118 },
+    { city: 'MOSCOW', motif: [69, 76, 72, 71, 69, 68, 69], lines: ['DOLLS WITHIN DOLLS.'], sky: 'moscow', skyX: 8, make: dolls, bpm: 122 },
+    { city: 'THE SKULL', motif: [45, 0, 45, 46, 0, 45, 51, 50], lines: ['IT SWALLOWED THE MOON.', 'HOOT WHEN IT YAWNS.'], make: skullBoss, bpm: 128 },
   ];
   const SKY = {};
   LEVELS.forEach(l => { if (l.sky) { SKY[l.sky] = new Image(); SKY[l.sky].src = 'assets/game/' + l.sky + '.png'; } });
 
   // Flow
-  const begin = () => { go('intro'); foes = []; shots = []; drops = []; boss = null; girl = null; star = null; girlIn = 420; lv = null; P.cd = 0; P.safe = 0; P.dead = 0; };
+  const begin = () => { go('intro'); foes = []; shots = []; drops = []; boss = null; girl = null; star = null; girlIn = 420; lv = null; P.cd = 0; P.safe = 0; P.dead = 0; sfx.night(level); };
   const newGame = () => { const jump = +location.hash.slice(1); score = 0; spare = 2; night = 0; level = jump >= 1 && jump <= 5 ? jump - 1 : 0; P = { x: W / 2, cd: 0, safe: 0, wing: 0, dead: 0 }; begin(); };
   const movePlayer = () => {
     const l = keys.ArrowLeft || keys.a, r = keys.ArrowRight || keys.d;
@@ -316,9 +357,9 @@
   };
   const play = () => {
     const Py = H - 24;
-    if (P.dead) { if (--P.dead === 0) { if (spare < 0) { saveHi(); return go('over'); } P.x = W / 2; P.safe = 130; aim = null; } } else { movePlayer(); fire(); }
+    if (P.dead) { if (--P.dead === 0) { if (spare < 0) { saveHi(); sfx.over(); return go('over'); } P.x = W / 2; P.safe = 130; aim = null; } } else { movePlayer(); fire(); }
     if (P.safe) P.safe--;
-    if (P.wing) P.wing--;
+    if (P.wing && --P.wing === 110) sfx.fade();
     shots.forEach(s => { s.y -= 4.6; if (s.y < -6) s.gone = true; });
     lv.update();
     drops.forEach(d => { d.vy += d.g || 0; d.x += d.vx + (d.wav ? Math.sin((frame + d.wav) / 9) * .6 : 0); d.y += d.vy; if (d.y > H + 8 || d.y < -60 || d.x < -8 || d.x > W + 8) d.gone = true; });
@@ -334,7 +375,7 @@
     if (!P.dead && !P.safe) { const me = { x: P.x, y: Py, w: 9, h: 7 }; if (foes.some(e => !e.born && hit(me, e)) || drops.some(d => hit(me, d))) die(); }
     // the flying girl crosses now and then and lets a star fall: catch it and two swallows join in
     if (!girl && --girlIn <= 0) girl = { x: -10, at: 40 + rnd(W - 80), gave: false };
-    if (girl) { girl.x += .85; if (!girl.gave && girl.x >= girl.at) { girl.gave = true; star = { x: girl.x, y: 30, w: 7, h: 7 }; } if (girl.x > W + 12) { girl = null; girlIn = 700 + rnd(300); } }
+    if (girl) { girl.x += .85; if (!girl.gave && girl.x >= girl.at) { girl.gave = true; star = { x: girl.x, y: 30, w: 7, h: 7 }; sfx.girl(); } if (girl.x > W + 12) { girl = null; girlIn = 700 + rnd(300); } }
     if (star) { star.y += .8; if (!P.dead && hit(star, { x: P.x, y: Py, w: 15, h: 12 })) { P.wing = 720; score += 250; sfx.star(); star = null; } else if (star.y > H) star = null; }
     if (lv.done()) { go('clear'); drops = []; score += 500; if (spare < 4) spare++; sfx.clear(); }
   };
@@ -344,7 +385,7 @@
     sparks = sparks.filter(s => { s.x += s.vx; s.y += s.vy; s.vy += .03; return --s.life > 0; });
     if (state === 'intro') { movePlayer(); if (t > 150) { lv = LEVELS[level].make(); go('play'); } }
     else if (state === 'play') play();
-    else if (state === 'clear') { movePlayer(); shots = shots.filter(s => (s.y -= 4.6) > -6); if (t > 140) { if (++level === 5) { level = 4; saveHi(); go('win'); } else begin(); } }
+    else if (state === 'clear') { movePlayer(); shots = shots.filter(s => (s.y -= 4.6) > -6); if (t > 140) { if (++level === 5) { level = 4; saveHi(); go('win'); sfx.win(); } else begin(); } }
     music();
   };
 
@@ -431,11 +472,11 @@
   addEventListener('resize', fit); fit();
 
   // Controls
-  const setPause = v => { paused = v && state === 'play'; if (pauseBtn) pauseBtn.textContent = paused ? 'Go on' : 'Pause'; };
+  const setPause = v => { if (paused !== (v && state === 'play')) sfx.pause(); paused = v && state === 'play'; if (pauseBtn) pauseBtn.textContent = paused ? 'Go on' : 'Pause'; };
   const startKey = () => {
     audio();
     if (paused) return setPause(false);
-    if (state === 'title') return newGame();
+    if (state === 'title') { sfx.start(); return newGame(); }
     if (state === 'over' && t > 50) return go('title');
     if (state === 'win' && t > 90) { night++; level = 0; begin(); }
   };
@@ -466,15 +507,17 @@
   addEventListener('blur', () => { setPause(true); for (const k in keys) keys[k] = false; held = false; });
   const burger = document.getElementById('burger'); if (burger) burger.addEventListener('click', () => setPause(true));
   const keysText = document.getElementById('keys-text');
-  if (keysText) keysText.textContent = touch ? 'Drag to fly · hold to hoot · ' : 'Arrows or A/D fly · Space hoots · M mutes · ';
+  if (keysText) keysText.textContent = touch ? 'Drag to fly · hold to hoot' : 'Arrows or A/D fly · Space hoots';
 
   // Sound switch in the top bar, same look as on the start page
   const tools = document.querySelector('.bar .tools');
-  let soundBtn = null;
+  let soundBtn = null; const sndBtn = document.getElementById('snd');
+  if (sndBtn) sndBtn.addEventListener('click', () => { setMuted(!muted); sndBtn.blur(); });
   const setMuted = (v, keep = true) => {
-    muted = v; if (keep) { try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {} audio(); }
-    if (out) out.gain.value = muted ? 0 : .5;
+    muted = v; if (keep) { try { localStorage.setItem('owl-sound', muted ? 'off' : 'on'); } catch (e) {} audio(); }
+    if (out) out.gain.value = muted ? 0 : LOUD;
     if (soundBtn) { soundBtn.classList.toggle('playing', !muted); soundBtn.classList.toggle('muted', muted); soundBtn.setAttribute('aria-pressed', !muted); soundBtn.setAttribute('aria-label', muted ? 'Play sound' : 'Mute sound'); }
+    if (sndBtn) sndBtn.textContent = muted ? 'Sound off' : 'Sound on';
   };
   if (tools) {
     tools.insertAdjacentHTML('afterbegin', '<button class="audio" id="gsound" type="button"><i></i><i></i><i></i><i></i></button>');
