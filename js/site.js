@@ -34,6 +34,7 @@
   const skull = $('skull');
   if (skull) {
     const spots = [...skull.querySelectorAll('.spot')];
+    const doors = [...spots, ...skull.querySelectorAll('.egg')]; // the hidden game is a doorway too, just not part of the tour
     const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const mouse = matchMedia('(hover: hover) and (pointer: fine)').matches; // touch devices get no pointer-following
     const pool = skull.querySelector('.trip'), tilt = skull.querySelector('.tilt'), owlBox = $('owl'), city = skull.querySelector('.city');
@@ -176,7 +177,7 @@
     const sprouts = $('sprouts');
     let grown = 0;
     tilt.addEventListener('click', e => {
-      if (e.target.closest('.spot, .branch, .teide')) return;
+      if (e.target.closest('.spot, .egg, .branch, .teide')) return;
       const b = tilt.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 100, y = (e.clientY - b.top) / b.height * 100;
       if (Math.hypot(x - 50, (y - 50) * .82) > 37) return; // only on the skull, not the paper
       const m = document.createElement('span');
@@ -199,7 +200,7 @@
     // Dive: fly into the clicked doorway, then open its page. The sharp 4K image loads in the background for the close-up
     const hires = $('hires'), veil = $('veil');
     if (!calm && mouse) addEventListener('load', () => { hires.onload = () => hires.classList.add('ready'); hires.src = 'assets/skull-4k.webp'; });
-    spots.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
+    doors.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
       if (calm || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
       diving = true; tilt.style.transition = ''; tilt.style.transform = '';
@@ -215,7 +216,7 @@
     };
     const readFrom = () => { try { const f = sessionStorage.getItem('from'); sessionStorage.removeItem('from'); return f; } catch (err) { return null; } };
     const zoomedIn = from => {                                           // set up before the first paint, so nothing flashes
-      const door = from && spots.find(s => s.getAttribute('href') === from);
+      const door = from && doors.find(s => s.getAttribute('href') === from);
       if (door) tilt.style.transformOrigin = originOf(door); else if (from !== null) tilt.style.transformOrigin = '50% 45%';
       diving = true; skull.classList.add('dive'); veil.classList.remove('on'); veil.classList.add('hold');
       tilt.style.transition = 'none'; tilt.style.transform = 'scale(7)';

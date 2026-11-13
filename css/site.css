@@ -261,7 +261,7 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 .skull.dive .tilt { transform: scale(7); transition: transform 1s cubic-bezier(.7, 0, .85, .35); }
 .skull.dive .hires.ready { opacity: 1; }
 .skull.dive .tilt > img { -webkit-mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50%, #000 86%, transparent 100%); }
-.skull.dive .spot, .skull.dive .trip { opacity: 0; transition: opacity .2s; }
+.skull.dive .spot, .skull.dive .egg, .skull.dive .trip { opacity: 0; transition: opacity .2s; }
 .veil { position: fixed; inset: 0; z-index: 40; background: var(--paper); opacity: 0; pointer-events: none; }
 .veil.on { opacity: 1; transition: opacity .45s ease-in .55s; }
 .veil.hold { opacity: 1; }
@@ -270,6 +270,21 @@ html.diving { overflow: hidden; }
 .page { animation: arrive .7s ease-out both; }
 @keyframes arrive { from { opacity: 0; transform: scale(1.04); } }
 @media (prefers-reduced-motion: reduce) { .audio.playing i { animation: none; transform: scaleY(.7); } .page { animation: none; } .city { transform: none; } .moonglow, .stars i, .owl > div { animation: none !important; } .tilt, .owl { transform: none; } }
+
+/* The hidden game. On the skull only an unmarked spot on the left cheekbone leads here */
+.egg { position: absolute; display: block; border-radius: 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.arcade {
+  position: fixed; inset: 0; z-index: 6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  padding: calc(64px + env(safe-area-inset-top, 0px)) var(--gr) calc(14px + env(safe-area-inset-bottom, 0px)) var(--gl);
+  animation: arrive .7s ease-out both;
+}
+.arcade canvas {
+  display: block; flex: none; image-rendering: pixelated; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  background: rgba(230, 232, 229, .5); outline: 1px solid var(--ink); outline-offset: 4px;
+}
+.keys { margin: 0; font: .66rem/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mid); text-align: center; }
+.keys button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--ink); background: none; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; }
 
 /* Reduced motion: everything rests */
 @media (prefers-reduced-motion: reduce) {
