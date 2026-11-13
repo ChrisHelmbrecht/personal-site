@@ -43,14 +43,18 @@
       const st = s.style, w = parseFloat(st.width), h = parseFloat(st.height);
       light(parseFloat(st.left) + w / 2, parseFloat(st.top) + h / 2, Math.max(w, h) / 100 * skull.clientWidth * .72);
     };
+    // The tour: with nobody at the controls, one doorway after another blends in (colour and name), rests, and blends out again
     let idle = true, tour = 0, lit = null;
+    const STAY = 3800, FADE = 1600, REST = 900;
+    const dim = () => { lit && lit.classList.remove('lit'); pool.classList.remove('show'); };
     const wander = () => {
-      if (!idle || document.hidden) return;
-      lit && lit.classList.remove('lit');
-      lit = spots[tour++ % spots.length]; lit.classList.add('lit'); lightSpot(lit);
+      if (!idle || document.hidden || diving) return void setTimeout(wander, 1500);
+      lit = spots[tour++ % spots.length]; lightSpot(lit); lit.classList.add('lit'); pool.classList.add('show');
+      setTimeout(() => { if (idle) dim(); setTimeout(wander, FADE + REST); }, STAY);
     };
-    if (!calm) { wander(); setInterval(wander, 2600); } else lightSpot(spots[1]);
-    spots.forEach(s => s.addEventListener('focus', () => { idle = false; lightSpot(s); }));
+    skull.classList.add('tour');
+    if (!calm) setTimeout(wander, 1500); else { lit = spots[1]; lightSpot(lit); lit.classList.add('lit'); pool.classList.add('show'); }
+    spots.forEach(s => s.addEventListener('focus', () => { idle = false; skull.classList.remove('tour'); lit && lit.classList.remove('lit'); lightSpot(s); pool.classList.add('show'); }));
 
     // Depth. With a mouse the skull leans towards the pointer; on touch it sways on its own (CSS only, nothing per frame)
     let diving = false;
@@ -58,14 +62,14 @@
     else if (!mouse) skull.classList.add('sway');
     else {
       skull.addEventListener('pointermove', e => {
-        idle = false; lit && lit.classList.remove('lit');
+        idle = false; lit && lit.classList.remove('lit'); skull.classList.remove('tour'); pool.classList.add('show');
         const spot = e.target.closest('.spot');
         skull.classList.toggle('follow', !spot);
         if (spot) return lightSpot(spot);
         const b = skull.getBoundingClientRect();
         light((e.clientX - b.left) / b.width * 100, (e.clientY - b.top) / b.height * 100, b.width * .075);
       }, { passive: true });
-      skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); });
+      skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); skull.classList.add('tour'); dim(); });
       let goal = [0, 0], now = [0, 0], lastMove = 0;
       addEventListener('pointermove', e => { goal = [(e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2]; lastMove = performance.now(); }, { passive: true });
       const lean = t => {

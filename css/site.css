@@ -77,12 +77,14 @@ a { color: var(--ink); }
   position: absolute; left: 0; top: 0; width: 60%; aspect-ratio: 1; margin: -30% 0 0 -30%; border-radius: 50%; pointer-events: none;
   -webkit-backdrop-filter: hue-rotate(60deg) saturate(2.6) contrast(1.08); backdrop-filter: hue-rotate(60deg) saturate(2.6) contrast(1.08);
   -webkit-mask-image: radial-gradient(circle, #000 45%, transparent 70%); mask-image: radial-gradient(circle, #000 45%, transparent 70%);
-  transform: translate3d(83.3%, 50%, 0) scale(0); will-change: transform;
-  transition: transform .55s cubic-bezier(.2, .8, .2, 1);
+  transform: translate3d(83.3%, 50%, 0) scale(0); will-change: transform, opacity; opacity: 0;
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), opacity .4s ease;
   animation: trip 7s linear infinite;
 }
-.skull.follow .trip { transition-duration: .16s; transition-timing-function: ease-out; }
-.skull.full .trip { width: 100%; margin: 0; border-radius: 0; -webkit-mask-image: none; mask-image: none; transform: none !important; transition: none; }
+.skull .trip.show { opacity: 1; }
+.skull.tour .trip { transition: opacity 1.5s ease-in-out; }
+.skull.follow .trip { transition: transform .16s ease-out, opacity .4s ease; }
+.skull.full .trip { opacity: 1; width: 100%; margin: 0; border-radius: 0; -webkit-mask-image: none; mask-image: none; transform: none !important; transition: none; }
 @keyframes trip {
   from { -webkit-backdrop-filter: hue-rotate(40deg) saturate(2.6) contrast(1.08); backdrop-filter: hue-rotate(40deg) saturate(2.6) contrast(1.08); }
   to { -webkit-backdrop-filter: hue-rotate(400deg) saturate(2.6) contrast(1.08); backdrop-filter: hue-rotate(400deg) saturate(2.6) contrast(1.08); }
@@ -90,19 +92,14 @@ a { color: var(--ink); }
 .skull { touch-action: pan-y; }
 .spot, .branch, .teide, .burger, .audio { touch-action: manipulation; }
 .spot { position: absolute; display: block; border-radius: 50%; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-.spot::before, .spot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; }
-.spot::before { background: var(--card); box-shadow: 0 0 0 1.5px var(--ink-deep); }
-.spot::after { border: 1.5px solid var(--card); opacity: 0; }
-.spot.lit::after, .spot:hover::after, .spot:focus-visible::after { animation: ping 1.3s ease-out infinite; }
-@keyframes ping { 0% { transform: scale(1); opacity: .9; } 70%, 100% { transform: scale(4.2); opacity: 0; } }
 .spot b {
   position: absolute; left: 50%; top: calc(50% + 14px); transform: translate(-50%, 4px); white-space: nowrap;
   font: 500 .68rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
   background: var(--ink-deep); color: var(--card); padding: 7px 10px 6px; border-radius: 2px;
-  opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 2;
+  opacity: 0; transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; pointer-events: none; z-index: 2;
 }
+.spot:hover b, .spot:focus-visible b { transition-duration: .25s; }
 .spot:hover b, .spot:focus-visible b, .spot.lit b { opacity: 1; transform: translate(-50%, 0); }
-.spot:hover::before, .spot.lit::before { background: var(--ink-deep); }
 
 /* Rooms */
 main { padding-left: var(--gl); padding-right: var(--gr); padding-bottom: 96px; }
@@ -140,7 +137,6 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .skull .trip { animation: none; transition: none; }
-  .spot::before { animation: none; }
   .menu, .cover { transition: none; }
 }
 
@@ -275,6 +271,6 @@ html.diving { overflow: hidden; }
 /* Reduced motion: everything rests */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  .skull .trip, .spot::after, .skull.sway .tilt { animation: none !important; }
+  .skull .trip, .skull.sway .tilt { animation: none !important; }
   .sprouts span { animation: none !important; }
 }
