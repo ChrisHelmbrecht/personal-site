@@ -4,7 +4,7 @@
   // Header + hamburger menu, shared by every page
   const NAV = [
     ['Music', 'music.html'], ['Bio', 'bio.html'], ['Writing', 'writing.html'], ['Timeline', 'timeline.html'],
-    ['Blog', 'blog.html'], ['Contact', 'contact.html'],
+    ['Blog', 'blog.html'], ['Press', 'press.html'], ['Contact', 'contact.html'],
   ];
   const OUT = [
     ['Shop', 'https://sublime1.myspreadshop.de/'], ['Fucking Moskau', 'https://fuckingmoskau.de'], ['dieneue.social', 'https://dieneue.social'],
@@ -79,12 +79,27 @@
       requestAnimationFrame(lean);
     }
 
-    // Film patch: starts once the page has loaded, never under reduced motion
-    const film = $('skyfilm');
+    // Film patches start once the page has loaded, never under reduced motion
+    const loadFilm = (v, src, onPlaying) => { v.addEventListener('playing', onPlaying, { once: true }); v.src = src; v.play().catch(() => {}); };
+    const sky = $('skyfilm'), owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
     if (!calm) addEventListener('load', () => {
-      film.addEventListener('playing', () => film.classList.add('on'), { once: true });
-      film.src = 'assets/video/sky.mp4'; film.play().catch(() => {});
+      loadFilm(sky, 'assets/video/sky.mp4', () => sky.classList.add('on'));
+      loadFilm(owlFilm, 'assets/video/owl.mp4', () => owlBox.classList.add('filmed'));
+      pathFilm.preload = 'auto'; pathFilm.src = 'assets/video/path.mp4'; pathFilm.load();
     });
+
+    // The two wanderers on the path set off now and then, walk out of sight, and are back a little later
+    let walking = false;
+    const wanderOff = () => {
+      if (calm || walking || document.hidden || pathFilm.readyState < 2) return;
+      walking = true; pathFilm.classList.remove('leaving'); pathFilm.currentTime = 0;
+      pathFilm.play().then(() => pathFilm.classList.add('on')).catch(() => { walking = false; });
+    };
+    pathFilm.addEventListener('ended', () => setTimeout(() => {       // empty path for a while, then the drawing fades back in
+      pathFilm.classList.add('leaving'); pathFilm.classList.remove('on'); setTimeout(() => { walking = false; }, 2600);
+    }, 7000));
+    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', wanderOff);
+    setTimeout(wanderOff, 12000); setInterval(wanderOff, 50000);
 
     // Stars in the dome
     const stars = $('stars');
@@ -103,37 +118,14 @@
     // The owl blinks, and now and then leans over for a look
     const owl = $('owl');
     const once = (cls, ms) => { owl.classList.add(cls); setTimeout(() => owl.classList.remove(cls), ms); };
-    const blink = () => { if (!owl.classList.contains('away')) once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
-    if (!calm) { setTimeout(blink, 1800); setInterval(() => once('peek', 2400), 17000); }
+    const blink = () => { if (!owl.classList.contains('away') && !filmed()) once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
+    const filmed = () => owl.classList.contains('filmed'); // once the owl film runs, it does the blinking and looking itself
+    if (!calm) { setTimeout(blink, 1800); setInterval(() => { if (!filmed()) once('peek', 2400); }, 17000); }
     // A snowboarder drops in on the Teide when the pointer reaches the mountain (tap on touch)
     const rider = $('rider');
     const ride = () => { if (!calm && !rider.classList.contains('go')) { rider.classList.add('go'); setTimeout(() => rider.classList.remove('go'), 3500); } };
     $('teide').addEventListener('pointerenter', ride);
     $('teide').addEventListener('click', ride);
-
-    // Mushroom men come down the upper path and slip away behind the teeth, before the figure further down
-    const PATH = [[47.2, 64.1], [45.2, 65.3], [43.9, 67.2], [45.4, 68.9], [47.6, 70.1], [48.7, 70.6]]; // feet, in % of the skull
-    const TURN = 2, LAST = PATH.length - 1, WALK = 13000;                                                // they turn around at the bend
-    const march = $('march');
-    const walk = (k, delay) => {
-      const man = document.createElement('span');
-      man.innerHTML = `<b><img src="assets/mushman-${k}.webp" alt=""></b>`;
-      march.appendChild(man);
-      const opts = { duration: WALK, delay, fill: 'both', easing: 'linear' };
-      const run = man.animate(PATH.map(([x, y], i) => ({ transform: `translate3d(${x}%, ${y}%, 0)`, opacity: i === 0 || i === LAST ? 0 : 1, offset: i / LAST })), opts);
-      const size = i => (.5 + i / LAST * .4).toFixed(2);
-      const frames = PATH.map((p, i) => ({ transform: `scale(${i <= TURN ? -size(i) : size(i)}, ${size(i)})`, offset: i / LAST }));
-      frames.splice(TURN + 1, 0, { transform: `scale(${size(TURN)}, ${size(TURN)})`, offset: (TURN + .22) / LAST }); // quick turn, then on
-      man.firstChild.animate(frames, opts);
-      run.onfinish = () => man.remove();
-    };
-    let marching = false;
-    const parade = () => {
-      if (calm || marching || document.hidden) return;
-      marching = true; [1, 2, 3, 4, 5].forEach((k, i) => walk(k, i * 2300)); setTimeout(() => { marching = false; }, WALK + 4 * 2300 + 500);
-    };
-    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', parade);
-    setTimeout(parade, 9000); setInterval(parade, 48000);
 
     // Mushrooms sprout wherever you click the skull itself
     const sprouts = $('sprouts');
