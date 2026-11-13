@@ -32,44 +32,52 @@
   const skull = $('skull');
   if (skull) {
     const spots = [...skull.querySelectorAll('.spot')];
-    const light = (x, y, r) => { skull.style.setProperty('--mx', x + '%'); skull.style.setProperty('--my', y + '%'); skull.style.setProperty('--r', r + 'px'); };
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mouse = matchMedia('(hover: hover) and (pointer: fine)').matches; // touch devices get no pointer-following
+    const pool = skull.querySelector('.trip'), tilt = skull.querySelector('.tilt'), owlBox = $('owl'), city = skull.querySelector('.city');
+    // the pool is a disc 60% of the skull wide that is only ever scaled down: x/y in % of the skull, r in px
+    const light = (x, y, r) => { pool.style.transform = `translate3d(${(x / .6).toFixed(2)}%, ${(y / .6).toFixed(2)}%, 0) scale(${Math.min(1, r / (skull.clientWidth * .3)).toFixed(3)})`; };
     const lightSpot = s => {
       const st = s.style, w = parseFloat(st.width), h = parseFloat(st.height);
       light(parseFloat(st.left) + w / 2, parseFloat(st.top) + h / 2, Math.max(w, h) / 100 * skull.clientWidth * .72);
     };
     let idle = true, tour = 0, lit = null;
     const wander = () => {
-      if (!idle) return;
+      if (!idle || document.hidden) return;
       lit && lit.classList.remove('lit');
       lit = spots[tour++ % spots.length]; lit.classList.add('lit'); lightSpot(lit);
     };
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { wander(); setInterval(wander, 2600); } else lightSpot(spots[1]);
-    skull.addEventListener('pointermove', e => {
-      if (e.pointerType === 'touch') return;
-      idle = false; lit && lit.classList.remove('lit');
-      const spot = e.target.closest('.spot');
-      skull.classList.toggle('follow', !spot);
-      if (spot) return lightSpot(spot);
-      const b = skull.getBoundingClientRect();
-      light((e.clientX - b.left) / b.width * 100, (e.clientY - b.top) / b.height * 100, b.width * .075);
-    });
-    skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); });
+    if (!calm) { wander(); setInterval(wander, 2600); } else lightSpot(spots[1]);
     spots.forEach(s => s.addEventListener('focus', () => { idle = false; lightSpot(s); }));
 
-    // Depth: the skull leans towards the pointer; when nobody moves it, it sways on its own
-    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let goal = [0, 0], now = [0, 0], lastMove = 0;
-    addEventListener('pointermove', e => {
-      if (e.pointerType === 'touch') return;
-      goal = [(e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2]; lastMove = performance.now();
-    });
-    const lean = t => {
-      if (t - lastMove > 2500) goal = [Math.sin(t / 2900) * .55, Math.cos(t / 3700) * .4];
-      now = now.map((v, k) => v + (goal[k] - v) * .06);
-      skull.style.setProperty('--tx', now[0].toFixed(3)); skull.style.setProperty('--ty', now[1].toFixed(3));
+    // Depth. With a mouse the skull leans towards the pointer; on touch it sways on its own (CSS only, nothing per frame)
+    let diving = false;
+    if (calm) { /* rests */ }
+    else if (!mouse) skull.classList.add('sway');
+    else {
+      skull.addEventListener('pointermove', e => {
+        idle = false; lit && lit.classList.remove('lit');
+        const spot = e.target.closest('.spot');
+        skull.classList.toggle('follow', !spot);
+        if (spot) return lightSpot(spot);
+        const b = skull.getBoundingClientRect();
+        light((e.clientX - b.left) / b.width * 100, (e.clientY - b.top) / b.height * 100, b.width * .075);
+      }, { passive: true });
+      skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); });
+      let goal = [0, 0], now = [0, 0], lastMove = 0;
+      addEventListener('pointermove', e => { goal = [(e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2]; lastMove = performance.now(); }, { passive: true });
+      const lean = t => {
+        requestAnimationFrame(lean);
+        if (diving || document.hidden) return;
+        if (t - lastMove > 2500) goal = [Math.sin(t / 2900) * .55, Math.cos(t / 3700) * .4];
+        now = now.map((v, k) => v + (goal[k] - v) * .06);
+        const [x, y] = now;
+        tilt.style.transform = `perspective(1100px) rotateX(${(-y * 3.2).toFixed(2)}deg) rotateY(${(x * 3.2).toFixed(2)}deg)`;
+        owlBox.style.transform = `translate3d(${(x * 1.1).toFixed(2)}%, ${(y * .7).toFixed(2)}%, 0)`;
+        city.style.transform = `translate3d(${(x * .42).toFixed(2)}%, ${(y * .2).toFixed(2)}%, 0)`;
+      };
       requestAnimationFrame(lean);
-    };
-    if (!calm) requestAnimationFrame(lean);
+    }
 
     // Stars in the dome
     const stars = $('stars');
@@ -90,38 +98,38 @@
     const once = (cls, ms) => { owl.classList.add(cls); setTimeout(() => owl.classList.remove(cls), ms); };
     const blink = () => { if (!owl.classList.contains('away')) once('blink', 170); if (Math.random() < .25) setTimeout(() => once('blink', 150), 320); setTimeout(blink, 2600 + Math.random() * 4200); };
     if (!calm) { setTimeout(blink, 1800); setInterval(() => once('peek', 2400), 17000); }
-    // A snowboarder drops in on the Teide: on hover, and every so often on his own
+    // A snowboarder drops in on the Teide when the pointer reaches the mountain (tap on touch)
     const rider = $('rider');
-    const ride = () => { if (!calm && !rider.classList.contains('go')) { rider.classList.add('go'); setTimeout(() => rider.classList.remove('go'), 3300); } };
+    const ride = () => { if (!calm && !rider.classList.contains('go')) { rider.classList.add('go'); setTimeout(() => rider.classList.remove('go'), 3500); } };
     $('teide').addEventListener('pointerenter', ride);
     $('teide').addEventListener('click', ride);
-    if (!calm) { setTimeout(ride, 6000); setInterval(ride, 23000); }
-    // Mushroom men march down the path through the jaw
-    const PATH = [[43.1, 65.6], [46.4, 68.1], [48.9, 71.1], [47.8, 75], [46.7, 78.7], [47.1, 82.7], [48.5, 85.9]];
+
+    // Mushroom men come down the upper path and slip away behind the teeth, before the figure further down
+    const PATH = [[47.2, 64.1], [45.2, 65.3], [43.9, 67.2], [45.4, 68.9], [47.6, 70.1], [48.7, 70.6]]; // feet, in % of the skull
+    const TURN = 2, LAST = PATH.length - 1, WALK = 13000;                                                // they turn around at the bend
     const march = $('march');
     const walk = (k, delay) => {
       const man = document.createElement('span');
-      man.innerHTML = `<img src="assets/mushman-${k}.webp" alt="">`;
+      man.innerHTML = `<b><img src="assets/mushman-${k}.webp" alt=""></b>`;
       march.appendChild(man);
-      const frames = PATH.map(([x, y], i) => ({
-        left: x + '%', top: y + '%', offset: i / (PATH.length - 1),
-        transform: `scale(${(.55 + i / (PATH.length - 1) * .7).toFixed(2)})`, opacity: i === 0 || i === PATH.length - 1 ? 0 : 1,
-      }));
-      const run = man.animate(frames, { duration: 17000, delay, fill: 'both', easing: 'linear' });
-      // face the way they walk: the path bends left in the middle
-      const face = () => { const p = (run.currentTime - delay) / 17000; man.classList.toggle('left', p > .36 && p < .72); if (run.playState !== 'finished') requestAnimationFrame(face); };
-      face(); run.onfinish = () => man.remove();
+      const opts = { duration: WALK, delay, fill: 'both', easing: 'linear' };
+      const run = man.animate(PATH.map(([x, y], i) => ({ transform: `translate3d(${x}%, ${y}%, 0)`, opacity: i === 0 || i === LAST ? 0 : 1, offset: i / LAST })), opts);
+      const size = i => (.5 + i / LAST * .4).toFixed(2);
+      const frames = PATH.map((p, i) => ({ transform: `scale(${i <= TURN ? -size(i) : size(i)}, ${size(i)})`, offset: i / LAST }));
+      frames.splice(TURN + 1, 0, { transform: `scale(${size(TURN)}, ${size(TURN)})`, offset: (TURN + .22) / LAST }); // quick turn, then on
+      man.firstChild.animate(frames, opts);
+      run.onfinish = () => man.remove();
     };
     let marching = false;
     const parade = () => {
-      if (calm || marching) return;
-      marching = true; [1, 2, 3, 4, 5].forEach((k, i) => walk(k, i * 4200)); setTimeout(() => { marching = false; }, 34500);
+      if (calm || marching || document.hidden) return;
+      marching = true; [1, 2, 3, 4, 5].forEach((k, i) => walk(k, i * 2300)); setTimeout(() => { marching = false; }, WALK + 4 * 2300 + 500);
     };
     skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', parade);
-    setTimeout(parade, 9000); setInterval(parade, 55000);
+    setTimeout(parade, 9000); setInterval(parade, 48000);
 
     // Mushrooms sprout wherever you click the skull itself
-    const sprouts = $('sprouts'), tilt = skull.querySelector('.tilt');
+    const sprouts = $('sprouts');
     let grown = 0;
     tilt.addEventListener('click', e => {
       if (e.target.closest('.spot, .branch, .teide')) return;
@@ -146,17 +154,18 @@
     });
     // Dive: fly into the clicked doorway, then open its page. The sharp 4K image loads in the background for the close-up
     const hires = $('hires'), veil = $('veil');
-    if (!calm) addEventListener('load', () => { hires.onload = () => hires.classList.add('ready'); hires.src = 'assets/skull-4k.webp'; });
+    if (!calm && mouse) addEventListener('load', () => { hires.onload = () => hires.classList.add('ready'); hires.src = 'assets/skull-4k.webp'; });
     spots.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
       if (calm || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
       const st = s.style;
+      diving = true; tilt.style.transform = '';
       tilt.style.transformOrigin = `${parseFloat(st.left) + parseFloat(st.width) / 2}% ${parseFloat(st.top) + parseFloat(st.height) / 2}%`;
       document.documentElement.classList.add('diving'); skull.classList.add('dive'); veil.classList.add('on');
       setTimeout(() => { location.href = s.href; }, 1000);
     }));
     addEventListener('pageshow', () => { // coming back with the browser's back button
-      document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on');
+      document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on'); diving = false;
     });
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
@@ -166,7 +175,7 @@
   const audioBtn = $('audio');
   if (audioBtn) {
     const SRC = 'assets/audio/night-owl.mp3', VOL = .15, FADE = 3;
-    const GESTURES = ['pointerdown', 'keydown', 'touchend', 'wheel', 'scroll'];
+    const GESTURES = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
     let ctx, gain, el, started = false, loading = false, muted = false;
     try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
     const paint = () => {
@@ -180,11 +189,11 @@
     };
     const start = async () => {
       if (started || loading || muted) return;
-      loading = true;
       try {
         ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-        await ctx.resume();
-        if (ctx.state !== 'running') { loading = false; return; } // not a gesture the browser accepts; wait for the next
+        ctx.resume();
+        if (ctx.state !== 'running') { ctx.onstatechange = () => { if (ctx.state === 'running') start(); }; return; } // waits for a gesture the browser accepts
+        loading = true;
         const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
         const node = ctx.createBufferSource(); node.buffer = buf; node.loop = true;
         gain = ctx.createGain(); gain.gain.value = 0; node.connect(gain).connect(ctx.destination); node.start();
