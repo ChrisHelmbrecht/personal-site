@@ -12,7 +12,10 @@
   document.body.insertAdjacentHTML('afterbegin', `
     <header class="bar">
       <a class="name" href="index.html">Chris Helmbrecht</a>
-      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+      <div class="tools">
+        ${document.getElementById('skull') ? '<button class="audio" id="audio" type="button" aria-label="Sound" aria-pressed="false"><i></i><i></i><i></i><i></i></button>' : ''}
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+      </div>
     </header>
     <nav class="menu" id="menu" aria-label="Site">
       <a href="index.html">The Skull</a>
@@ -93,6 +96,30 @@
     $('teide').addEventListener('pointerenter', ride);
     $('teide').addEventListener('click', ride);
     if (!calm) { setTimeout(ride, 6000); setInterval(ride, 23000); }
+    // Mushroom men march down the path through the jaw
+    const PATH = [[43.1, 65.6], [46.4, 68.1], [48.9, 71.1], [47.8, 75], [46.7, 78.7], [47.1, 82.7], [48.5, 85.9]];
+    const march = $('march');
+    const walk = (k, delay) => {
+      const man = document.createElement('span');
+      man.innerHTML = `<img src="assets/mushman-${k}.webp" alt="">`;
+      march.appendChild(man);
+      const frames = PATH.map(([x, y], i) => ({
+        left: x + '%', top: y + '%', offset: i / (PATH.length - 1),
+        transform: `scale(${(.55 + i / (PATH.length - 1) * .7).toFixed(2)})`, opacity: i === 0 || i === PATH.length - 1 ? 0 : 1,
+      }));
+      const run = man.animate(frames, { duration: 17000, delay, fill: 'both', easing: 'linear' });
+      // face the way they walk: the path bends left in the middle
+      const face = () => { const p = (run.currentTime - delay) / 17000; man.classList.toggle('left', p > .36 && p < .72); if (run.playState !== 'finished') requestAnimationFrame(face); };
+      face(); run.onfinish = () => man.remove();
+    };
+    let marching = false;
+    const parade = () => {
+      if (calm || marching) return;
+      marching = true; [1, 2, 3, 4, 5].forEach((k, i) => walk(k, i * 4200)); setTimeout(() => { marching = false; }, 34500);
+    };
+    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', parade);
+    setTimeout(parade, 9000); setInterval(parade, 55000);
+
     // Mushrooms sprout wherever you click the skull itself
     const sprouts = $('sprouts'), tilt = skull.querySelector('.tilt');
     let grown = 0;
@@ -134,44 +161,58 @@
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 
-  // Night sound: browsers only allow audio after a click, so it starts from the switch
-  const sound = $('sound');
-  if (sound) {
-    const SRC = 'assets/audio/night-owl.mp3', VOL = .5;
-    let ctx, gain, el, on = false;
+  // Night sound: a quiet loop through the Web Audio API. Browsers only let audio start on a real
+  // gesture (click, tap or key; scrolling alone does not count), so it fades in on the first one.
+  const audioBtn = $('audio');
+  if (audioBtn) {
+    const SRC = 'assets/audio/night-owl.mp3', VOL = .15, FADE = 3;
+    const GESTURES = ['pointerdown', 'keydown', 'touchend', 'wheel', 'scroll'];
+    let ctx, gain, el, started = false, loading = false, muted = false;
+    try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    const paint = () => {
+      const playing = started && !muted;
+      audioBtn.classList.toggle('playing', playing); audioBtn.classList.toggle('muted', muted);
+      audioBtn.setAttribute('aria-pressed', playing); audioBtn.setAttribute('aria-label', playing ? 'Mute sound' : 'Play sound');
+    };
+    const fade = (to, secs) => {
+      if (gain) { const t = ctx.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(to, t + secs); }
+      if (el) { el.volume = to; to ? el.play().catch(() => {}) : el.pause(); }
+    };
     const start = async () => {
-      try { // gapless loop through Web Audio
+      if (started || loading || muted) return;
+      loading = true;
+      try {
         ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
         await ctx.resume();
-        if (!gain) {
-          const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
-          const node = ctx.createBufferSource(); node.buffer = buf; node.loop = true;
-          gain = ctx.createGain(); gain.gain.value = 0; node.connect(gain).connect(ctx.destination); node.start();
-          // the owl in the picture moves when the owl in the recording calls
-          const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
-          const buf2 = new Float32Array(ear.fftSize);
-          const listen = () => {
-            ear.getFloatTimeDomainData(buf2);
-            const rms = Math.sqrt(buf2.reduce((a, v) => a + v * v, 0) / buf2.length);
-            if (on && rms > .09 && window.owlHoot) window.owlHoot();
-            requestAnimationFrame(listen);
-          };
-          listen();
-        }
-        gain.gain.linearRampToValueAtTime(VOL, ctx.currentTime + 1.5);
+        if (ctx.state !== 'running') { loading = false; return; } // not a gesture the browser accepts; wait for the next
+        const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
+        const node = ctx.createBufferSource(); node.buffer = buf; node.loop = true;
+        gain = ctx.createGain(); gain.gain.value = 0; node.connect(gain).connect(ctx.destination); node.start();
+        // the owl in the picture moves when the owl in the recording calls
+        const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
+        const samples = new Float32Array(ear.fftSize);
+        const listen = () => {
+          ear.getFloatTimeDomainData(samples);
+          const rms = Math.sqrt(samples.reduce((a, v) => a + v * v, 0) / samples.length);
+          if (!muted && rms > .09 && window.owlHoot) window.owlHoot();
+          requestAnimationFrame(listen);
+        };
+        listen();
       } catch (err) { // opened straight from disk: plain audio element instead
-        el = el || Object.assign(new Audio(SRC), { loop: true, volume: VOL });
-        el.play().catch(() => {});
+        el = Object.assign(new Audio(SRC), { loop: true, volume: 0 });
       }
+      started = true; loading = false;
+      GESTURES.forEach(g => removeEventListener(g, onGesture));
+      fade(VOL, FADE); paint();
     };
-    const stop = () => {
-      if (gain) { gain.gain.cancelScheduledValues(ctx.currentTime); gain.gain.linearRampToValueAtTime(0, ctx.currentTime + .6); }
-      if (el) el.pause();
-    };
-    sound.addEventListener('click', () => {
-      on = !on; sound.setAttribute('aria-pressed', on); sound.lastChild.textContent = on ? 'Sound on' : 'Sound off';
-      on ? start() : stop();
+    const onGesture = e => { if (!(e.target instanceof Element && e.target.closest('#audio'))) start(); }; // the button decides for itself
+    GESTURES.forEach(g => addEventListener(g, onGesture, { passive: true }));
+    audioBtn.addEventListener('click', () => {
+      if (!started) { muted = false; start(); }
+      else { muted = !muted; fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); }
+      try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
     });
+    paint();
   }
 
   // Timeline: one cover per year, pop-up gallery that closes itself after the last photo
