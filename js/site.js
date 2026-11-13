@@ -79,6 +79,13 @@
       requestAnimationFrame(lean);
     }
 
+    // Film patch: starts once the page has loaded, never under reduced motion
+    const film = $('skyfilm');
+    if (!calm) addEventListener('load', () => {
+      film.addEventListener('playing', () => film.classList.add('on'), { once: true });
+      film.src = 'assets/video/sky.mp4'; film.play().catch(() => {});
+    });
+
     // Stars in the dome
     const stars = $('stars');
     [[37, 17], [40.5, 12.5], [43, 19.5], [44.5, 10.5], [41, 23], [60.5, 11], [62.5, 16], [64, 21.5], [59.5, 18.5], [66, 26], [35, 25], [61.5, 24]].forEach(([x, y], k) => {
