@@ -83,28 +83,66 @@
 
     // Film patches start once the page has loaded, never under reduced motion
     const loadFilm = (v, src, onPlaying) => { v.addEventListener('playing', onPlaying, { once: true }); v.src = src; v.play().catch(() => {}); };
-    const sky = $('skyfilm'), owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
+    const owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
     if (!calm) addEventListener('load', () => {
-      loadFilm(sky, 'assets/video/sky.mp4', () => sky.classList.add('on'));
       loadFilm(owlFilm, 'assets/video/owl.mp4', () => owlBox.classList.add('filmed'));
       const city = $('cityfilm'), water = $('waterfilm');
       loadFilm(city, 'assets/video/city.mp4', () => city.classList.add('on'));
       loadFilm(water, 'assets/video/water.mp4', () => water.classList.add('on'));
       pathFilm.preload = 'auto'; pathFilm.src = 'assets/video/path.mp4'; pathFilm.load();
+      pathFilm.addEventListener('canplaythrough', () => setTimeout(wanderOff, 4000), { once: true });
     });
 
-    // The two wanderers on the path set off now and then, walk out of sight, and are back a little later
+    // The two wanderers on the path: walk off (10 s), path stays empty a moment, the drawing fades back, pause, and again
     let walking = false;
     const wanderOff = () => {
-      if (calm || walking || document.hidden || pathFilm.readyState < 2) return;
+      if (calm || walking || pathFilm.readyState < 3) return;
+      if (document.hidden) return void setTimeout(wanderOff, 5000);
       walking = true; pathFilm.classList.remove('leaving'); pathFilm.currentTime = 0;
-      pathFilm.play().then(() => pathFilm.classList.add('on')).catch(() => { walking = false; });
+      pathFilm.play().then(() => pathFilm.classList.add('on')).catch(() => { walking = false; setTimeout(wanderOff, 5000); });
     };
-    pathFilm.addEventListener('ended', () => setTimeout(() => {       // empty path for a while, then the drawing fades back in
-      pathFilm.classList.add('leaving'); pathFilm.classList.remove('on'); setTimeout(() => { walking = false; }, 2600);
-    }, 7000));
+    pathFilm.addEventListener('ended', () => setTimeout(() => {
+      pathFilm.classList.add('leaving'); pathFilm.classList.remove('on');
+      setTimeout(() => { walking = false; setTimeout(wanderOff, 12000); }, 2600);
+    }, 4000));
     skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', wanderOff);
-    setTimeout(wanderOff, 12000); setInterval(wanderOff, 50000);
+
+    // The flock: swallows and the flying girl follow one closed flight path through the whole dome, always nose first.
+    // Up from the right, over to the left, down, back behind the owl and past the moon, and round again.
+    const ROUTE = [[63, 25], [59.5, 17.5], [52, 13.5], [44, 15], [38, 18.5], [35, 24], [37.5, 28.5], [43.5, 29.5], [50, 27], [56.5, 29.5], [62, 32], [65.5, 29.5]]; // % of the skull
+    const LAP = 44000; // one round, in ms
+    const track = (() => {            // closed Catmull-Rom curve, sampled at even distances
+      const n = ROUTE.length, pts = [];
+      for (let i = 0; i < n; i++) {
+        const [p0, p1, p2, p3] = [-1, 0, 1, 2].map(k => ROUTE[(i + k + n) % n]);
+        for (let u = 0; u < 1; u += 1 / 40) pts.push([0, 1].map(d => .5 * (2 * p1[d] + (p2[d] - p0[d]) * u + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * u * u + (3 * p1[d] - p0[d] - 3 * p2[d] + p3[d]) * u * u * u)));
+      }
+      const len = [0]; for (let i = 1; i <= pts.length; i++) len.push(len[i - 1] + Math.hypot(pts[i % pts.length][0] - pts[i - 1][0], pts[i % pts.length][1] - pts[i - 1][1]));
+      const total = len[pts.length], even = [];
+      for (let k = 0, i = 0; k < 600; k++) { const want = k / 600 * total; while (len[i + 1] < want) i++; const f = (want - len[i]) / (len[i + 1] - len[i]), a = pts[i], b = pts[(i + 1) % pts.length]; even.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); }
+      return even;
+    })();
+    const at = s => { const f = ((s % 1) + 1) % 1 * 600, i = Math.floor(f), a = track[i % 600], b = track[(i + 1) % 600]; return [a[0] + (b[0] - a[0]) * (f - i), a[1] + (b[1] - a[1]) * (f - i)]; };
+    const flock = $('flock');
+    //            lag behind the leader, sideways offset (% of skull), size
+    const FLYERS = [[0, 0, 1], [.014, 1.1, .85], [.021, -1, .9], [.034, .5, .78], [.043, -1.5, .82], [.055, 1.4, .72], [.1, -.4, 1]].map(([lag, side, size], k, all) => {
+      const girl = k === all.length - 1, el = document.createElement('span');
+      el.className = girl ? 'girl' : 'bird';
+      el.innerHTML = `<img src="assets/${girl ? 'girl' : 'birds'}.png" alt=""${girl ? '' : ` style="animation-delay:${-k * .37}s;animation-duration:${1.3 + k % 3 * .25}s"`}>`;
+      flock.appendChild(el); return { el, lag, side, size };
+    });
+    const fly = t => {
+      const W = skull.clientWidth / 100, lap = t / LAP;
+      for (const b of FLYERS) {
+        const s = lap - b.lag, [x, y] = at(s), [x2, y2] = at(s + .004);
+        const dx = x2 - x, dy = y2 - y, d = Math.hypot(dx, dy) || 1, ang = Math.atan2(dy, dx);
+        const px = (x - dy / d * b.side) * W, py = (y + dx / d * b.side + Math.sin(t / 900 + b.lag * 90) * .25) * W;
+        const roll = Math.max(-1, Math.min(1, dx / d * 3.5)); // banks through the turn instead of flying on its back
+        b.el.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0) rotate(${ang.toFixed(3)}rad) scale(${b.size}, ${(b.size * (Math.abs(roll) < .12 ? .12 * Math.sign(roll || 1) : roll)).toFixed(3)})`;
+      }
+    };
+    fly(0);
+    if (!calm) { const soar = t => { requestAnimationFrame(soar); if (!document.hidden && !diving) fly(t); }; requestAnimationFrame(soar); }
 
     // Stars in the dome
     const stars = $('stars');
