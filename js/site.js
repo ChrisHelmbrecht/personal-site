@@ -3,7 +3,7 @@
 
   // Header + hamburger menu, shared by every page
   const NAV = [
-    ['Music', 'music.html'], ['Bio', 'bio.html'], ['Writing', 'writing.html'], ['Timeline', 'timeline.html'],
+    ['DJ', 'dj.html'], ['Bio', 'bio.html'], ['Writing', 'writing.html'], ['Timeline', 'timeline.html'],
     ['Blog', 'blog.html'], ['Press', 'press.html'], ['Contact', 'contact.html'],
   ];
   const OUT = [
@@ -23,6 +23,8 @@
       <small>Elsewhere</small>
       ${OUT.map(([t, h]) => `<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('')}
     </nav>`);
+  // Inner pages leave a note, so the start page knows where a returning visitor comes from
+  if (!document.getElementById('skull')) { try { sessionStorage.setItem('from', location.pathname.split('/').pop() || ''); } catch (e) {} }
   const burger = $('burger'), menu = $('menu');
   const setMenu = open => { menu.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); };
   burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
@@ -85,6 +87,9 @@
     if (!calm) addEventListener('load', () => {
       loadFilm(sky, 'assets/video/sky.mp4', () => sky.classList.add('on'));
       loadFilm(owlFilm, 'assets/video/owl.mp4', () => owlBox.classList.add('filmed'));
+      const city = $('cityfilm'), water = $('waterfilm');
+      loadFilm(city, 'assets/video/city.mp4', () => city.classList.add('on'));
+      loadFilm(water, 'assets/video/water.mp4', () => water.classList.add('on'));
       pathFilm.preload = 'auto'; pathFilm.src = 'assets/video/path.mp4'; pathFilm.load();
     });
 
@@ -157,14 +162,38 @@
     spots.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
       if (calm || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
-      const st = s.style;
-      diving = true; tilt.style.transform = '';
-      tilt.style.transformOrigin = `${parseFloat(st.left) + parseFloat(st.width) / 2}% ${parseFloat(st.top) + parseFloat(st.height) / 2}%`;
+      diving = true; tilt.style.transition = ''; tilt.style.transform = '';
+      tilt.style.transformOrigin = originOf(s);
       document.documentElement.classList.add('diving'); skull.classList.add('dive'); veil.classList.add('on');
       setTimeout(() => { location.href = s.href; }, 1000);
     }));
-    addEventListener('pageshow', () => { // coming back with the browser's back button
-      document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on'); diving = false;
+    // Coming back from an inner page: start inside the doorway that was left and pull back out to the whole skull
+    const originOf = s => { const st = s.style; return `${parseFloat(st.left) + parseFloat(st.width) / 2}% ${parseFloat(st.top) + parseFloat(st.height) / 2}%`; };
+    const settle = () => {
+      document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on', 'hold', 'lift');
+      tilt.style.transition = ''; tilt.style.transform = ''; diving = false;
+    };
+    const readFrom = () => { try { const f = sessionStorage.getItem('from'); sessionStorage.removeItem('from'); return f; } catch (err) { return null; } };
+    const zoomedIn = from => {                                           // set up before the first paint, so nothing flashes
+      const door = from && spots.find(s => s.getAttribute('href') === from);
+      if (door) tilt.style.transformOrigin = originOf(door); else if (from !== null) tilt.style.transformOrigin = '50% 45%';
+      diving = true; skull.classList.add('dive'); veil.classList.remove('on'); veil.classList.add('hold');
+      tilt.style.transition = 'none'; tilt.style.transform = 'scale(7)';
+    };
+    let pending = !calm && readFrom();
+    if (pending !== null && pending !== false) zoomedIn(pending); else pending = null;
+    addEventListener('pageshow', e => {
+      if (e.persisted) {                                                 // restored by the back button, still zoomed in
+        const from = readFrom();
+        if (calm || !skull.classList.contains('dive')) return settle();
+        zoomedIn(from);
+      } else if (pending === null) return;
+      pending = null;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        veil.classList.add('lift'); veil.classList.remove('hold');
+        tilt.style.transition = 'transform 1.5s cubic-bezier(.16, .7, .22, 1)'; tilt.style.transform = 'scale(1)';
+        setTimeout(settle, 1600);
+      }));
     });
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }

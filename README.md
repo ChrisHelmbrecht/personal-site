@@ -9,8 +9,9 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 ## Files
 
 - `index.html` – start page: the skull and the night-sound switch
-- `music.html`, `bio.html`, `writing.html`, `timeline.html`, `blog.html`, `contact.html` – one page per room
+- `dj.html`, `bio.html`, `writing.html`, `timeline.html`, `blog.html`, `press.html`, `contact.html` – one page per room
 - `css/site.css`, `js/site.js` – shared styles and script (the menu is built in `site.js`)
+- `assets/video/*.mp4` – short looping films laid over parts of the skull (sky, owl, path, city, water)
 - `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)
 - `assets/skull.webp` – web version of the skull
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
