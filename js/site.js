@@ -248,6 +248,7 @@
     const GESTURES = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
     let ctx, gain, el, started = false, loading = false, muted = false;
     try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    let hush; const say = text => { audioBtn.dataset.say = text; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400); };
     const paint = () => {
       const playing = started && !muted;
       audioBtn.classList.toggle('playing', playing); audioBtn.classList.toggle('muted', muted);
@@ -282,13 +283,13 @@
       }
       started = true; loading = false;
       GESTURES.forEach(g => removeEventListener(g, onGesture));
-      fade(VOL, FADE); paint();
+      fade(VOL, FADE); paint(); say('Sound on');
     };
     const onGesture = e => { if (!(e.target instanceof Element && e.target.closest('#audio'))) start(); }; // the button decides for itself
     GESTURES.forEach(g => addEventListener(g, onGesture, { passive: true }));
     audioBtn.addEventListener('click', () => {
       if (!started) { muted = false; start(); }
-      else { muted = !muted; fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); }
+      else { muted = !muted; fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? 'Sound off' : 'Sound on'); }
       try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
     });
     paint();

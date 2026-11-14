@@ -163,6 +163,11 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 .audio.playing i:nth-child(3) { animation-delay: -.6s; animation-duration: 1.3s; }
 .audio.playing i:nth-child(4) { animation-delay: -.4s; animation-duration: 1s; }
 @keyframes wave { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+/* When the sound wakes up or is switched, the button says so for a moment */
+.audio::before { content: attr(data-say); position: absolute; top: calc(100% + 8px); right: 0; white-space: nowrap; font: 500 .62rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--card); background: var(--ink-deep); padding: 6px 8px 5px; border-radius: 2px; opacity: 0; transform: translate3d(0, -4px, 0); transition: opacity .6s ease, transform .6s ease; pointer-events: none; }
+.audio.say::before { opacity: 1; transform: none; }
+.audio.say { box-shadow: 0 0 0 6px var(--ink-soft); transition: box-shadow .6s ease; }
+.audio { transition: box-shadow 1.2s ease; }
 .audio.muted::after { content: ""; position: absolute; width: 24px; height: 1.5px; background: var(--ink); transform: rotate(-45deg); }
 
 /* Inner pages */
