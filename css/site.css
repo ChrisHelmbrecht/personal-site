@@ -330,11 +330,15 @@ html.diving { overflow: hidden; }
 .film video.on { opacity: 1; }
 /* Munich: the two towers keep Munich time, and the helicopter of chapter one hovers beside them */
 .live.scene { width: 100%; }
+/* the skull at the end is a way home; the helicopter can be sent on a round */
+.live.door img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+.live.door:hover img, .live.door:focus-visible img { transform: scale(1.04) rotate(-2deg); }
+.flight { cursor: pointer; z-index: 3; -webkit-tap-highlight-color: transparent; }
 .kirche { position: absolute; right: 3%; bottom: 0; height: 100%; aspect-ratio: 246 / 439; }
 .dial { position: absolute; top: 53.1%; width: 9%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--ink-deep); }
 .dial i { position: absolute; left: 50%; bottom: 50%; width: 12%; margin-left: -6%; background: var(--card); border-radius: 1px; transform-origin: 50% 100%; transform: rotate(var(--a, 0deg)); }
 .dial .h { height: 30%; } .dial .m { height: 44%; }
-.flight { position: absolute; left: 0; top: 9%; width: 58%; aspect-ratio: 2 / 1; opacity: 0; transform: translate3d(-46%, -8%, 0); transition: opacity 1.6s ease, transform 3.4s cubic-bezier(.2, .7, .2, 1); }
+.flight { position: absolute; left: 0; top: 16%; width: 59%; aspect-ratio: 640 / 252; opacity: 0; transform: translate3d(-46%, -8%, 0); transition: opacity 1.6s ease, transform 3.4s cubic-bezier(.2, .7, .2, 1); }
 .flight.on, .flight.calm { opacity: 1; transform: none; }
 .flight .still { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity .6s ease; }
 .flight.on .still { opacity: 0; }
@@ -362,7 +366,9 @@ html.diving { overflow: hidden; }
   .chart .map { flex: none; }
   .plates { position: relative; flex: 1; min-height: 0; }
   .plates .plate { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; opacity: 0; transform: translate3d(0, 10px, 0) scale(.98); transition: opacity .9s ease, transform .9s ease; }
-  .plates .plate.on { opacity: 1; transform: none; transition-delay: .5s; }
+  .plates .plate { pointer-events: none; }
+  .plates .plate.on { opacity: 1; transform: none; transition-delay: .5s; pointer-events: auto; }
+  .chart { z-index: 3; }
   .plates .plate .live { flex: 0 1 auto; min-height: 0; max-height: calc(100% - 30px); }
   .log .plate, .thread { display: none; }
   .leg { min-height: 62vh; padding-block: 6vh 10vh; }
@@ -382,6 +388,8 @@ html.diving { overflow: hidden; }
   .stage { transform: none !important; --z: 1 !important; }
   .log .plate figcaption { display: none; }
   .log .plate[data-plate="moscow"] { margin-top: 18px; }
+  .log .plate[data-plate="now"] { margin-top: 30px; }
+  .log .plate[data-plate="now"] figcaption { display: block; margin-top: 8px; }
 }
 @media (prefers-reduced-motion: reduce) { .leg::before { animation: none; } .leg:hover .find { transform: rotate(4deg); } .stage { transform: none !important; --z: 1 !important; } .bloom, .heli { animation: none !important; } }
 

@@ -109,6 +109,16 @@
   log.querySelectorAll('.plate').forEach(p => inText.observe(p));
   wide.addEventListener('change', mode);
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { paint(); onScroll(); }, { passive: true });
+  // Easter egg: click the helicopter and it flies a round over the page. A film cannot really turn, so at the far end
+  // it is squeezed flat and opened again facing the other way, which reads as a turn
+  document.querySelectorAll('.flight').forEach(f => f.addEventListener('click', () => {
+    if (calm || f.away || !f.classList.contains('on')) return;
+    const r = f.getBoundingClientRect(), out = Math.max(40, innerWidth - r.right - 16), up = -clamp(r.top - 90, 30, 240);
+    const at = (x, y, tilt, face) => ({ transform: `translate3d(${(out * x).toFixed(0)}px, ${(up * y).toFixed(0)}px, 0) rotate(${tilt}deg) scaleX(${face})` });
+    f.away = true;
+    f.animate([{ ...at(0, 0, 0, 1), offset: 0 }, { ...at(.12, .5, -7, 1), offset: .12 }, { ...at(.7, 1, 5, 1), offset: .36 }, { ...at(1, .85, 0, 1), offset: .46 }, { ...at(1, .8, 0, -1), offset: .53 },
+      { ...at(.4, .9, 5, -1), offset: .72 }, { ...at(.04, .1, -4, -1), offset: .9 }, { ...at(0, 0, 0, -1), offset: .94 }, { ...at(0, 0, 0, 1), offset: 1 }], { duration: 11000, easing: 'ease-in-out' }).onfinish = () => { f.away = false; };
+  }));
   // the towers of the Frauenkirche show Munich time, as they do on the skull
   const tick = () => {
     const [h, m] = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date()).split(':').map(Number);
