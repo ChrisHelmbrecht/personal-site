@@ -1,0 +1,27 @@
+# Headers for the browser. The site is plain files: there is nothing here that runs on the server.
+
+<IfModule mod_headers.c>
+  # Always HTTPS, no guessing of file types, no embedding in other people's pages, no device features
+  Header always set Strict-Transport-Security "max-age=15552000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always unset X-Powered-By
+
+  # While the site is still being built every file is checked for a newer version on each visit.
+  # At launch the pictures, films, sound and fonts can be kept for a month instead.
+  Header set Cache-Control "no-cache"
+
+  # The staging address stays out of search engines; the real domain is not affected
+  SetEnvIfNoCase Host ^new\. STAGING
+  Header always set X-Robots-Tag "noindex, nofollow" env=STAGING
+</IfModule>
+
+# Working files that visitors have no use for
+<FilesMatch "(^README\.md$|\.mjs$)">
+  Require all denied
+</FilesMatch>
+<IfModule mod_alias.c>
+  RedirectMatch 404 ^/assets/source/
+</IfModule>

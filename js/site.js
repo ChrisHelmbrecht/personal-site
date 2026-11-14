@@ -89,7 +89,8 @@
     // Film patches start once the page has loaded, never under reduced motion
     const loadFilm = (v, src, onPlaying) => { v.addEventListener('playing', onPlaying, { once: true }); v.src = src; v.play().catch(() => {}); };
     const owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
-    if (!calm) addEventListener('load', () => {
+    const net = navigator.connection, thrifty = !!net && (net.saveData || /(^|-)2g$/.test(net.effectiveType || '')); // data saver or a very slow line: the drawing stays still, 5 MB of film stay on the server
+    if (!calm && !thrifty) addEventListener('load', () => {
       loadFilm(owlFilm, 'assets/video/owl.mp4', () => owlBox.classList.add('filmed'));
       ['city', 'water', 'moon', 'tree', 'crown'].forEach(n => { const v = $(n + 'film'); loadFilm(v, `assets/video/${n}.mp4`, () => v.classList.add('on')); });
       pathFilm.preload = 'auto'; pathFilm.src = 'assets/video/path.mp4'; pathFilm.load();

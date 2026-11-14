@@ -11,6 +11,8 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `index.html` – start page: the skull and the night-sound switch
 - `dj.html`, `bio.html`, `writing.html`, `timeline.html`, `blog.html`, `press.html`, `contact.html` – one page per room
 - `game.html`, `js/game.js`, `assets/game/*.png` – Owl Night Long, the hidden arcade game. Its only entrance is the unmarked `<a class="egg">` on the skull's left cheekbone in `index.html`. `game.html#3` starts at night 3 (1–5)
+- `.htaccess` – security headers, no-cache while the site is being built, staging kept out of search engines, working files blocked
+- `assets/fonts/` – Cormorant Garamond and DM Mono, served from the site itself (no request to Google)
 - `css/site.css`, `js/site.js` – shared styles and script (the menu is built in `site.js`)
 - `assets/video/*.mp4` – short looping films laid over parts of the skull (sky, owl, path, city, water)
 - `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)

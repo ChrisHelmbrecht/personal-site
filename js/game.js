@@ -186,6 +186,7 @@
     over: () => tune([64, 0, 60, 0, 57, 0, 52, 52], .16, .06, 'triangle', echo),
     win: () => tune([69, 72, 76, 81, 0, 76, 81, 84, 0, 88, 86, 84, 88, 93], .11, .06, 'square', echo, .3),
     pause: () => tune([72, 60], .06, .04),
+    tick: () => tone(1320, .035, .03),
   };
   let step = 0, nextT = 0;
   const music = () => {                // four on the floor and an off-beat bass; hats from New York, an arpeggio from Tenerife, a clap from Moscow
@@ -209,8 +210,45 @@
   let foes = [], shots = [], drops = [], sparks = [], lv = null, boss = null, girl = null, star = null, girlIn = 500, stars = [];
   let P = { x: W / 2, cd: 0, safe: 0, wing: 0, dead: 0 };
   const keys = {}; let held = false, aim = null, lastX = 0;
-  try { hi = +localStorage.getItem('owl-hi') || 0; } catch (e) {}
-  const saveHi = () => { if (score > hi) { hi = score; try { localStorage.setItem('owl-hi', hi); } catch (e) {} } };
+  // Best nights: five scores with three initials each. They live in this browser's own storage and are never sent anywhere.
+  // What comes back out of storage is checked letter by letter before it is used
+  const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let table = [], mine = null, entry = null;      // mine: the line this run has earned; entry: the initials being typed
+  try {
+    const raw = JSON.parse(localStorage.getItem('owl-scores') || '[]');
+    table = (Array.isArray(raw) ? raw : []).filter(e => e && typeof e.n === 'string' && /^[A-Z]{3}$/.test(e.n) && Number.isFinite(e.s) && e.s > 0).map(e => ({ n: e.n, s: Math.floor(e.s) }));
+    const old = +localStorage.getItem('owl-hi') || 0; if (!table.length && old > 0) table.push({ n: 'YOU', s: Math.floor(old) });   // the single best score of the first version
+  } catch (e) { table = []; }
+  const rank = () => { table.sort((a, b) => b.s - a.s); table = table.slice(0, 5); if (mine && !table.includes(mine)) mine = null; hi = table.length ? table[0].s : 0; };
+  const keep = () => { rank(); try { localStorage.setItem('owl-scores', JSON.stringify(table)); localStorage.removeItem('owl-hi'); } catch (e) {} };   // only ever written when a player signs a score
+  rank();
+  const arrive = next => { go(next); next === 'win' ? sfx.win() : sfx.over(); };
+  // A run ends, lost or won: if it earns a line it asks for initials first, as the cabinets did
+  const finish = next => {
+    if (mine) { mine.s = Math.max(mine.s, score); keep(); return arrive(next); }
+    if (score > 0 && (table.length < 5 || score > table[table.length - 1].s)) { entry = { next, name: [0, 0, 0], at: 0 }; go('name'); return sfx.clear(); }
+    arrive(next);
+  };
+  const spin = d => { entry.name[entry.at] = (entry.name[entry.at] + d + 26) % 26; sfx.tick(); };
+  const slot = d => { const to = clamp(entry.at + d, 0, 2); if (to !== entry.at) { entry.at = to; sfx.tick(); } };
+  const sign = () => {
+    mine = { n: entry.name.map(i => ABC[i]).join(''), s: score }; table.push(mine); keep();
+    const next = entry.next; entry = null; go(next); next === 'win' ? sfx.win() : sfx.star();
+  };
+  const nameKey = k => {
+    if (t < 40) return;                                   // nobody signs by accident while still hammering the hoot key
+    if (k.length === 1 && k >= 'a' && k <= 'z') { entry.name[entry.at] = k.charCodeAt(0) - 97; sfx.tick(); if (entry.at < 2) entry.at++; }
+    else if (k === 'ArrowUp') spin(1); else if (k === 'ArrowDown') spin(-1);
+    else if (k === 'ArrowLeft' || k === 'Backspace') slot(-1); else if (k === 'ArrowRight') slot(1);
+    else if (k === ' ') entry.at < 2 ? slot(1) : sign(); else if (k === 'Enter') sign();
+  };
+  const nameTap = (x, y) => {                               // the same with a finger or the mouse: arrows above and below each letter, and OK
+    if (t < 40) return; const mid = Math.round(H / 2);
+    if (Math.abs(x - W / 2) <= 26 && y >= mid + 24 && y <= mid + 46) return sign();
+    const col = [-30, 0, 30].findIndex(dx => Math.abs(x - W / 2 - dx) <= 14);
+    if (col < 0 || y < mid - 36 || y > mid + 22) return;
+    entry.at = col; spin(y < mid - 6 ? 1 : -1);
+  };
   const speed = () => 1 + night * .22;
   const go = s => { state = s; t = 0; };
   const hit = (a, b) => Math.abs(a.x - b.x) < (a.w + b.w) / 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2;
@@ -342,7 +380,7 @@
 
   // Flow
   const begin = () => { go('intro'); foes = []; shots = []; drops = []; boss = null; girl = null; star = null; girlIn = 420; lv = null; P.cd = 0; P.safe = 0; P.dead = 0; sfx.night(level); };
-  const newGame = () => { const jump = +location.hash.slice(1); score = 0; spare = 2; night = 0; level = jump >= 1 && jump <= 5 ? jump - 1 : 0; P = { x: W / 2, cd: 0, safe: 0, wing: 0, dead: 0 }; begin(); };
+  const newGame = () => { const jump = +location.hash.slice(1); mine = null; score = 0; spare = 2; night = 0; level = jump >= 1 && jump <= 5 ? jump - 1 : 0; P = { x: W / 2, cd: 0, safe: 0, wing: 0, dead: 0 }; begin(); };
   const movePlayer = () => {
     const l = keys.ArrowLeft || keys.a, r = keys.ArrowRight || keys.d;
     if (l || r) { aim = null; P.x += ((r ? 1 : 0) - (l ? 1 : 0)) * 2.2; } else if (aim !== null) P.x += clamp(aim - P.x, -3.5, 3.5);
@@ -357,7 +395,7 @@
   };
   const play = () => {
     const Py = H - 24;
-    if (P.dead) { if (--P.dead === 0) { if (spare < 0) { saveHi(); sfx.over(); return go('over'); } P.x = W / 2; P.safe = 130; aim = null; } } else { movePlayer(); fire(); }
+    if (P.dead) { if (--P.dead === 0) { if (spare < 0) return finish('over'); P.x = W / 2; P.safe = 130; aim = null; } } else { movePlayer(); fire(); }
     if (P.safe) P.safe--;
     if (P.wing && --P.wing === 110) sfx.fade();
     shots.forEach(s => { s.y -= 4.6; if (s.y < -6) s.gone = true; });
@@ -385,7 +423,7 @@
     sparks = sparks.filter(s => { s.x += s.vx; s.y += s.vy; s.vy += .03; return --s.life > 0; });
     if (state === 'intro') { movePlayer(); if (t > 150) { lv = LEVELS[level].make(); go('play'); } }
     else if (state === 'play') play();
-    else if (state === 'clear') { movePlayer(); shots = shots.filter(s => (s.y -= 4.6) > -6); if (t > 140) { if (++level === 5) { level = 4; saveHi(); go('win'); sfx.win(); } else begin(); } }
+    else if (state === 'clear') { movePlayer(); shots = shots.filter(s => (s.y -= 4.6) > -6); if (t > 140) { if (++level === 5) { level = 4; finish('win'); } else begin(); } }
     music();
   };
 
@@ -398,13 +436,18 @@
     g.fillStyle = INK; stars.forEach((s, i) => { if ((frame + i * 37) % 170 > 26) g.fillRect(s[0], s[1], 1, 1); });
     if (state === 'title') {
       const o = Math.floor((H - 230) / 2), owl = paint(frame % 40 < 20 ? 'owl1' : 'owl2');
-      moon(W / 2, o + 18, 10, 0);
-      text('OWL NIGHT', W / 2, o + 36, 4, DEEP); text('LONG', W / 2, o + 60, 4, DEEP); text('A GAME HIDDEN IN A SKULL', W / 2, o + 88);
-      g.drawImage(owl, Math.round(W / 2 - 25.5), o + 100 + (frame % 40 < 20 ? 0 : 2), 51, 36);
-      text('THE MOON IS GONE.', W / 2, o + 146, 1, DEEP); text('ONE OWL GOES LOOKING FOR IT', W / 2, o + 156); text('IN THE FOUR CITIES OF A LIFE.', W / 2, o + 166);
+      if (table.length && Math.floor(t / 400) % 2) {
+        text('BEST NIGHTS', W / 2, o + 30, 3, DEEP); text('SAVED ON THIS DEVICE ONLY', W / 2, o + 52);
+        table.forEach((e, i) => text((i + 1) + ' ' + e.n + ' ' + pad(e.s), W / 2, o + 76 + i * 18, 2, e === mine && frame % 30 < 15 ? HOT : i ? INK : DEEP));
+      } else {
+        moon(W / 2, o + 18, 10, 0);
+        text('OWL NIGHT', W / 2, o + 36, 4, DEEP); text('LONG', W / 2, o + 60, 4, DEEP); text('A GAME HIDDEN IN A SKULL', W / 2, o + 88);
+        g.drawImage(owl, Math.round(W / 2 - 25.5), o + 100 + (frame % 40 < 20 ? 0 : 2), 51, 36);
+        text('THE MOON IS GONE.', W / 2, o + 146, 1, DEEP); text('ONE OWL GOES LOOKING FOR IT', W / 2, o + 156); text('IN THE FOUR CITIES OF A LIFE.', W / 2, o + 166);
+      }
       if (frame % 60 < 40) text(touch ? 'TAP TO START' : 'PRESS SPACE OR CLICK', W / 2, o + 182, 2, DEEP);
       text(touch ? 'DRAG TO FLY. HOLD TO HOOT.' : 'ARROWS FLY. SPACE HOOTS.', W / 2, o + 200);
-      if (hi) text('BEST ' + pad(hi), W / 2, o + 212);
+      if (hi) text('BEST ' + (table[0].n + ' ') + pad(hi), W / 2, o + 212);
       return;
     }
     // the city of the night, pale, and the ground
@@ -447,6 +490,16 @@
     else if (state === 'intro') { text('NIGHT ' + (night * 5 + level + 1), W / 2, mid - 34); text(L.city, W / 2, mid - 22, 3, DEEP); L.lines.forEach((l, i) => text(l, W / 2, mid + 2 + i * 10)); }
     else if (state === 'clear') { text(level === 4 ? 'THE MOON IS FREE' : 'A PIECE OF THE MOON IS BACK', W / 2, mid - 10, level === 4 ? 2 : 1, DEEP); }
     else if (state === 'over') { card(74); text('GAME OVER', W / 2, mid - 26, 3, DEEP); text('THE MOON STAYS DARK TONIGHT.', W / 2, mid - 2); text('SCORE ' + pad(score), W / 2, mid + 10, 1, DEEP); if (t > 50 && frame % 60 < 40) text(again, W / 2, mid + 24); }
+    else if (state === 'name') {
+      card(138); text('A BEST NIGHT', W / 2, mid - 60, 2, DEEP); text('SCORE ' + pad(score), W / 2, mid - 44, 1, DEEP);
+      entry.name.forEach((c, i) => {
+        const x = W / 2 + (i - 1) * 30, on = i === entry.at; g.fillStyle = on ? DEEP : INK;
+        for (let r = 0; r < 4; r++) { g.fillRect(x - r, mid - 30 + r, r * 2 + 1, 1); g.fillRect(x - r, mid + 16 - r, r * 2 + 1, 1); }
+        text(ABC[c], x, mid - 18, 4, on ? DEEP : INK); if (on && frame % 40 < 26) g.fillRect(x - 8, mid + 5, 16, 2);
+      });
+      g.fillStyle = DEEP; g.fillRect(W / 2 - 22, mid + 26, 44, 17); text('OK', W / 2, mid + 30, 2, LIGHT);
+      text(touch ? 'TAP THE ARROWS, THEN OK.' : 'TYPE THREE LETTERS, THEN ENTER.', W / 2, mid + 52);
+    }
     else if (state === 'win') {
       const o = Math.floor((H - 230) / 2);
       moon(W / 2, o + 34, 14, 1); draw('owl1', W / 2, o + 62 + Math.sin(frame / 20) * 2);
@@ -477,14 +530,15 @@
     audio();
     if (paused) return setPause(false);
     if (state === 'title') { sfx.start(); return newGame(); }
-    if (state === 'over' && t > 50) return go('title');
+    if (state === 'over' && t > 50) { go('title'); if (table.length) t = 400; return; }   // back to the title, table first
     if (state === 'win' && t > 90) { night++; level = 0; begin(); }
   };
   addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key, onControl = e.target instanceof Element && e.target.closest('button, a');
-    if ([' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(k) && !onControl) e.preventDefault();
+    if ([' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Backspace'].includes(k) && !onControl) e.preventDefault();
     if (e.repeat || (onControl && (k === ' ' || k === 'Enter'))) return;
+    if (state === 'name') return nameKey(k);
     keys[k] = true;
     if (k === ' ' || k === 'Enter') startKey();
     if (k === 'p' || k === 'Escape') setPause(!paused);
@@ -494,6 +548,7 @@
   const lx = e => (e.clientX - cv.getBoundingClientRect().left) / S;
   cv.addEventListener('pointerdown', e => {
     e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+    if (state === 'name') { audio(); return nameTap(lx(e), (e.clientY - cv.getBoundingClientRect().top) / S); }
     startKey(); held = true; lastX = e.clientX; if (e.pointerType === 'mouse') aim = lx(e);
   });
   cv.addEventListener('pointermove', e => {
@@ -506,6 +561,8 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) setPause(true); });
   addEventListener('blur', () => { setPause(true); for (const k in keys) keys[k] = false; held = false; });
   const burger = document.getElementById('burger'); if (burger) burger.addEventListener('click', () => setPause(true));
+  const home = document.querySelector('.bar .name');
+  if (home) { home.textContent = '\u2190 Back to the skull'; home.classList.add('home'); }
   const keysText = document.getElementById('keys-text');
   if (keysText) keysText.textContent = touch ? 'Drag to fly · hold to hoot' : 'Arrows or A/D fly · Space hoots';
 

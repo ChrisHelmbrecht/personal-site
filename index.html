@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Chris Helmbrecht: DJ, author of Fucking Moskau and brand consultant in Munich. A blue-ink skull is the way in, and everything in it opens a page.">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
 <!--page-->
 <title>Chris Helmbrecht</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#d6d9d6">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <section class="hero" id="top">
   <div class="skull" id="skull"><div class="tilt">
-    <img src="assets/skull-base.webp" alt="Blue ink skull holding an owl, the moon and a skyline of Moscow, Munich, Tenerife and New York">
+    <img src="assets/skull-base.webp" srcset="assets/skull-base-1200.webp 1200w, assets/skull-base.webp 2048w" sizes="(min-width: 900px) 900px, 100vw" width="2048" height="2048" fetchpriority="high" alt="Blue ink skull holding an owl, the moon and a skyline of Moscow, Munich, Tenerife and New York">
     <img class="film skyplate on" src="assets/sky.webp" alt="" aria-hidden="true">
     <video class="film moonfilm" id="moonfilm" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
     <video class="film treefilm" id="treefilm" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
