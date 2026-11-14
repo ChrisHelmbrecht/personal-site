@@ -325,9 +325,9 @@ html.diving { overflow: hidden; }
 .live { position: relative; display: block; max-width: 100%; }
 .live > img, .kirche img { display: block; width: 100%; height: 100%; }
 .live.soft { -webkit-mask-image: radial-gradient(ellipse 50% 50%, #000 58%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50%, #000 58%, transparent 100%); }
-.film { position: absolute; inset: 0; overflow: hidden; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; pointer-events: none; }
-.film video { position: absolute; display: block; object-fit: fill; opacity: 0; transition: opacity 1.2s ease; }
-.film video.on { opacity: 1; }
+.reel { position: absolute; inset: 0; overflow: hidden; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; pointer-events: none; }
+.reel video { position: absolute; display: block; object-fit: fill; opacity: 0; transition: opacity 1.2s ease; }
+.reel video.on { opacity: 1; }
 /* Munich: the two towers keep Munich time, and the helicopter of chapter one hovers beside them */
 .live.scene { width: 100%; }
 /* the skull at the end is a way home; the helicopter can be sent on a round */
