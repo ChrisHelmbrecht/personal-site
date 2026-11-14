@@ -14,7 +14,7 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `.htaccess` – security headers, no-cache while the site is being built, staging kept out of search engines, working files blocked
 - `assets/fonts/` – Cormorant Garamond and DM Mono, served from the site itself (no request to Google)
 - `robots.txt`, `llms.txt` – what crawlers and AI assistants may read, and a plain-text description of the site for them
-- `bio.html`, `js/bio.js`, `assets/bio/` – the bio as a logbook: a chart of the North Atlantic (drawn from Natural Earth coastlines) with an ink line that travels as the chapters scroll, and motifs cut from the skull drawing
+- `bio.html`, `js/bio.js`, `assets/bio/` – the bio as a logbook: a chart of the North Atlantic (drawn from Natural Earth coastlines). A swallow carries an ink line from city to city as the chapters scroll, the camera follows, the current city blooms into colour, and the station's engraving (cut from the skull drawing, with the start page's films laid over it) comes alive. `assets/video/heli.mp4` is a helicopter on white (Midjourney, Runway); `bio.js` draws it to a canvas and makes the white see-through
 - `css/site.css`, `js/site.js` – shared styles and script (the menu is built in `site.js`)
 - `assets/video/*.mp4` – short looping films laid over parts of the skull (sky, owl, path, city, water)
 - `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)

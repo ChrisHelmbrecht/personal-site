@@ -7,8 +7,8 @@ The start page is one drawing: a skull in blue ink, like Delft porcelain. Inside
 Every element of the skull is a door to a page. Clicking one zooms into it.
 
 ## Pages
-- [DJ](dj.html): the moon. Indie dance, melodic techno, afro house; mixes on SoundCloud and Mixcloud.
-- [Bio](bio.html): the owl. Born 1971 in Munich, eight years with the federal police, then New York, Tenerife and nearly two decades in Moscow.
+- [DJ](dj.html): the moon. Melodic techno, indie dance and house, from exclusive events to the underground; mixes on SoundCloud and Mixcloud.
+- [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
 - [Writing](writing.html): the book "Fucking Moskau" and other texts.
 - [Blog](blog.html): the bare trees. Recent essays.
 - [Timeline](timeline.html): the path. One cover photo per year, each opens a small gallery.

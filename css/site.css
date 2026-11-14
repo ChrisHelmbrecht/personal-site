@@ -298,21 +298,48 @@ html.diving { overflow: hidden; }
 .bio-head h1 { font: italic 600 clamp(2.6rem, 7.4vw, 4.4rem)/1 var(--display); margin: 8px 0 20px; color: var(--ink); text-wrap: balance; }
 .bio-head .lede { margin: 0 auto; max-width: 56ch; font-size: 1.3rem; }
 .voyage { max-width: 1240px; margin: 44px auto 0; }
-.chart .map { position: relative; aspect-ratio: 1000 / 660; }
-.chart .map > img, .chart .map > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.trail { fill: none; stroke: var(--ink-deep); stroke-width: 3.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.9s cubic-bezier(.5, 0, .2, 1); }
-.trail.drawn { stroke-dashoffset: 0; }
-.chart.all .trail[data-leg="2"] { transition-delay: 1.3s; } .chart.all .trail[data-leg="3"] { transition-delay: 2.6s; } .chart.all .trail[data-leg="4"] { transition-delay: 3.9s; }
-.pin { position: absolute; width: 0; height: 0; }
-.pin::before { content: ""; position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid var(--ink-deep); background: var(--paper); transition: background-color .6s ease .9s, transform .6s ease; }
-.pin::after { content: ""; position: absolute; left: -13px; top: -13px; width: 26px; height: 26px; border-radius: 50%; background: var(--ink-soft); opacity: 0; transform: scale(.4); transition: opacity .8s ease 1s, transform .8s ease 1s; }
+.chart .map { position: relative; aspect-ratio: 1000 / 660; overflow: hidden; outline: 1px solid var(--ink-deep); outline-offset: -1px; }
+/* the stage is what the camera moves: it glides to the leg being read and comes closer. Pins and line keep their size */
+@property --z { syntax: "<number>"; inherits: true; initial-value: 1; }
+.stage { position: absolute; inset: 0; transform-origin: 0 0; --z: 1; transition: transform 2.6s cubic-bezier(.45, 0, .2, 1), --z 2.6s cubic-bezier(.45, 0, .2, 1); will-change: transform; }
+.stage > img, .stage > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.trail { fill: none; stroke: var(--ink-deep); stroke-width: calc(3.6px / var(--z)); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+/* a swallow from the start page carries the ink line from city to city */
+.carrier { position: absolute; left: 0; top: 0; width: 30px; height: 30px; margin: -15px 0 0 -15px; overflow: hidden; opacity: 0; transition: opacity .5s ease; pointer-events: none; will-change: transform; }
+.carrier.up { opacity: 1; }
+.carrier img { display: block; width: 800%; max-width: none; height: 100%; animation: flap .9s steps(8, jump-none) infinite alternate; }
+/* the city of the moment blooms into colour, the way the skull does under the pointer */
+.bloom { position: absolute; left: 0; top: 0; width: 30%; aspect-ratio: 1; margin: -15% 0 0 -15%; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 1.4s ease; transform: scale(calc(1 / var(--z)));
+  -webkit-backdrop-filter: hue-rotate(60deg) saturate(2.6) contrast(1.08); backdrop-filter: hue-rotate(60deg) saturate(2.6) contrast(1.08);
+  -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 68%); mask-image: radial-gradient(circle, #000 30%, transparent 68%); animation: trip 9s linear infinite; }
+.bloom.on { opacity: 1; }
+.pin { position: absolute; width: 0; height: 0; transform: scale(calc(1 / var(--z))); }
+.pin::before { content: ""; position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid var(--ink-deep); background: var(--paper); transition: background-color .5s ease; }
+.pin::after { content: ""; position: absolute; left: -13px; top: -13px; width: 26px; height: 26px; border-radius: 50%; background: var(--ink-soft); opacity: 0; transform: scale(.4); transition: opacity .8s ease, transform .8s ease; }
 .pin.seen::before { background: var(--ink-deep); }
 .pin.now::after { opacity: 1; transform: none; }
-.pin b { position: absolute; left: 11px; top: -22px; white-space: nowrap; font: 500 .6rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--card); background: var(--ink-deep); padding: 5px 7px 4px; border-radius: 2px; opacity: 0; transform: translate3d(0, 4px, 0); transition: opacity .7s ease 1s, transform .7s ease 1s; }
+.pin b { position: absolute; left: 11px; top: -22px; white-space: nowrap; font: 500 .6rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--card); background: var(--ink-deep); padding: 5px 7px 4px; border-radius: 2px; opacity: 0; transform: translate3d(0, 4px, 0); transition: opacity .7s ease, transform .7s ease; }
 .pin.left b { top: 11px; left: 4px; } .pin.low b { left: auto; right: 10px; top: 10px; }
 .pin.seen b { opacity: 1; transform: none; }
 .plate { margin: 0; }
-.plate img { display: block; max-width: 100%; height: auto; }
+.live { position: relative; display: block; max-width: 100%; }
+.live > img, .kirche img { display: block; width: 100%; height: 100%; }
+.live.soft { -webkit-mask-image: radial-gradient(ellipse 50% 50%, #000 58%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50%, #000 58%, transparent 100%); }
+.film { position: absolute; inset: 0; overflow: hidden; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; pointer-events: none; }
+.film video { position: absolute; display: block; object-fit: fill; opacity: 0; transition: opacity 1.2s ease; }
+.film video.on { opacity: 1; }
+/* Munich: the two towers keep Munich time, and the helicopter of chapter one hovers beside them */
+.live.scene { width: 100%; }
+.kirche { position: absolute; right: 3%; bottom: 0; height: 100%; aspect-ratio: 246 / 439; }
+.dial { position: absolute; top: 53.1%; width: 9%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--ink-deep); }
+.dial i { position: absolute; left: 50%; bottom: 50%; width: 12%; margin-left: -6%; background: var(--card); border-radius: 1px; transform-origin: 50% 100%; transform: rotate(var(--a, 0deg)); }
+.dial .h { height: 30%; } .dial .m { height: 44%; }
+.flight { position: absolute; left: 0; top: 9%; width: 58%; aspect-ratio: 2 / 1; opacity: 0; transform: translate3d(-46%, -8%, 0); transition: opacity 1.6s ease, transform 3.4s cubic-bezier(.2, .7, .2, 1); }
+.flight.on, .flight.calm { opacity: 1; transform: none; }
+.flight .still { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity .6s ease; }
+.flight.on .still { opacity: 0; }
+.heli { position: relative; display: block; width: 100%; height: 100%; animation: hover 7s ease-in-out infinite alternate; }
+@keyframes hover { from { transform: translate3d(-2%, -2.5%, 0) rotate(-1.2deg); } to { transform: translate3d(2.5%, 2%, 0) rotate(1deg); } }
 .plate figcaption, .where { font: .68rem/1.4 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
 .log { position: relative; }
 .leg { position: relative; isolation: isolate; padding-block: 8px 30px; }
@@ -336,7 +363,7 @@ html.diving { overflow: hidden; }
   .plates { position: relative; flex: 1; min-height: 0; }
   .plates .plate { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; opacity: 0; transform: translate3d(0, 10px, 0) scale(.98); transition: opacity .9s ease, transform .9s ease; }
   .plates .plate.on { opacity: 1; transform: none; transition-delay: .5s; }
-  .plates .plate img { flex: 0 1 auto; min-height: 0; max-height: calc(100% - 30px); width: auto; object-fit: contain; }
+  .plates .plate .live { flex: 0 1 auto; min-height: 0; max-height: calc(100% - 30px); }
   .log .plate, .thread { display: none; }
   .leg { min-height: 62vh; padding-block: 6vh 10vh; }
   .leg:last-child { min-height: 78vh; }
@@ -351,11 +378,12 @@ html.diving { overflow: hidden; }
   .leg.seen > .where::before { background: var(--ink-deep); }
   .leg { padding-block: 4px 44px; }
   .log .plate { margin: 12px 0 10px; }
-  .log .plate img { max-height: 190px; width: auto; }
+  .log .plate .live { max-height: 200px; }
+  .stage { transform: none !important; --z: 1 !important; }
   .log .plate figcaption { display: none; }
   .log .plate[data-plate="moscow"] { margin-top: 18px; }
 }
-@media (prefers-reduced-motion: reduce) { .leg::before { animation: none; } .leg:hover .find { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .leg::before { animation: none; } .leg:hover .find { transform: rotate(4deg); } .stage { transform: none !important; --z: 1 !important; } .bloom, .heli { animation: none !important; } }
 
 /* The hidden game. On the skull only an unmarked spot on the left cheekbone leads here */
 .egg { position: absolute; display: block; border-radius: 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
