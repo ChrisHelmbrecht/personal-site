@@ -21,7 +21,7 @@
 </IfModule>
 
 # Working files that visitors have no use for
-<FilesMatch "(^README\.md$|\.mjs$)">
+<FilesMatch "(^README\.md$|\.mjs$|\.py$)">
   Require all denied
 </FilesMatch>
 <IfModule mod_alias.c>
