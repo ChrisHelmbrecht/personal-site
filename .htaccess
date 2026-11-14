@@ -13,9 +13,11 @@
   # At launch the pictures, films, sound and fonts can be kept for a month instead.
   Header set Cache-Control "no-cache"
 
-  # The staging address stays out of search engines; the real domain is not affected
+  # The staging address stays out of Google and Bing, so it never competes with the real domain later.
+  # AI assistants such as Perplexity, ChatGPT or Claude may read it when someone shows them the link.
   SetEnvIfNoCase Host ^new\. STAGING
-  Header always set X-Robots-Tag "noindex, nofollow" env=STAGING
+  Header always set X-Robots-Tag "googlebot: noindex, nofollow" env=STAGING
+  Header always add X-Robots-Tag "bingbot: noindex, nofollow" env=STAGING
 </IfModule>
 
 # Working files that visitors have no use for

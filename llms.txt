@@ -1,0 +1,23 @@
+# Chris Helmbrecht
+
+> Private website of Chris Helmbrecht from Munich: DJ, author of the book "Fucking Moskau" (Heyne) and brand consultant at dieneue.social. Built as a showcase of what one person and a few AI tools can make today.
+
+The start page is one drawing: a skull in blue ink, like Delft porcelain. Inside it an owl sits on a branch in front of the moon, below it the skylines of the cities of Chris's life: the onion domes of St Basil's in Moscow, the Frauenkirche in Munich, the Teide on Tenerife and the old New York skyline with the Twin Towers. Short films make the drawing move: the owl blinks, clouds drift past the moon and the Teide, the trees sway, water ripples, two figures walk down a path, a flock of swallows and a flying girl circle the sky. There is a quiet night sound with an owl.
+
+Every element of the skull is a door to a page. Clicking one zooms into it.
+
+## Pages
+- [DJ](dj.html): the moon. Indie dance, melodic techno, afro house; mixes on SoundCloud and Mixcloud.
+- [Bio](bio.html): the owl. Born 1971 in Munich, eight years with the federal police, then New York, Tenerife and nearly two decades in Moscow.
+- [Writing](writing.html): the book "Fucking Moskau" and other texts.
+- [Blog](blog.html): the bare trees. Recent essays.
+- [Timeline](timeline.html): the path. One cover photo per year, each opens a small gallery.
+- [Press](press.html): the Twin Towers. Television, video and print (in preparation).
+- [Contact](contact.html): the teeth. Socials, DJ booking, literary agent.
+- [Making of](making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
+- [Owl Night Long](game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
+
+## Elsewhere
+- Book: https://fuckingmoskau.de
+- Work: https://dieneue.social
+- Shop: https://sublime1.myspreadshop.de/
