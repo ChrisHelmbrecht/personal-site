@@ -86,6 +86,52 @@
       requestAnimationFrame(lean);
     }
 
+    // Phones: the skull leans with the hand that holds it, as if it were an object behind the glass.
+    // The page simply listens. Android sends its readings freely, so there it works at once. An iPhone sends nothing until its
+    // owner has agreed, and it only asks when a finger is on the screen: that question is tied to shaking the branch (see below)
+    let tiltLive = false, askTilt = null;
+    const Motion = window.DeviceOrientationEvent;
+    if (!calm && !mouse && Motion) {
+      let base = null, goal = [0, 0], now = [0, 0], shown = [9, 9], lastMove = 0;
+      const cap = v => Math.max(-1, Math.min(1, v));
+      const lean = t => {
+        requestAnimationFrame(lean);
+        if (diving || document.hidden) return;
+        const aim = t - lastMove > 2500 ? [Math.sin(t / 2900) * .5, Math.cos(t / 3700) * .35] : goal;   // lying still on a table it drifts gently by itself
+        now = now.map((v, k) => v + (aim[k] - v) * .07);
+        if (Math.abs(now[0] - shown[0]) + Math.abs(now[1] - shown[1]) < .004) return;                 // nothing to redraw
+        shown = [...now]; const [x, y] = now;
+        tilt.style.transform = `perspective(1100px) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 3).toFixed(2)}deg)`;
+        owlBox.style.transform = `translate3d(${(x * 1.1).toFixed(2)}%, ${(y * .7).toFixed(2)}%, 0)`;
+        city.style.transform = `translate3d(${(x * .42).toFixed(2)}%, ${(y * .2).toFixed(2)}%, 0)`;
+      };
+      addEventListener('deviceorientation', e => {
+        if (e.beta === null || e.gamma === null) return;                                           // a device without the sensor
+        const turn = (screen.orientation && screen.orientation.angle) || 0;                        // held upright or sideways
+        const side = turn === 90 ? e.beta : turn === 270 ? -e.beta : turn === 180 ? -e.gamma : e.gamma;
+        const nod = turn === 90 ? -e.gamma : turn === 270 ? e.gamma : turn === 180 ? -e.beta : e.beta;
+        if (!base) base = [side, nod];
+        base[0] += (side - base[0]) * .004; base[1] += (nod - base[1]) * .004;                     // whatever pose the hand settles in slowly becomes the middle
+        const to = [cap((side - base[0]) / 14), cap((nod - base[1]) / 14)];
+        if (Math.abs(to[0] - goal[0]) + Math.abs(to[1] - goal[1]) > .03) lastMove = performance.now();
+        goal = to;
+        if (!tiltLive) { tiltLive = true; skull.classList.remove('sway'); requestAnimationFrame(lean); }   // real readings arrive: the CSS swaying hands over
+      }, { passive: true });
+      if (typeof Motion.requestPermission === 'function') {
+        const ask = first => {
+          const was = tiltLive;
+          Promise.resolve().then(() => Motion.requestPermission()).then(answer => {
+            if (answer !== 'granted') return;
+            try { sessionStorage.setItem('tilt', '1'); } catch (err) {}
+            if (first && !was) { const b = $('branch'); b.dataset.say = 'Now tilt your phone'; b.classList.add('say'); setTimeout(() => b.classList.remove('say'), 3200); }
+          }).catch(() => {});
+        };
+        let allowed = false; try { allowed = sessionStorage.getItem('tilt') === '1'; } catch (err) {}
+        if (allowed) addEventListener('touchend', () => { if (!tiltLive) ask(false); }, { once: true, passive: true });  // agreed earlier in this visit: it comes back with the first touch, without a question
+        askTilt = () => { if (!tiltLive) ask(true); };
+      }
+    }
+
     // Film patches start once the page has loaded, never under reduced motion
     const loadFilm = (v, src, onPlaying) => { v.addEventListener('playing', onPlaying, { once: true }); v.src = src; v.play().catch(() => {}); };
     const owlFilm = $('owlfilm'), pathFilm = $('pathfilm');
@@ -189,9 +235,10 @@
       if (++grown % 10 === 0) { skull.classList.add('full'); setTimeout(() => skull.classList.remove('full'), 9000); }
     });
 
-    // Easter egg: shake the branch three times and the owl takes off
+    // Easter egg: shake the branch three times and the owl takes off (on an iPhone the branch also switches on the tilt)
     let shakes = 0, gone = false;
     $('branch').addEventListener('click', () => {
+      if (askTilt) askTilt();                                            // on an iPhone the first shake also offers the tilt
       if (gone) return;
       if (++shakes < 3) return once('hoot', 700);
       shakes = 0; gone = true; owl.classList.add('away');
