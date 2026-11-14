@@ -328,6 +328,10 @@ html.diving { overflow: hidden; }
 .reel { position: absolute; inset: 0; overflow: hidden; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; pointer-events: none; }
 .reel video { position: absolute; display: block; object-fit: fill; opacity: 0; transition: opacity 1.2s ease; }
 .reel video.on { opacity: 1; }
+/* films of ink on white are drawn to a canvas with the white keyed out (bio.js); until one runs, its first frame stands in */
+.live > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; }
+.live.on > canvas { opacity: 1; }
+.live.on > .still { opacity: 0; transition: opacity 0s .15s; }
 /* Munich: the two towers keep Munich time, and the helicopter of chapter one hovers beside them */
 .live.scene { width: 100%; }
 /* the skull at the end is a way home; the helicopter can be sent on a round */
@@ -352,7 +356,12 @@ html.diving { overflow: hidden; }
 .leg p { margin: 0 0 14px; max-width: 58ch; }
 .leg .k { font-style: normal; background: linear-gradient(var(--ink), var(--ink)) 0 100% / 100% 1px no-repeat; padding-bottom: 1px; }
 .leg .find { float: right; width: min(34%, 150px); height: auto; margin: 2px 0 6px 16px; shape-outside: margin-box; transform: rotate(4deg); transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
-.leg:hover .find { transform: translate3d(-10px, 8px, 0) rotate(-5deg); }
+.leg:hover .find, .leg .find.carve { transform: translate3d(-10px, 8px, 0) rotate(-5deg); }
+.leg .find { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.powder { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+/* while the helicopter is out on its round the page must not grow sideways */
+html.flying { overflow-x: hidden; }
+html.flying body { overflow-x: clip; }
 .leg .aside { font: .7rem var(--mono); letter-spacing: .18em; text-transform: uppercase; }
 .leg .links { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font: .72rem var(--mono); letter-spacing: .16em; text-transform: uppercase; }
 .mark { display: inline-block; width: 0; height: 1em; vertical-align: top; }
