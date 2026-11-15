@@ -164,6 +164,7 @@
 
   play.addEventListener('click', press);
   $('.tt-platter', tt).addEventListener('click', press);
+  el('start').addEventListener('click', press);        // the start button drawn on the deck
   const toStation = () => {
     const r = tt.getBoundingClientRect();
     if (r.top < 70 || r.bottom > innerHeight) el('title').scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'center' });

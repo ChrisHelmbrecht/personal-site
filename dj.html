@@ -21,7 +21,7 @@
     <header class="dj-head">
       <div><span class="tag">DJ</span>
       <h1>Storytelling with music.</h1></div>
-      <p>Eight recordings. Clubs, a festival, a subway station, a private party in Tehran. I won’t be put into one box. I play what fits the room and the people in it.</p>
+      <p>Eight recordings. Clubs, a festival, a subway station, a private party in Teheran. I won’t be put into one box. I play what fits the room and the people in it.</p>
     </header>
 
     <section class="station" id="listen" aria-label="Listening station">
@@ -29,6 +29,7 @@
         <img class="tt-base" src="assets/dj/base.webp" alt="" width="332" height="332">
         <img class="tt-deck" src="assets/dj/deck.webp" alt="A turntable seen from above, drawn in blue ink. The record on it carries the cover of the chosen recording." width="1280" height="980">
         <img class="tt-platter" src="assets/dj/platter.webp" alt="" width="917" height="917">
+        <button class="tt-start" id="dj-start" type="button" tabindex="-1" aria-label="Start and stop"></button>
         <div class="tt-label"><img id="dj-cover" src="assets/dj/mix-01-400.webp" alt="" width="400" height="400"></div>
         <div class="tt-armw"><div class="tt-turn"><img class="tt-arm" src="assets/dj/arm.webp" alt="" width="287" height="809"><span class="tt-grip" id="dj-grip"></span></div></div>
       </div>
@@ -67,11 +68,11 @@
           <a href="https://www.mixcloud.com/chrishelmbrecht/friedland/" target="_blank" rel="noopener">
             <span class="mix-cov"><img src="assets/dj/mix-02-400.webp" srcset="assets/dj/mix-02-400.webp 400w, assets/dj/mix-02-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
             <span class="mix-no">02</span>
-            <strong class="mix-title">Gleis Kultur / Friedland</strong>
+            <strong class="mix-title">Gleiskultur / Friedland</strong>
             <span class="mix-meta"><span class="mix-when">11 July 2026</span> · <span class="mix-where">Friedland</span> · <span class="mix-len">2:07:46</span></span>
           </a>
           <p class="mix-kind">Live recording · festival</p>
-          <p class="mix-note">Open air at Gleis Kultur. Great audience, great stage, great sound system. The DJ after me needed a different mixer, so the music had to stop for a minute. That let me say a proper goodbye, with Perel’s version of Eisbär.</p>
+          <p class="mix-note">Open air at Gleiskultur. Great audience, great stage, great sound system. The DJ after me needed a different mixer, so the music had to stop for a minute. That let me say a proper goodbye, with Perel’s version of Eisbär.</p>
           <p class="mix-tags">Melodic techno · Indie dance · House</p>
         </li>
         <li class="mix" data-key="/chrishelmbrecht/private-session-teheran-iran-jul-2018/" data-len="13518">
@@ -79,10 +80,10 @@
             <span class="mix-cov"><img src="assets/dj/mix-03-400.webp" srcset="assets/dj/mix-03-400.webp 400w, assets/dj/mix-03-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
             <span class="mix-no">03</span>
             <strong class="mix-title">Private Session / Teheran</strong>
-            <span class="mix-meta"><span class="mix-when">July 2018</span> · <span class="mix-where">Tehran, Iran</span> · <span class="mix-len">3:45:18</span></span>
+            <span class="mix-meta"><span class="mix-when">July 2018</span> · <span class="mix-where">Teheran, Iran</span> · <span class="mix-len">3:45:18</span></span>
           </a>
           <p class="mix-kind">Live recording · private party</p>
-          <p class="mix-note">A private party in Tehran. Uncharted DJ territory. Not many people get to play there. The audience was awesome. I hope I get invited back.</p>
+          <p class="mix-note">A private party in Teheran, in an underground location below a parking garage. 250+ people. Uncharted DJ territory. Not many people get to play there. The audience was awesome. I hope I get invited back.</p>
           <p class="mix-tags">Tech house · Deep tech house · Deep house</p>
         </li>
         <li class="mix" data-key="/chrishelmbrecht/wlcm-sprng-gazgolder-live-djset/" data-len="7912">
@@ -150,8 +151,7 @@
           <h3>On record</h3>
           <ul>
             <li><a href="#listen" data-mix="1"><b>01</b><span>Love Room <small>London</small></span></a></li>
-            <li><a href="#listen" data-mix="2"><b>02</b><span>Gleis Kultur Festival <small>Friedland</small></span></a></li>
-            <li><a href="#listen" data-mix="3"><b>03</b><span>Private party, 250+ people <small>Tehran, Iran</small></span></a></li>
+            <li><a href="#listen" data-mix="3"><b>03</b><span>Private party, 250+ people <small>Teheran, Iran</small></span></a></li>
             <li><a href="#listen" data-mix="4"><b>04</b><span>Gazgolder <small>Moscow</small></span></a></li>
             <li><a href="#listen" data-mix="6"><b>06</b><span>LUMA <small>Loden Frey Park, Munich</small></span></a></li>
             <li><a href="#listen" data-mix="7"><b>07</b><span>Im Namen der Kunst <small>U-Bahn Universität, Munich</small></span></a></li>
@@ -164,13 +164,14 @@
           </ul>
           <h3>Festivals</h3>
           <ul>
-            <li>Odyssey Festival</li><li>Scala Festival</li><li>Russki Volna Festival <small>Hurghada, Egypt</small></li>
+            <li><a href="#listen" data-mix="2"><b>02</b><span>Gleiskultur <small>Friedland</small></span></a></li>
+            <li>Odyssey Festival</li><li>Scala Festival</li><li>Volna Festival <small>Hurghada, Egypt</small></li>
           </ul>
         </div>
         <div>
           <h3>Clubs, hotels, one-offs</h3>
           <ul>
-            <li>Krysha Mira</li><li>Dissident</li><li>Diamond Pop-Up Club</li><li>Kvadrat Afterhour, White Nights <small>St. Petersburg</small></li><li>W Hotel <small>St. Petersburg</small></li><li>Rosa Grand Hotel <small>Milan</small></li><li>Formula 1 <small>Sochi</small></li><li>World Cup afterparty on a yacht <small>Riga</small></li><li>Ritz-Carlton O2 Lounge Terrace <small>Season closing 2018</small></li>
+            <li>Krysha Mira</li><li>Dissident</li><li>Kvadrat Afterhour, White Nights <small>St. Petersburg</small></li><li>W Hotel <small>St. Petersburg</small></li><li>Rosa Grand Hotel <small>Milan</small></li><li>Formula 1 party <small>Sochi</small></li><li>World Cup afterparty on a yacht <small>Riga</small></li><li>Ritz-Carlton O2 Lounge Terrace <small>Season closing 2018</small></li>
           </ul>
         </div>
       </div>
@@ -181,7 +182,7 @@
       <p>It started with mixtapes and house parties in my school days. In the 90s, as a snowboarder, I organized parties in the Alps. Then I left Munich for New York, Tenerife and Moscow.</p>
       <p>I played Formula 1 parties and five-star hotels, for Russian oligarchs and wealthy guests from all over the world. And legendary techno clubs in Moscow and various underground scenes. My heart and soul were always in the underground. I DJed at both.</p>
       <p>Today my sets move from melodic techno to indie dance to house.</p>
-      <ul class="links"><li><a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a></li><li><a href="https://www.mixcloud.com/chrishelmbrecht/" target="_blank" rel="noopener">Mixcloud</a></li><li><a href="https://www.youtube.com/@ChrisHelmbrecht/featured" target="_blank" rel="noopener">YouTube</a></li></ul>
+      <ul class="links"><li><a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a></li><li><a href="https://www.mixcloud.com/chrishelmbrecht/" target="_blank" rel="noopener">Mixcloud</a></li><li><a href="https://www.instagram.com/chrishelmbrecht/" target="_blank" rel="noopener">Instagram</a></li></ul>
       <h2>Booking</h2>
       <p>Direct, no agency. <a href="mailto:dj@chrishelmbrecht.com">dj@chrishelmbrecht.com</a>, +49 176 843 93190</p>
     </section>
