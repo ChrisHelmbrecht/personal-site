@@ -1,14 +1,15 @@
 // DONT WALK: the game hidden under New York in the bio. An avenue in Manhattan, some year between 1997 and 2002. The light
 // says DONT WALK and never changes, the traffic comes from the right, and the other side of the street is where everything is:
 // coffee, a slice, the subway, a pay phone, the papers. Played like the road half of Frogger, drawn the way an early-80s
-// console would have drawn New York: 176 pixels wide, nine colours, hard edges. Nothing is loaded, nothing is recorded.
+// console would have drawn New York: 176 pixels wide, hard edges. The colours are the site's own, ink on paper, and one more:
+// the yellow of the cabs, which the light and the last seconds of the clock borrow. Nothing is loaded, nothing is recorded.
 (() => {
   const cv = document.getElementById('walk');
   if (!cv) return;
   let g = cv.getContext('2d');
   const W = 176, H = 170, CELL = 16, COLS = 11, LANES = 6;
   const TOP = 14, STORES = 30, ROAD = TOP + STORES, WALK = ROAD + LANES * CELL, BAR = WALK + 18;   // HUD, shop fronts, the avenue, the near sidewalk, the status line
-  const PAL = { b: '#0b1436', a: '#3a62c4', w: '#f6f8f5', g: '#8ea3d8', y: '#f5c518', r: '#e2412d', n: '#2fa86a', s: '#d6d9d6', k: '#8f9bb8', d: '#1a2550', i: '#1f3f97' };
+  const PAL = { b: '#12265f', a: '#1f3f97', w: '#f6f8f5', g: '#a7b4d6', y: '#f5c518', k: '#7385b8', s: '#e6e8e5', d: '#c5cbd8' };   // deep ink, ink, paper white, pale ink, cab yellow, mid ink, sidewalk, asphalt
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rnd = n => Math.random() * n, pick = a => a[Math.floor(rnd(a.length))], clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const YEARS = [1997, 1998, 1999, 2000, 2001, 2002];
@@ -22,34 +23,34 @@
     R(m, c0, 1, c1 - c0, 1, 'b'); R(m, c0 - 1, 2, c1 - c0 + 2, 2, 'g');
     for (const x of [c0 - 1, c0 + Math.round((c1 - c0) * .36), c1 - Math.round((c1 - c0) * .28), c1]) R(m, x, 2, 1, 2, 'b');
     R(m, 1, 4, len - 2, 1, body); R(m, 0, 5, len, 3, body); R(m, 2, 8, len - 4, 1, body);
-    m[6][0] = 'w'; m[6][len - 1] = 'r';
+    m[6][0] = 'w'; m[6][len - 1] = 'b';
     R(m, 3, 8, 4, 2, 'b'); R(m, len - 7, 8, 4, 2, 'b'); m[8][4] = m[8][5] = m[8][len - 6] = m[8][len - 5] = 'k';
     if (extra) extra(m, len);
     return m.map(r => r.join(''));
   };
   const ART = {
     cab: car(26, 'y', (m, l) => { R(m, 11, 0, 5, 1, 'w'); for (let x = 3; x < l - 3; x++) m[6][x] = x % 2 ? 'b' : 'y'; }),                       // roof light and the checker stripe
-    cop: car(26, 'w', (m, l) => { m[0][10] = m[0][11] = 'r'; m[0][12] = 'w'; m[0][13] = m[0][14] = 'a'; R(m, 1, 6, l - 2, 1, 'a'); }),           // white with blue stripes, as the NYPD had just repainted them
-    sedan: car(24, 'a'), wagon: car(24, 'g'),
+    cop: car(26, 'w', (m, l) => { m[0][10] = m[0][11] = 'b'; m[0][12] = 'w'; m[0][13] = m[0][14] = 'a'; R(m, 1, 6, l - 2, 1, 'a'); R(m, 0, 8, 2, 1, 'k'); R(m, l - 2, 8, 2, 1, 'k'); }),           // white with blue stripes, as the NYPD had just repainted them
+    sedan: car(24, 'a'), wagon: car(24, 'k'),
     limo: car(44, 'b', (m, l) => { R(m, 1, 4, l - 2, 1, 'k'); R(m, 1, 7, l - 2, 1, 'k'); for (let x = 14; x < l - 12; x += 5) R(m, x, 2, 1, 2, 'b'); m[2][l - 5] = m[1][l - 4] = m[2][l - 3] = 'k'; }),   // chrome, many windows, the TV antenna on the trunk
-    bus: (() => { const m = grid(48, 13); R(m, 1, 0, 46, 1, 'b'); R(m, 0, 1, 48, 10, 'w'); R(m, 0, 7, 48, 1, 'a'); R(m, 0, 8, 48, 1, 'a');
-      for (let x = 3; x < 43; x += 6) R(m, x, 2, 4, 4, 'g'); R(m, 1, 2, 1, 5, 'g'); m[9][0] = 'y'; m[9][47] = 'r'; R(m, 5, 10, 5, 3, 'b'); R(m, 36, 10, 5, 3, 'b'); m[11][7] = m[11][38] = 'k'; return m.map(r => r.join('')); })(),
-    truck: (() => { const m = grid(36, 14); R(m, 9, 0, 27, 11, 'w'); R(m, 9, 0, 27, 1, 'k'); R(m, 2, 4, 7, 7, 'a'); R(m, 0, 7, 3, 4, 'a'); R(m, 3, 5, 4, 3, 'g'); m[9][0] = 'w'; m[9][35] = 'r';
+    bus: (() => { const m = grid(48, 13); R(m, 1, 0, 46, 1, 'b'); R(m, 0, 1, 48, 10, 'a'); R(m, 1, 1, 46, 9, 'w'); R(m, 0, 7, 48, 1, 'a'); R(m, 0, 8, 48, 1, 'a');
+      for (let x = 3; x < 43; x += 6) R(m, x, 2, 4, 4, 'g'); R(m, 1, 2, 1, 5, 'g'); m[9][0] = 'w'; m[9][47] = 'b'; R(m, 5, 10, 5, 3, 'b'); R(m, 36, 10, 5, 3, 'b'); m[11][7] = m[11][38] = 'k'; return m.map(r => r.join('')); })(),
+    truck: (() => { const m = grid(36, 14); R(m, 9, 0, 27, 11, 'a'); R(m, 10, 1, 25, 9, 'w'); R(m, 2, 4, 7, 7, 'a'); R(m, 0, 7, 3, 4, 'a'); R(m, 3, 5, 4, 3, 'g'); m[9][0] = 'w'; m[9][35] = 'b';
       R(m, 3, 11, 5, 3, 'b'); R(m, 26, 11, 5, 3, 'b'); m[12][5] = m[12][28] = 'k'; return m.map(r => r.join('')); })(),
-    bike: ['....bb......', '...bwwb.....', '....ww.yy...', '..rrrryyy...', '.wrrrr.y....', 'w...aa......', '....aaa.....', '.kkk.a.kkk..', 'k.k.kbk.k.k.', 'k.kk...kk.k.', '.kkk...kkk..'],
-    // the one who has to get across: seen from behind, red jacket, two steps, and what a bumper makes of him
-    me1: ['..bbbbb..', '..bbbbb..', '...www...', '.rrrrrrr.', 'wrrrrrrrw', '.rrrrrrr.', '.rrrrrrr.', '..aa.aa..', '..aa.aa..', '..bb.....', '.........'],
-    me2: ['..bbbbb..', '..bbbbb..', '...www...', '.rrrrrrr.', 'wrrrrrrrw', '.rrrrrrr.', '.rrrrrrr.', '..aa.aa..', '..aa.aa..', '.....bb..', '.........'],
-    meL: ['..bbbb...', '..wwbb...', '..www....', '.rrrrrr..', 'wrrrrrr..', '.rrrrrrw.', '.rrrrrr..', '..aa.aa..', '.aa...aa.', '.bb...bb.', '.........'],
-    hit: ['.........', 'w.......w', '.r.....r.', '..rrbrr..', 'a.rbbbr.a', '.arrbrra.', '..rrrrr..', '.w.....w.', '.........', '....y....', '...yyy...'],
-    head: ['.bbb.', '.bbb.', '.www.', 'rrrrr'],
+    bike: ['....bb......', '...bwwb.....', '....ww.aa...', '..bbbbaaa...', '.wbbbb.a....', 'w...aa......', '....aaa.....', '.kkk.a.kkk..', 'k.k.kbk.k.k.', 'k.kk...kk.k.', '.kkk...kkk..'],
+    // the one who has to get across: seen from behind, dark jacket, two steps, and what a bumper makes of him
+    me1: ['..bbbbb..', '..bbbbb..', '...www...', '.bbbbbbb.', 'wbbbwbbbw', '.bbbbbbb.', '.bbbbbbb.', '..aa.aa..', '..aa.aa..', '..bb.....', '.........'],
+    me2: ['..bbbbb..', '..bbbbb..', '...www...', '.bbbbbbb.', 'wbbbwbbbw', '.bbbbbbb.', '.bbbbbbb.', '..aa.aa..', '..aa.aa..', '.....bb..', '.........'],
+    meL: ['..bbbb...', '..wwbb...', '..www....', '.bbbbbb..', 'wbbwbbb..', '.bbbbbbw.', '.bbbbbb..', '..aa.aa..', '.aa...aa.', '.bb...bb.', '.........'],
+    hit: ['.........', 'w.......w', '.b.....b.', '..bbwbb..', 'a.bwwwb.a', '.abbwbba.', '..bbbbb..', '.w.....w.', '.........', '....a....', '...aaa...'],
+    head: ['.bbb.', '.bbb.', '.www.', 'bbbbb'],
     // what waits on the other side
-    coffee: ['..w.w..', '.w.w...', '.......', 'wwwwww.', 'waaaawk', 'wawwawk', 'waaaaw.', '.wwww..'],
-    slice: ['yyyyyyy', 'yryyyry', '.yyryy.', '.yyyyy.', '..yry..', '..yyy..', '...y...'],
-    globe: ['..nnn..', '.nnnnn.', '.nnnnn.', '..nnn..', '...k...', '...k...', 'kkkkkkk', 'k.k.k.k'],
-    phone: ['.kkkkk.', '.kaaak.', '.kawak.', '.kaaak.', '.kwwwk.', '.kwwwk.', '.kkkkk.', '...k...'],
-    news: ['aaaaaaa', 'awawawa', 'aaaaaaa', 'k.w.w.k', 'kwwwwwk', 'kw.w.wk', 'kwwwwwk', 'kkkkkkk'],
-    hydrant: ['.rr.', 'rrrr', '.rr.', 'rrrr', '.rr.'], cart: ['yryryry', '.yyyyy.', '...k...', 'wwwwwww', 'wkkkkkw', '.k...k.'],
+    coffee: ['..w.w..', '.w.w...', '.......', 'wwwwww.', 'wggggwk', 'wgwwgwk', 'wggggw.', '.wwww..'],
+    slice: ['wwwwwww', 'wgwwwgw', '.wwgww.', '.wwwww.', '..wgw..', '..www..', '...w...'],
+    globe: ['..www..', '.wgwww.', '.wwwww.', '..www..', '...k...', '...k...', 'kkkkkkk', 'k.k.k.k'],
+    phone: ['.kkkkk.', '.kgggk.', '.kgwgk.', '.kgggk.', '.kwwwk.', '.kwwwk.', '.kkkkk.', '...k...'],
+    news: ['ggggggg', 'gwgwgwg', 'ggggggg', 'k.w.w.k', 'kwwwwwk', 'kw.w.wk', 'kwwwwwk', 'kkkkkkk'],
+    hydrant: ['.aa.', 'aaaa', '.aa.', 'aaaa', '.aa.'], cart: ['awawawa', '.aaaaa.', '...k...', 'wwwwwww', 'wkkkkkw', '.k...k.'],
   };
   const cache = new Map();
   const paint = (name, flip) => {
@@ -168,53 +169,53 @@
   // ---- drawing
   const DOOR = { 0: 'coffee', 2: 'slice', 4: 'globe', 6: 'phone', 8: 'news' };
   const street = () => {
-    g.fillStyle = PAL.b; g.fillRect(0, 0, W, TOP);
-    g.fillStyle = PAL.i; g.fillRect(0, TOP, W, STORES - 6);                                              // the block across the street
+    g.fillStyle = PAL.s; g.fillRect(0, 0, W, TOP);
+    g.fillStyle = PAL.a; g.fillRect(0, TOP, W, STORES - 6);                                              // the block across the street
     g.fillStyle = PAL.b; for (let x = 3; x < W; x += 8) g.fillRect(x, TOP + 2, 4, 5);                     // its windows, most of them dark
-    g.fillStyle = PAL.y; for (const x of [11, 43, 67, 115, 131, 163]) g.fillRect(x, TOP + 2, 4, 5);
+    g.fillStyle = PAL.w; for (const x of [11, 43, 67, 115, 131, 163]) g.fillRect(x, TOP + 2, 4, 5);
     for (const c of GOALS) { const x = c * CELL;                                                          // five doors, each under its awning
-      g.fillStyle = PAL.b; g.fillRect(x + 1, TOP + 10, 14, 14);
-      for (let i = 0; i < 16; i += 2) { g.fillStyle = (i / 2) % 2 ? PAL.w : c % 4 === 0 ? PAL.r : PAL.n; g.fillRect(x + i, TOP + 8, 2, 3); }
-      if (homes.includes(c)) put('me1', x + 4, TOP + 12); else put(DOOR[c], x + 4, TOP + 13); }
+      const home = homes.includes(c); g.fillStyle = home ? PAL.w : PAL.b; g.fillRect(x + 1, TOP + 10, 14, 14);                  // a door he has reached is lit, and he stands in it
+      for (let i = 0; i < 16; i += 2) { g.fillStyle = (i / 2) % 2 ? PAL.w : PAL.b; g.fillRect(x + i, TOP + 8, 2, 3); }
+      if (home) put('me1', x + 4, TOP + 12); else put(DOOR[c], x + 4, TOP + 13); }
     g.fillStyle = PAL.s; g.fillRect(0, ROAD - 6, W, 6); g.fillStyle = PAL.k; g.fillRect(0, ROAD - 1, W, 1);   // far kerb
     put('hydrant', 20, ROAD - 6); put('cart', 84, ROAD - 7);
     g.fillStyle = PAL.d; g.fillRect(0, ROAD, W, LANES * CELL);                                           // asphalt
-    g.fillStyle = PAL.k; for (let l = 1; l < LANES; l++) for (let x = 2; x < W; x += 14) g.fillRect(x, ROAD + l * CELL, 7, 1);
-    g.fillStyle = PAL.b; g.fillRect(120, ROAD + 2.5 * CELL - 1, 7, 3);                                    // the manhole the steam comes from
+    g.fillStyle = PAL.w; for (let l = 1; l < LANES; l++) for (let x = 2; x < W; x += 14) g.fillRect(x, ROAD + l * CELL, 7, 1);
+    g.fillStyle = PAL.k; g.fillRect(120, ROAD + 2.5 * CELL - 1, 7, 3);                                    // the manhole the steam comes from
     g.fillStyle = PAL.w; for (let x = 68; x < 108; x += 6) g.fillRect(x, ROAD, 3, LANES * CELL);          // crosswalk bars, worn
     g.fillStyle = PAL.d; for (let x = 68; x < 108; x += 6) for (let y = ROAD + 5; y < WALK; y += 11) g.fillRect(x, y, 3, 2 + (x + y) % 3);
     g.fillStyle = PAL.s; g.fillRect(0, WALK, W, 18); g.fillStyle = PAL.k; g.fillRect(0, WALK, W, 1); for (let x = 12; x < W; x += 24) g.fillRect(x, WALK + 1, 1, 17);
-    g.fillStyle = PAL.b; g.fillRect(0, BAR, W, H - BAR);
+    g.fillStyle = PAL.s; g.fillRect(0, BAR, W, H - BAR); g.fillStyle = PAL.k; g.fillRect(0, BAR, W, 1); g.fillRect(0, TOP - 1, W, 1);
   };
   const signal = () => {                             // the box on the far corner: DONT WALK, without the apostrophe, as the city spelled it
     const x = 152, y = TOP + 9, go = state === 'clear', on = go || calm || state !== 'play' || clock > 8 || Math.floor(t * 4) % 2 === 0;
     g.fillStyle = PAL.k; g.fillRect(x + 9, y + 14, 1, 7); g.fillStyle = PAL.b; g.fillRect(x, y, 21, 15); g.fillStyle = PAL.k; g.fillRect(x, y, 21, 1);
     if (!on) return;
-    if (go) text('WALK', x + 11, y + 5, 1, PAL.w); else { text('DONT', x + 11, y + 2, 1, PAL.r); text('WALK', x + 11, y + 9, 1, PAL.r); }
+    if (go) text('WALK', x + 11, y + 5, 1, PAL.w); else { text('DONT', x + 11, y + 2, 1, PAL.y); text('WALK', x + 11, y + 9, 1, PAL.y); }
   };
   const hud = () => {
-    text(String(score).padStart(5, '0'), 3, 4, 1, PAL.w, 'l'); text(YEARS[Math.min(year, YEARS.length - 1)], W / 2, 4, 1, PAL.y); text('HI ' + String(Math.max(best, score)).padStart(5, '0'), W - 3, 4, 1, PAL.g, 'r');
+    text(String(score).padStart(5, '0'), 3, 4, 1, PAL.b, 'l'); text(YEARS[Math.min(year, YEARS.length - 1)], W / 2, 4, 1, PAL.a); text('HI ' + String(Math.max(best, score)).padStart(5, '0'), W - 3, 4, 1, PAL.k, 'r');
     for (let i = 0; i < lives; i++) put('head', 3 + i * 7, BAR + 4);
-    const w = 70, x = W - w - 3; g.fillStyle = PAL.d; g.fillRect(x, BAR + 4, w, 4); g.fillStyle = clock < 8 ? PAL.r : PAL.y; g.fillRect(x + w - Math.round(w * clamp(clock / TIME, 0, 1)), BAR + 4, Math.round(w * clamp(clock / TIME, 0, 1)), 4);
+    const w = 70, x = W - w - 3; g.fillStyle = PAL.d; g.fillRect(x, BAR + 4, w, 4); g.fillStyle = clock < 8 ? PAL.y : PAL.a; g.fillRect(x + w - Math.round(w * clamp(clock / TIME, 0, 1)), BAR + 4, Math.round(w * clamp(clock / TIME, 0, 1)), 4);
   };
   const panel = (lines, y) => { const h = lines.length * 9 + 8; g.fillStyle = PAL.b; g.fillRect(14, y, W - 28, h); g.fillStyle = PAL.k; g.fillRect(14, y, W - 28, 1); g.fillRect(14, y + h - 1, W - 28, 1);
     lines.forEach(([s, col, big], i) => text(s, W / 2, y + 5 + i * 9, big || 1, col || PAL.w)); };
   const draw = () => {
     street(); signal();
     for (const L of lanes) { const i = lanes.indexOf(L); for (const c of L.cars) { const [w, h] = size(c.type); if (c.x < W && c.x + w > 0) put(c.type, c.x, ROAD + (LANES - 1 - i) * CELL + 15 - h); } }
-    for (const s of steam) { g.fillStyle = `rgba(246, 248, 245, ${(s.a * .5).toFixed(2)})`; g.fillRect(Math.round(s.x), Math.round(s.y), 3, 2); }
+    for (const s of steam) { g.fillStyle = `rgba(246, 248, 245, ${(s.a * .85).toFixed(2)})`; g.fillRect(Math.round(s.x), Math.round(s.y), 3, 2); }
     if (state === 'play' || state === 'clear') { if (state === 'play') { if (me.dead) put('hit', me.x - 4, me.y - 6); else put(me.face ? 'meL' : me.step ? 'me2' : 'me1', me.x - 4, me.y - 6, me.face > 0); } hud(); }
-    if (said && state === 'play') { const w = width(said[0]) + 8; g.fillStyle = PAL.w; g.fillRect((W - w) / 2, ROAD + 40, w, 11); text(said[0], W / 2, ROAD + 43, 1, PAL.b); }
+    if (said && state === 'play') { const w = width(said[0]) + 8; g.fillStyle = PAL.b; g.fillRect((W - w) / 2, ROAD + 40, w, 11); text(said[0], W / 2, ROAD + 43, 1, PAL.w); }
     if (state === 'title') {
       g.fillStyle = PAL.b; g.fillRect(30, 44, 116, 52); g.fillStyle = PAL.k; g.fillRect(30, 44, 116, 1); g.fillRect(30, 95, 116, 1);
-      const on = calm || Math.floor(t * 1.6) % 4 !== 3; if (on) { text('DONT', W / 2, 50, 4, PAL.r); text('WALK', W / 2, 73, 4, PAL.r); }
-      panel([['NEW YORK, 1997-2002', PAL.y], ['GET TO THE OTHER SIDE.'], ['THE LIGHT WILL NOT CHANGE.', PAL.g]], 102);
+      const on = calm || Math.floor(t * 1.6) % 4 !== 3; if (on) { text('DONT', W / 2, 50, 4, PAL.y); text('WALK', W / 2, 73, 4, PAL.y); }
+      panel([['NEW YORK, 1997-2002', PAL.g], ['GET TO THE OTHER SIDE.'], ['THE LIGHT WILL NOT CHANGE.', PAL.g]], 102);
       text(touch() ? 'TAP TO START - SWIPE TO WALK' : 'SPACE TO START - ARROWS TO WALK', W / 2, 142, 1, PAL.b);
-      if (best) text('BEST ' + best, W / 2, BAR + 4, 1, PAL.g);
+      if (best) text('BEST ' + best, W / 2, BAR + 4, 1, PAL.a);
     }
-    if (state === 'clear') panel([[YEARS[year] + ' - MADE IT', PAL.y], [year + 1 < YEARS.length ? 'NEXT: ' + YEARS[year + 1] : 'THAT WAS THE LAST YEAR', PAL.w]], ROAD + 34);
-    if (state === 'over') { panel([['GAME OVER', PAL.r, 2], [''], ['WELCOME TO NEW YORK.'], ['SCORE ' + score + (score >= best && score ? '  - YOUR BEST' : ''), PAL.y]], ROAD + 18); if (t > 1.2) text(touch() ? 'TAP' : 'SPACE', W / 2, WALK + 6, 1, PAL.b); }
-    if (state === 'won') { panel([['SIX YEARS,', PAL.y, 2], [''], ['AND STILL IN ONE PIECE.'], ['SCORE ' + score, PAL.y]], ROAD + 18); if (t > 1.2) text(touch() ? 'TAP' : 'SPACE', W / 2, WALK + 6, 1, PAL.b); }
+    if (state === 'clear') panel([[YEARS[year] + ' - MADE IT', PAL.w], [year + 1 < YEARS.length ? 'NEXT: ' + YEARS[year + 1] : 'THAT WAS THE LAST YEAR', PAL.g]], ROAD + 34);
+    if (state === 'over') { panel([['GAME OVER', PAL.w, 2], [''], ['WELCOME TO NEW YORK.', PAL.g], ['SCORE ' + score + (score >= best && score ? '  - YOUR BEST' : ''), PAL.w]], ROAD + 18); if (t > 1.2) text(touch() ? 'TAP' : 'SPACE', W / 2, WALK + 6, 1, PAL.b); }
+    if (state === 'won') { panel([['SIX YEARS,', PAL.w, 2], [''], ['AND STILL IN ONE PIECE.', PAL.g], ['SCORE ' + score, PAL.w]], ROAD + 18); if (t > 1.2) text(touch() ? 'TAP' : 'SPACE', W / 2, WALK + 6, 1, PAL.b); }
     if (paused) panel([['PAUSE', PAL.w, 2], ['']], ROAD + 34);
   };
 
