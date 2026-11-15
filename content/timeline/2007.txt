@@ -1,0 +1,673 @@
+year: 2007
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2007-01
+file: 467346208_49691fb146_o.jpg
+size: 1800x1577
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-02
+file: DSC00166.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-03
+file: DSC01645.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-04
+file: DSC02948.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-05
+file: DSC05012.jpg
+size: 1800x1203
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-06
+file: DSC05041.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-07
+file: DSC_3576.jpg
+size: 1800x1206
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-08
+file: DSC_3705.jpg
+size: 1800x1206
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-09
+file: dsc_4777.jpg
+size: 1800x1206
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-10
+file: DSC_4853.jpg
+size: 1800x1206
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-11
+file: IMG_1919-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-12
+file: IMG_1936-4.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-13
+file: IMG_2501-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-14
+file: IMG_2508-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-15
+file: IMG_2672.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-16
+file: IMG_2683.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-17
+file: IMG_2697.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-18
+file: IMG_2724.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-19
+file: IMG_2755.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-20
+file: IMG_2765.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-21
+file: IMG_2814.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-22
+file: IMG_3249.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-23
+file: IMG_3771-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-24
+file: IMG_4470.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-25
+file: IMG_4479.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-26
+file: IMG_4482.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-27
+file: IMG_4782.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-28
+file: IMG_4933.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-29
+file: IMG_4961.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-30
+file: IMG_5129.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-31
+file: IMG_5134-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-32
+file: IMG_5154.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-33
+file: IMG_5246.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-34
+file: IMG_5680.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-35
+file: IMG_5693.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-36
+file: IMG_5851.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-37
+file: IMG_5852.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-38
+file: IMG_5909.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-39
+file: IMG_5911.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-40
+file: IMG_6013.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-41
+file: IMG_6048.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-42
+file: IMG_6389.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-43
+file: IMG_6633.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-44
+file: IMG_7015-3.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-45
+file: IMG_7050.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-46
+file: IMG_7173-2.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: yes
+note: held back until Chris decides
+
+photo: 2007-47
+file: IMG_7546.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-48
+file: IMG_7713.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-49
+file: IMG_7767.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-50
+file: IMG_54042.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2007-51
+file: LabelFucker_Party (2007-09-08_04-03-31) - 009 - Edited - 560 pix.jpg
+size: 1800x1352
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

@@ -1,0 +1,178 @@
+year: 2002
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2002-01
+file: CHINESENYEAR368.jpg
+size: 1800x1181
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-02
+file: IMAG0018-7.jpg
+size: 1203x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-03
+file: IMGP1512.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-04
+file: PICT0069.jpg
+size: 1800x1348
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-05
+file: Timeline_57_02.jpg
+size: 1800x1237
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-06
+file: Timeline_58_01.jpg
+size: 1800x1181
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-07
+file: Timeline_59_01.jpg
+size: 1800x1165
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-08
+file: Timeline_88_03.jpg
+size: 1165x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-09
+file: Timeline_89_01.jpg
+size: 1800x1197
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-10
+file: Timeline_90_02.jpg
+size: 1800x1242
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-11
+file: Timeline_90_03.jpg
+size: 1183x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-12
+file: Timeline_91_03.jpg
+size: 1800x1185
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-13
+file: Timeline_95_01.jpg
+size: 1800x1197
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

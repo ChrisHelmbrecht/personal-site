@@ -1,0 +1,217 @@
+year: 2005
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2005-01
+file: IMG_0961-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-02
+file: IMG_1382_resize-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-03
+file: IMGP3661-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-04
+file: IMGP4661.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-05
+file: IMGP4690.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-06
+file: IMGP4804.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-07
+file: IMGP4993.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-08
+file: IMGP5079.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-09
+file: IMGP5091.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-10
+file: IMGP5262.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-11
+file: IMGP5350.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-12
+file: IMGP5540.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-13
+file: P9300062.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-14
+file: PA020081-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-15
+file: PA020119.jpg
+size: 1280x960
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2005-16
+file: Rotation of thumb_CIMG3719.jpg
+size: 450x592
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

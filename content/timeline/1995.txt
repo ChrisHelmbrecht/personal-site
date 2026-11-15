@@ -1,0 +1,178 @@
+year: 1995
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 1995-01
+file: Timeline_25_03.jpg
+size: 1800x1165
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-02
+file: Timeline_37_01.jpg
+size: 1800x1170
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-03
+file: Timeline_38_01.jpg
+size: 1800x1175
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-04
+file: Timeline_38_02.jpg
+size: 1213x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-05
+file: Timeline_39_01.jpg
+size: 1800x1180
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-06
+file: Timeline_39_02.jpg
+size: 1800x1223
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-07
+file: Timeline_40_01.jpg
+size: 1211x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-08
+file: Timeline_40_03.jpg
+size: 1162x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-09
+file: Timeline_49_02.jpg
+size: 1800x1217
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-10
+file: Timeline_55_01.jpg
+size: 1188x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-11
+file: Timeline_113_01.jpg
+size: 1800x1216
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-12
+file: Timeline_114_01.jpg
+size: 1800x1195
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1995-13
+file: Timeline_114_02.jpg
+size: 1800x1238
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

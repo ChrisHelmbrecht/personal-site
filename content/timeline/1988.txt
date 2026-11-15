@@ -1,0 +1,100 @@
+year: 1988
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 1988-01
+file: Timeline_13_01.jpg
+size: 1800x1227
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-02
+file: Timeline_70_02.jpg
+size: 1800x1252
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-03
+file: Timeline_70_03.jpg
+size: 1800x1248
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-04
+file: Timeline_101_04.jpg
+size: 1800x1283
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-05
+file: Timeline_117_01.jpg
+size: 1800x1770
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-06
+file: Timeline_117_04.jpg
+size: 1800x1300
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1988-07
+file: USA5.jpg
+size: 1201x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

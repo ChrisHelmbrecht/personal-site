@@ -40,20 +40,26 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)
 - `assets/skull.webp` – web version of the skull
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
-- `timeline-data.js` – the timeline's years and photos (generated)
-- `scripts/build-timeline.mjs` – rebuilds `timeline-data.js` from the photo folders
+- The timeline, "A life in frames": `content/timeline/`, `scripts/timeline-pictures.py`, `scripts/build-timeline.py`, `timeline.html`, `timeline/`, `css/timeline.css`, `js/timeline.js`, `assets/timeline/`. The bio tells the life; the timeline shows the pictures. Three levels: the overview of years, one album page per year, one large view.
 
-## Adding timeline photos
+## The timeline
 
-One folder per year:
-
-```
-assets/timeline/1999/cover.jpg    cover of the year (name contains "cover")
-assets/timeline/1999/01.jpg ...   the gallery, in filename order
-assets/timeline/1999/label.txt    optional caption, e.g. "New York"
-```
-
-Then run `node scripts/build-timeline.mjs`.
+- **One source.** Each year is one text document, `content/timeline/1997.txt`: a block of facts about the year, then one block per photograph, optionally with chapter blocks between them. The order of the blocks is the order on the page. The opening comment of `scripts/build-timeline.py` explains every field. `python3 scripts/build-timeline.py` (standard Python, nothing to install) makes `timeline.html` and `timeline/<year>.html` from them. **Never edit those pages by hand; they are overwritten.**
+- **The originals stay outside the site.** They lie in one folder per year wherever they are kept (`<folder>/1997/anything.jpg`). `python3 scripts/timeline-pictures.py <folder>` (needs Pillow) takes in what is new: it gives each picture the next free id of its year (`1997-10`; an id never changes, links to single photographs use it), writes three web sizes into `assets/timeline/1997/` (`-s` 320 high, `-m` 640 high, `-l` 1800 on the long side; upright, sRGB, and without the camera's hidden data such as place and date) and adds a block at the end of the year's document.
+- **To add photographs or a year:** put the originals into the year's folder, run `timeline-pictures.py <folder>`, then `build-timeline.py`, commit. A new year needs nothing but its folder.
+  - *Order:* move the photo blocks in the year's document.
+  - *Lead photograph and previews on the overview:* `lead:` and `previews:` in the year's first block (ids). Left empty, the first photographs in order are taken. The previews are cut square; `focus:` on a photograph says where its subject sits.
+  - *Captions, places, dates, who took it:* the fields of the photo block. All optional; nothing is invented or translated by machine. A caption that exists in one language only is shown in that language.
+  - *Chapters:* a block beginning with `chapter:` before the photographs that belong to it.
+  - *To take a photograph out:* `draft: yes` in its block, build. It leaves the pages **and its web sizes are deleted from `assets/timeline/`**, so nothing of it lies in the site. To bring it back: `draft: no`, then `timeline-pictures.py` with the originals, build. `--hold "1986/Scan.jpg"` takes a new picture in as a draft from the start. A `note:` line says why, for ourselves.
+- **Settings** at the top of `build-timeline.py`: `SITE`, `LANGS` (English now; the German labels are written and wait for the site's language switch), `NEWEST_FIRST` (order of the years), `PREVIEWS` (beside the lead photograph, 4), `EAGER`, and `PLACEHOLDERS`: a span of years that are shown as empty frames ("Photos to come") while they have no photographs. That is a stand-in while the later years are still being collected; set it to `None` and only years with photographs appear, which is how it is meant in the end.
+- **The overview** lists the years on one fine line, newest first: the year as a large numeral, optional title and places, the number of photographs, "Open year", a lead photograph shown whole and one, two or four previews. A click on a picture opens the album at that photograph (`timeline/1997.html#p-1997-03`); "Open year" opens it from its start. Every year can be linked (`timeline.html#1997`). The list of decades and years is one element: from 1000px a rail beside the years that marks the year in view and opens its decade, below that a "Choose year" button at the foot of the screen. It is a plain `<details>`, so it works without script. Only the overview's small pictures are fetched, the lower ones when they come near.
+- **An album** shows every published photograph of the year as a contact sheet: rows of equal height, every photograph whole and in its order, frame numbers and captions beneath (pure CSS, no script places anything). Above it the way back, "Choose year" and the neighbouring years that have photographs.
+- **The large view** is the album page's one `<dialog>`. The photograph grows from its place on the sheet and goes back there (Web Animations; with reduced motion it simply appears). Arrows on screen, arrow keys, Home/End and, as an extra, a one-finger swipe step through the year; nothing changes by itself. "Full size" shows the large file at its real size to move about in (a click on the picture does the same); a swipe does nothing then, nor while the page is pinched larger. After the last photograph the view stays open and offers "View again", the next year that has photographs, and "Back to the album". Closing returns to the sheet where it was, with the focus on the photograph that was opened. The open photograph is in the address (`?photo=1997-03`), so it can be linked; stepping replaces that address, and one step back closes the view. Only the photograph and its two neighbours are fetched, never the year. A large file that fails says so and offers to try again.
+- **Coming back.** The album's own link goes to `timeline.html#1997`; if one came from the overview, it returns to the exact place (kept in the tab's session). Opened directly, it is a plain link. Where the browser supports view transitions, the clicked picture or the year's numeral carries over between overview and album; nothing depends on it.
+- **Without script** the overview, the year list and the albums work, and each photograph is a link to its large file.
+- **Trying things out** with made-up years (one, five, thirty and 120 photographs, long captions, chapters, many years), never in the site: `python3 scripts/build-timeline.py --out <a copy of the site> --synthetic`, or `--only 3` for just a few years.
+- The documents in `content/` are not served. The repository is public, though: whatever is committed here can be seen by anyone, the web sizes included. A photograph that should not be public must be a draft **before** it is committed.
 
 ## Hotspots
 

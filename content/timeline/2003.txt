@@ -1,0 +1,178 @@
+year: 2003
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2003-01
+file: 1panorama_03_Terrasse_ohne_dubel_25cm_72dpi.jpg
+size: 1800x579
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-02
+file: Copy of IMGP0956.jpg
+size: 1800x1348
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-03
+file: F1000031-3.jpg
+size: 1800x1205
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-04
+file: IMAG0144-5.jpg
+size: 1800x1205
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-05
+file: IMAG0165.jpg
+size: 1800x1205
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-06
+file: IMGP1282-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-07
+file: IMGP7868.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-08
+file: IMGP8115.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-09
+file: PICT0051-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-10
+file: PICT0064.jpg
+size: 1800x1348
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-11
+file: PICT0134-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-12
+file: PICT0161.jpg
+size: 1800x1328
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2003-13
+file: Timeline_89_03.jpg
+size: 1800x1283
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

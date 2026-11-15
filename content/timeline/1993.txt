@@ -1,0 +1,62 @@
+year: 1993
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 1993-01
+file: Timeline_19_02.jpg
+size: 1800x1208
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1993-02
+file: Timeline_43_01.jpg
+size: 1235x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: yes
+note: held back until Chris decides
+
+photo: 1993-03
+file: Timeline_47_01.jpg
+size: 1800x1236
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1993-04
+file: Timeline_107_01-Edit.jpg
+size: 1800x1371
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

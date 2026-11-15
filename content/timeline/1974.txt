@@ -1,0 +1,22 @@
+year: 1974
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 1974-01
+file: Timeline_100_04.jpg
+size: 1800x1310
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

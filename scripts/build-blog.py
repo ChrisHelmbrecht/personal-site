@@ -305,7 +305,7 @@ for lang, mine in by.items():
     f = os.path.join(OUT, f"blog/{'de/' if lang == 'de' else ''}feed.xml"); os.makedirs(os.path.dirname(f), exist_ok=True)
     open(f, 'w', encoding='utf-8').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>{esc(T[lang]["feed"])}</title><link>{SITE}/{home(lang)}</link><description>{esc(T[lang]["desc"])}</description><language>{lang}</language>\n{items}</channel></rss>\n')
 if not A.synthetic and not A.only:
-    fixed = ['', 'dj.html', 'bio.html', 'writing.html', 'timeline.html', 'press.html', 'contact.html', 'making-of.html'] + [home(l) for l in by if by[l]]
+    fixed = ['', 'dj.html', 'bio.html', 'writing.html', 'timeline.html', 'press.html', 'contact.html', 'making-of.html'] + [home(l) for l in by if by[l]] + sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html'))      # the timeline's year pages, made by build-timeline.py
     rows = [f'<url><loc>{SITE}/{u}</loc></url>' for u in fixed] + [f'<url><loc>{SITE}/{url(p)}</loc><lastmod>{p.get("updated") or p["date"]}</lastmod></url>' for l in by for p in by[l]]
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(rows) + '\n</urlset>\n')
     red = ['# Old addresses of the articles and where they live now. A plan, not switched on: at launch these lines go',

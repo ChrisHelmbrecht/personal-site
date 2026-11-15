@@ -1,0 +1,87 @@
+year: 1992
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 1992-01
+file: Timeline_19_01.jpg
+size: 1800x1089
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1992-02
+file: Timeline_23_05.jpg
+size: 1287x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1992-03
+file: Timeline_24_01.jpg
+size: 1800x1108
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1992-04
+file: Timeline_24_02.jpg
+size: 1800x1087
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1992-05
+file: Timeline_24_03.jpg
+size: 1800x1200
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 1992-06
+file: Timeline_53_05.jpg
+size: 1800x1279
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

@@ -1,0 +1,165 @@
+year: 2004
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2004-01
+file: 2004-07-11 040-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-02
+file: 2004-07-21 132.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-03
+file: 2004-08-28 022.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-04
+file: Flo_Chris.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-05
+file: IMAG0056-4.jpg
+size: 1800x1204
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-06
+file: IMAG0089-2.jpg
+size: 1800x1205
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-07
+file: IMGP0802-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-08
+file: IMGP2265.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-09
+file: IMGP2393.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-10
+file: IMGP2463.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-11
+file: IMGP2510.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2004-12
+file: IMGP2692.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

@@ -11,7 +11,7 @@ Every element of the skull is a door to a page. Clicking one zooms into it.
 - [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
 - [Writing](writing.html): the book "Fucking Moskau" and other texts.
 - [Blog](blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
-- [Timeline](timeline.html): the path. One cover photo per year, each opens a small gallery.
+- [Timeline](timeline.html): a photo archive by year. Each year has an album page (timeline/1997.html) with all its photographs.
 - [Press](press.html): the Twin Towers. Television, video and print (in preparation).
 - [Contact](contact.html): the teeth. Socials, DJ booking, literary agent.
 - [Making of](making-of.html): hidden on the right cheekbone. How the site was made and with which tools.

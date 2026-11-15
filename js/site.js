@@ -376,32 +376,4 @@
     });
     paint();
   }
-
-  // Timeline: one cover per year, pop-up gallery that closes itself after the last photo
-  const years = $('years');
-  if (years) {
-    const data = window.TIMELINE || [], dlg = $('gallery'), slide = $('g-slide');
-    if (data.some(y => !y.images.length)) $('tl-note').textContent = 'Photos still to come. The dashed frames are where they go.';
-    let cur = null, i = 0;
-    const frames = y => y.images.length || 4;
-    const show = () => {
-      const src = cur.images[i];
-      slide.innerHTML = src ? `<img src="${src}" alt="${cur.year}, photo ${i + 1}">` : `<span class="ph">${cur.year}<br>photo ${i + 1} of ${frames(cur)} goes here</span>`;
-      $('g-count').textContent = `${i + 1} / ${frames(cur)}`;
-    };
-    const next = () => { if (++i >= frames(cur)) return dlg.close(); show(); };
-    data.forEach(y => {
-      const li = document.createElement('li'), cover = y.cover || y.images[0];
-      li.innerHTML = `<button class="cover" type="button" aria-label="Open ${y.year} gallery" ${cover ? `style="background-image:url('${cover}')"` : ''}>${cover ? '' : 'Cover photo'}</button>
-        <div><div class="year">${y.year}</div>${y.label ? `<p>${y.label}</p>` : ''}</div>`;
-      li.querySelector('button').addEventListener('click', () => { cur = y; i = 0; $('g-year').textContent = y.year + (y.label ? ' · ' + y.label : ''); show(); dlg.showModal(); });
-      years.appendChild(li);
-    });
-    slide.addEventListener('click', next);
-    $('g-close').addEventListener('click', () => dlg.close());
-    dlg.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
-      if (e.key === 'ArrowLeft' && i > 0) { i--; show(); }
-    });
-  }
 })();

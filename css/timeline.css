@@ -1,0 +1,203 @@
+/* The timeline: a personal photo archive in three levels.
+   Overview (timeline.html): the years, each with a lead photograph and a few previews.
+   Album (timeline/1997.html): every published photograph of one year, as a contact sheet.
+   Large view: one photograph, in the one dialog an album page has.
+   Pages and pictures come from scripts/build-timeline.py; this file only dresses them. */
+@view-transition { navigation: auto; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.page.tl { animation-fill-mode: backwards; }      /* arrived, the page lets go of its transform: only then can things inside be fixed to the window */
+.tl-room { max-width: 1180px; }
+.tl-head h1 { margin-bottom: 14px; }
+.tl-lead { font-size: 1.32rem; line-height: 1.4; max-width: 44ch; }
+.room .tl-sum { margin: 14px 0 0; }
+.tl-body { margin-top: 40px; }
+
+/* --- the years, on one fine line */
+.tl-years { list-style: none; margin: 0; padding: 0; }
+.yr { position: relative; display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 10px 30px; align-items: start; padding: 0 0 76px 32px; border-left: 1.5px solid var(--ink); scroll-margin-top: 92px; }
+.yr::before { content: ""; position: absolute; left: -7.5px; top: 26px; width: 13.5px; height: 13.5px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--ink); }
+.yr:target::before, .yr.cur::before { background: var(--ink); box-shadow: 0 0 0 4px var(--paper); }
+.yr:last-child { padding-bottom: 28px; border-image: linear-gradient(var(--ink) 30%, transparent) 1; }
+.room .yr-no { margin: 0; font: italic 600 clamp(3.6rem, 6.6vw, 5rem)/.82 var(--display); color: var(--ink); }
+.yr-no a { color: inherit; text-decoration: none; }
+.room .yr-title { margin: 26px 0 0; font-size: 1.28rem; line-height: 1.25; text-wrap: balance; }
+.room .yr-places, .room .yr-count { margin: 12px 0 0; }
+.room .yr-no + .tag { margin-top: 24px; }          /* the numerals swing low: room for their tails */
+.yr-open { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; font: 500 .7rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.yr-open::after { content: "→"; margin-left: 10px; transition: transform .3s ease; }
+.yr-open:hover::after { transform: translateX(4px); }
+
+/* the small stack: one lead photograph, whole; beside it one, two or four previews, cut square around their subject */
+.yr-pics { --h: clamp(190px, 23vw, 300px); --g: 14px; display: flex; align-items: flex-start; gap: var(--g); min-width: 0; }
+.yr-lead, .yr-pre, .frame a { display: block; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 3px; box-shadow: 0 16px 20px -17px rgba(18, 38, 95, .6); }
+.yr-lead, .yr-pre { padding: 6px; transition: transform .35s ease, box-shadow .35s ease; transform: var(--rest, none); }
+.yr-lead { flex: 0 1 auto; min-width: 0; height: var(--h); aspect-ratio: var(--r); }
+.yr-lead img, .yr-pre img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 2px; background: var(--paper); }
+.yr-more { flex: none; display: grid; gap: var(--g); --t: calc((var(--h) - var(--g)) / 2); grid-template-columns: var(--t); grid-auto-rows: var(--t); }
+.yr-more.n4 { grid-template-columns: var(--t) var(--t); }
+.yr-pre:nth-child(2) { --rest: rotate(1.5deg); }
+.yr-pre:nth-child(3) { --rest: rotate(-1.1deg); }
+.yr-lead:hover, .yr-pre:hover { transform: translateY(-3px) var(--rest, rotate(0deg)); box-shadow: 0 22px 24px -18px rgba(18, 38, 95, .65); }
+
+/* a year whose photographs are still to come: its place on the line, nothing more */
+.yr.empty { padding-bottom: 20px; align-items: center; }
+.yr.empty:has(+ .yr:not(.empty)) { padding-bottom: 56px; }
+.yr.empty::before { top: 9px; width: 9px; height: 9px; left: -5.25px; border-style: dotted; }
+.room .yr.empty .yr-no { font-size: 2.1rem; line-height: 1; color: var(--ink-mid); opacity: .62; }
+.yr-soon { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border: 1.5px dashed var(--ink-soft); border-radius: 3px; opacity: .8; }
+
+/* seen for the first time, a year's stack unfolds once: the lead settles, the previews slide out from behind it */
+html.tl-js:not(.tl-calm) .yr:not(.in) .yr-lead, html.tl-js:not(.tl-calm) .yr:not(.in) .yr-pre { opacity: 0; }
+html.tl-js:not(.tl-calm) .yr.in .yr-lead { animation: lead-in .8s cubic-bezier(.2, .75, .2, 1) backwards; }
+html.tl-js:not(.tl-calm) .yr.in .yr-pre { animation: pre-in .95s cubic-bezier(.2, .75, .2, 1) backwards; animation-delay: .14s; }
+html.tl-js:not(.tl-calm) .yr.in .yr-pre:nth-child(2) { animation-delay: .22s; }
+html.tl-js:not(.tl-calm) .yr.in .yr-pre:nth-child(3) { animation-delay: .3s; }
+html.tl-js:not(.tl-calm) .yr.in .yr-pre:nth-child(4) { animation-delay: .38s; }
+@keyframes lead-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes pre-in { from { opacity: 0; transform: translate(-46%, 4px) rotate(-5deg); } }
+
+/* --- choosing a year. One list of decades and years: a pill at the foot of the screen that opens it,
+       and from 1000px a quiet rail beside the years with the decade one is in opened */
+.tl-pick { position: fixed; z-index: 15; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); }
+.tl-pick summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: var(--ink-deep); color: var(--card); font: 500 .7rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 10px 18px -8px rgba(18, 38, 95, .7); touch-action: manipulation; }
+.tl-pick summary::-webkit-details-marker { display: none; }
+.tl-pick summary::after { content: ""; width: 7px; height: 7px; margin: -3px 0 0 12px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(-135deg); }
+.tl-pick[open] summary::after { transform: rotate(45deg); margin-top: -6px; }
+.tl-pick summary:focus-visible { outline-offset: 4px; }
+.tl-pick nav { position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%); width: min(calc(100vw - 24px), 430px); max-height: min(68vh, 560px); overflow: auto; overscroll-behavior: contain; padding: 16px; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 6px; box-shadow: 0 26px 40px -22px rgba(18, 38, 95, .8); }
+.decades, .dec ol { list-style: none; margin: 0; padding: 0; }
+.decades { display: grid; gap: 12px; }
+.dec { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 8px; align-items: start; }
+.dec-a, .dec ol a { display: inline-flex; align-items: center; min-height: 42px; font: 500 .72rem/1 var(--mono); letter-spacing: .1em; text-decoration: none; color: var(--ink); }
+.dec-a { letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mid); }
+.dec ol { display: flex; flex-wrap: wrap; gap: 6px; }
+.dec ol a { justify-content: center; min-width: 62px; padding: 0 10px; border: 1.5px solid var(--ink-soft); border-radius: 999px; }
+.dec ol a:hover { border-color: var(--ink); }
+.dec ol a.soon { border-style: dashed; color: var(--ink-mid); }
+.dec ol a[aria-current] { background: var(--ink-deep); border-color: var(--ink-deep); color: var(--card); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+
+@media (min-width: 1000px) {
+  .tl-body { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 34px; align-items: start; }
+  #tl .tl-pick { position: sticky; top: 104px; left: auto; bottom: auto; transform: none; z-index: 1; }
+  html.tl-js #tl .tl-pick > summary { display: none; }
+  #tl .tl-pick summary { background: none; color: var(--ink); padding: 0; box-shadow: none; }
+  #tl .tl-pick nav { position: static; transform: none; width: auto; max-height: calc(100vh - 170px); max-height: calc(100dvh - 170px); padding: 0 0 6px; background: none; border: 0; border-radius: 0; box-shadow: none; scrollbar-width: thin; }
+  #tl .decades { gap: 2px; }
+  #tl .dec { display: block; }
+  #tl .dec-a { min-height: 30px; }
+  #tl .dec.cur .dec-a { color: var(--ink-deep); }
+  #tl .dec ol { display: none; flex-direction: column; flex-wrap: nowrap; gap: 0; margin: 2px 0 10px 2px; border-left: 1px solid var(--ink-soft); }
+  #tl .dec.cur ol, html:not(.tl-js) #tl .dec ol { display: flex; }
+  #tl .dec ol a { justify-content: flex-start; min-width: 0; min-height: 27px; padding: 0 10px; border: 0; border-radius: 0; background: none; color: var(--ink); }
+  #tl .dec ol a.soon { color: var(--ink-mid); opacity: .7; }
+  #tl .dec ol a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  #tl .dec ol a[aria-current] { color: var(--ink-deep); box-shadow: inset 2.5px 0 0 var(--ink); margin-left: -1.5px; }
+}
+@media (max-width: 999px) {
+  #tl .tl-room { padding-bottom: 84px; }          /* room for the pill, so it never lies on the last year */
+}
+@media (max-width: 640px) {
+  .tl-body { margin-top: 30px; }
+  .yr { grid-template-columns: minmax(0, 1fr); padding: 0 0 56px 22px; gap: 14px; }
+  .yr::before { top: 20px; }
+  .yr-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 18px; align-items: end; }
+  .room .yr-no { grid-row: span 3; font-size: 4rem; align-self: start; }
+  .room .yr-title { grid-column: 1 / -1; grid-row: 4; font-size: 1.2rem; }
+  .room .yr-places, .room .yr-count { margin: 0; justify-self: end; text-align: right; }
+  .yr-open { justify-self: end; margin: 0; }
+  .yr-pics { flex-direction: column; --g: 10px; }
+  .yr-lead { height: auto; width: min(100%, calc(var(--r) * 66vw)); }
+  .yr-more, .yr-more.n4 { width: 100%; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: auto; }
+  .yr-pre { aspect-ratio: 1; padding: 4px; }
+  .yr.empty { grid-template-columns: auto minmax(0, 1fr); padding-bottom: 14px; }
+  .yr.empty .yr-facts { display: block; }
+  .room .yr.empty .yr-no { font-size: 1.8rem; }
+  .yr.empty::before { top: 8px; }
+}
+
+/* --- one year: head, then the contact sheet. Rows of equal height, every photograph whole, in its order */
+.al-top, .al-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 22px; font: 500 .7rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+.al-top a, .al-foot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; white-space: nowrap; }
+.al-step { margin-left: auto; display: flex; gap: 22px; }
+.al-foot { margin-top: 56px; }
+.tl-album .tl-pick { position: relative; z-index: 9; left: auto; bottom: auto; transform: none; }
+.tl-album .tl-pick summary { min-height: 40px; background: none; color: var(--ink); border: 1.5px solid var(--ink); box-shadow: none; }
+.tl-album .tl-pick nav { bottom: auto; top: calc(100% + 10px); left: 0; transform: none; }
+.al-head { margin-top: 18px; }
+.room .al-no { margin: 6px 0 0; font: italic 600 clamp(5rem, 19vw, 9.6rem)/.8 var(--display); color: var(--ink); view-transition-name: tl-year; }
+.room .al-title { margin: 38px 0 0; font-size: 1.55rem; line-height: 1.25; text-wrap: balance; }
+.room .al-facts { margin: 16px 0 0; }
+.room .al-no + .al-facts { margin-top: 30px; }
+.room .al-text { margin: 16px 0 0; max-width: 56ch; font-size: 1.28rem; line-height: 1.42; }
+.chapter { margin-top: 54px; }
+.room .chapter h2 { margin: 0 0 8px; font-size: clamp(1.7rem, 5vw, 2.3rem); }
+.chapter > p { max-width: 56ch; }
+.sheet { --rh: 128px; list-style: none; margin: 34px 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 22px 12px; }
+.chapter .sheet { margin-top: 22px; }
+.sheet::after { content: ""; flex: 1000 1 0; }            /* the last row keeps its height and does not stretch across */
+.frame { flex: var(--r) 1 calc(var(--r) * var(--rh) + 13px); min-width: 0; max-width: 100%; scroll-margin-top: 104px; }
+.frame a { padding: 5px; transition: transform .35s ease, box-shadow .35s ease; }
+.frame a:hover { transform: translateY(-3px); box-shadow: 0 22px 24px -18px rgba(18, 38, 95, .65); }
+.frame img { display: block; width: 100%; height: auto; aspect-ratio: var(--r); border-radius: 2px; background: var(--paper); }
+.room .frame-note { display: flex; gap: 9px; align-items: baseline; margin: 7px 2px 0; max-width: none; font: 500 .62rem/1.5 var(--mono); letter-spacing: .14em; color: var(--ink); }
+.frame-note b { font-weight: 500; flex: none; }
+.frame-note span { font: 1rem/1.28 var(--display); letter-spacing: 0; color: var(--ink-deep); overflow-wrap: anywhere; }
+.frame:target a { outline: 2px solid var(--ink); outline-offset: 4px; }
+.frame:target img { view-transition-name: tl-pic; }
+.yr:target .yr-no { view-transition-name: tl-year; }
+html.tl-js:not(.tl-calm) .frame { animation: frame-in .65s cubic-bezier(.2, .75, .2, 1) backwards; animation-delay: calc(var(--i) * 32ms + 140ms); }
+@keyframes frame-in { from { opacity: 0; transform: translateY(12px); } }
+@media (min-width: 700px) { .sheet { --rh: 186px; gap: 28px 16px; } }
+@media (min-width: 1100px) { .sheet { --rh: 218px; gap: 30px 18px; } }
+
+/* --- one photograph, large. A quiet dark room: the picture whole, what is known about it below, the way on at its sides */
+html.lb-open { overflow: hidden; }
+html.lb-open body { padding-right: var(--sb, 0px); }      /* the scrollbar's width, so the sheet does not jump when it goes */
+.lb::backdrop { background: rgba(13, 27, 70, .975); }
+.lb { color: var(--card); overflow: hidden; }
+.lb[open] { display: grid; grid-template: "top top top" auto "prev view next" minmax(0, 1fr) "foot foot foot" auto / auto minmax(0, 1fr) auto; gap: 12px 14px; padding: calc(14px + env(safe-area-inset-top, 0px)) var(--gr) calc(14px + env(safe-area-inset-bottom, 0px)) var(--gl); }
+.lb [hidden] { display: none !important; }
+.lb .lb-arrow[hidden] { display: block !important; visibility: hidden; }
+.lb-top { grid-area: top; display: flex; align-items: center; gap: 18px; font: 500 .72rem/1 var(--mono); letter-spacing: .16em; }
+.lb-top strong { font: italic 600 2.1rem/1 var(--display); letter-spacing: 0; }
+.lb-tools { margin-left: auto; display: flex; gap: 10px; }
+.lb button, .lb-end a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; font: 500 .7rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--card); background: none; border: 1.5px solid var(--card); border-radius: 999px; cursor: pointer; touch-action: manipulation; }
+.lb button:hover, .lb-end a:hover { background: var(--card); color: var(--ink-deep); }
+.lb :focus-visible { outline: 2px solid var(--card); outline-offset: 3px; }
+.lb button[aria-pressed="true"] { background: var(--card); color: var(--ink-deep); }
+.lb-view { grid-area: view; position: relative; min-width: 0; min-height: 0; display: grid; place-items: center; overflow: hidden; touch-action: pan-y pinch-zoom; }
+.lb.opening .lb-view, .lb.closing .lb-view { overflow: visible; }
+#lb-img { display: block; max-width: none; border-radius: 2px; background: rgba(230, 232, 229, .07); }
+#lb-img.can-zoom { cursor: zoom-in; }
+.lb-view.zoom { display: block; overflow: auto; touch-action: auto; overscroll-behavior: contain; }
+.lb-view.zoom #lb-img { margin: 0 auto; cursor: zoom-out; }
+.lb .lb-arrow { align-self: center; width: 48px; height: 48px; padding: 0; border-radius: 50%; font-size: 1rem; letter-spacing: 0; }
+#lb-prev { grid-area: prev; } #lb-next { grid-area: next; }
+.lb-foot { grid-area: foot; min-height: 3.4em; text-align: center; }
+#lb-cap { margin: 0 auto; max-width: 68ch; max-height: 5.5em; overflow: auto; font-size: 1.16rem; line-height: 1.36; }
+.lb #lb-meta { margin: 6px 0 0; color: rgba(230, 232, 229, .78); }
+.lb-msg, .lb-end { display: grid; gap: 14px; justify-items: center; text-align: center; padding: 20px; }
+.lb-msg p { margin: 0; font-size: 1.3rem; }
+.lb-end h2 { margin: 0 0 10px; font: italic 600 clamp(2.6rem, 9vw, 4.4rem)/1 var(--display); color: var(--card); }
+.lb[open]::backdrop { animation: lb-dim .32s ease-out; }
+.lb.opening > :not(.lb-view) { animation: lb-dim .4s .12s ease-out backwards; }
+.lb.closing::backdrop { opacity: 0; transition: opacity .28s ease; }
+.lb.closing > :not(.lb-view) { opacity: 0; transition: opacity .18s ease; }
+@keyframes lb-dim { from { opacity: 0; } }
+@media (max-width: 640px) {
+  .lb[open] { grid-template: "top top" auto "view view" minmax(0, 1fr) "foot foot" auto "prev next" auto / 1fr 1fr; gap: 10px; }
+  #lb-prev { justify-self: start; } #lb-next { justify-self: end; }
+  .lb-top strong { font-size: 1.7rem; }
+  .lb button { padding: 0 14px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .lb[open] { gap: 6px 10px; padding-block: calc(8px + env(safe-area-inset-top, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)); }
+  .lb-foot { min-height: 0; } #lb-cap { max-height: 2.8em; font-size: 1rem; }
+  .lb button { min-height: 40px; } .lb-top strong { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yr-lead, .yr-pre, .frame a, .yr-open::after { transition: none; }
+  .frame, .yr-lead, .yr-pre { animation: none !important; opacity: 1 !important; }
+  .lb[open]::backdrop, .lb.opening > * { animation: none; }
+  .lb.closing::backdrop, .lb.closing > * { transition: none; }
+}
