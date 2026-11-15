@@ -10,7 +10,7 @@ Every element of the skull is a door to a page. Clicking one zooms into it.
 - [DJ](dj.html): the moon. Eight recordings on a drawn turntable (they play through Mixcloud): Love Room London, Gleiskultur Friedland, a private party in Teheran, Gazgolder Moscow, LUMA Munich, a Munich subway station and two PLAY sessions. Melodic techno, indie dance and house, from exclusive events to the underground; a list of clubs, festivals and residencies; booking direct at dj@chrishelmbrecht.com.
 - [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
 - [Writing](writing.html): the book "Fucking Moskau" and other texts.
-- [Blog](blog.html): the bare trees. Recent essays.
+- [Blog](blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
 - [Timeline](timeline.html): the path. One cover photo per year, each opens a small gallery.
 - [Press](press.html): the Twin Towers. Television, video and print (in preparation).
 - [Contact](contact.html): the teeth. Socials, DJ booking, literary agent.

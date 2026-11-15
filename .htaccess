@@ -26,4 +26,5 @@
 </FilesMatch>
 <IfModule mod_alias.c>
   RedirectMatch 404 ^/assets/source/
+  RedirectMatch 404 ^/content/
 </IfModule>
