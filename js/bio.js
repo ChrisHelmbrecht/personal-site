@@ -124,14 +124,34 @@
   log.querySelectorAll('.plate').forEach(p => inText.observe(p));
   wide.addEventListener('change', mode);
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { paint(); onScroll(); }, { passive: true });
-  // Easter egg: click the helicopter and it leaves the picture to the right and comes back in from the left.
+  // Easter egg: click the helicopter and it leaves the picture to the right and comes back in from the left, with its sound.
   // It never turns round: a film seen from the side cannot, and a mirrored helicopter looks wrong
   const root = document.documentElement;
+  // It is heard as well: a recording of turbine whine and rotor chop follows the flight from ear to ear, fades with the
+  // distance, and drops a little in pitch while the helicopter flies away. Loaded on the first click only
+  let air = null, engine = null;
+  const hear = (start, span, x0) => {                     // take-off time, length of the flight in ms, where it hovers (-1 left … 1 right)
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    air = air || new AC(); air.resume();
+    engine = engine || fetch('assets/audio/alouette.mp3').then(r => r.arrayBuffer()).then(b => new Promise((ok, no) => air.decodeAudioData(b, ok, no)));
+    engine.then(buf => {
+      const late = (performance.now() - start) / 1000, T = span / 1000; if (late > T * .7) return;
+      const src = air.createBufferSource(), vol = air.createGain(), pan = air.createStereoPanner ? air.createStereoPanner() : null;
+      src.buffer = buf; src.connect(vol); (pan ? vol.connect(pan) : vol).connect(air.destination);
+      const now = air.currentTime, at = f => Math.max(now, now - late + f * T);
+      const line = (param, pts) => { param.setValueAtTime(pts[0][1], now); pts.forEach(([f, v]) => param.linearRampToValueAtTime(v, at(f))); };
+      line(vol.gain, [[0, 0], [.05, .36], [.2, .5], [.42, .07], [.47, .07], [.8, .46], [.92, .36], [1, .2], [1.2, 0]]);
+      if (pan) line(pan.pan, [[0, x0], [.12, x0], [.42, 1], [.47, -1], [.9, x0], [1.2, x0]]);   // out on the right, round the back, in on the left
+      line(src.playbackRate, [[0, 1], [.12, 1.03], [.42, .95], [.47, 1.05], [.9, 1], [1.2, 1]]);
+      src.start(now, Math.min(late, 1)); src.stop(at(1.21));
+    }).catch(() => { engine = null; });
+  };
   document.querySelectorAll('.flight').forEach(f => f.addEventListener('click', () => {
     if (calm || f.away || !f.classList.contains('on')) return;
     const r = f.getBoundingClientRect(), out = innerWidth - r.left + 30, back = -(r.right + 30), up = -clamp(r.top - 100, 20, 110);
     const at = (x, y, pitch) => `translate3d(${x.toFixed(0)}px, ${y.toFixed(0)}px, 0) rotate(${pitch}deg)`;
     f.away = true; root.classList.add('flying');
+    hear(performance.now(), 9500, clamp((r.left + r.width / 2) / innerWidth * 2 - 1, -1, 1) * .8);
     f.animate([
       { transform: at(0, 0, 0), easing: 'cubic-bezier(.5, 0, .9, .6)' },                              // nose down, it gathers speed
       { transform: at(out * .07, up * .15, 7), offset: .12, easing: 'cubic-bezier(.45, 0, .9, .7)' },
@@ -141,26 +161,26 @@
       { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; root.classList.remove('flying'); };
   }));
   // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off to the
-  // left across the text: small square flakes, the way the spray in the engraving is made of dots
+  // left across the text: a cloud of very fine blue dots, the way the spray in the engraving is stippled
   const rider = log.querySelector('.find');
   if (rider && !calm) {
-    const leg = rider.closest('.leg'), TINT = ['255, 255, 255', '255, 255, 255', '250, 252, 255', '158, 176, 218', '92, 116, 186', '31, 63, 151'];
+    const leg = rider.closest('.leg'), TINT = ['31, 63, 151', '31, 63, 151', '31, 63, 151', '18, 38, 95', '92, 116, 186'];
     let cv, ctx, flakes = [], snowing = false, lastSpray = 0, pour = 0, from = [0, 0, 0, 0], then = 0;
     const snow = t => {
       const k = Math.min(2.5, (t - then) / 16.7); then = t;
       if (pour > 0) {                                                 // the turn throws snow for a good half second
         pour -= k;
-        for (let n = Math.round(10 * k); n > 0; n--) flakes.push({
+        for (let n = Math.round(42 * k); n > 0; n--) flakes.push({
           x: from[0] + from[2] * (.2 + Math.random() * .45), y: from[1] + from[3] * (.62 + Math.random() * .3),
-          vx: -(2.6 + Math.random() * 10.4), vy: -(.2 + Math.random() * 4.4), s: 2 + (Math.random() * 2.6 | 0), age: 0, life: 48 + Math.random() * 76,
+          vx: -(1.6 + Math.random() * 11.4), vy: -(.1 + Math.random() * 4.6), s: .6 + Math.random() * Math.random() * 1.1, a: .3 + Math.random() * .65, age: 0, life: 44 + Math.random() * 96,
           c: TINT[Math.random() * TINT.length | 0] });
       }
       ctx.clearRect(0, 0, cv.width, cv.height);
       flakes = flakes.filter(f => f.age < f.life);
       for (const f of flakes) {
-        f.x += f.vx * k; f.y += f.vy * k; f.vx *= Math.pow(.972, k); f.vy = f.vy * Math.pow(.985, k) + .055 * k; f.age += k;
-        ctx.fillStyle = `rgba(${f.c}, ${Math.min(1, (f.life - f.age) / 26).toFixed(2)})`;
-        ctx.fillRect(Math.round(f.x), Math.round(f.y), f.s, f.s);
+        f.x += f.vx * k; f.y += f.vy * k; f.vx *= Math.pow(.968, k); f.vy = f.vy * Math.pow(.98, k) + (.04 + (Math.random() - .5) * .16) * k; f.age += k;   // fine powder hangs in the air and drifts
+        ctx.fillStyle = `rgba(${f.c}, ${(f.a * Math.min(1, (f.life - f.age) / 30)).toFixed(2)})`;
+        ctx.fillRect(f.x, f.y, f.s, f.s);
       }
       if (flakes.length || pour > 0) requestAnimationFrame(snow); else snowing = false;
     };
