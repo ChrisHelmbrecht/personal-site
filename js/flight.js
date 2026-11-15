@@ -81,6 +81,7 @@
   const SKY = 3600, K = 1.5;                      // the skyline stands 3.6 km off and is drawn larger than life so it can be recognised
   const SKYW = 4000, WOODW = 340, FIELDW = 106;   // metres: width of the skyline drawing, of one forest strip (edge plus mirror image), of hangar and tower
   const PIC = 709, HOOD = 492, DIALS = [[643, 406], [695, 407], [747, 408], [643, 453], [695, 456], [749, 457]];   // cockpit drawing, in its own pixels: height of the picture (the grip reaches further down), lower edge of the binnacle, the six dials
+  const ALPS = { span: rad(146), top: rad(6.2) };  // the panorama of the Alps (scripts/alps.py) holds 112° of compass and 1.36° of height: drawn a little wider and much taller, as a long lens shows them
   const ART = {};
 
   // ---- state
@@ -195,6 +196,13 @@
       prev = cur;
     }
   };
+  // the chain of the Alps: a panorama so far away that it only turns with the helicopter and never shifts. Each column of the
+  // picture is a compass direction, its lower edge the horizon
+  const Q = (b, e) => { const x0 = Math.sin(b) * Math.cos(e), y0 = Math.cos(b) * Math.cos(e), z0 = Math.sin(e), xr = x0 * cs - y0 * sn, yr = x0 * sn + y0 * cs, d = yr * ca + z0 * sa; return d < .12 ? null : [xr / d * F, -(-yr * sa + z0 * ca) / d * F]; };
+  const chain = img => { const n = 60, iw = img.width; let prev = null;
+    for (let i = 0; i <= n; i++) { const b = (i / n - .5) * ALPS.span, lo = Q(b, 0), hi = lo && Q(b, ALPS.top), cur = hi ? [lo[0], lo[1], hi[1]] : null;
+      if (prev && cur && cur[0] > prev[0] && cur[0] > -far && prev[0] < far) { const top = (prev[2] + cur[2]) / 2; g.drawImage(img, (i - 1) / n * iw, 0, iw / n, img.height, prev[0] - .5, top, cur[0] - prev[0] + 1, (prev[1] + cur[1]) / 2 - top); }
+      prev = cur; } };
   const draw = () => {
     cs = Math.cos(S.yaw); sn = Math.sin(S.yaw); const a = S.pitch + LOOK; ca = Math.cos(a); sa = Math.sin(a);
     g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#d6d9d6'; g.fillRect(0, 0, W, H);
@@ -202,12 +210,10 @@
     const hz = F * Math.tan(a); far = Math.hypot(W, H);
     // sky: a few ruled lines, like the paper of the site
     ink(.07, 1); for (let i = 1; i < 9; i++) { g.beginPath(); g.moveTo(-far, hz - i * i * 6 * dpr); g.lineTo(far, hz - i * i * 6 * dpr); g.stroke(); }
-    const sk = ART.skyline, sl = sk && P(-SKYW * .44, SKY, 0), sr = sk && P(SKYW * .44, SKY, 0);
-    if (sl || sr) { g.save(); g.beginPath(); if (sl) g.rect(-far, -far, far + sl[0], far * 2); if (sr) g.rect(sr[0], -far, far, far * 2); g.clip(); }   // where the drawn skyline stands, it brings its own Alps
-    band(PEAKS[1], 46000, .05, .22); band(PEAKS[0], 38000, .08, .34);                                      // the Alps
-    if (sl || sr) g.restore();
+    const sk = ART.skyline;
+    if (ART.alps) chain(ART.alps); else { band(PEAKS[1], 46000, .05, .22); band(PEAKS[0], 38000, .08, .34); }   // the Alps: the real chain, or two plain ridges
     wash(.07); g.fillRect(-far, hz, far * 2, far * 2); ink(.5, 1); g.beginPath(); g.moveTo(-far, hz); g.lineTo(far, hz); g.stroke();   // the ground, up to the horizon
-    if (sk) board(sk, -SKYW / 2, SKYW / 2, SKY, SKYW * sk.height / sk.width, 28);                         // Olympiaturm, tent roof, Frauenkirche, the Alps: one drawing
+    if (sk) board(sk, -SKYW / 2, SKYW / 2, SKY, SKYW * sk.height / sk.width, 28);                         // Olympiaturm, tent roof, Frauenkirche: one drawing
     else {
       band(TOWN, SKY + 300, .1, .3);                                                                         // roofs of the city
       const sky = (pts, f, al = .75) => wall(pts.map(([x, z]) => [x * K, z * K]), SKY, f, al, 1);
@@ -216,7 +222,7 @@
       for (const x of [196, 228]) sky([[x, 0], [x, 78], [x + 2, 86], [x + 6, 93], [x + 10, 99], [x + 14, 93], [x + 18, 86], [x + 20, 78], [x + 20, 0]], .34);                           // Frauenkirche, two towers
       sky([[218, 0], [218, 46], [300, 46], [318, 30], [318, 0]], .2, .6);                                                                                                                 // ... and its nave
     }
-    if (ART.forest) { const fw = WOODW, fh = fw * ART.forest.height / ART.forest.width; for (let i = -5; i < 5; i++) board(ART.forest, i * fw, (i + 1) * fw, 540, fh, 8); }   // the edge of the wood
+    if (ART.forest) { const fw = WOODW, fh = fw * ART.forest.height / ART.forest.width; for (let i = -9; i < 9; i++) board(ART.forest, i * fw, (i + 1) * fw, 540, fh, 20); }   // the edge of the wood
     else { band(WOOD[1], 700, .2, .4); band(WOOD[0], 540, .34, .6); }
     if (ART.airfield) board(ART.airfield, -146, -146 + FIELDW, 236, FIELDW * ART.airfield.height / ART.airfield.width, 10);   // hangar and tower
     else {
@@ -263,7 +269,7 @@
     if (y > 2) { const fade = k.createLinearGradient(0, y, 0, y + s * PIC * .2); fade.addColorStop(0, 'rgba(0,0,0,1)'); fade.addColorStop(1, 'rgba(0,0,0,0)'); k.globalCompositeOperation = 'destination-out'; k.fillStyle = fade; k.fillRect(0, 0, W, y + s * PIC * .2); }   // ... and the frame fades out where it would end in mid-air
     seat = { cv: c, x, y, s };
   };
-  const art = () => { for (const name of ['skyline', 'forest', 'airfield', 'cockpit']) { const img = new Image(); img.decoding = 'async';
+  const art = () => { for (const name of ['alps', 'skyline', 'forest', 'airfield', 'cockpit']) { const img = new Image(); img.decoding = 'async';
     img.onload = () => { if (!open) return;
       if (name === 'forest') { const c = document.createElement('canvas'), w = img.width; c.width = w * 2; c.height = img.height; const k = c.getContext('2d'); k.drawImage(img, 0, 0); k.translate(w * 2, 0); k.scale(-1, 1); k.drawImage(img, 0, 0); ART.forest = c; }   // the edge and its mirror image: a strip that repeats without a seam
       else ART[name] = img; if (name === 'cockpit') fit(); };

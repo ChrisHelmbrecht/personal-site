@@ -44,12 +44,28 @@ def rows(alpha, thr=.02):
     return r[0], r[-1] + 1
 
 
-# --- skyline: Olympiaturm, tent roof, Frauenkirche, the Alps. White sky, a dark band of trees as its foot
+# --- skyline: Olympiaturm, tent roof, Frauenkirche over a dark band of trees. The drawing's own mountains are cut away:
+# the game puts the real chain behind it (scripts/alps.py)
 a = load('pano1')
 paper = np.median(a[:30].reshape(-1, 3), axis=0)
 rgb, al = key(a, paper, 6, 70)
-top, _ = rows(al, .002)
 foot = np.where(al.mean(axis=1) > .6)[0][-1] + 1                    # last row of the band of trees
+solid = ndi.gaussian_filter(al, 1.6) > .6                           # ink that holds together: buildings and trees, not the stipple of the mountains
+solid[:336] = False                                                 # nothing of the low city stands higher than this ...
+lab, n = ndi.label(ndi.binary_opening(solid, iterations=1))
+solid = np.isin(lab, np.unique(lab[foot - 14]))  & (lab > 0)        # only what stands on the band of trees, not loose clumps of stipple
+keep = np.maximum.accumulate(solid, axis=0)                         # ... and below its roofs everything belongs to it
+tall = Image.new('L', (a.shape[1], a.shape[0]), 0); d = ImageDraw.Draw(tall)   # ... except these, outlined by hand
+for poly in [
+    [(168, 40), (180, 40), (182, 150), (197, 160), (197, 236), (185, 242), (183, 380), (163, 380), (161, 242), (149, 236), (149, 160), (164, 150)],   # Olympiaturm
+    [(183, 380), (200, 356), (240, 312), (246, 290), (256, 290), (263, 318), (300, 300), (315, 282), (326, 282), (332, 308), (357, 300), (360, 285), (369, 285), (374, 314),
+     (411, 318), (413, 298), (422, 298), (426, 324), (454, 310), (457, 292), (467, 292), (472, 324), (505, 334), (517, 304), (532, 304), (538, 334), (577, 360), (604, 378), (604, 392), (183, 392)],   # tent roof with its masts
+    [(621, 390), (625, 320), (636, 320), (648, 390)], [(718, 390), (723, 351), (728, 390)],                                                              # crane, a spire
+    [(794, 390), (794, 330), (799, 319), (808, 314), (817, 319), (821, 330), (821, 358), (828, 358), (828, 330), (833, 319), (841, 314), (849, 319), (853, 330), (853, 366), (882, 366), (898, 390)],   # Frauenkirche
+]: d.polygon(poly, fill=255)
+keep |= np.asarray(tall) > 0
+al = al * ndi.gaussian_filter(keep.astype(np.float32), .7)
+top, _ = rows(al, .0005)
 rgb, al = rgb[max(0, top - 4):foot], al[max(0, top - 4):foot]
 x = np.linspace(0, 1, al.shape[1]); al = al * np.clip(np.minimum(x, 1 - x) / .06, 0, 1)[None, :]   # both ends fade into the open horizon
 save(rgb, al, 'skyline', q=84)
