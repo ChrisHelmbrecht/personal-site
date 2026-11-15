@@ -44,6 +44,14 @@ Then run `node scripts/build-timeline.mjs`.
 
 The clickable areas are the `<a class="spot">` elements in `index.html`, positioned in percent of the skull image.
 
+## Icon
+
+`assets/icon.svg` is the favicon: a much simplified skull, blue line, white inside, nothing around it. `favicon.ico` (16, 32, 48 px) and `assets/icon-180.png` (the touch icon, on the site's paper because iOS wants it opaque) are rendered from it.
+
+## Path film
+
+`assets/video/path.mp4` is not the raw Seedance film (`assets/source/path-432x576.mp4`): in that one the lower wanderer loses his ornaments after four seconds and walks on as a plain dark puppet. `scripts/path-figure.py assets/source/path-432x576.mp4 assets/video/path.mp4` keeps him as drawn: it cuts him out of his first seconds and carries him along the puppet's way.
+
 ## Sound credits
 
 The two helicopter recordings (`assets/audio/alouette.mp3`, `assets/audio/flight/cabin.mp3`) are cut from sound effects of [freeSFX](https://www.freesfx.co.uk/). Their licence asks for a credit with the site's URL: it stands on the making-of page under "Credits & Sound" (`making-of.html#credits`), which the menu links at its foot. Keep that credit for as long as the recordings are in use. The files are part of this site and not meant to be passed on by themselves.

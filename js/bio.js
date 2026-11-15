@@ -198,25 +198,25 @@
   };
   document.addEventListener('lesson:open', () => rest(true));
   document.addEventListener('lesson:close', () => { lesson = false; stir(); });
-  // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off to the
-  // left across the text: a cloud of very fine blue dots, the way the spray in the engraving is stippled
+  // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off his back
+  // foot towards the words of the headline: a cloud of very fine blue dots, the way the spray in the engraving is stippled
   const rider = log.querySelector('.find');
   if (rider && !calm) {
     const leg = rider.closest('.leg'), TINT = ['31, 63, 151', '31, 63, 151', '31, 63, 151', '18, 38, 95', '92, 116, 186'];
-    let cv, ctx, flakes = [], snowing = false, lastSpray = 0, pour = 0, from = [0, 0, 0, 0], then = 0;
+    let cv, ctx, flakes = [], snowing = false, lastSpray = 0, pour = 0, from = [0, 0, 0], aim = [-1, -.3, 300], then = 0;   // from: back foot and size of the rider; aim: direction and distance to the headline
     const snow = t => {
       const k = Math.min(2.5, (t - then) / 16.7); then = t;
       if (pour > 0) {                                                 // the turn throws snow for a good half second
         pour -= k;
-        for (let n = Math.round(42 * k); n > 0; n--) flakes.push({
-          x: from[0] + from[2] * (.2 + Math.random() * .45), y: from[1] + from[3] * (.62 + Math.random() * .3),
-          vx: -(1.6 + Math.random() * 11.4), vy: -(.1 + Math.random() * 4.6), s: .6 + Math.random() * Math.random() * 1.1, a: .3 + Math.random() * .65, age: 0, life: 44 + Math.random() * 96,
-          c: TINT[Math.random() * TINT.length | 0] });
+        for (let n = Math.round(42 * k); n > 0; n--) { const turn = (Math.random() - .5) * .62, c = Math.cos(turn), s = Math.sin(turn), v = aim[2] / 31 * (.12 + Math.random() * 1.05); flakes.push({   // a fan around the line to the headline; the air stops a flake after about 31 times its first step
+          x: from[0] + (Math.random() - .5) * from[2] * .12, y: from[1] + (Math.random() - .5) * from[2] * .1,
+          vx: (aim[0] * c - aim[1] * s) * v, vy: (aim[0] * s + aim[1] * c) * v, s: .6 + Math.random() * Math.random() * 1.1, a: .3 + Math.random() * .65, age: 0, life: 44 + Math.random() * 96,
+          c: TINT[Math.random() * TINT.length | 0] }); }
       }
       ctx.clearRect(0, 0, cv.width, cv.height);
       flakes = flakes.filter(f => f.age < f.life);
       for (const f of flakes) {
-        f.x += f.vx * k; f.y += f.vy * k; f.vx *= Math.pow(.968, k); f.vy = f.vy * Math.pow(.98, k) + (.04 + (Math.random() - .5) * .16) * k; f.age += k;   // fine powder hangs in the air and drifts
+        f.x += f.vx * k; f.y += f.vy * k; f.vx *= Math.pow(.968, k); f.vy = f.vy * Math.pow(.968, k) + (.03 + (Math.random() - .5) * .16) * k; f.age += k;   // fine powder hangs in the air and drifts
         ctx.fillStyle = `rgba(${f.c}, ${(f.a * Math.min(1, (f.life - f.age) / 30)).toFixed(2)})`;
         ctx.fillRect(f.x, f.y, f.s, f.s);
       }
@@ -227,7 +227,11 @@
       if (!cv) { cv = document.createElement('canvas'); cv.className = 'powder'; cv.setAttribute('aria-hidden', 'true'); leg.appendChild(cv); ctx = cv.getContext('2d'); }
       const box = leg.getBoundingClientRect(), r = rider.getBoundingClientRect();
       if (!snowing) { const d = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(box.width * d); cv.height = Math.round(box.height * d); ctx.setTransform(d, 0, 0, d, 0, 0); }
-      from = [r.left - box.left, r.top - box.top, r.width, r.height]; pour = 46;
+      from = [r.left - box.left + r.width * .4, r.top - box.top + r.height * .56, r.width]; pour = 46;                  // his back foot, in the drawing
+      const h = leg.querySelector('h2'), tn = h && h.firstChild, at = tn && tn.nodeType === 3 ? tn.data.indexOf('Force') : -1; let to = h ? h.getBoundingClientRect() : null;
+      if (at >= 0) { const rg = document.createRange(); rg.setStart(tn, at); rg.setEnd(tn, tn.data.length); const rs = [...rg.getClientRects()];   // the words "Force to Adventure", wherever the line breaks put them
+        if (rs.length) to = { left: Math.min(...rs.map(q => q.left)), right: Math.max(...rs.map(q => q.right)), top: Math.min(...rs.map(q => q.top)), bottom: Math.max(...rs.map(q => q.bottom)) }; }
+      if (to) { const dx = (to.left + to.right) / 2 - box.left - from[0], dy = (to.top + to.bottom) / 2 - box.top - from[1], d = Math.hypot(dx, dy) || 1; aim = [dx / d, dy / d, d]; }
       if (!snowing) { snowing = true; then = now; requestAnimationFrame(snow); }
     };
     leg.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') spray(); });

@@ -86,7 +86,7 @@ a { color: var(--ink); }
 }
 @media (max-aspect-ratio: 4/5) {
   .hero { min-height: 100vh; min-height: 100svh; padding: 0; align-content: center; overflow-x: hidden; overflow-x: clip; }
-  .skull { width: 114vw; max-width: none; }
+  .skull { width: 114vw; max-width: none; justify-self: start; margin-left: -7vw; }   /* wider than the screen: centred by hand, Safari would start it at the left edge */
 }
 .tilt { position: absolute; inset: 0; will-change: transform; }
 .skull.sway .tilt { animation: sway 9s ease-in-out infinite alternate; }
