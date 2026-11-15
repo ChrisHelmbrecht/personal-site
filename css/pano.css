@@ -1,0 +1,24 @@
+/* The 360° film in a pop-up (js/pano.js). Loaded only when the Tenerife engraving is clicked; colours and type come from site.css */
+.pn { position: fixed; inset: 0; width: min(94vw, 1500px); height: min(88vh, 88dvh); max-width: none; max-height: none; margin: auto; padding: 0; border: 1.5px solid var(--ink-deep); border-radius: 6px; overflow: hidden;
+  background: var(--paper); color: var(--ink-deep); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.pn::backdrop { background: rgba(214, 217, 214, .86); }
+.pn-view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; outline: 0; }
+.pn-view:active { cursor: grabbing; }
+.pn-view:focus-visible { box-shadow: inset 0 0 0 3px var(--ink); }
+.pn-film { position: absolute; left: 0; top: 0; width: 2px; height: 2px; opacity: 0; pointer-events: none; }   /* only the source of the picture; some browsers want it on the page */
+.pn-flat { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--ink-deep); }
+.pn button { font: 500 .68rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); background: var(--card); border: 1.5px solid var(--ink); border-radius: 23px; min-height: 44px; padding: 0 18px; cursor: pointer; touch-action: manipulation; }
+.pn button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.pn-tools { position: absolute; right: max(14px, env(safe-area-inset-right, 0px)); top: calc(14px + env(safe-area-inset-top, 0px)); display: flex; gap: 8px; }
+.pn-tools #pn-x { width: 44px; padding: 0; font-size: 1.2rem; letter-spacing: 0; }
+.pn p { position: absolute; margin: 0; font: 500 .66rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; pointer-events: none; }
+.pn-tag { left: max(14px, env(safe-area-inset-left, 0px)); top: calc(14px + env(safe-area-inset-top, 0px)); padding: 9px 12px; border-radius: 4px; background: rgba(230, 232, 229, .86); }
+.pn-tag:empty { display: none; }
+.pn-hint, .pn-load { left: 50%; transform: translateX(-50%); padding: 11px 16px; border-radius: 23px; background: rgba(230, 232, 229, .9); white-space: nowrap; }
+.pn-hint { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transition: opacity .6s ease; }
+.pn.looked .pn-hint { opacity: 0; }
+.pn-load { bottom: calc(62px + env(safe-area-inset-bottom, 0px)); border: 1.5px solid var(--ink-deep); font-variant-numeric: tabular-nums; }
+.pn.flat .pn-hint { bottom: auto; top: calc(18px + env(safe-area-inset-top, 0px)); white-space: normal; text-align: center; max-width: 70vw; line-height: 1.5; }
+/* phones: the film fills the screen */
+@media (max-width: 700px), (max-height: 500px) { .pn { width: 100vw; height: 100vh; height: 100dvh; border: 0; border-radius: 0; } .pn-tools { gap: 6px; } .pn button { padding: 0 13px; } .pn-tag { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pn-hint { transition: none; } }

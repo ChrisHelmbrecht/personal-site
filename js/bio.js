@@ -198,6 +198,14 @@
   };
   document.addEventListener('lesson:open', () => rest(true));
   document.addEventListener('lesson:close', () => { lesson = false; stir(); });
+  // Tenerife all around: a click on the engraving (or its small "360°" button) opens a pop-up with a film of the sea that can be
+  // looked around in (js/pano.js). Viewer and film are fetched only then
+  let around = null; const PANO = [30656881, 13910081];   // sizes of the two films in bytes, should the server not say
+  document.querySelectorAll('.plate[data-plate="tenerife"] .live').forEach(plate => plate.addEventListener('click', () => {
+    around = around || new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/pano.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    around.then(() => window.pano.open({ label: 'Tenerife, in the sea: a 360° film', tag: 'Tenerife · 360°', poster: 'assets/pano/tenerife.webp',
+      large: ['assets/pano/tenerife-4k.mp4', PANO[0]], small: ['assets/pano/tenerife-2k.mp4', PANO[1]] }, plate.querySelector('.look'))).catch(() => { around = null; });
+  }));
   // Easter egg in New York: a click on the engraving sends a yellow cab across its foot, the only thing on this page that is
   // not blue. Whoever hails it (a click on the cab) is taken to DONT WALK, a game about crossing an avenue (jaywalk.html)
   const CAB = ['...........wwwww..........', '.......bbbbbbbbbbbb.......', '......bgggbggggbgggb......', '......bgggbggggbgggb......', '.yyyyyyyyyyyyyyyyyyyyyyyy.', 'yyyyyyyyyyyyyyyyyyyyyyyyyy', 'wyybybybybybybybybybybyyyr', 'yyyyyyyyyyyyyyyyyyyyyyyyyy', '..ybbbbyyyyyyyyyyyybbbbyy.', '...bbbb............bbbb...'];
