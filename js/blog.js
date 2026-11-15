@@ -126,7 +126,7 @@
   });
 
   // ---- the preview: the card itself unfolds. It rights itself, grows from where it hangs, and the intro follows
-  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse', quiet = false, going = null;
+  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse', quiet = false, going = null, sent = -1;      // sent: the card whose preview was just closed on purpose
   const flight = (card, sheet) => {                       // from the small card's place to the open sheet's place
     const r = card.getBoundingClientRect(), p = sheet.getBoundingClientRect(), s = r.width / p.width;
     return [{ transformOrigin: '0 0', transform: `translate(${r.left - p.left}px, ${r.top - p.top}px) scale(${s}) rotate(${getComputedStyle(card).getPropertyValue('--tilt') || '0deg'})`, clipPath: `inset(0 0 ${Math.max(0, p.height - r.height / s)}px 0 round 3px)` },
@@ -148,6 +148,7 @@
   const show = (k, by) => {
     clearTimeout(dwell); clearTimeout(leave);
     if (open === k) { how = by === 'hover' ? how : by; return; }
+    sent = -1;
     if (open >= 0) shut(false, true);
     settle();
     const c = chosen[k], card = cards[k];
@@ -170,16 +171,17 @@
     if (moves()) { sheet.classList.add('unfolding'); sheet.animate(flight(card, sheet), { duration: 440, easing: 'cubic-bezier(.2, .75, .2, 1)' }); }
     if (by === 'tap') peek.querySelector('.peek-read').focus({ preventScroll: true });
   };
-  const later = () => { clearTimeout(leave); leave = setTimeout(() => { if (how === 'hover') { shut(); if (over >= 0) dwell = setTimeout(() => show(over, 'hover'), 350); } }, 380); };
+  const later = () => { clearTimeout(leave); leave = setTimeout(() => { if (how === 'hover' && open >= 0) { shut(); if (over >= 0 && over !== sent) dwell = setTimeout(() => show(over, 'hover'), 350); } }, 380); };
   cards.forEach((a, k) => {
     a.addEventListener('pointerdown', e => { lastPointer = e.pointerType || 'mouse'; });
     a.addEventListener('pointerenter', e => {
       if (e.pointerType !== 'mouse') return;
       over = k; clearTimeout(dwell);
+      if (sent === k) return;                               // closed with Escape or the cross while the pointer rests here: it stays closed until the pointer has been away
       if (open === k) return clearTimeout(leave);
       if (open < 0) dwell = setTimeout(() => show(k, 'hover'), 350);      // passing over a card opens nothing: the pointer has to rest on it
     });
-    a.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse') return; if (over === k) over = -1; clearTimeout(dwell); if (open === k && how === 'hover') later(); });
+    a.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse') return; if (over === k) over = -1; clearTimeout(dwell); if (sent === k && open < 0 && !going) sent = -1; if (open === k && how === 'hover') later(); });
     a.addEventListener('click', e => {
       if (!plain(e)) return;
       if (lastPointer !== 'mouse' && lastPointer !== 'key') { e.preventDefault(); show(k, 'tap'); return; }      // a finger: first the preview
@@ -192,10 +194,10 @@
   peek.addEventListener('pointerenter', () => clearTimeout(leave));
   peek.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && how === 'hover') later(); });
   peek.addEventListener('click', e => {
-    if (e.target.closest('.peek-x')) return shut(how !== 'hover');
+    if (e.target.closest('.peek-x')) { sent = open; return shut(how !== 'hover'); }
     const a = e.target.closest('a'); if (a && plain(e)) { leaving(chosen[open]); carry(peek.querySelector('.peek-pic')); }
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && open >= 0) { e.preventDefault(); shut(how !== 'hover'); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && open >= 0) { e.preventDefault(); sent = open; shut(how !== 'hover'); } });
   document.addEventListener('pointerdown', e => { if (open >= 0 && !peek.contains(e.target) && !e.target.closest('.float')) shut(); });
   addEventListener('resize', () => shut(false, true));
 
