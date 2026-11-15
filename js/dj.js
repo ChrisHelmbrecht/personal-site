@@ -131,7 +131,7 @@
     note('Loading the Mixcloud player …');
     clearTimeout(wait); clearTimeout(nudge);
     if (frame && can('load')) {
-      call('load', m.key, true).then(() => { note(''); call('getDuration').then(d => { if (d > 0 && loaded === sel) { dur = d; face(); } }); });
+      call('load', m.key, true).then(() => note(''));       // the length comes with the first progress; asked for now, the player still names the old one
       frame.title = `Mixcloud player: ${m.title}`;
       nudge = setTimeout(() => { if (!playing && loaded === sel) note('Press play in the Mixcloud player below.'); }, 5000);
       return;

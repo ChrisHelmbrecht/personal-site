@@ -100,6 +100,7 @@
   .dj-room .now-meta { margin-bottom: 0; }
   .now-ctl { margin-top: 16px; }
   .dj-room .now-say { margin-bottom: 8px; }
+  .dj-room .now-say:empty { min-height: 0; margin: 4px 0 0; }
   .now-mc iframe { margin-bottom: 16px; }
   .nights-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .nights-grid > div + div { margin-top: 34px; }
