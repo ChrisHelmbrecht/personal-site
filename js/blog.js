@@ -5,7 +5,7 @@
    Archive: the whole list with search, categories, order and pages. Its state lives in the address
    (?view=archive&q=...&cat=...&sort=old&page=2), so links can be shared and back/forward work.
    Changing the view, the cards that are in both move to their new places.
-   On an article page the script only looks after the way back. */
+   On an article page the script looks after the way back and tells the reading line where the text ends. */
 (() => {
   const root = document.getElementById('blog'), page = root || document.querySelector('.article-page');
   if (!page) return;
@@ -30,6 +30,12 @@
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && others.open) { others.open = false; others.querySelector('summary').focus(); } });
     }
     document.addEventListener('click', e => { const a = e.target.closest('a.mini'); if (a && plain(e)) carry(a); });
+    const line = document.querySelector('.reading'), text = document.querySelector('.article-text');
+    if (line && text) {                                   // the line is full where the text ends, not where the page with its recommendations ends
+      const measure = () => { const end = Math.round(text.getBoundingClientRect().bottom + scrollY - innerHeight); line.hidden = end < 80; line.style.setProperty('--end', Math.max(1, end) + 'px'); };
+      measure(); addEventListener('resize', measure); addEventListener('load', measure);
+      if ('ResizeObserver' in window) new ResizeObserver(measure).observe(page);      // pictures arriving, fonts, the table of contents opening
+    }
     return;
   }
 
@@ -126,28 +132,31 @@
   });
 
   // ---- the preview: the card itself unfolds. It rights itself, grows from where it hangs, and the intro follows
-  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse', quiet = false, going = null, sent = -1;      // sent: the card whose preview was just closed on purpose
+  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse', quiet = false, act = null, sent = -1;
+  // act: the one animation the preview has at a time, unfolding or folding, and what is left to do when it ends. sent: the card whose preview was just closed on purpose
   const flight = (card, sheet) => {                       // from the small card's place to the open sheet's place
     const r = card.getBoundingClientRect(), p = sheet.getBoundingClientRect(), s = r.width / p.width;
     return [{ transformOrigin: '0 0', transform: `translate(${r.left - p.left}px, ${r.top - p.top}px) scale(${s}) rotate(${getComputedStyle(card).getPropertyValue('--tilt') || '0deg'})`, clipPath: `inset(0 0 ${Math.max(0, p.height - r.height / s)}px 0 round 3px)` },
       { transformOrigin: '0 0', transform: 'none', clipPath: 'inset(0 0 0 0 round 3px)' }];
   };
-  const settle = () => { if (going) { const g = going; going = null; g.anim.cancel(); g.done(); } };
+  const settle = () => { if (act) { const a = act; act = null; a.anim.cancel(); a.done(); } };      // end whatever runs, at once: afterwards the preview is open or closed, never in between
+  const run = (anim, done, opening) => { act = { anim, done, opening }; anim.onfinish = () => { if (act && act.anim === anim) { act = null; if (!opening) done(); } }; };
+  const mark = () => { const sheet = peek.firstElementChild; if (sheet) sheet.classList.toggle('kbd', open >= 0 && how === 'focus'); };      // the keyboard's focus is on the card, and the card is the preview now: the preview wears the ring
   const shut = (focusBack, now) => {
     clearTimeout(leave);
     if (open < 0) return;
-    const card = cards[open], sheet = peek.firstElementChild;
-    open = -1;
+    const card = cards[open], sheet = peek.firstElementChild, rising = act && act.opening ? act.anim : null;
+    open = -1; act = null; mark();
     const done = () => { peek.hidden = true; peek.replaceChildren(); drift.classList.remove('has-peek'); card.classList.remove('sel'); rest(); };
     if (focusBack) { quiet = true; card.focus({ preventScroll: true }); quiet = false; }      // giving the focus back must not open it again
-    if (now || !moves() || !sheet) return done();
-    sheet.classList.add('folding');
-    const anim = sheet.animate(flight(card, sheet).reverse(), { duration: 300, easing: 'cubic-bezier(.4, 0, .6, 1)', fill: 'forwards' });
-    going = { anim, done }; anim.onfinish = () => { if (going && going.anim === anim) { going = null; done(); } };
+    if (now || !moves() || !sheet) { if (rising) rising.cancel(); return done(); }
+    sheet.classList.remove('unfolding'); sheet.classList.add('folding');
+    if (rising) { rising.effect.updateTiming({ fill: 'both' }); rising.reverse(); return run(rising, done); }      // closed while still unfolding: the same movement turns round where it is
+    run(sheet.animate(flight(card, sheet).reverse(), { duration: 300, easing: 'cubic-bezier(.4, 0, .6, 1)', fill: 'forwards' }), done);
   };
   const show = (k, by) => {
     clearTimeout(dwell); clearTimeout(leave);
-    if (open === k) { how = by === 'hover' ? how : by; return; }
+    if (open === k) { how = by === 'hover' ? how : by; mark(); return; }
     sent = -1;
     if (open >= 0) shut(false, true);
     settle();
@@ -164,11 +173,16 @@
     peek.hidden = false; drift.classList.add('has-peek'); card.classList.add('sel'); rest();
     const r = card.getBoundingClientRect(), w = peek.offsetWidth, h = peek.offsetHeight, vw = document.documentElement.clientWidth;
     const left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), vw - w - 12);
-    let top = r.top - 26;
-    if (top + h > innerHeight - 10) top = innerHeight - h - 10;
-    peek.style.left = left + scrollX + 'px'; peek.style.top = Math.max(scrollY + 10, top + scrollY) + 'px';
+    let top = r.top - 26, to = null;
+    if (by === 'focus' && (r.top < 0 || r.bottom > innerHeight)) {      // reached with the keyboard while out of sight: the browser is about to scroll to the small card. The page goes where the whole preview is in sight instead
+      top = Math.max(10 - scrollY, top);
+      to = top < 10 ? scrollY + top - 10 : top + h > innerHeight - 10 ? scrollY + top + h - innerHeight + 10 : null;
+    } else top = Math.max(10, Math.min(top, innerHeight - h - 10));      // in sight: the preview stays inside the window
+    peek.style.left = left + scrollX + 'px'; peek.style.top = top + scrollY + 'px';
+    if (to !== null && getComputedStyle(peek).position !== 'fixed') requestAnimationFrame(() => { if (open === k) scrollTo({ top: to, behavior: calm.matches ? 'instant' : 'smooth' }); });
     const sheet = peek.firstElementChild;
-    if (moves()) { sheet.classList.add('unfolding'); sheet.animate(flight(card, sheet), { duration: 440, easing: 'cubic-bezier(.2, .75, .2, 1)' }); }
+    mark();
+    if (moves()) { sheet.classList.add('unfolding'); run(sheet.animate(flight(card, sheet), { duration: 440, easing: 'cubic-bezier(.2, .75, .2, 1)' }), () => sheet.classList.remove('unfolding'), true); }
     if (by === 'tap') peek.querySelector('.peek-read').focus({ preventScroll: true });
   };
   const later = () => { clearTimeout(leave); leave = setTimeout(() => { if (how === 'hover' && open >= 0) { shut(); if (over >= 0 && over !== sent) dwell = setTimeout(() => show(over, 'hover'), 350); } }, 380); };
@@ -181,7 +195,7 @@
       if (open === k) return clearTimeout(leave);
       if (open < 0) dwell = setTimeout(() => show(k, 'hover'), 350);      // passing over a card opens nothing: the pointer has to rest on it
     });
-    a.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse') return; if (over === k) over = -1; clearTimeout(dwell); if (sent === k && open < 0 && !going) sent = -1; if (open === k && how === 'hover') later(); });
+    a.addEventListener('pointerleave', e => { if (e.pointerType !== 'mouse') return; if (over === k) over = -1; clearTimeout(dwell); if (sent === k && open < 0 && !act) sent = -1; if (open === k && how === 'hover') later(); });
     a.addEventListener('click', e => {
       if (!plain(e)) return;
       if (lastPointer !== 'mouse' && lastPointer !== 'key') { e.preventDefault(); show(k, 'tap'); return; }      // a finger: first the preview
@@ -199,14 +213,14 @@
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open >= 0) { e.preventDefault(); sent = open; shut(how !== 'hover'); } });
   document.addEventListener('pointerdown', e => { if (open >= 0 && !peek.contains(e.target) && !e.target.closest('.float')) shut(); });
-  addEventListener('resize', () => shut(false, true));
+  addEventListener('resize', () => { shut(false, true); settle(); });
 
   // ---- movement: rests when asked to, in a hidden tab, out of sight, and while a preview is open
   const motion = $('motion');
   let paused = false, seen = true;
   try { paused = localStorage.getItem('blog-motion') === 'paused'; } catch (e) { /* no memory */ }
   function rest() {
-    drift.classList.toggle('still', paused || document.hidden || !seen || open >= 0 || !!going || S.view !== 'explore');
+    drift.classList.toggle('still', paused || document.hidden || !seen || open >= 0 || !!act || S.view !== 'explore');
     motion.setAttribute('aria-pressed', paused); motion.textContent = paused ? LBL.play : LBL.pause;
   }
   motion.addEventListener('click', () => { paused = !paused; try { localStorage.setItem('blog-motion', paused ? 'paused' : 'on'); } catch (e) { /* fine */ } rest(); });
@@ -265,5 +279,5 @@
     });
   }
   addEventListener('pageshow', e => { if (e.persisted) rest(); });
-  window.blogPage = { state: () => ({ ...S, open, how, paused, folding: !!going, shown: all.filter(x => !x.li.hidden).length, cards: cards.length, order: chosen.map(c => c.size[0] + ':' + c.id.slice(0, 10)) }) };
+  window.blogPage = { state: () => ({ ...S, open, how, paused, folding: !!act && !act.opening, moving: !!act, shown: all.filter(x => !x.li.hidden).length, cards: cards.length, order: chosen.map(c => c.size[0] + ':' + c.id.slice(0, 10)) }) };
 })();

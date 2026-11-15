@@ -37,7 +37,8 @@
 .drift.still .float-in, .drift:has(:focus-visible) .float-in, .float:hover .float-in { animation-play-state: paused; }
 .drift.has-peek .float:not(.sel) { opacity: .42; }
 .float.sel .float-in { opacity: 0; }
-.float.sel:focus-visible { outline-color: transparent; }                                 /* it is the preview now: one object, not a card and its copy */
+.float.sel:focus-visible { outline-color: transparent; }                                 /* it is the preview now: one object, not a card and its copy ... */
+.peek-card.kbd { outline: 2px solid var(--ink); outline-offset: 3px; }                   /* ... so the preview shows where the keyboard is */
 .drift-col { display: contents; }
 .float-tag { display: block; margin: 0 0 8px 2px; font: 500 .58rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
 .float-pic, .entry-pic, .mini-pic, .peek-pic { display: block; overflow: hidden; background: var(--paper); border-radius: 2px; }
@@ -51,6 +52,7 @@
 
 /* --- the preview: the chosen card, large, with its intro. It lies over the card it came from */
 .peek { position: absolute; z-index: 8; left: 0; top: 0; width: min(600px, calc(100vw - 24px)); }
+.peek::after { content: ""; position: absolute; left: 0; top: 100%; width: 1px; height: 10px; }      /* room under it when it is the last thing on the page, so the page can scroll that far */
 .peek-card { position: relative; display: flex; flex-direction: column; max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); padding: 10px 10px 16px; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 4px; box-shadow: 0 34px 44px -26px rgba(18, 38, 95, .75); }
 /* unfolding: picture and title travel with the card; the intro and the way on arrive once it has opened, and leave first */
 .peek-card.unfolding .peek-intro, .peek-card.unfolding .peek-foot, .peek-card.unfolding .peek-x, .peek-card.unfolding .peek-body time { animation: peek-in .26s .3s ease-out backwards; }
@@ -143,7 +145,8 @@
 /* how far into the article one is: a thin line that fills with the scrolling, where the browser can tie the two together */
 .reading { display: none; }
 @supports (animation-timeline: scroll()) {
-  .reading { display: block; position: fixed; z-index: 21; left: 0; top: 0; width: 100%; height: 3px; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); animation: reading linear both; animation-timeline: scroll(root block); }
+  .reading { display: block; position: fixed; z-index: 21; left: 0; top: 0; width: 100%; height: 3px; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); animation: reading linear both; animation-timeline: scroll(root block); animation-range: 0% var(--end, 100%); }      /* --end: where the text ends, set by js/blog.js; without it, the end of the page */
+  .reading[hidden] { display: none; }
   @keyframes reading { to { transform: scaleX(1); } }
 }
 .article-more { margin-top: 64px; padding-top: 6px; border-top: 1.5px solid var(--ink-deep); }

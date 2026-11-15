@@ -39,6 +39,9 @@ assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test
 
 SITE = 'https://new.chrishelmbrecht.com'      # where the site lives. At launch: the real address, then build again
 EXPLORE, FRESH, PER_PAGE = 7, 3, 12           # floating cards at most; of those, places kept for the newest; articles per archive page
+# EXPLORE can go down, not up: the arrangement (js/blog.js "chosen", css/blog.css ".drift-col") has seven places, one large, two middle,
+# four small. More cards need new places there first. A growing blog grows in the archive, not here.
+assert EXPLORE <= 7, 'Explore has seven places (see the note above EXPLORE); more cards need the arrangement in js/blog.js and css/blog.css extended first'
 TOC_FROM = 4                                  # a table of contents from this many headings on
 CATS = {'politics': ('Politics', 'Politik'), 'economy': ('Economy', 'Wirtschaft'), 'geopolitics': ('Geopolitics', 'Geopolitik'),
         'germany': ('Germany', 'Deutschland'), 'society': ('Culture & Society', 'Kultur & Gesellschaft')}
