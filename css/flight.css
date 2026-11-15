@@ -101,4 +101,16 @@ html.lesson { overflow: hidden; }
   .fl-card p { font-size: 1rem; margin-bottom: 8px; } .fl-card p.fl-lv { min-height: 3.9em; margin-bottom: 8px; }
 }
 @media (max-height: 460px) { .fl-g { height: 70px; } .fl-g strong { margin-top: 5px; font-size: 1.3rem; } .fl-map i { width: 42px; height: 42px; margin-left: -21px; top: 20px; } .fl-say { top: 64px; } }
+/* a low, wide window (a laptop with the browser's bars): the start card lays its parts side by side and tightens up, so it fits without scrolling */
+@media (max-height: 880px) and (min-width: 860px) {
+  .fl-card:has(.fl-start) { width: min(95vw, 920px); padding: 20px 28px 22px; }
+  .fl-start { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 9fr); column-gap: 28px; align-items: center; }
+  .fl-start > .fl-pick, .fl-start > .fl-note, .fl-start > .fl-row { grid-column: 1 / -1; }
+  .fl-start h2 { font-size: 2.3rem; } .fl-start .fl-intro p { font-size: 1rem; margin-bottom: 8px; } .fl-start .fl-intro p:last-child { margin-bottom: 0; }
+  .fl-start .fl-how { margin: 0; gap: 8px; } .fl-start .fl-how li { grid-template-rows: 50px auto 1fr; gap: 5px; padding: 10px 8px; }
+  .fl-start .fl-how svg { height: 50px; } .fl-start .fl-how b { font-size: 1.15rem; } .fl-start .fl-how span { font-size: .9rem; line-height: 1.25; }
+  .fl-start .fl-by svg { height: 34px; } .fl-start kbd { width: 22px; height: 22px; margin: 1px; font-size: .62rem; }
+  .fl-start .fl-pick { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px; align-items: center; margin-top: 14px; }
+  .fl-start p.fl-lv { margin: 0; min-height: 0; } .fl-start .fl-note { margin: 10px 0 0; } .fl-start .fl-row { margin-top: 12px; }
+}
 @media (prefers-reduced-motion: reduce) { .fl-say { transition: none; } }

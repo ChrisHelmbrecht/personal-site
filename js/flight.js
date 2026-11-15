@@ -81,7 +81,7 @@
   const SKY = 3600, K = 1.5;                      // the skyline stands 3.6 km off and is drawn larger than life so it can be recognised
   const SKYW = 4000, WOODW = 340, FIELDW = 106;   // metres: width of the skyline drawing, of one forest strip (edge plus mirror image), of hangar and tower
   const PIC = 709, HOOD = 492, DIALS = [[643, 406], [695, 407], [747, 408], [643, 453], [695, 456], [749, 457]];   // cockpit drawing, in its own pixels: height of the picture (the grip reaches further down), lower edge of the binnacle, the six dials
-  const ALPS = { span: rad(146), top: rad(6.2) };  // the panorama of the Alps (scripts/alps.py) holds 112° of compass and 1.36° of height: drawn a little wider and much taller, as a long lens shows them
+  const ALPS = { span: rad(146), top: rad(5.5), ink: .66 };  // the panorama of the Alps (scripts/alps.py) holds 112° of compass and 1.36° of height: drawn a little wider and much taller, as a long lens shows them, and pale
   const ART = {};
 
   // ---- state
@@ -192,7 +192,7 @@
     const iw = img.width, ih = img.height; let prev = null;
     for (let i = 0; i <= n; i++) {
       const x = xa + (xb - xa) * i / n, lo = P(x, y, 0), hi = lo && P(x, y, h), cur = hi ? [lo[0], lo[1], hi[1]] : null;
-      if (prev && cur && cur[0] > prev[0] && cur[0] > -far && prev[0] < far) { const top = (prev[2] + cur[2]) / 2; g.drawImage(img, (i - 1) / n * iw, 0, iw / n, ih, prev[0] - .5, top, cur[0] - prev[0] + 1, (prev[1] + cur[1]) / 2 - top); }
+      if (prev && cur && cur[0] > prev[0] && cur[0] > -far && prev[0] < far) { const top = (prev[2] + cur[2]) / 2, x0 = Math.round(prev[0]); g.drawImage(img, (i - 1) / n * iw, 0, iw / n, ih, x0, top, Math.round(cur[0]) - x0, (prev[1] + cur[1]) / 2 - top); }
       prev = cur;
     }
   };
@@ -201,7 +201,7 @@
   const Q = (b, e) => { const x0 = Math.sin(b) * Math.cos(e), y0 = Math.cos(b) * Math.cos(e), z0 = Math.sin(e), xr = x0 * cs - y0 * sn, yr = x0 * sn + y0 * cs, d = yr * ca + z0 * sa; return d < .12 ? null : [xr / d * F, -(-yr * sa + z0 * ca) / d * F]; };
   const chain = img => { const n = 60, iw = img.width; let prev = null;
     for (let i = 0; i <= n; i++) { const b = (i / n - .5) * ALPS.span, lo = Q(b, 0), hi = lo && Q(b, ALPS.top), cur = hi ? [lo[0], lo[1], hi[1]] : null;
-      if (prev && cur && cur[0] > prev[0] && cur[0] > -far && prev[0] < far) { const top = (prev[2] + cur[2]) / 2; g.drawImage(img, (i - 1) / n * iw, 0, iw / n, img.height, prev[0] - .5, top, cur[0] - prev[0] + 1, (prev[1] + cur[1]) / 2 - top); }
+      if (prev && cur && cur[0] > prev[0] && cur[0] > -far && prev[0] < far) { const top = (prev[2] + cur[2]) / 2, x0 = Math.round(prev[0]); g.drawImage(img, (i - 1) / n * iw, 0, iw / n, img.height, x0, top, Math.round(cur[0]) - x0, (prev[1] + cur[1]) / 2 - top); }
       prev = cur; } };
   const draw = () => {
     cs = Math.cos(S.yaw); sn = Math.sin(S.yaw); const a = S.pitch + LOOK; ca = Math.cos(a); sa = Math.sin(a);
@@ -211,7 +211,7 @@
     // sky: a few ruled lines, like the paper of the site
     ink(.07, 1); for (let i = 1; i < 9; i++) { g.beginPath(); g.moveTo(-far, hz - i * i * 6 * dpr); g.lineTo(far, hz - i * i * 6 * dpr); g.stroke(); }
     const sk = ART.skyline;
-    if (ART.alps) chain(ART.alps); else { band(PEAKS[1], 46000, .05, .22); band(PEAKS[0], 38000, .08, .34); }   // the Alps: the real chain, or two plain ridges
+    if (ART.alps) { g.globalAlpha = ALPS.ink; chain(ART.alps); g.globalAlpha = 1; } else { band(PEAKS[1], 46000, .05, .22); band(PEAKS[0], 38000, .08, .34); }   // the Alps: the real chain, or two plain ridges
     wash(.07); g.fillRect(-far, hz, far * 2, far * 2); ink(.5, 1); g.beginPath(); g.moveTo(-far, hz); g.lineTo(far, hz); g.stroke();   // the ground, up to the horizon
     if (sk) board(sk, -SKYW / 2, SKYW / 2, SKY, SKYW * sk.height / sk.width, 28);                         // Olympiaturm, tent roof, Frauenkirche: one drawing
     else {
@@ -350,11 +350,11 @@
   const key = k => `<kbd>${k}</kbd>`, thumb = d => svg(`<rect x="3" y="3" width="34" height="34" rx="${d === 'o' ? 17 : 7}"/>${d === 'o' ? '<circle cx="20" cy="20" r="5" class="f"/>' + tip(20, 8, 0) + tip(32, 20, 90) + tip(20, 32, 180) + tip(8, 20, -90) : d === 'h' ? '<path d="M10 20h20"/>' + tip(9, 20, -90) + tip(31, 20, 90) : '<path d="M20 10v20"/>' + tip(20, 9, 0) + tip(20, 31, 180)}`, '0 0 40 40');
   const HAND = { keys: [`<span class="fl-arrows">${key('↑')}<br>${key('←')}${key('↓')}${key('→')}</span>`, `<span class="fl-arrows">${key('A')}${key('D')}</span>`, `<span class="fl-arrows">${key('W')}<br>${key('S')}</span>`], touch: [thumb('o'), thumb('h'), thumb('v')] };
   const startCard = () => { phase = 'idle'; const T = t(), how = matchMedia('(pointer: coarse)').matches ? 'touch' : 'keys';
-    card(`<p class="fl-kicker">${line(SAY.invite)}</p><h2>Was soll das werden?</h2><p class="fl-sub">${T.sub}</p><p>${T.intro} ${T.tip}</p>
+    card(`<div class="fl-start"><div class="fl-intro"><p class="fl-kicker">${line(SAY.invite)}</p><h2>Was soll das werden?</h2><p class="fl-sub">${T.sub}</p><p>${T.intro} ${T.tip}</p></div>
       <ul class="fl-how">${['stick', 'ped', 'col'].map((c, i) => `<li>${PICT[c]}<div><b>${T.ctl[c][0]}</b><span>${T.ctl[c][1]}</span></div><div class="fl-by fl-by-${how}">${HAND[how][i]}<small>${T.by[how][i]}</small></div></li>`).join('')}</ul>
-      <div class="fl-levels" role="radiogroup" aria-label="${T.level}">${Object.keys(LEVELS).map(l => `<button type="button" role="radio" aria-checked="${l === level}" data-level="${l}">${T.levels[l][0]}</button>`).join('')}</div><p class="fl-lv" id="fl-lv">${T.levels[level][1]}</p>
+      <div class="fl-pick"><div class="fl-levels" role="radiogroup" aria-label="${T.level}">${Object.keys(LEVELS).map(l => `<button type="button" role="radio" aria-checked="${l === level}" data-level="${l}">${T.levels[l][0]}</button>`).join('')}</div><p class="fl-lv" id="fl-lv">${T.levels[level][1]}</p></div>
       <p class="fl-note">${how === 'keys' ? T.also + ' ' : ''}${T.note}${matchMedia('(prefers-reduced-motion: reduce)').matches ? ' ' + T.motion : ''}</p>
-      <div class="fl-row"><button type="button" data-do="start" class="fl-go">${T.start}</button>${store.get('flight-briefed') ? `<button type="button" data-do="skip">${T.skip}</button>` : ''}<button type="button" data-do="lang">${lang === 'de' ? 'English' : 'Deutsch'}</button></div>`); };
+      <div class="fl-row"><button type="button" data-do="start" class="fl-go">${T.start}</button>${store.get('flight-briefed') ? `<button type="button" data-do="skip">${T.skip}</button>` : ''}<button type="button" data-do="lang">${lang === 'de' ? 'English' : 'Deutsch'}</button></div></div>`); };
   const pick = l => { if (!LEVELS[l]) return; level = l; LV = LEVELS[l]; store.set('flight-level', l); ui.card.querySelectorAll('[data-level]').forEach(b => b.setAttribute('aria-checked', b.dataset.level === l)); const d = ui.card.querySelector('#fl-lv'); if (d) d.textContent = t().levels[l][1]; };
   const begin = skip => { fresh(); Object.assign(IN, { sx: 0, sy: 0, ped: 0, c: CFG.c0 }); letGo(); score = { level, passed: false, stable: 0, longest: 0, run: 0, far: 0, climbed: false }; shoutAt = -99; lastShout = -1; swings = []; prevStick = [0, 0]; paused = false; acc = 0; card(''); hush(); hum(true); go(skip ? 'hover' : 'tutorial', skip ? '' : 'a'); };
   const pause = on => { if (phase === 'idle' || phase === 'result' || paused === on) return; paused = on; letGo(); hum(!on); if (on) { hush(); card(`<h2>${t().paused}</h2><div class="fl-row"><button type="button" data-do="resume" class="fl-go">${t().resume}</button><button type="button" data-do="close">${t().close}</button></div>`); } else { card(''); last = performance.now(); acc = 0; } };
