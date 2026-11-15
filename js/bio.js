@@ -155,7 +155,7 @@
   const root = document.documentElement;
   // It is heard as well: a recording of turbine whine and rotor chop follows the flight from ear to ear, fades with the
   // distance, and drops a little in pitch while the helicopter flies away. Loaded on the first click only
-  let air = null, engine = null;
+  let air = null, engine = null, voice = null;
   const hear = (start, span, x0) => {                     // take-off time, length of the flight in ms, where it hovers (-1 left … 1 right)
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
     air = air || new AC(); air.resume();
@@ -169,14 +169,15 @@
       line(vol.gain, [[0, 0], [.05, .36], [.2, .5], [.42, .07], [.47, .07], [.8, .46], [.92, .36], [1, .2], [1.2, 0]]);
       if (pan) line(pan.pan, [[0, x0], [.12, x0], [.42, 1], [.47, -1], [.9, x0], [1.2, x0]]);   // out on the right, round the back, in on the left
       line(src.playbackRate, [[0, 1], [.12, 1.03], [.42, .95], [.47, 1.05], [.9, 1], [1.2, 1]]);
-      src.start(now, Math.min(late, 1)); src.stop(at(1.21));
+      src.start(now, Math.min(late, 1)); src.stop(at(1.21)); voice = vol;
     }).catch(() => { engine = null; });
   };
   document.querySelectorAll('.flight').forEach(f => f.addEventListener('click', () => {
-    if (calm || f.away || !f.classList.contains('on')) return;
+    if (f.away) return void caught(f);
+    if (calm || !f.classList.contains('on')) return;
     const r = f.getBoundingClientRect(), out = innerWidth - r.left + 30, back = -(r.right + 30), up = -clamp(r.top - 100, 20, 110);
     const at = (x, y, pitch) => `translate3d(${x.toFixed(0)}px, ${y.toFixed(0)}px, 0) rotate(${pitch}deg)`;
-    f.away = true; root.classList.add('flying');
+    f.away = true; f.classList.add('away'); root.classList.add('flying');
     hear(performance.now(), 9500, clamp((r.left + r.width / 2) / innerWidth * 2 - 1, -1, 1) * .8);
     f.animate([
       { transform: at(0, 0, 0), easing: 'cubic-bezier(.5, 0, .9, .6)' },                              // nose down, it gathers speed
@@ -184,8 +185,19 @@
       { transform: at(out, up, 9), offset: .42 },                                                    // gone on the right ...
       { transform: at(back, up * .8, 5), offset: .42, easing: 'cubic-bezier(.1, .55, .3, 1)' },      // ... and in again on the left
       { transform: at(-r.width * .1, up * .08, -6), offset: .9, easing: 'ease-out' },                // nose up, it slows down
-      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; root.classList.remove('flying'); };
+      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; f.classList.remove('away'); root.classList.remove('flying'); };
   }));
+  // ... and whoever manages to click it a second time, in mid-flight, has caught it: that opens "Was soll das werden?", a
+  // flying lesson (js/flight.js). The game is fetched only then
+  let lesson = false, fetching = null;
+  const caught = f => {
+    if (lesson) return; lesson = true;
+    if (voice && air) { voice.gain.cancelScheduledValues(air.currentTime); voice.gain.setTargetAtTime(0, air.currentTime, .12); }   // one world of sound at a time
+    fetching = fetching || new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/flight.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    fetching.then(() => window.flightLesson.open(f)).catch(() => { lesson = false; fetching = null; });
+  };
+  document.addEventListener('lesson:open', () => rest(true));
+  document.addEventListener('lesson:close', () => { lesson = false; stir(); });
   // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off to the
   // left across the text: a cloud of very fine blue dots, the way the spray in the engraving is stippled
   const rider = log.querySelector('.find');
@@ -233,7 +245,7 @@
     if (on && !asleep) { asleep = true; resting = [...document.querySelectorAll('video'), ...[...document.querySelectorAll('canvas[data-src]')].map(c => c.film).filter(Boolean)].filter(v => !v.paused); resting.forEach(v => v.pause()); root.classList.add('rest'); }
     else if (!on && asleep && !document.hidden) { asleep = false; resting.forEach(v => v.play().catch(() => {})); resting = []; root.classList.remove('rest'); }
   };
-  const stir = () => { rest(false); clearTimeout(nap); nap = setTimeout(() => rest(true), 180000); };
+  const stir = () => { if (lesson) return; rest(false); clearTimeout(nap); nap = setTimeout(() => rest(true), 180000); };
   document.addEventListener('visibilitychange', () => document.hidden ? rest(true) : stir());
   if (!calm) { ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'].forEach(k => addEventListener(k, stir, { passive: true })); stir(); }
   // the towers of the Frauenkirche show Munich time, as they do on the skull

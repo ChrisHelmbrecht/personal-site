@@ -1,0 +1,76 @@
+/* "Was soll das werden?" – the hovering game hidden in the bio (js/flight.js). Loaded only when the game opens.
+   Same paper, ink and type as the rest of the site; the variables come from site.css */
+html.lesson { overflow: hidden; }
+.fl { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden;
+  background: var(--paper); color: var(--ink-deep); font-family: var(--display); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.fl::backdrop { background: var(--paper); }
+.fl-view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.fl button { font: 500 .68rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); background: var(--card); border: 1.5px solid var(--ink); border-radius: 23px; min-height: 44px; padding: 0 18px; cursor: pointer; touch-action: manipulation; }
+.fl button.fl-go { background: var(--ink-deep); border-color: var(--ink-deep); color: var(--card); }
+.fl button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.fl-top { position: absolute; left: 0; right: 0; top: 0; display: flex; gap: 14px; align-items: flex-start; justify-content: space-between;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); pointer-events: none; }
+.fl-top > * { pointer-events: auto; }
+.fl-task { min-width: 0; max-width: 46ch; padding: 9px 14px 10px; background: rgba(230, 232, 229, .92); border: 1.5px solid var(--ink-deep); border-radius: 4px; font: 500 .72rem/1.45 var(--mono); letter-spacing: .08em; }
+.fl-task span:empty { display: none; } .fl-task:has(span:empty) { visibility: hidden; }
+.fl-task i { display: block; height: 5px; margin-top: 8px; background: var(--ink-soft); border-radius: 3px; overflow: hidden; }
+.fl-task b { display: block; height: 100%; background: var(--ink-deep); transform-origin: 0 50%; transform: scaleX(0); }
+.fl-tools { display: flex; gap: 8px; flex: none; } .fl-tools #fl-x { width: 44px; padding: 0; font-size: 1.2rem; letter-spacing: 0; }
+/* the instructor. Always readable as text; his voice, if there ever is one, comes on top */
+.fl-say { position: absolute; left: 50%; top: 21%; width: min(88vw, 30ch); margin: 0; transform: translate(-50%, 8px); text-align: center; font: italic 600 clamp(1.5rem, 5.2vw, 2.6rem)/1.08 var(--display); color: var(--ink-deep);
+  text-wrap: balance; opacity: 0; transition: opacity .25s ease, transform .25s ease; pointer-events: none; text-shadow: 0 0 14px var(--paper), 0 0 6px var(--paper), 0 0 2px var(--paper); }
+.fl-say.on { opacity: 1; transform: translate(-50%, 0); }
+.fl-say.loud { font-size: clamp(1.9rem, 7vw, 3.6rem); color: var(--ink); }
+.fl-say small, .fl-kicker small { display: block; margin-top: 6px; font: 500 .66rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; font-style: normal; color: var(--ink-mid); }
+/* instruments: few and plain */
+.fl-gauges { position: absolute; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; gap: 8px; padding: 10px; background: var(--ink-deep); border-radius: 10px 10px 4px 4px; }
+.fl-g { position: relative; width: 74px; height: 86px; padding: 6px 6px 0; background: var(--card); border-radius: 4px; text-align: center; border: 2px solid transparent; }
+.fl-g.off { border-color: var(--ink); background: #f3f4f1; }
+.fl-g.off::after { content: "!"; position: absolute; right: 5px; top: 2px; font: 700 .8rem var(--mono); color: var(--ink); }
+.fl-g span { display: block; font: 500 .52rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mid); }
+.fl-g strong { display: block; margin-top: 9px; font: 500 1.7rem/1 var(--mono); letter-spacing: -.02em; }
+.fl-g em { display: block; margin-top: 4px; font: 500 .56rem var(--mono); font-style: normal; color: var(--ink-mid); }
+.fl-g i { position: absolute; display: block; background: var(--ink-soft); }
+.fl-g i b { position: absolute; display: block; background: var(--ink-deep); }
+.fl-vs i { left: 50%; top: 22px; bottom: 8px; width: 6px; margin-left: -3px; border-radius: 3px; container-type: size; }
+.fl-vs i::before { content: ""; position: absolute; left: -7px; right: -7px; top: 50%; height: 1.5px; background: var(--ink-mid); }
+.fl-vs b { left: -6px; right: -6px; top: 50%; height: 8px; margin-top: -4px; border-radius: 2px; }
+.fl-hdg i { left: 8px; right: 8px; top: 50px; height: 6px; border-radius: 3px; container-type: inline-size; }
+.fl-hdg i::before { content: ""; position: absolute; left: 50%; top: -8px; bottom: -8px; width: 1.5px; background: var(--ink-mid); }
+.fl-hdg b { left: 50%; top: -9px; width: 8px; height: 24px; margin-left: -4px; border-radius: 2px; }
+.fl-map i { left: 50%; top: 21px; width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; container-type: inline-size; overflow: hidden; }
+.fl-map u { position: absolute; left: 50%; top: 50%; width: 22%; height: 22%; margin: -11% 0 0 -11%; border: 1.5px solid var(--ink-mid); border-radius: 50%; box-sizing: border-box; }
+.fl-map b { left: 50%; top: 50%; width: 9px; height: 13px; margin: -7px 0 0 -4.5px; clip-path: polygon(50% 0, 100% 100%, 50% 76%, 0 100%); }
+/* the two control fields */
+.fl-pad { position: absolute; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); width: clamp(120px, 24vmin, 170px); aspect-ratio: 1; border: 1.5px solid var(--ink-deep); border-radius: 18px; background: rgba(230, 232, 229, .62); touch-action: none; cursor: grab; container-type: size; }
+.fl-left { left: max(16px, env(safe-area-inset-left, 0px)); } .fl-stick { right: max(16px, env(safe-area-inset-right, 0px)); border-radius: 50%; }
+.fl-pad span { position: absolute; left: 0; right: 0; top: -20px; text-align: center; font: 500 .54rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mid); white-space: nowrap; }
+.fl-stick b { position: absolute; left: 50%; top: 50%; width: 34%; height: 34%; margin: -17% 0 0 -17%; border-radius: 50%; background: var(--ink-deep); }
+.fl-stick::before { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--ink-mid); }
+.fl-col { position: absolute; left: 12%; top: 10%; bottom: 10%; width: 12%; background: var(--ink-soft); border-radius: 4px; overflow: hidden; }
+.fl-col::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; background: var(--ink-mid); }
+.fl-col b { position: absolute; inset: 0; background: var(--ink-deep); transform-origin: 50% 100%; }
+.fl-ped { position: absolute; left: 34%; right: 8%; bottom: 14%; height: 8%; background: var(--ink-soft); border-radius: 4px; container-type: inline-size; }
+.fl-ped::after { content: ""; position: absolute; left: 50%; top: -5px; bottom: -5px; width: 1.5px; background: var(--ink-mid); }
+.fl-ped b { position: absolute; left: 50%; top: -60%; width: 14%; height: 220%; margin-left: -7%; border-radius: 3px; background: var(--ink-deep); }
+/* cards: start, pause, result */
+.fl-card { position: absolute; left: 50%; top: 50%; width: min(92vw, 560px); max-height: calc(100dvh - 32px); overflow: auto; transform: translate(-50%, -50%); padding: clamp(20px, 5vw, 36px); background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 6px; box-shadow: 0 0 0 100vmax rgba(214, 217, 214, .72); user-select: text; -webkit-user-select: text; }
+.fl-card h2 { margin: 0 0 6px; font: italic 600 clamp(2rem, 7vw, 3rem)/1 var(--display); color: var(--ink); text-wrap: balance; }
+.fl-card p { margin: 0 0 12px; font-size: 1.1rem; line-height: 1.45; }
+.fl-kicker { font: italic 600 1.25rem/1.2 var(--display); color: var(--ink-deep); } .fl-sub { font-style: italic; }
+.fl-how, .fl-note { font: .7rem/1.6 var(--mono) !important; letter-spacing: .04em; color: var(--ink-mid); }
+.fl-card dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 18px; margin: 14px 0 18px; font: .74rem/1.4 var(--mono); letter-spacing: .06em; }
+.fl-card dt { color: var(--ink-mid); } .fl-card dd { margin: 0; text-align: right; font-weight: 500; }
+.fl-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.fl.carded .fl-pad, .fl.carded .fl-gauges, .fl.carded .fl-task { visibility: hidden; }
+.fl-debug { position: absolute; left: 12px; top: 84px; margin: 0; padding: 8px 10px; background: rgba(18, 38, 95, .86); color: #e6e8e5; font: .62rem/1.5 var(--mono); border-radius: 4px; pointer-events: none; }
+/* upright phones: instruments move above the control fields, and get smaller */
+@media (max-width: 640px) {
+  .fl-gauges { bottom: calc(clamp(120px, 24vmin, 170px) + 46px + env(safe-area-inset-bottom, 0px)); gap: 6px; padding: 7px; }
+  .fl-g { width: 64px; height: 78px; } .fl-g strong { font-size: 1.4rem; }
+  .fl-map i { width: 48px; height: 48px; margin-left: -24px; }
+  .fl-tools #fl-snd { display: none; }
+  .fl-say { top: 16%; }
+}
+@media (max-height: 460px) { .fl-g { height: 70px; } .fl-g strong { margin-top: 5px; font-size: 1.3rem; } .fl-map i { width: 42px; height: 42px; margin-left: -21px; top: 20px; } .fl-say { top: 16%; } }
+@media (prefers-reduced-motion: reduce) { .fl-say { transition: none; } }

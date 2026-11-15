@@ -345,6 +345,9 @@ html.rest .bloom, html.rest .heli, html.rest .carrier img { animation-play-state
 .live.door img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
 .live.door:hover img, .live.door:focus-visible img { transform: scale(1.04) rotate(-2deg); }
 .flight { cursor: pointer; z-index: 3; -webkit-tap-highlight-color: transparent; }
+/* in mid-flight it can be caught (the second easter egg): the target is larger than the drawing, more so for fingers */
+.flight.away::after { content: ""; position: absolute; inset: -30% -10%; }
+@media (pointer: coarse) { .flight.away::after { inset: -70% -22%; } }
 .kirche { position: absolute; right: 3%; bottom: 0; height: 100%; aspect-ratio: 246 / 439; }
 .dial { position: absolute; top: 53.1%; width: 9%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--ink-deep); }
 .dial i { position: absolute; left: 50%; bottom: 50%; width: 12%; margin-left: -6%; background: var(--card); border-radius: 1px; transform-origin: 50% 100%; transform: rotate(var(--a, 0deg)); }
