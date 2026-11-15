@@ -18,6 +18,8 @@
 .pn-hint { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transition: opacity .6s ease; }
 .pn.looked .pn-hint { opacity: 0; }
 .pn-load { bottom: calc(62px + env(safe-area-inset-bottom, 0px)); border: 1.5px solid var(--ink-deep); font-variant-numeric: tabular-nums; }
+.pn-load.ask { pointer-events: auto; white-space: normal; text-align: center; line-height: 1.6; max-width: 86%; }
+.pn .pn-load button { font: inherit; letter-spacing: inherit; min-height: 0; padding: 0; border: 0; border-bottom: 1px solid; border-radius: 0; background: none; }
 .pn.flat .pn-hint { bottom: auto; top: calc(18px + env(safe-area-inset-top, 0px)); white-space: normal; text-align: center; max-width: 70vw; line-height: 1.5; }
 /* phones: the film fills the screen */
 @media (max-width: 700px), (max-height: 500px) { .pn { width: 100vw; height: 100vh; height: 100dvh; border: 0; border-radius: 0; } .pn-tools { gap: 6px; } .pn button { padding: 0 13px; } .pn-tag { display: none; } }

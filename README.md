@@ -46,6 +46,14 @@ Then run `node scripts/build-timeline.mjs`.
 
 The clickable areas are the `<a class="spot">` elements in `index.html`, positioned in percent of the skull image.
 
+## How the bio behaves
+
+- **Hidden things are real controls.** The helicopter and the snowboarder are buttons, Tenerife has an invisible button over its engraving, New York an invisible link. Nothing points at them, but a finger, a mouse and the keyboard all reach them, and each has a name for screen readers. Every engraving exists twice (beside the text on wide screens, in the text on narrow ones); only the copy that is displayed can be reached. Beside the text only one engraving is on show at a time, so focusing a control in another one brings its chapter up (`bring` in `js/bio.js`).
+- **The flying lesson has two ways in.** Catching the helicopter in flight stays. The first click also leaves an invitation beside it for a while (“Sie wollten doch Pilot werden.” · Flying lesson), an ordinary button. With reduced motion, in data-saving mode or when the film cannot be shown, the helicopter does not fly and the invitation is the way in.
+- **One sound switch.** `localStorage.sound` is `off` when the visitor has muted the site, on the start page or with the same button in the bio's header. The bio's fly-by obeys it, the 360° film starts muted then, and the flying lesson starts silent until its own switch (`flight-sound`) has been used.
+- **One rule for films.** A film runs only while its engraving is on show, the tab is visible, the page has been touched in the last three minutes and no pop-up lies over it (`sync` in `js/bio.js`).
+- **Loading and failing are said.** When the game or the film viewer takes a moment to load, a small note says so; when loading fails, it says so and offers another try. A graphics chip that refuses the shader gets the still picture.
+
 ## Icon
 
 `assets/icon.svg` is the favicon: a much simplified skull, blue line, white inside, nothing around it. `favicon.ico` (16, 32, 48 px) and `assets/icon-180.png` (the touch icon, on the site's paper because iOS wants it opaque) are rendered from it.

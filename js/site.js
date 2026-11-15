@@ -13,7 +13,7 @@
     <header class="bar">
       <a class="name" href="index.html">Chris Helmbrecht</a>
       <div class="tools">
-        ${document.getElementById('skull') ? '<button class="audio" id="audio" type="button" aria-label="Sound" aria-pressed="false"><i></i><i></i><i></i><i></i></button>' : ''}
+        ${document.getElementById('skull') || document.getElementById('log') ? '<button class="audio" id="audio" type="button" aria-label="Sound" aria-pressed="false"><i></i><i></i><i></i><i></i></button>' : ''}
         <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
       </div>
     </header>
@@ -312,7 +312,18 @@
   // Night sound: a quiet loop through the Web Audio API. Browsers only let audio start on a real
   // gesture (click, tap or key; scrolling alone does not count), so it fades in on the first one.
   const audioBtn = $('audio');
-  if (audioBtn) {
+  if (audioBtn && !$('skull')) {
+    // A page with sounds of its own but without the night sound (the bio): here the button is the site's sound switch and nothing
+    // more. The choice is the same one the start page keeps, so "off" silences every page; scripts hear of a change by an event
+    let muted = false, hush; try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? 'Sound is off. Turn it on' : 'Sound is on. Turn it off'); };
+    audioBtn.addEventListener('click', () => {
+      muted = !muted; try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
+      paint(); audioBtn.dataset.say = muted ? 'Sound off' : 'Sound on'; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
+      document.dispatchEvent(new Event('sound:change'));
+    });
+    paint();
+  } else if (audioBtn) {
     const SRC = 'assets/audio/night-owl.mp3', VOL = .15, FADE = 3;
     const GESTURES = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
     let ctx, gain, el, started = false, loading = false, muted = false;

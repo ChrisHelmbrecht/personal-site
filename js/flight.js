@@ -90,7 +90,7 @@
   const keys = new Set();
   let phase = 'idle', step = '', progress = 0, need = 1, target = CFG.alt, clock = 0, paused = false, open = false, raf = 0, last = 0, acc = 0;
   let score, shoutAt = -99, lastShout = -1, shaky = 0, lostFor = 0, swings = [], prevStick = [0, 0], auto = 0, sub = 0;
-  let el, cv, g, W = 0, H = 0, F = 0, far = 0, dpr = 1, ui = {}, trigger = null, sound = null, soundOn = store.get('flight-sound') !== false, debug = false, fps = 0;
+  let el, cv, g, W = 0, H = 0, F = 0, far = 0, dpr = 1, ui = {}, trigger = null, sound = null, soundOn = true, debug = false, fps = 0;
 
   const fresh = () => Object.assign(S, { x: 0, y: 0, z: CFG.alt, vx: 0, vy: 0, vz: 0, yaw: 0, r: 0, roll: 0, pitch: 0, p: 0, q: 0, c: CFG.c0, wind: 0, t: 0 });
   const errors = () => ({ pos: Math.hypot(S.x, S.y), hdg: Math.abs(S.yaw), alt: Math.abs(S.z - target) });
@@ -338,7 +338,7 @@
   const size = () => { const r = cv.getBoundingClientRect(); if (r.width < 2) return; dpr = Math.min(window.devicePixelRatio || 1, r.width > 900 ? 1.5 : 2); W = cv.width = Math.round(r.width * dpr); H = cv.height = Math.round(r.height * dpr); F = .62 * Math.max(W, H * .8); fit(); };
 
   // ---- cards: start, pause, result
-  const card = html => { ui.card.innerHTML = html; ui.card.hidden = !html; el.classList.toggle('carded', !!html); if (html) { const b = ui.card.querySelector('button'); if (b) b.focus(); } };
+  const card = html => { ui.card.innerHTML = html; ui.card.hidden = !html; el.classList.toggle('carded', !!html); if (html) { const b = ui.card.querySelector('.fl-go') || ui.card.querySelector('button'); if (b) b.focus(); } };
   // the three controls as pictures: what it does to the helicopter, and what the hand does
   const svg = (body, box = '0 0 64 64') => `<svg viewBox="${box}" aria-hidden="true">${body}</svg>`, tip = (x, y, r) => `<path d="M-4 3 0 -4 4 3" transform="translate(${x} ${y}) rotate(${r})"/>`;
   const above = '<circle cx="32" cy="29" r="19" stroke-dasharray="2 4"/><ellipse cx="32" cy="29" rx="6" ry="9" class="f"/><path d="M32 38V56M28 56h8"/>';
@@ -404,6 +404,8 @@
   };
   const start = from => {
     if (open) return; open = true; trigger = from || null;
+    const own = store.get('flight-sound'); let site = true; try { site = localStorage.getItem('sound') !== 'off'; } catch (e) {}
+    soundOn = own === null ? site : own !== false;      // the game has a sound switch of its own; until it has been used, the site's switch decides
     if (!document.querySelector('link[data-flight]')) document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: 'css/flight.css' })).dataset.flight = '1';
     build(); labels(); document.documentElement.classList.add('lesson'); document.dispatchEvent(new Event('lesson:open'));
     el.showModal ? el.showModal() : el.setAttribute('open', '');

@@ -175,6 +175,7 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 .audio.say::before { opacity: 1; transform: none; }
 .audio.say { box-shadow: 0 0 0 6px var(--ink-soft); transition: box-shadow .6s ease; }
 .audio { transition: box-shadow 1.2s ease; }
+.audio.open i { transform: scaleY(.62); } .audio.open i:nth-child(2), .audio.open i:nth-child(4) { transform: scaleY(.36); }   /* a page without the night sound: the button only says whether sound is allowed */
 .audio.muted::after { content: ""; position: absolute; width: 24px; height: 1.5px; background: var(--ink); transform: rotate(-45deg); }
 
 /* Inner pages */
@@ -346,7 +347,19 @@ html.rest .bloom, html.rest .heli, html.rest .carrier img { animation-play-state
 /* the skull at the end is a way home; the helicopter can be sent on a round */
 .live.door img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
 .live.door:hover img, .live.door:focus-visible img { transform: scale(1.04) rotate(-2deg); }
-.flight { cursor: pointer; z-index: 3; -webkit-tap-highlight-color: transparent; }
+.flight { cursor: pointer; z-index: 3; -webkit-tap-highlight-color: transparent; background: none; border: 0; padding: 0; font: inherit; color: inherit; -webkit-appearance: none; appearance: none; }
+/* what is hidden in the engravings can be reached by every means, and is still hidden: buttons without a face */
+.secret { position: absolute; inset: 0; z-index: 2; display: block; background: none; border: 0; padding: 0; cursor: default; -webkit-appearance: none; appearance: none; -webkit-tap-highlight-color: transparent; }
+.flight:focus-visible, .secret:focus-visible, .leg .find:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+/* the invitation the helicopter leaves behind, and the small messages while something hidden loads or fails */
+.invite { position: absolute; left: 0; bottom: 3%; z-index: 4; margin: 0; max-width: 56%; opacity: 0; transform: translate3d(0, 6px, 0); transition: opacity .7s ease, transform .7s ease; }
+.invite.on { opacity: 1; transform: none; }
+.invite button { display: grid; gap: 5px; justify-items: start; text-align: left; background: none; border: 0; padding: 6px 0; min-height: 44px; cursor: pointer; color: var(--ink); touch-action: manipulation; }
+.invite i { font: italic 600 1.05rem/1.15 var(--display); color: var(--ink-deep); }
+.invite span { font: 500 .66rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; border-bottom: 1px solid; padding-bottom: 3px; }
+.invite button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+.note { position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%); z-index: 5; margin: 0; padding: 8px 12px; width: max-content; max-width: 94%; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 4px; font: 500 .62rem/1.6 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-deep); text-align: center; }
+.note button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--ink); background: none; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; }
 /* in mid-flight it can be caught (the second easter egg): the target is larger than the drawing, more so for fingers */
 .flight.away::after { content: ""; position: absolute; inset: -30% -10%; }
 @media (pointer: coarse) { .flight.away::after { inset: -70% -22%; } }
@@ -369,7 +382,8 @@ html.rest .bloom, html.rest .heli, html.rest .carrier img { animation-play-state
 .leg .k { font-style: normal; background: linear-gradient(var(--ink), var(--ink)) 0 100% / 100% 1px no-repeat; padding-bottom: 1px; }
 .leg .find { float: right; width: min(34%, 150px); height: auto; margin: 2px 0 6px 16px; shape-outside: margin-box; transform: rotate(4deg); transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
 .leg:hover .find, .leg .find.carve { transform: translate3d(-10px, 8px, 0) rotate(-5deg); }
-.leg .find { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.leg .find { cursor: pointer; -webkit-tap-highlight-color: transparent; background: none; border: 0; padding: 0; -webkit-appearance: none; appearance: none; }
+.leg .find img { display: block; width: 100%; height: auto; }
 .powder { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
 /* while the helicopter is out on its round the page must not grow sideways */
 html.flying { overflow-x: hidden; }
@@ -416,7 +430,7 @@ html.flying body { overflow-x: clip; }
   .log .plate[data-plate="now"] { margin-top: 30px; }
   .log .plate[data-plate="now"] figcaption { display: block; margin-top: 8px; }
 }
-@media (prefers-reduced-motion: reduce) { .leg::before { animation: none; } .leg:hover .find { transform: rotate(4deg); } .stage { transform: none !important; --z: 1 !important; } .bloom, .heli { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .invite { transition: none; } .leg::before { animation: none; } .leg:hover .find { transform: rotate(4deg); } .stage { transform: none !important; --z: 1 !important; } .bloom, .heli { animation: none !important; } }
 
 /* The hidden game. On the skull only an unmarked spot on the left cheekbone leads here */
 .egg { position: absolute; display: block; border-radius: 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }

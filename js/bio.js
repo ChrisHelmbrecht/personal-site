@@ -5,7 +5,7 @@
   if (!chart || !log) return;
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches, wide = matchMedia('(min-width: 900px)');
   const net = navigator.connection, thrifty = !!net && (net.saveData || /(^|-)2g$/.test(net.effectiveType || ''));
-  const W = 1000, H = 660, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const W = 1000, H = 660, clamp = (v, a, b) => Math.max(a, Math.min(b, v)), root = document.documentElement;
   //             pin that lights up, legs drawn, plate shown, where the camera looks: x, y on the chart and how close
   const STEPS = [['munich', 0, 'munich', [500, 330, 1]], ['newyork', 1, 'newyork', [418, 246, 1.5]], ['tenerife', 2, 'tenerife', [345, 372, 1.65]], ['moscow', 3, 'moscow', [652, 318, 1.75]],
     [null, 3, 'music', [500, 330, 1]], ['munich', 4, 'home', [716, 214, 2.4]], [null, 4, 'now', [500, 330, 1]]];
@@ -16,7 +16,11 @@
   const lens = legs.map(l => l.getTotalLength());
 
   if (calm || thrifty) document.querySelectorAll('.flight').forEach(f => f.classList.add('calm'));   // no film then: the helicopter is simply there
-  // Films and the helicopter only run while their plate is on stage
+  // One rule for every film on this page: it runs only while its engraving is on show, the page is being looked at and no pop-up
+  // lies over it. `sync` applies the rule, and everything that changes one of the three calls it
+  const inView = new Set(); let idle = false, covered = false;
+  const showing = p => p.closest('.plates') ? wide.matches && p.classList.contains('on') : !wide.matches && inView.has(p);
+  const sync = () => { const awake = !document.hidden && !idle && !covered; root.classList.toggle('rest', !awake); document.querySelectorAll('.plate').forEach(p => wake(p, awake && showing(p))); };
   const wake = (plate, on) => {
     if (calm || thrifty) return;
     plate.querySelectorAll('video[data-src]').forEach(v => {
@@ -44,15 +48,16 @@
     }`;
   const shader = (c, v, stacked, hi, lo, keep) => {
     const gl = c.getContext('webgl', { antialias: false, preserveDrawingBuffer: true }); if (!gl) return null;
-    const part = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); return sh; };
-    const pr = gl.createProgram(); gl.attachShader(pr, part(gl.VERTEX_SHADER, VERT)); gl.attachShader(pr, part(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(pr); gl.useProgram(pr);
+    const part = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); return gl.getShaderParameter(sh, gl.COMPILE_STATUS) ? sh : null; };
+    const vs = part(gl.VERTEX_SHADER, VERT), fs = part(gl.FRAGMENT_SHADER, FRAG), pr = gl.createProgram(); if (!vs || !fs) return null;   // a graphics chip that refuses the shader: the still picture stays
+    gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr); if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null; gl.useProgram(pr);
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const at = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(at); gl.vertexAttribPointer(at, 2, gl.FLOAT, false, 0, 0);
     gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
     [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE)); [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.LINEAR));
     const set = n => gl.getUniformLocation(pr, n);
     gl.uniform2f(set('key'), hi / 255, lo / 255); gl.uniform4f(set('keep'), keep[0], keep[1], keep[2], c.height / c.width); gl.uniform1f(set('stacked'), stacked ? 1 : 0); gl.uniform1f(set('px'), c.width);
-    let lost = false; c.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; c.parentElement.classList.remove('on'); });   // the still picture takes over
+    let lost = false; c.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; still(c); });   // the still picture takes over
     return () => { if (lost) return false; gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); return true; };
   };
   const byHand = (c, v, stacked, hi, lo, keep) => {
@@ -71,19 +76,24 @@
       ctx.putImageData(im, 0, 0, 0, 0, w, h); return true;
     };
   };
+  const still = c => { const box = c.parentElement; box.classList.remove('on'); if (box.classList.contains('flight')) box.classList.add('calm'); };   // back to the still picture; the helicopter must stay visible, it is a way in
   const film = c => {
+    if (c.dead) return;
     if (c.film) return void c.film.play().catch(() => {});
-    const v = c.film = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, src: c.dataset.src });
+    const v = c.film = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true });
     v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
     const [hi, lo] = (c.dataset.key || '232,150').split(',').map(Number), keep = (c.dataset.keep || '0,0,0').split(',').map(Number), stacked = 'alpha' in c.dataset;
-    const draw = shader(c, v, stacked, hi, lo, keep) || byHand(c, v, stacked, hi, lo, keep);
+    let draw = null; try { draw = shader(c, v, stacked, hi, lo, keep) || byHand(c, v, stacked, hi, lo, keep); } catch (e) {}
+    const fail = () => { c.dead = true; v.pause(); still(c); };     // no way to draw it, or no film: nothing is decoded for nothing
+    if (!draw) return fail();
     const frame = () => {
-      if (v.paused || v.ended || !draw || !draw()) return;
+      if (v.paused || v.ended) return;
+      let ok = false; try { ok = draw(); } catch (e) {} if (!ok) return fail();
       c.parentElement.classList.add('on');
       v.requestVideoFrameCallback ? v.requestVideoFrameCallback(frame) : requestAnimationFrame(frame);
     };
-    v.addEventListener('playing', frame);
-    v.play().catch(() => {});
+    v.addEventListener('playing', frame); v.addEventListener('error', fail);
+    v.src = c.dataset.src; v.play().catch(() => {});
   };
 
   // The line: `drawn` runs from 0 to 4 legs and follows `goal`; the swallow sits at its tip
@@ -121,7 +131,8 @@
     if (n === step) return; step = n;
     const [, far, plate, view] = STEPS[n];
     if (!chart.classList.contains('all')) { send(far); look(view); }
-    plates.forEach(p => { const on = p.dataset.plate === plate; p.classList.toggle('on', on); if (wide.matches) wake(p, on); });
+    plates.forEach(p => { const on = p.dataset.plate === plate; p.classList.toggle('on', on); });
+    sync();
     chapters.forEach(c => c.classList.toggle('seen', +c.dataset.step <= n));
   };
   let queued = false;
@@ -146,22 +157,39 @@
     }
     read();
   };
-  const inText = new IntersectionObserver(seen => seen.forEach(e => wake(e.target, e.isIntersecting)), { threshold: .25 });
+  const inText = new IntersectionObserver(seen => { seen.forEach(e => e.isIntersecting ? inView.add(e.target) : inView.delete(e.target)); sync(); }, { threshold: .25 });
   log.querySelectorAll('.plate').forEach(p => inText.observe(p));
+  // Beside the text only one engraving is on show at a time, but the keyboard walks through all of them, and a browser scrolls
+  // to whatever is focused, which can turn the page to another chapter. So whatever is focused in an engraving that is not on
+  // show, or not fully in view, brings its own chapter up: nothing is ever focused unseen
+  const bring = plate => {
+    if (!wide.matches || !plate.contains(document.activeElement)) return;
+    const r = plate.getBoundingClientRect(); if (plate.classList.contains('on') && r.top >= 0 && r.bottom <= innerHeight) return;
+    const n = STEPS.findIndex(s => s[2] === plate.dataset.plate), mark = marks.find(m => +m.dataset.step === n); if (!mark) return;
+    const pinned = chart.parentElement.getBoundingClientRect().top + scrollY - 82;                     // from here on the chart stands still beside the text
+    scrollTo({ top: Math.max(pinned, mark.getBoundingClientRect().top + scrollY - innerHeight * .45), behavior: 'instant' }); read();
+    if (!plate.classList.contains('on')) show(n);                                                       // the last chapter cannot scroll that far
+  };
+  let follow = []; const letGo = () => { follow.forEach(clearTimeout); follow = []; };
+  chart.querySelector('.plates').addEventListener('focusin', e => { const plate = e.target.closest('.plate'); letGo(); if (plate) follow = [0, 350, 900].map(ms => setTimeout(() => bring(plate), ms)); });
+  ['wheel', 'touchstart', 'keydown'].forEach(k => addEventListener(k, letGo, { passive: true }));       // whoever scrolls on by hand is not pulled back
   wide.addEventListener('change', mode);
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { paint(); onScroll(); }, { passive: true });
   // Easter egg: click the helicopter and it leaves the picture to the right and comes back in from the left, with its sound.
   // It never turns round: a film seen from the side cannot, and a mirrored helicopter looks wrong
-  const root = document.documentElement;
   // It is heard as well: a recording of turbine whine and rotor chop follows the flight from ear to ear, fades with the
   // distance, and drops a little in pitch while the helicopter flies away. Loaded on the first click only
+  // Sound follows the site's own switch (the button in the header, kept in localStorage as on the start page): off means off
   let air = null, engine = null, voice = null;
+  const quiet = () => { try { return localStorage.getItem('sound') === 'off'; } catch (e) { return false; } };
+  const hush = (secs = .12) => { if (voice && air) { voice.gain.cancelScheduledValues(air.currentTime); voice.gain.setTargetAtTime(0, air.currentTime, secs); } };
+  document.addEventListener('sound:change', () => { if (quiet()) hush(); });
   const hear = (start, span, x0) => {                     // take-off time, length of the flight in ms, where it hovers (-1 left … 1 right)
-    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC || quiet()) return;
     air = air || new AC(); air.resume();
     engine = engine || fetch('assets/audio/alouette.mp3').then(r => r.arrayBuffer()).then(b => new Promise((ok, no) => air.decodeAudioData(b, ok, no)));
     engine.then(buf => {
-      const late = (performance.now() - start) / 1000, T = span / 1000; if (late > T * .7) return;
+      const late = (performance.now() - start) / 1000, T = span / 1000; if (late > T * .7 || quiet() || document.hidden) return;
       const src = air.createBufferSource(), vol = air.createGain(), pan = air.createStereoPanner ? air.createStereoPanner() : null;
       src.buffer = buf; src.connect(vol); (pan ? vol.connect(pan) : vol).connect(air.destination);
       const now = air.currentTime, at = f => Math.max(now, now - late + f * T);
@@ -174,7 +202,8 @@
   };
   document.querySelectorAll('.flight').forEach(f => f.addEventListener('click', () => {
     if (f.away) return void caught(f);
-    if (calm || !f.classList.contains('on')) return;
+    invite(f);
+    if (calm || !f.classList.contains('on')) return;       // no flight without the film: the invitation is the way in then
     const r = f.getBoundingClientRect(), out = innerWidth - r.left + 30, back = -(r.right + 30), up = -clamp(r.top - 100, 20, 110);
     const at = (x, y, pitch) => `translate3d(${x.toFixed(0)}px, ${y.toFixed(0)}px, 0) rotate(${pitch}deg)`;
     f.away = true; f.classList.add('away'); root.classList.add('flying');
@@ -185,32 +214,51 @@
       { transform: at(out, up, 9), offset: .42 },                                                    // gone on the right ...
       { transform: at(back, up * .8, 5), offset: .42, easing: 'cubic-bezier(.1, .55, .3, 1)' },      // ... and in again on the left
       { transform: at(-r.width * .1, up * .08, -6), offset: .9, easing: 'ease-out' },                // nose up, it slows down
-      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; f.classList.remove('away'); root.classList.remove('flying'); };
+      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; f.classList.remove('away'); root.classList.remove('flying'); f.setAttribute('aria-label', 'Helicopter: take off'); };
+    f.setAttribute('aria-label', 'Catch the helicopter: a flying lesson');
   }));
   // ... and whoever manages to click it a second time, in mid-flight, has caught it: that opens "Was soll das werden?", a
-  // flying lesson (js/flight.js). The game is fetched only then
-  let lesson = false, fetching = null;
-  const caught = f => {
-    if (lesson) return; lesson = true;
-    if (voice && air) { voice.gain.cancelScheduledValues(air.currentTime); voice.gain.setTargetAtTime(0, air.currentTime, .12); }   // one world of sound at a time
-    fetching = fetching || new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/flight.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
-    fetching.then(() => window.flightLesson.open(f)).catch(() => { lesson = false; fetching = null; });
+  // flying lesson (js/flight.js). The game is fetched only then. Catching it is a game of skill before the game of skill, so the
+  // first click also leaves an invitation beside the helicopter for a while: an ordinary button, for fingers and keys alike
+  const loads = {};
+  const note = (box, text, retry) => {                     // a small message on an engraving: loading, or failed with another try
+    let n = box.querySelector('.note'); if (!text) return void (n && n.remove());
+    if (!n) { n = document.createElement('p'); n.className = 'note'; n.setAttribute('role', 'status'); box.appendChild(n); }
+    n.textContent = text + ' ';
+    if (retry) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Try again'; b.addEventListener('click', e => { e.stopPropagation(); n.remove(); retry(); }); n.appendChild(b); }
   };
-  document.addEventListener('lesson:open', () => rest(true));
-  document.addEventListener('lesson:close', () => { lesson = false; stir(); });
-  // Two things are hidden in the engravings, with nothing to point at them. A click on Tenerife opens a pop-up with a film of the
-  // sea that can be looked around in (js/pano.js; viewer and film are fetched only then) ...
-  let around = null; const PANO = [30656881, 13910081];   // sizes of the two films in bytes, should the server not say
-  document.querySelectorAll('.plate[data-plate="tenerife"] .live').forEach(plate => plate.addEventListener('click', () => {
-    around = around || new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/pano.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
-    around.then(() => window.pano.open({ label: 'Tenerife, in the sea: a 360° film', tag: 'Tenerife · 360°', poster: 'assets/pano/tenerife.webp',
-      large: ['assets/pano/tenerife-4k.mp4', PANO[0]], small: ['assets/pano/tenerife-2k.mp4', PANO[1]] })).catch(() => { around = null; });
-  }));
-  // ... and a click on New York leads to DONT WALK, a game about crossing an avenue (jaywalk.html)
-  document.querySelectorAll('.plate[data-plate="newyork"] .live').forEach(plate => plate.addEventListener('click', () => { location.href = 'jaywalk.html'; }));
+  const need = (src, box, what, again) => {                // fetch a script once; say so if it takes a while, and say so if it fails
+    const slow = setTimeout(() => note(box, 'Loading …'), 350);
+    loads[src] = loads[src] || new Promise((ok, no) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => { el.remove(); no(); }; document.head.appendChild(el); });
+    return loads[src].then(() => { clearTimeout(slow); note(box, ''); }, () => { clearTimeout(slow); loads[src] = null; note(box, `${what} could not be loaded.`, again); throw 0; });
+  };
+  let lesson = false;
+  const caught = f => {
+    if (lesson) return; lesson = true; hush();              // one world of sound at a time
+    need('js/flight.js', f.closest('.live'), 'The flying lesson', () => caught(f)).then(() => window.flightLesson.open(f)).catch(() => { lesson = false; });
+  };
+  const invite = f => {
+    const scene = f.closest('.live'); if (scene.querySelector('.invite')) return;
+    const p = document.createElement('p'); p.className = 'invite'; p.setAttribute('role', 'status');
+    p.innerHTML = '<button type="button"><i lang="de">„Sie wollten doch Pilot werden.“</i><span>Flying lesson</span></button>';
+    scene.appendChild(p); requestAnimationFrame(() => requestAnimationFrame(() => p.classList.add('on')));
+    let t; const gone = () => { clearTimeout(t); p.classList.remove('on'); setTimeout(() => p.remove(), 700); };
+    const stay = () => { clearTimeout(t); t = setTimeout(() => p.matches(':hover, :focus-within') ? stay() : gone(), calm ? 30000 : 14000); };   // it does not leave while someone is on it
+    p.firstChild.addEventListener('click', () => { caught(f); gone(); }); stay();
+  };
+  document.addEventListener('lesson:open', () => { covered = true; sync(); });
+  document.addEventListener('lesson:close', () => { covered = false; lesson = false; sync(); stir(); });
+  // Two things are hidden in the engravings, with nothing to point at them: each is an invisible button over its picture, so a
+  // finger, a mouse and the keyboard all find it. Tenerife opens a pop-up with a film of the sea that can be looked around in
+  // (js/pano.js; viewer and film are fetched only then). New York is a plain link to DONT WALK, a game about crossing an avenue
+  const PANO = [30656881, 13910081];                         // sizes of the two films in bytes, should the server not say
+  const around = b => need('js/pano.js', b.closest('.live'), 'The film', () => around(b)).then(() => window.pano.open({ label: 'Tenerife, in the sea: a 360° film', tag: 'Tenerife · 360°', poster: 'assets/pano/tenerife.webp',
+    large: ['assets/pano/tenerife-4k.mp4', PANO[0]], small: ['assets/pano/tenerife-2k.mp4', PANO[1]] }, b)).catch(() => {});
+  document.querySelectorAll('.plate[data-plate="tenerife"] .secret').forEach(b => b.addEventListener('click', () => around(b)));
   // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off his back
   // foot towards the words of the headline: a cloud of very fine blue dots, the way the spray in the engraving is stippled
   const rider = log.querySelector('.find');
+  if (rider && calm) { rider.tabIndex = -1; rider.setAttribute('aria-hidden', 'true'); }   // nothing moves then, so there is nothing to press
   if (rider && !calm) {
     const leg = rider.closest('.leg'), TINT = ['31, 63, 151', '31, 63, 151', '31, 63, 151', '18, 38, 95', '92, 116, 186'];
     let cv, ctx, flakes = [], snowing = false, lastSpray = 0, pour = 0, from = [0, 0, 0], aim = [-1, -.3, 300], then = 0;   // from: back foot and size of the rider; aim: direction and distance to the headline
@@ -252,15 +300,11 @@
       seen.observe(rider);
     }
   }
-  // Nothing is decoded or drawn for a tab nobody looks at
-  // ... and nothing either when the page has been left alone for three minutes; the next movement wakes it
-  let resting = [], asleep = false, nap;
-  const rest = on => {
-    if (on && !asleep) { asleep = true; resting = [...document.querySelectorAll('video'), ...[...document.querySelectorAll('canvas[data-src]')].map(c => c.film).filter(Boolean)].filter(v => !v.paused); resting.forEach(v => v.pause()); root.classList.add('rest'); }
-    else if (!on && asleep && !document.hidden) { asleep = false; resting.forEach(v => v.play().catch(() => {})); resting = []; root.classList.remove('rest'); }
-  };
-  const stir = () => { if (lesson) return; rest(false); clearTimeout(nap); nap = setTimeout(() => rest(true), 180000); };
-  document.addEventListener('visibilitychange', () => document.hidden ? rest(true) : stir());
+  // Nothing is decoded or drawn for a tab nobody looks at, and nothing either when the page has been left alone for three
+  // minutes; the next movement wakes it. Both only set their part of the rule and let `sync` decide (see the top)
+  let nap;
+  const stir = () => { if (idle) { idle = false; sync(); } clearTimeout(nap); nap = setTimeout(() => { idle = true; sync(); }, 180000); };
+  document.addEventListener('visibilitychange', () => { if (document.hidden) hush(.08); else if (!calm) stir(); sync(); });
   if (!calm) { ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'].forEach(k => addEventListener(k, stir, { passive: true })); stir(); }
   // the towers of the Frauenkirche show Munich time, as they do on the skull
   const tick = () => {

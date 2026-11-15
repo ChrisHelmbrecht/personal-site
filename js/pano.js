@@ -19,7 +19,7 @@ void main() {
   d = vec3(d.x * turn.y - d.z * turn.x, d.y, d.x * turn.x + d.z * turn.y);   // ... then turn
   gl_FragColor = texture2D(t, vec2(atan(d.x, -d.z) / 6.2831853 + .5, .5 - asin(clamp(d.y, -1., 1.)) / 3.1415927));
 }`;
-  const TEXT = { hint: 'Drag to look around', load: 'Loading', soundOn: 'Sound on', soundOff: 'Sound off', pause: 'Pause', play: 'Play', close: 'Close', flat: 'This browser cannot show the film all around. Here it is flat.' };
+  const TEXT = { hint: 'Drag to look around', load: 'Loading', soundOn: 'Sound on', soundOff: 'Sound off', pause: 'Pause', play: 'Play', close: 'Close', fail: 'The film could not be loaded.', again: 'Try again', flat: 'This browser cannot show the film all around. Here it is flat.' };
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let el = null, cv, gl, tex, video, ui = {}, raf = 0, opened = false, trigger = null, abort = null, blob = '';
   let yaw = 0, pitch = 0, fov = rad(92), vy = 0, vp = 0, drift = true, dirty = true, fresh = false, held = new Map(), pinch = 0, keys = new Set(), last = 0, wantSound = true, loaded = false;
@@ -69,9 +69,11 @@ void main() {
     video.addEventListener('error', () => { if (!opened || loaded) return; video.remove(); video = null; direct ? next() : film(ui.url, true); }, { once: true });   // a browser that refuses the fetched copy gets the file itself, and after that the smaller film
     video.src = src;
   };
-  const next = () => { const s = ui.queue.shift(); if (s) fetchFilm(s[0], s[1]); else ui.load.textContent = '–'; };
+  const next = () => { const s = ui.queue.shift(); if (s) return fetchFilm(s[0], s[1]);
+    ui.load.hidden = false; ui.load.classList.add('ask'); ui.load.textContent = TEXT.fail + ' ';     // nothing arrived: say so, and offer another try
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = TEXT.again; b.addEventListener('click', () => { ui.queue = ui.all.slice(); next(); }); ui.load.appendChild(b); };
   const fetchFilm = (url, bytes) => {
-    ui.url = url; abort = new AbortController(); ui.load.hidden = false; ui.load.textContent = `${TEXT.load} 0 %`;
+    ui.url = url; abort = new AbortController(); ui.load.hidden = false; ui.load.classList.remove('ask'); ui.load.textContent = `${TEXT.load} 0 %`;
     fetch(url, { signal: abort.signal }).then(r => { if (!r.ok) throw 'missing'; if (!r.body) throw 0; const total = +r.headers.get('content-length') || bytes, rd = r.body.getReader(), parts = []; let got = 0;
       const pump = () => rd.read().then(({ done, value }) => { if (done) return new Blob(parts, { type: 'video/mp4' }); parts.push(value); got += value.length; ui.load.textContent = `${TEXT.load} ${Math.min(99, Math.round(got / total * 100))} %`; return pump(); });
       return pump(); })
@@ -98,7 +100,7 @@ void main() {
     document.documentElement.classList.remove('lesson'); document.dispatchEvent(new Event('lesson:close')); if (trigger && trigger.focus) trigger.focus({ preventScroll: true });
   };
   const open = (o, from) => {
-    if (opened) return; opened = true; trigger = from || null; yaw = rad(o.yaw || 0); pitch = 0; fov = rad(92); vy = vp = 0; drift = true; dirty = true; wantSound = true;
+    if (opened) return; opened = true; trigger = from || null; yaw = rad(o.yaw || 0); pitch = 0; fov = rad(92); vy = vp = 0; drift = true; dirty = true; try { wantSound = localStorage.getItem('sound') !== 'off'; } catch (e) { wantSound = true; }   // the site's sound switch decides how the film starts
     if (!document.querySelector('link[data-pano]')) document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: 'css/pano.css' })).dataset.pano = '1';
     el = document.createElement('dialog'); el.className = 'pn'; el.setAttribute('aria-label', o.label || '360° film');
     el.innerHTML = `<canvas class="pn-view" tabindex="0" aria-label="${o.label || '360° film'}. ${TEXT.hint}, or use the arrow keys."></canvas>
@@ -121,7 +123,7 @@ void main() {
     size(); addEventListener('resize', size); addEventListener('keydown', key); addEventListener('keyup', key); document.addEventListener('visibilitychange', hide);
     cv.addEventListener('pointerdown', down); cv.addEventListener('pointermove', move); for (const n of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(n, up);
     cv.addEventListener('wheel', wheel, { passive: false }); cv.focus({ preventScroll: true });
-    next(); last = performance.now(); raf = requestAnimationFrame(look);
+    ui.all = ui.queue.slice(); next(); last = performance.now(); raf = requestAnimationFrame(look);
   };
   window.pano = { open, close, get state() { return { opened, loaded, yaw, pitch, fov, playing: !!(video && !video.paused), muted: !!(video && video.muted), src: video ? video.currentSrc.slice(0, 5) : '', w: video ? video.videoWidth : 0 }; } };
 })();
