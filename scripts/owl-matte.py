@@ -3,7 +3,9 @@
 around the owl has to go. Every frame gets its own outline: sky is whatever light area can be reached from the edge of the
 frame without crossing ink. The result is one film with the picture on top and its matte below (see film() in js/bio.js).
 
-  owl-matte.py assets/video/owl.mp4 assets/owl-mask.png assets/video/owl-ink.mp4
+  owl-matte.py assets/source/owl-film-660x880.mp4 assets/owl-mask.png assets/video/owl-ink.mp4
+
+It needs the film at its original 660 x 880; the copy in assets/video is smaller, sized for the start page.
 """
 import sys, subprocess, numpy as np
 from PIL import Image

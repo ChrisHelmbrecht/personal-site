@@ -45,11 +45,11 @@
       light(parseFloat(st.left) + w / 2, parseFloat(st.top) + h / 2, Math.max(w, h) / 100 * skull.clientWidth * .72);
     };
     // The tour: with nobody at the controls, one doorway after another blends in (colour and name), rests, and blends out again
-    let idle = true, tour = 0, lit = null;
+    let idle = true, tour = 0, lit = null, resting = false;   // resting: nobody has touched anything for a while, see further down
     const STAY = 3800, FADE = 1600, REST = 900;
     const dim = () => { lit && lit.classList.remove('lit'); pool.classList.remove('show'); };
     const wander = () => {
-      if (!idle || document.hidden || diving) return void setTimeout(wander, 1500);
+      if (!idle || document.hidden || diving || resting) return void setTimeout(wander, 1500);
       lit = spots[tour++ % spots.length]; lightSpot(lit); lit.classList.add('lit'); pool.classList.add('show');
       setTimeout(() => { if (idle) dim(); setTimeout(wander, FADE + REST); }, STAY);
     };
@@ -71,13 +71,14 @@
         light((e.clientX - b.left) / b.width * 100, (e.clientY - b.top) / b.height * 100, b.width * .075);
       }, { passive: true });
       skull.addEventListener('pointerleave', () => { idle = true; skull.classList.remove('follow'); skull.classList.add('tour'); dim(); });
-      let goal = [0, 0], now = [0, 0], lastMove = 0;
+      let goal = [0, 0], now = [0, 0], lastMove = 0, leant = 0;
       addEventListener('pointermove', e => { goal = [(e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2]; lastMove = performance.now(); }, { passive: true });
       const lean = t => {
         requestAnimationFrame(lean);
-        if (diving || document.hidden) return;
+        if (diving || document.hidden || resting || t - leant < 30) return;   // 30 pictures a second are plenty for a slow lean, whatever the screen could do
+        const ease = 1 - Math.pow(.94, Math.min(100, t - leant) / 33.3); leant = t;
         if (t - lastMove > 2500) goal = [Math.sin(t / 2900) * .55, Math.cos(t / 3700) * .4];
-        now = now.map((v, k) => v + (goal[k] - v) * .06);
+        now = now.map((v, k) => v + (goal[k] - v) * ease);
         const [x, y] = now;
         tilt.style.transform = `perspective(1100px) rotateX(${(-y * 3.2).toFixed(2)}deg) rotateY(${(x * 3.2).toFixed(2)}deg)`;
         owlBox.style.transform = `translate3d(${(x * 1.1).toFixed(2)}%, ${(y * .7).toFixed(2)}%, 0)`;
@@ -96,7 +97,7 @@
       const cap = v => Math.max(-1, Math.min(1, v));
       const lean = t => {
         requestAnimationFrame(lean);
-        if (diving || document.hidden) return;
+        if (diving || document.hidden || resting) return;
         const aim = t - lastMove > 2500 ? [Math.sin(t / 2900) * .5, Math.cos(t / 3700) * .35] : goal;   // lying still on a table it drifts gently by itself
         now = now.map((v, k) => v + (aim[k] - v) * .07);
         if (Math.abs(now[0] - shown[0]) + Math.abs(now[1] - shown[1]) < .004) return;                 // nothing to redraw
@@ -147,7 +148,7 @@
     let walking = false;
     const wanderOff = () => {
       if (calm || walking || pathFilm.readyState < 3) return;
-      if (document.hidden) return void setTimeout(wanderOff, 5000);
+      if (document.hidden || resting) return void setTimeout(wanderOff, 5000);
       walking = true; pathFilm.classList.remove('leaving'); pathFilm.currentTime = 0;
       pathFilm.play().then(() => pathFilm.classList.add('on')).catch(() => { walking = false; setTimeout(wanderOff, 5000); });
     };
@@ -192,7 +193,7 @@
       }
     };
     fly(0);
-    if (!calm) { const soar = t => { requestAnimationFrame(soar); if (!document.hidden && !diving) fly(t); }; requestAnimationFrame(soar); }
+    if (!calm) { let flew = 0; const soar = t => { requestAnimationFrame(soar); if (!document.hidden && !diving && !resting && t - flew >= 30) { flew = t; fly(t); } }; requestAnimationFrame(soar); }
 
     // Stars in the dome
     const stars = $('stars');
@@ -247,27 +248,37 @@
     });
     // Dive: fly into the clicked doorway, then open its page. The sharp 4K image loads in the background for the close-up
     const hires = $('hires'), veil = $('veil');
+    const ZOOM = mouse ? 7 : 4.5, DIVE = mouse ? 1000 : 1500;            // phones fly in less deep and take longer, so the flight is seen
+    skull.style.setProperty('--zoom', ZOOM); veil.style.setProperty('--dive', DIVE + 'ms');
+    const films = on => skull.querySelectorAll('video').forEach(v => { if (!on) v.pause(); else if (v.currentSrc && (v.loop || (v.currentTime > 0 && !v.ended))) v.play().catch(() => {}); });
     if (!calm && mouse) addEventListener('load', () => { hires.onload = () => hires.classList.add('ready'); hires.src = 'assets/skull-4k.webp'; });
     doors.filter(s => !s.target).forEach(s => s.addEventListener('click', e => {
       if (calm || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
+      const from = getComputedStyle(tilt).transform;                     // wherever the swaying or leaning has the skull right now
       diving = true; tilt.style.transition = ''; tilt.style.transform = '';
       tilt.style.transformOrigin = originOf(s);
+      films(false);                                                      // the page is leaving: all the power goes into the flight
       document.documentElement.classList.add('diving'); skull.classList.add('dive'); veil.classList.add('on');
-      setTimeout(() => { location.href = s.href; }, 1000);
+      // The flight is spelled out as an animation with a stated start. Left to a CSS transition, phones (which sway by a CSS
+      // animation until this moment) showed the end of the zoom at once
+      if (tilt.animate) tilt.animate([{ transform: from === 'none' ? 'scale(1)' : from }, { transform: `scale(${ZOOM})` }], { duration: DIVE, easing: mouse ? 'cubic-bezier(.7, 0, .85, .35)' : 'cubic-bezier(.5, 0, .8, .5)' });
+      setTimeout(() => { location.href = s.href; }, DIVE);
     }));
     // Coming back from an inner page: start inside the doorway that was left and pull back out to the whole skull
     const originOf = s => { const st = s.style; return `${parseFloat(st.left) + parseFloat(st.width) / 2}% ${parseFloat(st.top) + parseFloat(st.height) / 2}%`; };
     const settle = () => {
       document.documentElement.classList.remove('diving'); skull.classList.remove('dive'); veil.classList.remove('on', 'hold', 'lift');
       tilt.style.transition = ''; tilt.style.transform = ''; diving = false;
+      if (!document.hidden) films(true);
     };
     const readFrom = () => { try { const f = sessionStorage.getItem('from'); sessionStorage.removeItem('from'); return f; } catch (err) { return null; } };
     const zoomedIn = from => {                                           // set up before the first paint, so nothing flashes
       const door = from && doors.find(s => s.getAttribute('href') === from);
       if (door) tilt.style.transformOrigin = originOf(door); else if (from !== null) tilt.style.transformOrigin = '50% 45%';
       diving = true; skull.classList.add('dive'); veil.classList.remove('on'); veil.classList.add('hold');
-      tilt.style.transition = 'none'; tilt.style.transform = 'scale(7)';
+      if (tilt.getAnimations) tilt.getAnimations().forEach(a => a.cancel());
+      tilt.style.transition = 'none'; tilt.style.transform = `scale(${ZOOM})`;
     };
     let pending = !calm && readFrom();
     if (pending !== null && pending !== false) zoomedIn(pending); else pending = null;
@@ -284,6 +295,15 @@
         setTimeout(settle, 1600);
       }));
     });
+    document.addEventListener('visibilitychange', () => { if (!diving && !resting) films(!document.hidden); });   // nothing is decoded for a tab nobody looks at
+    // Left alone for three minutes the skull goes still: films, flock, lean and twinkling all stop, and the next movement
+    // of a pointer, finger or key wakes it at once. An open tab that nobody is looking at should cost next to nothing
+    let nap;
+    const stir = () => {
+      if (resting) { resting = false; skull.classList.remove('rest'); if (!diving && !document.hidden) films(true); }
+      clearTimeout(nap); nap = setTimeout(() => { if (diving) return; resting = true; skull.classList.add('rest'); films(false); }, 180000);
+    };
+    if (!calm) { ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(k => addEventListener(k, stir, { passive: true })); stir(); }
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 
@@ -318,13 +338,15 @@
         // the owl in the picture moves when the owl in the recording calls
         const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
         const samples = new Float32Array(ear.fftSize);
-        const listen = () => {
+        let heard = 0;
+        const listen = t => {
+          requestAnimationFrame(listen);
+          if (t - heard < 60) return; heard = t;                 // fifteen looks a second are enough to catch a hoot
           ear.getFloatTimeDomainData(samples);
           const rms = Math.sqrt(samples.reduce((a, v) => a + v * v, 0) / samples.length);
           if (!muted && rms > .09 && window.owlHoot) window.owlHoot();
-          requestAnimationFrame(listen);
         };
-        listen();
+        requestAnimationFrame(listen);
       } catch (err) { // opened straight from disk: plain audio element instead
         el = Object.assign(new Audio(SRC), { loop: true, volume: 0 });
       }

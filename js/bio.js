@@ -29,22 +29,38 @@
   // The helicopter, the Teide and the night sky are little films of ink on white. Each frame is drawn to a canvas and the white
   // is made see-through, so the engraving lies on the paper itself. data-key gives the lightness that turns fully clear and
   // the one that stays fully solid; data-keep is a disc that is never cleared (the moon stays white). The owl film brings
-  // its own outline instead, frame by frame, because the owl is partly white itself
-  const film = c => {
-    if (c.film) return void c.film.play().catch(() => {});
-    const v = c.film = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, src: c.dataset.src });
-    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-    const w = c.width, h = c.height, ctx = c.getContext('2d', { willReadFrequently: true });
-    const stacked = 'alpha' in c.dataset;                 // the film carries its own matte in its lower half (the owl)
-    const work = stacked ? Object.assign(document.createElement('canvas'), { width: w, height: h * 2 }).getContext('2d', { willReadFrequently: true }) : ctx;
-    const [hi, lo] = (c.dataset.key || '232,150').split(',').map(Number), gain = 255 / (hi - lo);
+  // its own outline instead, in its lower half, because the owl is partly white itself.
+  // The graphics chip does this (a few lines of shader); only where WebGL is missing does the processor go through the pixels
+  const VERT = 'attribute vec2 p; varying vec2 uv; void main() { uv = p * vec2(.5, -.5) + .5; gl_Position = vec4(p, 0., 1.); }';
+  const FRAG = `precision mediump float; varying vec2 uv; uniform sampler2D t; uniform vec2 key; uniform vec4 keep; uniform float stacked, px;
+    void main() {
+      vec3 c = texture2D(t, stacked > .5 ? vec2(uv.x, uv.y * .5) : uv).rgb; float a;
+      if (stacked > .5) a = texture2D(t, vec2(uv.x, .5 + uv.y * .5)).r;
+      else {
+        a = clamp((key.x - min(c.r, min(c.g, c.b))) / (key.x - key.y), 0., 1.);
+        if (keep.z > 0.) a = max(a, clamp((keep.z - distance(vec2(uv.x, uv.y * keep.w), keep.xy)) * px + 1., 0., 1.));
+      }
+      gl_FragColor = vec4(c * a, a);
+    }`;
+  const shader = (c, v, stacked, hi, lo, keep) => {
+    const gl = c.getContext('webgl', { antialias: false, preserveDrawingBuffer: true }); if (!gl) return null;
+    const part = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); return sh; };
+    const pr = gl.createProgram(); gl.attachShader(pr, part(gl.VERTEX_SHADER, VERT)); gl.attachShader(pr, part(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(pr); gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const at = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(at); gl.vertexAttribPointer(at, 2, gl.FLOAT, false, 0, 0);
+    gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+    [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE)); [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.LINEAR));
+    const set = n => gl.getUniformLocation(pr, n);
+    gl.uniform2f(set('key'), hi / 255, lo / 255); gl.uniform4f(set('keep'), keep[0], keep[1], keep[2], c.height / c.width); gl.uniform1f(set('stacked'), stacked ? 1 : 0); gl.uniform1f(set('px'), c.width);
+    let lost = false; c.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; c.parentElement.classList.remove('on'); });   // the still picture takes over
+    return () => { if (lost) return false; gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); return true; };
+  };
+  const byHand = (c, v, stacked, hi, lo, keep) => {
+    const w = c.width, h = c.height, ctx = c.getContext('2d', { willReadFrequently: true }); if (!ctx) return null;
+    const work = stacked ? Object.assign(document.createElement('canvas'), { width: w, height: h * 2 }).getContext('2d', { willReadFrequently: true }) : ctx, gain = 255 / (hi - lo);
     let solid = null;
-    if (c.dataset.keep) {
-      const [cx, cy, r] = c.dataset.keep.split(',').map(n => n * w); solid = new Uint8Array(w * h);
-      for (let y = 0, p = 0; y < h; y++) for (let x = 0; x < w; x++, p++) solid[p] = clamp(r + 1 - Math.hypot(x - cx, y - cy), 0, 1) * 255;
-    }
-    const frame = () => {
-      if (v.paused || v.ended) return;
+    if (keep[2]) { solid = new Uint8Array(w * h); for (let y = 0, p = 0; y < h; y++) for (let x = 0; x < w; x++, p++) solid[p] = clamp(keep[2] * w + 1 - Math.hypot(x - keep[0] * w, y - keep[1] * w), 0, 1) * 255; }
+    return () => {
       work.drawImage(v, 0, 0, w, stacked ? h * 2 : h);
       const im = work.getImageData(0, 0, w, stacked ? h * 2 : h), d = im.data, n = w * h * 4;
       if (stacked) for (let i = 0; i < n; i += 4) d[i + 3] = d[i + n];
@@ -52,7 +68,17 @@
         const light = Math.min(d[i], d[i + 1], d[i + 2]), al = light > hi ? 0 : light < lo ? 255 : (hi - light) * gain;
         d[i + 3] = solid && solid[p] > al ? solid[p] : al;
       }
-      ctx.putImageData(im, 0, 0, 0, 0, w, h);
+      ctx.putImageData(im, 0, 0, 0, 0, w, h); return true;
+    };
+  };
+  const film = c => {
+    if (c.film) return void c.film.play().catch(() => {});
+    const v = c.film = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, src: c.dataset.src });
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    const [hi, lo] = (c.dataset.key || '232,150').split(',').map(Number), keep = (c.dataset.keep || '0,0,0').split(',').map(Number), stacked = 'alpha' in c.dataset;
+    const draw = shader(c, v, stacked, hi, lo, keep) || byHand(c, v, stacked, hi, lo, keep);
+    const frame = () => {
+      if (v.paused || v.ended || !draw || !draw()) return;
       c.parentElement.classList.add('on');
       v.requestVideoFrameCallback ? v.requestVideoFrameCallback(frame) : requestAnimationFrame(frame);
     };
@@ -200,6 +226,16 @@
       seen.observe(rider);
     }
   }
+  // Nothing is decoded or drawn for a tab nobody looks at
+  // ... and nothing either when the page has been left alone for three minutes; the next movement wakes it
+  let resting = [], asleep = false, nap;
+  const rest = on => {
+    if (on && !asleep) { asleep = true; resting = [...document.querySelectorAll('video'), ...[...document.querySelectorAll('canvas[data-src]')].map(c => c.film).filter(Boolean)].filter(v => !v.paused); resting.forEach(v => v.pause()); root.classList.add('rest'); }
+    else if (!on && asleep && !document.hidden) { asleep = false; resting.forEach(v => v.play().catch(() => {})); resting = []; root.classList.remove('rest'); }
+  };
+  const stir = () => { rest(false); clearTimeout(nap); nap = setTimeout(() => rest(true), 180000); };
+  document.addEventListener('visibilitychange', () => document.hidden ? rest(true) : stir());
+  if (!calm) { ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'].forEach(k => addEventListener(k, stir, { passive: true })); stir(); }
   // the towers of the Frauenkirche show Munich time, as they do on the skull
   const tick = () => {
     const [h, m] = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date()).split(':').map(Number);
