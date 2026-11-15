@@ -295,7 +295,8 @@
   const padUp = (name, e) => { const p = pads[name]; if (p && p.id === e.pointerId) pads[name] = null; };   // stick and pedals then ease back to the middle; the collective stays where it is
   const letGo = () => { keys.clear(); pads.stick = pads.left = null; };
 
-  // ---- sound, only if wanted and only after a click: the cabin of the Alouette as a loop, and the instructor's voice on top.
+  // ---- sound, only if wanted and only after a click: the cabin of an Alouette in flight as a loop (a recording from freeSFX,
+  // credited on the making-of page), and the instructor's voice on top.
   // His lines are always on screen as well, so nothing is lost without sound
   const VOICE = new Map([[QUOTES[0], 'q1'], [QUOTES[1], 'q2'], [QUOTES[2], 'q3'], ...Object.keys(SAY).map(k => [SAY[k], k])]), CABIN = .34;
   const fetched = name => sound.bufs[name] || (sound.bufs[name] = fetch(`assets/audio/flight/${name}.mp3`).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(b => new Promise((ok, no) => sound.ctx.decodeAudioData(b, ok, no))).catch(() => null));
@@ -303,7 +304,7 @@
     if (sound) return sound; const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
     const ctx = new AC(), cabin = ctx.createGain(), duck = ctx.createGain(), voice = ctx.createGain(); cabin.gain.value = 0; cabin.connect(duck); duck.connect(ctx.destination); voice.connect(ctx.destination);
     const me = sound = { ctx, cabin, duck, voice, src: null, talk: null, bufs: {} };
-    fetched('cabin').then(buf => { if (sound !== me || !buf) return; const src = me.src = ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.loopStart = .2; src.loopEnd = 10.2; src.connect(cabin); src.start(); });   // the file holds a seamless ten seconds between these two marks
+    fetched('cabin').then(buf => { if (sound !== me || !buf) return; const src = me.src = ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.loopStart = .2; src.loopEnd = 14.2; src.connect(cabin); src.start(); });   // the file holds a seamless fourteen seconds between these two marks
     VOICE.forEach(fetched);
     return me;
   };

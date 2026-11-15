@@ -22,12 +22,14 @@
       ${NAV.map(([t, h]) => `<a href="${h}">${t}</a>`).join('')}
       <small>Elsewhere</small>
       ${OUT.map(([t, h]) => `<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('')}
+      <a class="fine" href="making-of.html#credits">Credits &amp; Sound</a>
     </nav>`);
   // Inner pages leave a note, so the start page knows where a returning visitor comes from
   if (!document.getElementById('skull')) { try { sessionStorage.setItem('from', location.pathname.split('/').pop() || ''); } catch (e) {} }
   const burger = $('burger'), menu = $('menu');
   const setMenu = open => { menu.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); };
   burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });   // also when the link only jumps within the page
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
   // Skull: a pool of colour follows the pointer and swells over each doorway

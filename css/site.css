@@ -74,6 +74,8 @@ a { color: var(--ink); }
 .menu a { color: var(--paper); text-decoration: none; font: italic 600 2rem/1.25 var(--display); }
 .menu a:hover { text-decoration: underline; text-underline-offset: 6px; }
 .menu small { font: .7rem var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .6; margin-top: 18px; }
+.menu a.fine { margin-top: auto; padding-top: 26px; font: .7rem/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .75; }   /* where the credits live: small, at the foot of the menu */
+.room [id] { scroll-margin-top: 96px; }
 
 /* Skull */
 .hero { padding: calc(64px + env(safe-area-inset-top, 0px)) var(--gr) 24px var(--gl); display: grid; justify-items: center; }
