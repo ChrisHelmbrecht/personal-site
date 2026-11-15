@@ -15,7 +15,9 @@ links, tables). The folder name is the article's id and ties the two languages t
   short       optional shorter title for the floating cards; the full one stays everywhere else
   slug        the article's address: blog/<slug>.html, German ones blog/de/<slug>.html
   date        day of publication, YYYY-MM-DD; "updated" only if the text really was revised
-  intro       the paragraph shown in previews, under the title and to search engines
+  intro       the paragraph under the title of the article
+  teaser      two or three short sentences for the preview on the overview, written to make curious. Empty: the
+              preview shows the first sentences of the intro (whole sentences, never cut inside one)
   image       name of the picture in assets/blog (scripts/blog-pictures.py makes the sizes); empty: no picture
   alt, credit what the picture shows, and whose it is
   focus       where the picture's subject sits, for cropping ("50% 30%" = centre, upper third)
@@ -49,14 +51,14 @@ T = dict(
             intro='Intro', read='Read article', close='Close', back='Food for thought', others='Other articles', all_articles='All articles', more='More food for thought',
             contents='Contents', picture='Picture', empty='No article matches.', reset='Reset filters', pages='Pages', prev='Previous', next='Next',
             count_1='1 article', count_n='{n} articles', of='{a}–{b} of {n}', other_lang='Deutsch', this_lang='English', lang_label='Language', view='View',
-            updated='Updated', skull='Back to the skull', feed='Food for thought (English)', preview='Preview'),
+            updated='Updated', skull='Back to the skull', feed='Food for thought (English)', preview='Preview', lead='Newest thought', picked='Personally selected', mins='{n} min read'),
     de=dict(blog='Blog', name='Food for thought', desc='Food for thought: Texte von Chris Helmbrecht über Politik, Wirtschaft, Geopolitik, Deutschland, Kultur und Gesellschaft.',
             explore='Entdecken', archive='Archiv', pause='Bewegung pausieren', play='Bewegung fortsetzen', all_n='Alle {n} Artikel im Archiv', search='Suche',
             search_scope='Titel, Intros und Schlagwörter', clear='Leeren', cats='Kategorie', all='Alle', sort='Reihenfolge', newest='Neueste zuerst', oldest='Älteste zuerst',
             intro='Intro', read='Artikel lesen', close='Schließen', back='Zur Blogübersicht', others='Andere Artikel', all_articles='Alle Artikel', more='Weitere Gedanken',
             contents='Inhalt', picture='Bild', empty='Kein Artikel passt.', reset='Filter zurücksetzen', pages='Seiten', prev='Zurück', next='Weiter',
             count_1='1 Artikel', count_n='{n} Artikel', of='{a}–{b} von {n}', other_lang='English', this_lang='Deutsch', lang_label='Sprache', view='Ansicht',
-            updated='Aktualisiert', skull='Zurück zum Schädel', feed='Food for thought (Deutsch)', preview='Vorschau'))
+            updated='Aktualisiert', skull='Zurück zum Schädel', feed='Food for thought (Deutsch)', preview='Vorschau', lead='Neuester Gedanke', picked='Persönlich ausgewählt', mins='{n} Min. Lesezeit'))
 T['en']['back'] = 'All articles'
 esc = lambda s: html.escape(s, True)
 pics = json.load(open('assets/blog/pictures.json')) if os.path.exists('assets/blog/pictures.json') else {}
@@ -65,6 +67,31 @@ pics = json.load(open('assets/blog/pictures.json')) if os.path.exists('assets/bl
 def day(d, lang):
     y, m, dd = (int(x) for x in d.split('-'))
     return f'{dd}. {MONTHS[lang][m - 1]} {y}' if lang == 'de' else f'{dd} {MONTHS[lang][m - 1]} {y}'
+
+
+SHORT = r'(?:Dr|Mr|Mrs|Ms|St|vs|etc|e\.g|i\.e|z\.\s?B|u\.\s?a|bzw|ca|Nr|No|Prof|U\.S|Jan|Feb|Aug|Sept|Okt|Oct|Nov|Dez|Dec)'
+
+
+def sentences(t):
+    """whole sentences of a text. A full stop after an abbreviation, an initial or a number is no end"""
+    out, start = [], 0
+    for m in re.finditer(r'[.!?][”"’)]?\s+(?=[A-ZÄÖÜ„“"‘(0-9])', t):
+        head = t[start:m.start() + 1]
+        if re.search(SHORT + r'\.$', head) or re.search(r'(?:^|\s)(?:[A-ZÄÖÜ]|\d{1,2})\.$', head): continue
+        out.append(t[start:m.end()].strip()); start = m.end()
+    if t[start:].strip(): out.append(t[start:].strip())
+    return out
+
+
+def brief(t, most):
+    """a text no longer than most, ending where a sentence ends; failing that at a word, with an ellipsis"""
+    if len(t) <= most: return t
+    keep = ''
+    for sn in sentences(t):
+        if len(keep) + len(sn) + 1 > most: break
+        keep = (keep + ' ' + sn).strip()
+    if len(keep) >= most * .45: return keep
+    return t[:most].rsplit(' ', 1)[0].rstrip(',;:–— ') + ' …'
 
 
 def read(path):
@@ -79,6 +106,8 @@ def read(path):
     assert re.fullmatch(r'\d{4}-\d\d-\d\d', d.get('date', '')), f'{path}: date'
     assert re.fullmatch(r'[a-z0-9-]+', d.get('slug', '')), f'{path}: slug'
     if d.get('image') not in pics: d['image'] = ''
+    d['peek'] = d.get('teaser') or brief(d.get('intro', ''), 230)
+    d['mins'] = max(1, round(len(re.sub(r'<[^>]+>', ' ', d['body']).split()) / 220))
     return d
 
 
@@ -165,13 +194,13 @@ for lang, mine in by.items():
     items = []
     for p in mine:
         cats = ' '.join(p['categories'])
-        items.append(f'''        <li class="entry" data-id="{esc(p['id'])}" data-date="{p['date']}" data-cats="{cats}" data-tags="{esc(' | '.join(p['tags']))}"{' data-featured' if p['featured'] else ''}{f' data-short="{esc(p["short"])}"' if p.get('short') else ''}>
+        items.append(f'''        <li class="entry" data-id="{esc(p['id'])}" data-date="{p['date']}" data-cats="{cats}" data-tags="{esc(' | '.join(p['tags']))}" data-mins="{p['mins']}" data-peek="{esc(p['peek'])}"{' data-featured' if p['featured'] else ''}{f' data-short="{esc(p["short"])}"' if p.get('short') else ''}>
           <a class="entry-link" href="{url(p)}"><span class="entry-pic">{picture(p, "(min-width: 1000px) 360px, (min-width: 640px) 46vw, 92vw", alt="")}</span><strong class="entry-title">{esc(p['title'])}</strong></a>
           <time datetime="{p['date']}">{day(p['date'], lang)}</time>
           <p class="entry-intro">{esc(p['intro'])}</p>
         </li>''')
     chips = ''.join(f'<button type="button" data-cat="{c}" aria-pressed="false">{esc(CATS[c][lang == "de"])}</button>' for c in used)
-    labels = {k: L[k] for k in ('pause', 'play', 'all_n', 'intro', 'read', 'close', 'empty', 'reset', 'prev', 'next', 'count_1', 'count_n', 'of', 'pages', 'preview')}
+    labels = {k: L[k] for k in ('pause', 'play', 'all_n', 'intro', 'read', 'close', 'empty', 'reset', 'prev', 'next', 'count_1', 'count_n', 'of', 'pages', 'preview', 'lead', 'picked', 'mins')}
     body = f'''<main class="page blog" id="blog" data-lang="{lang}" data-home="{path}" data-explore="{EXPLORE}" data-fresh="{FRESH}" data-per-page="{PER_PAGE}" data-labels="{esc(json.dumps(labels, ensure_ascii=False))}">
   <a class="back" href="index.html" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <div class="room blog-room">
@@ -212,7 +241,7 @@ def article_body(p):
     """ids on the headings for the table of contents, and tables in a box that can scroll sideways"""
     heads = []
     def h2(m):
-        heads.append(re.sub(r'<[^>]+>', '', m.group(1)).strip())
+        heads.append(html.unescape(re.sub(r'<[^>]+>', '', m.group(1))).strip())
         return f'<h2 id="s{len(heads)}">{m.group(1)}</h2>'
     b = re.sub(r'<h2>(.*?)</h2>', h2, p['body'], flags=re.S)
     b = b.replace('<table>', '<div class="table"><table>').replace('</table>', '</table></div>')
@@ -235,7 +264,8 @@ for lang, mine in by.items():
             hero = f'<figure class="article-pic">{picture(p, "(min-width: 900px) 860px, 96vw", lazy=False)}{cap}</figure>'
         cats = ''.join(f' · <a href="{home(lang)}?view=archive&amp;cat={c}">{esc(CATS[c][lang == "de"])}</a>' for c in p['categories'])
         upd = f' · {L["updated"]} {day(p["updated"], lang)}' if p.get('updated') else ''
-        doc = f'''<main class="page article-page" data-lang="{lang}" data-home="{home(lang)}" data-id="{esc(p['id'])}">
+        doc = f'''<div class="reading" aria-hidden="true"></div>
+<main class="page article-page" data-lang="{lang}" data-home="{home(lang)}" data-id="{esc(p['id'])}">
   <a class="back" href="index.html" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <article class="room article">
     <nav class="article-top" aria-label="{L['blog']}">
@@ -243,7 +273,7 @@ for lang, mine in by.items():
       {f'<a class="to-twin" href="{url(tw)}" lang="{other}" hreflang="{other}">{L["other_lang"]}</a>' if tw else ''}
       <details class="others"><summary>{L['others']}</summary><div><ul>{''.join(f'<li>{card(q)}</li>' for q in rest[:6])}</ul><p><a href="{home(lang)}?view=archive">{L['all_n'].format(n=len(mine))}</a></p></div></details>
     </nav>
-    <p class="tag article-meta"><time datetime="{p['date']}">{day(p['date'], lang)}</time>{upd}{cats}</p>
+    <p class="tag article-meta"><time datetime="{p['date']}">{day(p['date'], lang)}</time>{upd} · {L['mins'].format(n=p['mins'])}{cats}</p>
     <h1>{esc(p['title'])}</h1>
     {f'<p class="article-intro">{esc(p["intro"])}</p>' if p['intro'] else ''}
     {hero}
@@ -260,9 +290,9 @@ for lang, mine in by.items():
 </main>'''
         og = f'{SITE}/assets/blog/{p["image"]}-og.jpg' if p['image'] else f'{SITE}/assets/og.jpg'
         head = (alternates([(l, url(q)) for l, q in ((lang, p), (other, tw)) if q])
-                + f'<meta property="og:type" content="article">\n<meta property="og:title" content="{esc(p["title"])}">\n<meta property="og:description" content="{esc(p["intro"][:300])}">\n'
+                + f'<meta property="og:type" content="article">\n<meta property="og:title" content="{esc(p["title"])}">\n<meta property="og:description" content="{esc(brief(p["peek"], 200))}">\n'
                   f'<meta property="og:image" content="{og}">\n<meta property="og:url" content="{SITE}/{path}">\n<meta property="article:published_time" content="{p["date"]}">\n')
-        page(path, lang, f"{p['title']} · Chris Helmbrecht", p['intro'][:300] or p['title'], doc, head)
+        page(path, lang, f"{p['title']} · Chris Helmbrecht", brief(p['peek'], 160) or p['title'], doc, head)
 
 # ---------------------------------------------------------------- feeds, sitemap, redirects
 rfc = lambda d: datetime.datetime.strptime(d, '%Y-%m-%d').strftime('%a, %d %b %Y 08:00:00 +0000')

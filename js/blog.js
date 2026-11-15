@@ -1,14 +1,17 @@
 /* The blog. One list of articles is written into the page by scripts/build-blog.py; this script shows it two ways.
-   Explore: a few cards (the newest, and those marked "featured") float in fixed places. Resting the pointer on
-   one, tapping it or reaching it with the keyboard opens a preview with the intro; a plain click opens the article.
+   Explore: a few cards float in fixed places: the newest as the large one, those marked "featured" next, then the
+   most recent. Resting the pointer on one, tapping it or reaching it with the keyboard unfolds it into a preview:
+   the card itself grows from where it hangs, and goes back there. A plain click opens the article.
    Archive: the whole list with search, categories, order and pages. Its state lives in the address
    (?view=archive&q=...&cat=...&sort=old&page=2), so links can be shared and back/forward work.
-   On an article page it only looks after the way back. */
+   Changing the view, the cards that are in both move to their new places.
+   On an article page the script only looks after the way back. */
 (() => {
   const root = document.getElementById('blog'), page = root || document.querySelector('.article-page');
   if (!page) return;
   const lang = page.dataset.lang, HOME = page.dataset.home, KEY = 'blog-' + lang;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const moves = () => !calm.matches && 'animate' in Element.prototype;
   const keep = { get(k) { try { return JSON.parse(sessionStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private window: no memory, nothing breaks */ } } };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const plain = e => !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button);
@@ -39,7 +42,8 @@
   const all = [...list.children].map((li, i) => {
     const a = li.querySelector('.entry-link'), title = li.querySelector('.entry-title').textContent, intro = li.querySelector('.entry-intro'), text = `${title} ${intro.textContent} ${li.dataset.tags}`;
     return { li, i, id: li.dataset.id, date: li.dataset.date, when: li.querySelector('time').textContent, cats: li.dataset.cats.split(' '), featured: 'featured' in li.dataset,
-      title, short: li.dataset.short || '', intro: intro.textContent, href: a.getAttribute('href'), pic: li.querySelector('.entry-pic').firstElementChild, hay: fold(text), hay2: fold2(text), a };
+      title, short: li.dataset.short || '', intro: intro.textContent, peek: li.dataset.peek || intro.textContent, mins: LBL.mins.replace('{n}', li.dataset.mins || 1),
+      href: a.getAttribute('href'), pic: li.querySelector('.entry-pic').firstElementChild, box: li.querySelector('.entry-pic'), hay: fold(text), hay2: fold2(text), a };
   });
   document.documentElement.classList.add('blog-on');
   bar.hidden = tools.hidden = false;
@@ -95,54 +99,75 @@
     $('archive').scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'start' }); count.setAttribute('tabindex', '-1'); count.focus({ preventScroll: true });
   });
 
-  // ---- Explore: which cards, and the cards themselves
+  // ---- Explore: which cards, their weight, and the cards themselves.
+  // The newest is the large one. Featured articles and, after them, the next newest are the two middle ones; the rest are small.
   const chosen = (() => {
     const fresh = all.slice(0, Math.min(FRESH, MAX)), feat = all.filter(x => x.featured && !fresh.includes(x)).slice(0, MAX - fresh.length);
     const rest = all.filter(x => !fresh.includes(x) && !feat.includes(x)).slice(0, MAX - fresh.length - feat.length);
-    return [...fresh, ...feat, ...rest].sort((x, y) => x.i - y.i);                    // newest first, steady from visit to visit
+    const pool = [...fresh, ...feat, ...rest].sort((x, y) => x.i - y.i), lead = pool.shift();
+    const mids = [...pool.filter(x => x.featured), ...pool.filter(x => !x.featured)].slice(0, 2), small = pool.filter(x => !mids.includes(x));
+    // three columns on a wide screen: the lead with two small ones under it; a middle one over a small one; a small one over a middle one
+    return [[lead, 'lead', 0], [small[2], 'small', 0], [small[3], 'small', 0], [mids[0], 'mid', 1], [small[1], 'small', 1], [small[0], 'small', 2], [mids[1], 'mid', 2]].filter(c => c[0]).map(([x, size, col]) => ({ ...x, x, size, col }));
   })();
-  const cards = chosen.map((x, k) => {
-    const a = document.createElement('a');
-    a.className = 'float'; a.href = x.href; a.setAttribute('aria-describedby', 'b-d' + k);
-    if (x.short) a.setAttribute('aria-label', x.title);
-    a.innerHTML = `<span class="float-in"><span class="float-pic"></span><strong>${esc(x.short || x.title)}</strong><time datetime="${x.date}">${esc(x.when)}</time></span><span id="b-d${k}" hidden>${esc(x.intro)}</span>`;
-    const pic = x.pic.cloneNode(true);
-    if (pic.tagName === 'IMG') { pic.sizes = '(min-width: 1000px) 262px, (min-width: 641px) 30vw, 46vw'; pic.loading = 'eager'; }
+  const cols = [0, 1, 2].map(() => { const d = document.createElement('div'); d.className = 'drift-col'; drift.append(d); return d; });
+  const weight = [...chosen].sort((p, q) => 'lms'.indexOf(p.size[0]) - 'lms'.indexOf(q.size[0]) || p.i - q.i);      // on a narrow screen there are no columns: the lead, the two middle ones, then the small ones by date
+  const cards = chosen.map((c, k) => {
+    const a = document.createElement('a'), tag = k === 0 ? LBL.lead : c.featured ? LBL.picked : '', v = weight.indexOf(c);
+    a.className = `float ${c.size} t${k % 4} a${k % 3}${v % 2 ? ' r' : ''}`;       // tilt and rhythm of the swaying by place; the lower column on a phone by weight. Steady, nothing random
+    a.style.setProperty('--o', v);
+    a.href = c.href; a.setAttribute('aria-describedby', 'b-d' + k);
+    if (c.short) a.setAttribute('aria-label', c.title);
+    a.innerHTML = `<span class="float-in">${tag ? `<span class="float-tag">${esc(tag)}</span>` : ''}<span class="float-pic"></span><strong>${esc(c.short || c.title)}</strong><time datetime="${c.date}">${esc(c.when)}</time></span><span id="b-d${k}" hidden>${esc(c.peek)}</span>`;
+    const pic = c.pic.cloneNode(true);
+    if (pic.tagName === 'IMG') { pic.sizes = c.size === 'lead' ? '(min-width: 1000px) 480px, (min-width: 641px) 30vw, 46vw' : '(min-width: 1000px) 330px, (min-width: 641px) 30vw, 46vw'; pic.loading = 'eager'; }
     a.querySelector('.float-pic').append(pic);
-    drift.append(a);
+    cols[c.col].append(a);
     return a;
   });
 
-  // ---- the preview
-  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse';
-  const shut = (focusBack) => {
+  // ---- the preview: the card itself unfolds. It rights itself, grows from where it hangs, and the intro follows
+  let open = -1, how = '', dwell = 0, leave = 0, over = -1, lastPointer = 'mouse', quiet = false, going = null;
+  const flight = (card, sheet) => {                       // from the small card's place to the open sheet's place
+    const r = card.getBoundingClientRect(), p = sheet.getBoundingClientRect(), s = r.width / p.width;
+    return [{ transformOrigin: '0 0', transform: `translate(${r.left - p.left}px, ${r.top - p.top}px) scale(${s}) rotate(${getComputedStyle(card).getPropertyValue('--tilt') || '0deg'})`, clipPath: `inset(0 0 ${Math.max(0, p.height - r.height / s)}px 0 round 3px)` },
+      { transformOrigin: '0 0', transform: 'none', clipPath: 'inset(0 0 0 0 round 3px)' }];
+  };
+  const settle = () => { if (going) { const g = going; going = null; g.anim.cancel(); g.done(); } };
+  const shut = (focusBack, now) => {
     clearTimeout(leave);
     if (open < 0) return;
-    const card = cards[open];
-    peek.hidden = true; peek.replaceChildren(); drift.classList.remove('has-peek'); card.classList.remove('sel');
-    open = -1; rest();
-    if (focusBack) card.focus({ preventScroll: true });
+    const card = cards[open], sheet = peek.firstElementChild;
+    open = -1;
+    const done = () => { peek.hidden = true; peek.replaceChildren(); drift.classList.remove('has-peek'); card.classList.remove('sel'); rest(); };
+    if (focusBack) { quiet = true; card.focus({ preventScroll: true }); quiet = false; }      // giving the focus back must not open it again
+    if (now || !moves() || !sheet) return done();
+    sheet.classList.add('folding');
+    const anim = sheet.animate(flight(card, sheet).reverse(), { duration: 300, easing: 'cubic-bezier(.4, 0, .6, 1)', fill: 'forwards' });
+    going = { anim, done }; anim.onfinish = () => { if (going && going.anim === anim) { going = null; done(); } };
   };
   const show = (k, by) => {
     clearTimeout(dwell); clearTimeout(leave);
     if (open === k) { how = by === 'hover' ? how : by; return; }
-    if (open >= 0) shut();
-    const x = chosen[k], card = cards[k];
+    if (open >= 0) shut(false, true);
+    settle();
+    const c = chosen[k], card = cards[k];
     open = k; how = by;
-    const pic = x.pic.cloneNode(true);
+    const pic = c.pic.cloneNode(true);
     if (pic.tagName === 'IMG') { pic.sizes = '(min-width: 640px) 580px, 94vw'; pic.loading = 'eager'; }
-    peek.innerHTML = `<div class="peek-card" role="group" aria-label="${esc(LBL.preview + ': ' + x.title)}">
+    peek.innerHTML = `<div class="peek-card" role="group" aria-label="${esc(LBL.preview + ': ' + c.title)}">
       <button type="button" class="peek-x" aria-label="${esc(LBL.close)}">×</button>
-      <a class="peek-pic" href="${esc(x.href)}" tabindex="-1" aria-hidden="true"></a>
-      <div class="peek-body"><time datetime="${x.date}">${esc(x.when)}</time><h2><a href="${esc(x.href)}" tabindex="-1">${esc(x.title)}</a></h2>
-      <p class="peek-intro">${esc(x.intro)}</p><a class="peek-read" href="${esc(x.href)}"${by === 'focus' ? ' tabindex="-1"' : ''}>${esc(LBL.read)}</a></div></div>`;
+      <a class="peek-pic" href="${esc(c.href)}" tabindex="-1" aria-hidden="true"></a>
+      <div class="peek-body"><h2><a href="${esc(c.href)}" tabindex="-1">${esc(c.title)}</a></h2><time datetime="${c.date}">${esc(c.when)} · ${esc(c.mins)}</time><p class="peek-intro">${esc(c.peek)}</p></div>
+      <div class="peek-foot"><a class="peek-read" href="${esc(c.href)}"${by === 'focus' ? ' tabindex="-1"' : ''}>${esc(LBL.read)}</a></div></div>`;
     peek.querySelector('.peek-pic').append(pic);
     peek.hidden = false; drift.classList.add('has-peek'); card.classList.add('sel'); rest();
     const r = card.getBoundingClientRect(), w = peek.offsetWidth, h = peek.offsetHeight, vw = document.documentElement.clientWidth;
     const left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), vw - w - 12);
     let top = r.top - 26;
-    if (top + h > innerHeight - 12) top = innerHeight - h - 12;
-    peek.style.left = left + scrollX + 'px'; peek.style.top = Math.max(scrollY + 8, top + scrollY) + 'px';
+    if (top + h > innerHeight - 10) top = innerHeight - h - 10;
+    peek.style.left = left + scrollX + 'px'; peek.style.top = Math.max(scrollY + 10, top + scrollY) + 'px';
+    const sheet = peek.firstElementChild;
+    if (moves()) { sheet.classList.add('unfolding'); sheet.animate(flight(card, sheet), { duration: 440, easing: 'cubic-bezier(.2, .75, .2, 1)' }); }
     if (by === 'tap') peek.querySelector('.peek-read').focus({ preventScroll: true });
   };
   const later = () => { clearTimeout(leave); leave = setTimeout(() => { if (how === 'hover') { shut(); if (over >= 0) dwell = setTimeout(() => show(over, 'hover'), 350); } }, 380); };
@@ -161,7 +186,7 @@
       clearTimeout(dwell); leaving(chosen[k]); carry(a);
     });
     a.addEventListener('keydown', () => { lastPointer = 'key'; });
-    a.addEventListener('focus', () => { if (a.matches(':focus-visible')) show(k, 'focus'); });
+    a.addEventListener('focus', () => { if (!quiet && a.matches(':focus-visible')) show(k, 'focus'); });
     a.addEventListener('blur', () => { if (open === k && how === 'focus') shut(); });
   });
   peek.addEventListener('pointerenter', () => clearTimeout(leave));
@@ -172,34 +197,55 @@
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open >= 0) { e.preventDefault(); shut(how !== 'hover'); } });
   document.addEventListener('pointerdown', e => { if (open >= 0 && !peek.contains(e.target) && !e.target.closest('.float')) shut(); });
-  addEventListener('resize', () => shut());
+  addEventListener('resize', () => shut(false, true));
 
   // ---- movement: rests when asked to, in a hidden tab, out of sight, and while a preview is open
   const motion = $('motion');
   let paused = false, seen = true;
   try { paused = localStorage.getItem('blog-motion') === 'paused'; } catch (e) { /* no memory */ }
   function rest() {
-    drift.classList.toggle('still', paused || document.hidden || !seen || open >= 0 || S.view !== 'explore');
+    drift.classList.toggle('still', paused || document.hidden || !seen || open >= 0 || !!going || S.view !== 'explore');
     motion.setAttribute('aria-pressed', paused); motion.textContent = paused ? LBL.play : LBL.pause;
   }
   motion.addEventListener('click', () => { paused = !paused; try { localStorage.setItem('blog-motion', paused ? 'paused' : 'on'); } catch (e) { /* fine */ } rest(); });
   document.addEventListener('visibilitychange', rest);
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { seen = es[0].isIntersecting; rest(); }).observe(drift);
 
-  // ---- the two views
+  // ---- the two views. Changing between them, a card that is in both travels to its new place; the others follow quietly
   const apply = () => {
     const ex = S.view === 'explore';
     $('explore').hidden = !ex; $('archive').hidden = ex;
     motion.hidden = ex ? calm.matches : true;
     document.querySelectorAll('[data-view]').forEach(a => { if (a.closest('.views')) a.dataset.view === S.view ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'); });
-    if (!ex) { shut(); archive(); }
+    if (!ex) { shut(false, true); settle(); archive(); }
     rest();
+  };
+  const inSight = r => r.width > 0 && r.bottom > 0 && r.top < innerHeight;
+  const places = () => S.view === 'explore'
+    ? new Map(chosen.map((c, k) => [c.id, { r: cards[k].querySelector('.float-pic').getBoundingClientRect(), tilt: getComputedStyle(cards[k]).getPropertyValue('--tilt') || '0deg' }]))
+    : new Map(all.filter(x => !x.li.hidden).map(x => [x.id, { r: x.box.getBoundingClientRect(), tilt: '0deg' }]));
+  const travel = (el, to, from, n) => {
+    const move = from && inSight(from.r) && inSight(to);
+    el.animate(move
+      ? [{ transformOrigin: '0 0', transform: `translate(${from.r.left - to.left}px, ${from.r.top - to.top}px) scale(${from.r.width / to.width}) rotate(${from.tilt})` }, { transformOrigin: '0 0', transform: 'none' }]
+      : [{ opacity: 0 }, { opacity: 0, offset: .4 }, { opacity: 1 }],
+    { duration: move ? 620 : 760, delay: move ? n * 24 : 0, easing: move ? 'cubic-bezier(.2, .75, .2, 1)' : 'ease-out', fill: 'backwards' });
+  };
+  const turn = view => {
+    shut(false, true); settle();
+    const from = moves() ? places() : null;
+    S = { ...S, view }; keep.set('blog-view', view); apply(); write(true);
+    if (!from) return;
+    if (view === 'archive') all.filter(x => !x.li.hidden).forEach((x, n) => travel(x.li, x.box.getBoundingClientRect(), from.get(x.id), n));
+    else cards.forEach((card, k) => travel(card, card.querySelector('.float-pic').getBoundingClientRect(), from.get(chosen[k].id), k));
   };
   document.addEventListener('click', e => {
     const a = e.target.closest('a[data-view]'); if (!a || !plain(e)) return;
     e.preventDefault();
-    if (a.dataset.view !== S.view) { S = { ...S, view: a.dataset.view }; keep.set('blog-view', S.view); apply(); write(true); }
-    if (a.closest('.to-archive')) { bar.scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'start' }); document.querySelector('.views [aria-current]').focus({ preventScroll: true }); }
+    const down = !!a.closest('.to-archive');
+    if (down) scrollTo({ top: Math.max(0, bar.getBoundingClientRect().top + scrollY - 90), behavior: 'instant' });      // the archive starts at its head, and the cards are still in sight to travel
+    if (a.dataset.view !== S.view) turn(a.dataset.view);
+    if (down) document.querySelector('.views [aria-current]').focus({ preventScroll: true });
   });
   addEventListener('popstate', () => { S = read(); apply(); });
 
@@ -212,10 +258,10 @@
     keep.set(KEY, { ...was, back: false });
     requestAnimationFrame(() => {
       scrollTo({ top: was.y || 0, behavior: 'instant' });
-      const k = chosen.findIndex(x => x.id === was.peek);
+      const k = chosen.findIndex(c => c.id === was.peek);
       if (k >= 0 && S.view === 'explore') show(k, 'tap');
     });
   }
   addEventListener('pageshow', e => { if (e.persisted) rest(); });
-  window.blogPage = { state: () => ({ ...S, open, how, paused, shown: all.filter(x => !x.li.hidden).length, cards: cards.length }) };
+  window.blogPage = { state: () => ({ ...S, open, how, paused, folding: !!going, shown: all.filter(x => !x.li.hidden).length, cards: cards.length, order: chosen.map(c => c.size[0] + ':' + c.id.slice(0, 10)) }) };
 })();

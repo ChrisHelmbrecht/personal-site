@@ -24,18 +24,22 @@
 /* --- Explore: cards in fixed places, each swaying a little about its own spot. Nothing changes places */
 .drift { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 34px 2.6%; padding: 34px 0 30px; }
 .float { --tilt: -1.3deg; flex: 0 0 22.6%; min-width: 0; display: block; color: inherit; text-decoration: none; border-radius: 4px; transition: opacity .4s ease; }
-.float:nth-child(4n+2) { --tilt: 1.1deg; margin-top: 46px; }
-.float:nth-child(4n+3) { --tilt: -.6deg; margin-top: 12px; }
-.float:nth-child(4n+4) { --tilt: 1.7deg; margin-top: 58px; }
+.float.t1 { --tilt: 1.1deg; margin-top: 46px; }
+.float.t2 { --tilt: -.6deg; margin-top: 12px; }
+.float.t3 { --tilt: 1.7deg; margin-top: 58px; }
 .float-in { display: block; padding: 8px 8px 14px; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 3px; box-shadow: 0 22px 26px -20px rgba(18, 38, 95, .6); transform: rotate(var(--tilt)); animation: drift-a 19s ease-in-out infinite; }
-.float:nth-child(3n+2) .float-in { animation-name: drift-b; animation-duration: 23s; animation-delay: -7s; }
-.float:nth-child(3n+3) .float-in { animation-name: drift-c; animation-duration: 27s; animation-delay: -13s; }
-.float:nth-child(5n+4) .float-in { animation-delay: -4s; }
+.float.a1 .float-in { animation-name: drift-b; animation-duration: 23s; animation-delay: -7s; }
+.float.a2 .float-in { animation-name: drift-c; animation-duration: 27s; animation-delay: -13s; }
+.float.t3 .float-in { animation-delay: -4s; }
 @keyframes drift-a { 0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--tilt)); } 50% { transform: translate3d(5px, -9px, 0) rotate(calc(var(--tilt) + .5deg)); } }
 @keyframes drift-b { 0%, 100% { transform: translate3d(0, -4px, 0) rotate(var(--tilt)); } 50% { transform: translate3d(-6px, 6px, 0) rotate(calc(var(--tilt) - .45deg)); } }
 @keyframes drift-c { 0%, 100% { transform: translate3d(-3px, 3px, 0) rotate(var(--tilt)); } 50% { transform: translate3d(4px, -7px, 0) rotate(calc(var(--tilt) + .35deg)); } }
 .drift.still .float-in, .drift:has(:focus-visible) .float-in, .float:hover .float-in { animation-play-state: paused; }
 .drift.has-peek .float:not(.sel) { opacity: .42; }
+.float.sel .float-in { opacity: 0; }
+.float.sel:focus-visible { outline-color: transparent; }                                 /* it is the preview now: one object, not a card and its copy */
+.drift-col { display: contents; }
+.float-tag { display: block; margin: 0 0 8px 2px; font: 500 .58rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
 .float-pic, .entry-pic, .mini-pic, .peek-pic { display: block; overflow: hidden; background: var(--paper); border-radius: 2px; }
 .float-pic { aspect-ratio: 4 / 3; }
 .float-pic img, .entry-pic img, .mini-pic img, .peek-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -47,14 +51,18 @@
 
 /* --- the preview: the chosen card, large, with its intro. It lies over the card it came from */
 .peek { position: absolute; z-index: 8; left: 0; top: 0; width: min(600px, calc(100vw - 24px)); }
-.peek-card { position: relative; padding: 10px 10px 22px; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 4px; box-shadow: 0 34px 44px -26px rgba(18, 38, 95, .75); animation: peek-in .22s ease-out; }
-@keyframes peek-in { from { opacity: 0; transform: scale(.965); } }
-.peek-pic { aspect-ratio: 16 / 10; max-height: 46vh; width: 100%; }
-.peek-body { padding: 14px 12px 0; }
-.peek time { display: block; }
-.peek h2 { margin: 6px 0 10px; font: italic 600 clamp(1.5rem, 3.4vw, 2rem)/1.1 var(--display); text-wrap: balance; }
+.peek-card { position: relative; display: flex; flex-direction: column; max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); padding: 10px 10px 16px; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 4px; box-shadow: 0 34px 44px -26px rgba(18, 38, 95, .75); }
+/* unfolding: picture and title travel with the card; the intro and the way on arrive once it has opened, and leave first */
+.peek-card.unfolding .peek-intro, .peek-card.unfolding .peek-foot, .peek-card.unfolding .peek-x, .peek-card.unfolding .peek-body time { animation: peek-in .26s .3s ease-out backwards; }
+.peek-card.folding .peek-intro, .peek-card.folding .peek-foot, .peek-card.folding .peek-x, .peek-card.folding .peek-body time { opacity: 0; }
+@keyframes peek-in { from { opacity: 0; } }
+.peek-pic { flex: 0 1 auto; aspect-ratio: 4 / 3; min-height: 110px; max-height: 44vh; width: 100%; }
+.peek-body { flex: 1 1 auto; min-height: 4.2em; overflow-y: auto; overscroll-behavior: contain; padding: 12px 12px 0; }
+.peek-foot { flex: none; padding: 14px 12px 0; }
+.peek time { display: block; margin-bottom: 10px; }
+.peek h2 { margin: 0 0 8px; font: italic 600 clamp(1.5rem, 3.4vw, 2rem)/1.1 var(--display); text-wrap: balance; }
 .peek h2 a { color: var(--ink); text-decoration: none; }
-.peek-intro { margin: 0 0 16px; font-size: 1.08rem; line-height: 1.45; }
+.peek-intro { margin: 0; font-size: 1.12rem; line-height: 1.45; }
 .peek-read { display: inline-flex; align-items: center; min-height: 46px; padding: 0 24px; font: 500 .74rem/1 var(--mono); letter-spacing: .17em; text-transform: uppercase; text-decoration: none; color: var(--card); background: var(--ink-deep); border-radius: 999px; }
 .peek-read:hover { background: var(--ink); }
 .peek-x { position: absolute; z-index: 1; right: 18px; top: 18px; width: 44px; height: 44px; font: 400 1.5rem/1 var(--display); color: var(--ink-deep); background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 50%; cursor: pointer; }
@@ -132,35 +140,63 @@
 .article-text th, .article-text td { padding: 9px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--ink-soft); min-width: 9ch; }
 .article-text th { font: 500 .66rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-deep); background: var(--card); }
 .article-text .embed a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; font: 500 .7rem/1 var(--mono); letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--ink-deep); background: var(--card); border: 1.5px solid var(--ink); border-radius: 999px; }
+/* how far into the article one is: a thin line that fills with the scrolling, where the browser can tie the two together */
+.reading { display: none; }
+@supports (animation-timeline: scroll()) {
+  .reading { display: block; position: fixed; z-index: 21; left: 0; top: 0; width: 100%; height: 3px; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); animation: reading linear both; animation-timeline: scroll(root block); }
+  @keyframes reading { to { transform: scaleX(1); } }
+}
 .article-more { margin-top: 64px; padding-top: 6px; border-top: 1.5px solid var(--ink-deep); }
 .room.article .article-more h2 { margin: 22px 0 18px; }
 @media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }
 ::view-transition-group(post-pic) { animation-duration: .42s; }
 
+/* a wide screen: one large card, two middle ones, four small ones, and room between them. The weight says something:
+   the large one is the newest, the marked ones are chosen (scripts/build-blog.py: featured), the rest are recent */
+@media (min-width: 1000px) {
+  .drift { display: grid; grid-template-columns: 41fr 29fr 24fr; align-items: start; gap: 0 4.2%; padding: 30px 0 34px; }
+  .drift-col { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px 9%; }
+  .drift-col:nth-child(2) { padding-top: 54px; }
+  .drift-col:nth-child(3) { padding-top: 6px; }
+  .drift .float { flex: 0 0 100%; margin: 0; }
+  .drift .float.small { flex-basis: 78%; }
+  .drift-col:nth-child(1) .float.small { flex-basis: 42%; margin-top: 4px; }
+  .drift-col:nth-child(1) .float.small + .float.small { margin-top: 44px; }
+  .drift-col:nth-child(2) .float.small { margin-left: 16%; }
+  .drift-col:nth-child(3) .float.small { flex-basis: 86%; }
+  .float.lead { --tilt: -.9deg; }
+  .float.mid { --tilt: 1.2deg; }
+  .drift-col:nth-child(3) .float.mid { --tilt: -1.1deg; }
+  .float.lead .float-in { padding: 11px 11px 18px; box-shadow: 0 30px 34px -24px rgba(18, 38, 95, .62); }
+  .float.small .float-in { box-shadow: 0 14px 18px -14px rgba(18, 38, 95, .5); }
+  .float.lead strong { font-size: 1.82rem; line-height: 1.08; margin-top: 14px; }
+  .float.mid strong { font-size: 1.32rem; }
+  .float.small strong { font-size: 1.08rem; }
+  .float.mid .float-pic { aspect-ratio: 3 / 2; }
+}
 @media (max-width: 999px) {
-  .float { flex-basis: 30.4%; }
+  .float { flex-basis: 30.4%; order: var(--o); }
 }
 @media (max-width: 640px) {
   /* a phone gets its own arrangement: two columns, the right one hanging lower. Not the desktop made small */
   .drift { gap: 22px 5%; padding-top: 24px; }
   .float { flex-basis: 47.5%; }
-  .float:nth-child(n) { margin-top: 0; }
-  .float:nth-child(even) { margin-top: 34px; }
+  .float.float { margin-top: 0; }
+  .float.float.r { margin-top: 34px; }
   .float strong { font-size: 1.06rem; }
   .views a { padding: 0 16px; }
   /* the preview is a sheet at the foot of the screen, clear of the site's header, and scrolls if the intro is long */
-  .peek { position: fixed; left: 10px !important; right: 10px; top: auto !important; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); width: auto; max-height: calc(100vh - 104px); max-height: calc(100dvh - 104px); overflow-y: auto; overscroll-behavior: contain; border-radius: 4px; }
+  .peek { position: fixed; left: 10px !important; right: 10px; top: auto !important; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); width: auto; }
+  .peek-card { max-height: calc(100vh - 104px); max-height: calc(100dvh - 104px); }
   .peek-pic { aspect-ratio: 16 / 9; max-height: 30vh; }
   .peek-x { right: 16px; top: 16px; }
-  .peek-read { position: sticky; bottom: 0; box-shadow: 0 0 0 12px var(--card), 0 14px 0 12px var(--card); }
-  .peek-card { padding-bottom: 14px; }
   .room.article .others ul, .room.article .article-more ul:not(.links) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .room.article .article-more ul:not(.links) li:nth-child(3) { display: none; }
+  .room.article .article-more ul:not(.links) li:nth-child(3) { grid-column: 1 / -1; }
   .others { margin-left: 0; }
   .article-text { font-size: 1.18rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .float-in { animation: none; }
-  .peek-card { animation: none; }
+  .peek-card * { animation: none !important; }
   .float, .entry-pic img { transition: none; }
 }

@@ -133,7 +133,7 @@ for en, de in pairs:
         tags = list(dict.fromkeys(terms(p, 'post_tag')))
         head = [('id', aid), ('lang', lang(p)), ('slug', p['slug']), ('title', html.unescape(p['title']['rendered'])), ('short', ''),
                 ('date', p['date'][:10]), ('updated', p['modified'][:10] if p['modified'][:10] != p['date'][:10] else ''),
-                ('intro', intro(p)), ('image', aid if m.get('source_url') else ''), ('alt', (media(p).get('alt_text') or '').strip()), ('focus', '50% 50%'), ('credit', ''),
+                ('intro', intro(p)), ('teaser', ''), ('image', aid if m.get('source_url') else ''), ('alt', (media(p).get('alt_text') or '').strip()), ('focus', '50% 50%'), ('credit', ''),
                 ('categories', ', '.join(cats)), ('tags', '; '.join(tags)), ('featured', 'no'), ('draft', 'no'), ('old', p['link'])]
         open(f'{out}/{aid}/{lang(p)}.html', 'w').write('\n'.join(f'{k}: {v}' for k, v in head) + '\n---\n' + body + '\n')
         report.append(dict(id=aid, lang=lang(p), title=head[3][1], words=len(text(body).split()), lost=dict(lost), no_alt=not head[9][1], intro_len=len(head[7][1]), cats=cats))
