@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Turn a Runway clip into a seamless loop for the bio plates.
 
-  loop.py in.mp4 out.mp4 poster.webp --crop x,y,w,h --size WxH [--fade 1.5] [--keep cx,cy,r]
+  loop.py in.mp4 out.mp4 poster.webp --crop x,y,w,h --size WxH [--fade 1.5] [--keep cx,cy,r] [--reverse]
 
 The clip runs once; its last `fade` seconds are dissolved into its first, so drifting clouds never jump.
 The paper of the clip is lifted to pure white, because js/bio.js keys white out when it draws the film.
 The poster is the loop's first frame with the same key already applied (see `key` below and film() in bio.js).
+--reverse plays the loop backwards from the same first frame: the clouds then drift the other way.
 """
 import argparse, subprocess, numpy as np
 from PIL import Image
@@ -15,7 +16,7 @@ ap.add_argument('src'); ap.add_argument('out'); ap.add_argument('poster')
 ap.add_argument('--crop', required=True); ap.add_argument('--size', required=True)
 ap.add_argument('--fade', type=float, default=1.5); ap.add_argument('--fps', type=int, default=24)
 ap.add_argument('--key', default='232,150'); ap.add_argument('--keep', default='')
-ap.add_argument('--crf', default='24')
+ap.add_argument('--crf', default='24'); ap.add_argument('--reverse', action='store_true')
 a = ap.parse_args()
 x, y, w, h = map(int, a.crop.split(',')); W, H = map(int, a.size.split('x'))
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', a.src, '-vf', f'crop={w}:{h}:{x}:{y},scale={W}:{H}:flags=lanczos',
@@ -32,6 +33,7 @@ if X:
         out[L - X + i] = out[L - X + i] * (1 - t) + fr[i] * t
 else:
     out = fr
+if a.reverse: out = np.concatenate([out[:1], out[:0:-1]])
 enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(a.fps), '-i', '-',
                         '-an', '-c:v', 'libx264', '-preset', 'veryslow', '-crf', a.crf, '-pix_fmt', 'yuv420p', '-movflags', '+faststart', a.out], stdin=subprocess.PIPE)
 enc.stdin.write(out.astype(np.uint8).tobytes()); enc.stdin.close(); enc.wait()
