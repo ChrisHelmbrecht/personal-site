@@ -7,7 +7,7 @@ The start page is one drawing: a skull in blue ink, like Delft porcelain. Inside
 Every element of the skull is a door to a page. Clicking one zooms into it.
 
 ## Pages
-- [DJ](dj.html): the moon. Melodic techno, indie dance and house, from exclusive events to the underground; mixes on SoundCloud and Mixcloud.
+- [DJ](dj.html): the moon. Eight recordings on a drawn turntable (they play through Mixcloud): Love Room London, Gleis Kultur Friedland, a private party in Tehran, Gazgolder Moscow, LUMA Munich, a Munich subway station and two PLAY sessions. Melodic techno, indie dance and house, from exclusive events to the underground; a list of clubs, festivals and residencies; booking direct at dj@chrishelmbrecht.com.
 - [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
 - [Writing](writing.html): the book "Fucking Moskau" and other texts.
 - [Blog](blog.html): the bare trees. Recent essays.

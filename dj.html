@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://player-widget.mixcloud.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="description" content="DJ: Chris Helmbrecht, DJ, author of Fucking Moskau and brand consultant in Munich.">
+<meta name="description" content="DJ: eight recordings by Chris Helmbrecht on a drawn turntable. Melodic techno, indie dance and house, the nights behind them, and booking.">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
@@ -14,27 +14,181 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#d6d9d6">
 <link rel="stylesheet" href="css/site.css">
-<main class="page">
+<link rel="stylesheet" href="css/dj.css">
+<main class="page dj">
   <a class="back" href="index.html" aria-label="Back to the skull"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
-  <article class="room">
-    <span class="tag">DJ</span>
-    <h1>Storytelling with music.</h1>
-<p>As a native of Munich, DJ, music enthusiast, and cultural manager, I have journeyed through the music world over the past three decades, deepening my passion for DJing and the electronic music scene.</p>
-    <p>With over 30 years of DJ experience, I am no stranger to the scene. Originally hailing from Munich, I left the city more than 25 years ago to live in New York, Spain, and Moscow. During this time, I not only explored a diverse range of music genres but also performed on stages worldwide. My musical journey has taken me from the streets of New York to the clubs of Milan, from a techno party in Tehran to the vibrant nights in Tenerife, and many other places.</p>
-    <p>My DJ career began in my school days when I became known for my mixtapes and playing at house parties. Music became my lifeblood, and I developed a special taste for hip-hop, RnB, and later electronic music. During my time as an extreme snowboarder in the 90s, I organized some very successful (and well-known) snowboarder parties in the Alps.</p>
-    <p>The diversity of my musical journey is also reflected in my performances. I played Formula 1 parties and 5-star hotels, for Russian oligarchs and wealthy guests from all over the world – and legendary techno clubs in Moscow and various underground scenes. My heart and soul were always in the underground. I DJed at both.</p>
-    <p>Today, I am not just a DJ but also a curator of musical experiences. My sets are a blend of melodic techno, indie dance, and house.</p>
-    <h2>Listen</h2>
-    <ul class="links"><li><a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a></li><li><a href="https://www.mixcloud.com/chrishelmbrecht/" target="_blank" rel="noopener">Mixcloud</a></li><li><a href="https://www.youtube.com/@ChrisHelmbrecht/featured" target="_blank" rel="noopener">YouTube</a></li></ul>
-    <h2>Selected performances and residencies</h2>
-    <ul class="cols">
-      <li>Private party (250+ people), Tehran, Iran</li><li>World Cup afterparty on a yacht, Riga</li><li>Rosa Grand Hotel, Milan</li><li>Formula 1, Sochi</li><li>Diamond Pop-Up Club</li><li>W Hotel, St. Petersburg</li><li>Kvadrat Afterhour, White Nights, St. Petersburg</li><li>Russki Volna Festival, Hurghada, Egypt</li><li>Ritz-Carlton O2 Lounge Terrace season closing 2018</li><li>Odyssey Festival</li><li>Scala Festival</li><li>Mendeleev (residency)</li><li>Time Out (residency)</li><li>Krysha Mira</li><li>Suzuran (residency)</li><li>Berlin Bar (residency)</li><li>Kinky Party Moscow (residency)</li><li>Gazgolder</li><li>Dissident</li>
-    </ul>
-    <h2>Booking</h2>
-    <p>Booking agency AlpakaClan, +49 9552 921 1120</p>
+  <article class="room dj-room">
+    <header class="dj-head">
+      <div><span class="tag">DJ</span>
+      <h1>Storytelling with music.</h1></div>
+      <p>Eight recordings. Clubs, a festival, a subway station, a private party in Tehran. I won’t be put into one box. I play what fits the room and the people in it.</p>
+    </header>
+
+    <section class="station" id="listen" aria-label="Listening station">
+      <div class="tt" id="tt">
+        <img class="tt-base" src="assets/dj/base.webp" alt="" width="332" height="332">
+        <img class="tt-deck" src="assets/dj/deck.webp" alt="A turntable seen from above, drawn in blue ink. The record on it carries the cover of the chosen recording." width="1280" height="980">
+        <img class="tt-platter" src="assets/dj/platter.webp" alt="" width="917" height="917">
+        <div class="tt-label"><img id="dj-cover" src="assets/dj/mix-01-400.webp" alt="" width="400" height="400"></div>
+        <div class="tt-armw"><div class="tt-turn"><img class="tt-arm" src="assets/dj/arm.webp" alt="" width="287" height="809"><span class="tt-grip" id="dj-grip"></span></div></div>
+      </div>
+      <div class="now" id="dj-now">
+        <p class="tag"><span id="dj-no">01</span> / 08 · <span id="dj-kind">Live recording · closing set</span></p>
+        <h2 id="dj-title">Love Room / London</h2>
+        <p class="now-meta" id="dj-meta">20 March 2026 · London</p>
+        <p class="now-note" id="dj-note">I played the big room last and closed the night. It starts energetic and slowly turns trippy. A bit housey in parts. Keep in mind where it was played: London, a kinky party, a beautiful crowd.</p>
+        <p class="now-tags" id="dj-tags">Indie dance · Melodic techno · House</p>
+        <div class="now-ctl">
+          <a class="dj-play" id="dj-play" href="https://www.mixcloud.com/chrishelmbrecht/love-rooms-london/" target="_blank" rel="noopener">Listen on Mixcloud</a>
+          <span class="now-time" id="dj-time">2:19:56</span>
+        </div>
+        <div class="now-bar" aria-hidden="true"><i id="dj-bar"></i></div>
+        <p class="now-say" id="dj-say" role="status"></p>
+        <div class="now-mc" id="dj-mc"></div>
+        <p class="now-fine" id="dj-fine">The recordings play through Mixcloud.</p>
+      </div>
+    </section>
+
+    <section class="shelf" aria-labelledby="dj-shelf">
+      <h2 id="dj-shelf">Eight recordings</h2>
+      <ol class="mixes">
+        <li class="mix on" data-key="/chrishelmbrecht/love-rooms-london/" data-len="8396">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/love-rooms-london/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-01-400.webp" srcset="assets/dj/mix-01-400.webp 400w, assets/dj/mix-01-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">01</span>
+            <strong class="mix-title">Love Room / London</strong>
+            <span class="mix-meta"><span class="mix-when">20 March 2026</span> · <span class="mix-where">London</span> · <span class="mix-len">2:19:56</span></span>
+          </a>
+          <p class="mix-kind">Live recording · closing set</p>
+          <p class="mix-note">I played the big room last and closed the night. It starts energetic and slowly turns trippy. A bit housey in parts. Keep in mind where it was played: London, a kinky party, a beautiful crowd.</p>
+          <p class="mix-tags">Indie dance · Melodic techno · House</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/friedland/" data-len="7666">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/friedland/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-02-400.webp" srcset="assets/dj/mix-02-400.webp 400w, assets/dj/mix-02-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">02</span>
+            <strong class="mix-title">Gleis Kultur / Friedland</strong>
+            <span class="mix-meta"><span class="mix-when">11 July 2026</span> · <span class="mix-where">Friedland</span> · <span class="mix-len">2:07:46</span></span>
+          </a>
+          <p class="mix-kind">Live recording · festival</p>
+          <p class="mix-note">Open air at Gleis Kultur. Great audience, great stage, great sound system. The DJ after me needed a different mixer, so the music had to stop for a minute. That let me say a proper goodbye, with Perel’s version of Eisbär.</p>
+          <p class="mix-tags">Melodic techno · Indie dance · House</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/private-session-teheran-iran-jul-2018/" data-len="13518">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/private-session-teheran-iran-jul-2018/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-03-400.webp" srcset="assets/dj/mix-03-400.webp 400w, assets/dj/mix-03-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">03</span>
+            <strong class="mix-title">Private Session / Teheran</strong>
+            <span class="mix-meta"><span class="mix-when">July 2018</span> · <span class="mix-where">Tehran, Iran</span> · <span class="mix-len">3:45:18</span></span>
+          </a>
+          <p class="mix-kind">Live recording · private party</p>
+          <p class="mix-note">A private party in Tehran. Uncharted DJ territory. Not many people get to play there. The audience was awesome. I hope I get invited back.</p>
+          <p class="mix-tags">Tech house · Deep tech house · Deep house</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/wlcm-sprng-gazgolder-live-djset/" data-len="7912">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/wlcm-sprng-gazgolder-live-djset/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-04-400.webp" srcset="assets/dj/mix-04-400.webp 400w, assets/dj/mix-04-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">04</span>
+            <strong class="mix-title">WLCM SPRNG @ Gazgolder</strong>
+            <span class="mix-meta"><span class="mix-when">1 March 2019</span> · <span class="mix-where">Moscow</span> · <span class="mix-len">2:11:52</span></span>
+          </a>
+          <p class="mix-kind">Live recording · warm-up</p>
+          <p class="mix-note">A warm-up session on the terrace at Gazgolder. It is always nice to play your own favourite venue. Lots of friends, a good vibe.</p>
+          <p class="mix-tags">Deep house · Deep tech · Tech house</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/play-tf-5/" data-len="7328">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/play-tf-5/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-05-400.webp" srcset="assets/dj/mix-05-400.webp 400w, assets/dj/mix-05-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">05</span>
+            <strong class="mix-title">PLAY TF-5</strong>
+            <span class="mix-meta"><span class="mix-when">September 2026</span> · <span class="mix-where">Munich</span> · <span class="mix-len">2:02:08</span></span>
+          </a>
+          <p class="mix-kind">PLAY session</p>
+          <p class="mix-note">PLAY is where I try out the newest tracks in a live set. This one was recorded during Oktoberfest, just back from Tenerife. TF-5 is my favourite highway on the island. Full of energy, groovy in parts, and a little underground at the very end.</p>
+          <p class="mix-tags">Techno · Melodic techno · Deep house</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/luma/" data-len="8064">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/luma/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-06-400.webp" srcset="assets/dj/mix-06-400.webp 400w, assets/dj/mix-06-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">06</span>
+            <strong class="mix-title">LUMA @ Loden Frey Park</strong>
+            <span class="mix-meta"><span class="mix-when">Summer 2026</span> · <span class="mix-where">Munich</span> · <span class="mix-len">2:14:24</span></span>
+          </a>
+          <p class="mix-kind">Live recording · open air</p>
+          <p class="mix-note">An open air on a small river next to the Englischer Garten. Several DJs played that day. I finished with two hours. We had a curfew. Otherwise this would have gone until sunrise.</p>
+          <p class="mix-tags">Indie dance · Melodic techno · Afro house</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/im-namen-der-kunst-vol4/" data-len="6344">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/im-namen-der-kunst-vol4/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-07-400.webp" srcset="assets/dj/mix-07-400.webp 400w, assets/dj/mix-07-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">07</span>
+            <strong class="mix-title">Im Namen der Kunst (Vol. 4)</strong>
+            <span class="mix-meta"><span class="mix-when">July 2026</span> · <span class="mix-where">Munich, U-Bahn Universität</span> · <span class="mix-len">1:45:44</span></span>
+          </a>
+          <p class="mix-kind">Live recording · exhibition opening</p>
+          <p class="mix-note">The opening of Corinna Rosa Falkenberg’s exhibition in the Universität subway station. Not on the platform like on the cover, but in the entrance one floor up. You don’t get to play a subway station legally every day.</p>
+          <p class="mix-tags">Indie dance · Melodic techno · House</p>
+        </li>
+        <li class="mix" data-key="/chrishelmbrecht/play-the-eclipse/" data-len="5498">
+          <a href="https://www.mixcloud.com/chrishelmbrecht/play-the-eclipse/" target="_blank" rel="noopener">
+            <span class="mix-cov"><img src="assets/dj/mix-08-400.webp" srcset="assets/dj/mix-08-400.webp 400w, assets/dj/mix-08-800.webp 800w" sizes="(min-width: 761px) min(25vw, 280px), 46vw" alt="" width="400" height="400" loading="lazy" decoding="async"></span>
+            <span class="mix-no">08</span>
+            <strong class="mix-title">PLAY the Eclipse</strong>
+            <span class="mix-meta"><span class="mix-when">12 August 2026</span> · <span class="mix-where">Munich</span> · <span class="mix-len">1:31:38</span></span>
+          </a>
+          <p class="mix-kind">PLAY session · listening set</p>
+          <p class="mix-note">Recorded on the evening of the partial eclipse over Munich. Not a club set. More of a listening session. It is a live recording, so if you listen carefully you will catch a few mistakes.</p>
+          <p class="mix-tags">Deep house · Tech house · Afro house</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="nights" aria-labelledby="dj-nights">
+      <h2 id="dj-nights">Some nights stay with you.</h2>
+      <div class="nights-grid">
+        <div>
+          <h3>On record</h3>
+          <ul>
+            <li><a href="#listen" data-mix="1"><b>01</b><span>Love Room <small>London</small></span></a></li>
+            <li><a href="#listen" data-mix="2"><b>02</b><span>Gleis Kultur Festival <small>Friedland</small></span></a></li>
+            <li><a href="#listen" data-mix="3"><b>03</b><span>Private party, 250+ people <small>Tehran, Iran</small></span></a></li>
+            <li><a href="#listen" data-mix="4"><b>04</b><span>Gazgolder <small>Moscow</small></span></a></li>
+            <li><a href="#listen" data-mix="6"><b>06</b><span>LUMA <small>Loden Frey Park, Munich</small></span></a></li>
+            <li><a href="#listen" data-mix="7"><b>07</b><span>Im Namen der Kunst <small>U-Bahn Universität, Munich</small></span></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Residencies</h3>
+          <ul>
+            <li>Mendeleev</li><li>Time Out</li><li>Suzuran</li><li>Berlin Bar</li><li>Kinky Party Moscow</li>
+          </ul>
+          <h3>Festivals</h3>
+          <ul>
+            <li>Odyssey Festival</li><li>Scala Festival</li><li>Russki Volna Festival <small>Hurghada, Egypt</small></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Clubs, hotels, one-offs</h3>
+          <ul>
+            <li>Krysha Mira</li><li>Dissident</li><li>Diamond Pop-Up Club</li><li>Kvadrat Afterhour, White Nights <small>St. Petersburg</small></li><li>W Hotel <small>St. Petersburg</small></li><li>Rosa Grand Hotel <small>Milan</small></li><li>Formula 1 <small>Sochi</small></li><li>World Cup afterparty on a yacht <small>Riga</small></li><li>Ritz-Carlton O2 Lounge Terrace <small>Season closing 2018</small></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="dj-about">
+      <h2>More than thirty years.</h2>
+      <p>It started with mixtapes and house parties in my school days. In the 90s, as a snowboarder, I organized parties in the Alps. Then I left Munich for New York, Tenerife and Moscow.</p>
+      <p>I played Formula 1 parties and five-star hotels, for Russian oligarchs and wealthy guests from all over the world. And legendary techno clubs in Moscow and various underground scenes. My heart and soul were always in the underground. I DJed at both.</p>
+      <p>Today my sets move from melodic techno to indie dance to house.</p>
+      <ul class="links"><li><a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a></li><li><a href="https://www.mixcloud.com/chrishelmbrecht/" target="_blank" rel="noopener">Mixcloud</a></li><li><a href="https://www.youtube.com/@ChrisHelmbrecht/featured" target="_blank" rel="noopener">YouTube</a></li></ul>
+      <h2>Booking</h2>
+      <p>Direct, no agency. <a href="mailto:dj@chrishelmbrecht.com">dj@chrishelmbrecht.com</a>, +49 176 843 93190</p>
+    </section>
   </article>
 </main>
 <script src="js/site.js"></script>
+<script src="js/dj.js"></script>
 <!--/page-->
 </body>
 </html>

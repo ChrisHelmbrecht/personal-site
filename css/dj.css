@@ -1,0 +1,115 @@
+/* DJ page: a drawn turntable is the listening station. Colours and type come from site.css.
+   The numbers that place the layers of the deck are printed by scripts/deck-art.py. */
+.dj-room { max-width: 1180px; }
+.dj-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4.6fr); column-gap: clamp(22px, 3.6vw, 52px); align-items: end; }
+.dj-room .dj-head h1 { margin-bottom: 0; }
+.dj-room .dj-head p { margin: 0 0 .5em; font-size: 1.22rem; max-width: 44ch; }
+.dj-room h2 { margin-top: 0; }
+.dj-room section { margin-top: clamp(56px, 8vw, 96px); }
+
+/* --- the station: deck on the left, what is on it on the right */
+.dj-room .station { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4.6fr); gap: clamp(22px, 3.6vw, 52px); align-items: center; margin-top: clamp(20px, 3vw, 36px); scroll-margin-top: 84px; }
+.tt { position: relative; aspect-ratio: 1.3066; width: 100%; --arm: 0deg; --sh: 1; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.tt img { position: absolute; display: block; max-width: none; height: auto; -webkit-user-drag: none; }
+.tt-base { left: 68.464%; top: 8.693%; width: 25.944%; }
+.tt-deck { left: 0; top: 0; width: 100%; }
+.tt-platter { left: 3.207%; top: 3.285%; width: 71.62%; border-radius: 50%; cursor: pointer; }
+.tt-label { position: absolute; left: 39.017%; top: 50.073%; width: 22.123%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; pointer-events: none; background: var(--ink-deep); box-shadow: 0 0 0 1.5px var(--ink-deep); }
+.tt-label img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease; }
+.tt-label.swap img { opacity: 0; }
+.tt-label::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%; background: radial-gradient(circle, transparent 0 58%, rgba(18, 38, 95, .3) 100%); }
+.tt-label::after { content: ""; position: absolute; z-index: 2; left: 50%; top: 50%; width: 9%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, #f6f8f5 0 28%, var(--ink-deep) 34% 48%, #c5cfe6 54%); box-shadow: 0 0 0 1px var(--ink-deep); }
+/* base and arm turn about the same point; the arm's shadow keeps its direction because it hangs on a frame that does not turn */
+.tt-base, .tt-turn { transform: rotate(var(--arm)); transition: transform 1.5s cubic-bezier(.35, .05, .2, 1); }
+.tt-armw { position: absolute; inset: 0; pointer-events: none; filter: drop-shadow(calc(-5px * var(--sh)) calc(7px * var(--sh)) calc(5px * var(--sh)) rgba(18, 38, 95, .3)); }
+.tt-turn { position: absolute; left: 70%; top: 7.153%; width: 22.458%; height: 82.628%; transform-origin: 50.92% 22.376%; }
+.tt-arm { inset: 0; width: 100%; height: 100% !important; }
+.tt-grip { position: absolute; left: -6%; top: 75%; width: 66%; height: 26%; pointer-events: auto; cursor: grab; touch-action: none; border-radius: 12px; }
+.tt.held { --sh: 1.9; }
+.tt.held .tt-grip { cursor: grabbing; }
+.tt.held .tt-base, .tt.held .tt-turn { transition: none; }
+
+.now .tag { margin: 0; max-width: none; }
+.now h2 { font-size: clamp(2rem, 4.2vw, 3rem); margin: 8px 0 10px; }
+.now-meta, .now-tags, .now-fine, .now-say { font: .68rem/1.6 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
+.dj-room .now-meta { margin-bottom: 14px; }
+.dj-room .now-note { min-height: 4.5em; }
+.dj-room .now-tags { margin-bottom: 0; }
+.now > * { transition: opacity .3s ease; }
+.now.swap > :not(.now-mc):not(.now-say):not(.now-fine):not(.now-ctl):not(.now-bar) { opacity: 0; }
+.now-ctl { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
+.dj-play { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; min-width: 132px; padding: 0 26px; font: 500 .76rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; text-decoration: none; color: var(--card); background: var(--ink-deep); border: 1.5px solid var(--ink-deep); border-radius: 999px; cursor: pointer; touch-action: manipulation; }
+.dj-play:hover { background: var(--ink); border-color: var(--ink); }
+.dj-play i { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
+.dj-play.playing i { width: 10px; height: 12px; border-width: 0 3.5px; border-color: currentColor; }
+.now-time { font: .86rem/1 var(--mono); letter-spacing: .06em; font-variant-numeric: tabular-nums; color: var(--ink-deep); }
+.now-bar { height: 2px; margin-top: 16px; background: var(--ink-soft); border-radius: 2px; overflow: hidden; }
+.now-bar i { display: block; height: 100%; width: 0; background: var(--ink); }
+.dj-room .now-say { margin: 12px 0 0; min-height: 1.6em; color: var(--ink-deep); max-width: none; }
+.now-say button, .now-say a { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--ink); background: none; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; text-decoration: none; }
+.now-mc iframe { display: block; width: 100%; height: 60px; border: 0; border-radius: 6px; margin-top: 4px; background: var(--card); }
+.dj-room .now-fine { margin: 10px 0 0; font-size: .6rem; max-width: none; }
+.now-fine a { color: inherit; }
+
+/* --- the shelf: eight sleeves in ink. The one on the deck, and the one under the pointer, get their colours back */
+.dj-room .mixes { list-style: none; margin: 22px 0 0; padding: 0; max-width: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(22px, 3vw, 34px) clamp(14px, 2.4vw, 28px); }
+.mix a { display: block; color: inherit; text-decoration: none; border-radius: 4px; }
+.mix-cov { display: block; position: relative; aspect-ratio: 1; isolation: isolate; overflow: hidden; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 3px; transition: transform .6s cubic-bezier(.2, .7, .2, 1), box-shadow .6s ease, background-color .6s ease; }
+.mix-cov img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; transition: filter .7s ease; }
+.mix-cov::after { content: ""; position: absolute; inset: 0; background: var(--ink); mix-blend-mode: screen; transition: opacity .7s ease; pointer-events: none; }
+.mix.on .mix-cov, .mix a:focus-visible .mix-cov { background: #fff; }
+.mix.on .mix-cov img, .mix a:focus-visible .mix-cov img { filter: none; }
+.mix.on .mix-cov::after, .mix a:focus-visible .mix-cov::after { opacity: 0; }
+.mix.on .mix-cov { transform: translateY(-8px) rotate(-1.2deg); box-shadow: 0 16px 22px -14px rgba(18, 38, 95, .6); }
+@media (hover: hover) {
+  .mix a:hover .mix-cov { background: #fff; }
+  .mix a:hover .mix-cov img { filter: none; }
+  .mix a:hover .mix-cov::after { opacity: 0; }
+}
+.mix-no { display: block; margin-top: 14px; font: .68rem/1 var(--mono); letter-spacing: .18em; color: var(--ink-mid); }
+.mix.on .mix-no::after { content: " · on the deck"; text-transform: uppercase; color: var(--ink); }
+.mix-title { display: block; margin-top: 6px; font: italic 600 1.42rem/1.12 var(--display); color: var(--ink); text-wrap: balance; }
+.mix-meta { display: block; margin-top: 7px; font: .62rem/1.55 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mid); }
+.dj-room .mix p { margin: 8px 0 0; font-size: 1.02rem; line-height: 1.4; }
+.dj-room .mix .mix-kind, .dj-room .mix .mix-tags { font: .62rem/1.55 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mid); }
+.dj-on .mix p { display: none; }                                    /* with the station running, the notes are read there */
+
+/* --- the nights: an index, not a wall of logos */
+.nights-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px clamp(24px, 4vw, 56px); margin-top: 22px; }
+.nights h3 { margin: 0; padding-bottom: 9px; font: 500 .68rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); border-bottom: 1.5px solid var(--ink-deep); }
+.nights h3:not(:first-child) { margin-top: 34px; }
+.dj-room .nights ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.nights li { padding: 9px 0 8px; border-bottom: 1px solid var(--ink-soft); font: italic 500 1.3rem/1.2 var(--display); color: var(--ink-deep); }
+.nights small { display: block; margin-top: 3px; font: normal .62rem/1.4 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
+.nights a { display: flex; align-items: flex-start; gap: 12px; color: var(--ink); text-decoration: none; border-radius: 4px; }
+.nights a b { flex: none; margin-top: 2px; padding: 5px 8px 4px; font: 500 .64rem/1 var(--mono); letter-spacing: .1em; border: 1.5px solid var(--ink); border-radius: 999px; }
+.nights a:hover b { background: var(--ink-deep); border-color: var(--ink-deep); color: var(--card); }
+
+.dj-about h2 + p { margin-top: 0; }
+.dj-about h2:not(:first-child) { margin-top: 40px; }
+
+@media (max-width: 900px) {
+  .dj-room .station, .dj-head { grid-template-columns: minmax(0, 1fr); }
+  .dj-room .dj-head p { margin-top: 16px; }
+  .dj-room .now-note { min-height: 0; }
+  /* on a phone the play button sits right under the deck, so both are on the screen together */
+  .now { display: flex; flex-direction: column; }
+  .now > * { order: 3; }
+  .now > .tag, .now > h2, .now > .now-meta { order: 1; }
+  .now > .now-ctl, .now > .now-bar, .now > .now-say, .now > .now-mc { order: 2; }
+  .dj-room .now-meta { margin-bottom: 0; }
+  .now-ctl { margin-top: 16px; }
+  .dj-room .now-say { margin-bottom: 8px; }
+  .now-mc iframe { margin-bottom: 16px; }
+  .nights-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .nights-grid > div + div { margin-top: 34px; }
+}
+@media (max-width: 760px) {
+  .dj-room .mixes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mix-title { font-size: 1.24rem; }
+  .tt { width: calc(100% + 12px); margin-inline: -6px; }           /* a little wider than the text: the deck is the picture here */
+}
+@media (prefers-reduced-motion: reduce) {
+  .tt-base, .tt-turn, .tt-label img, .now > *, .mix-cov, .mix-cov img, .mix-cov::after { transition: none; }
+  .mix.on .mix-cov { transform: none; }
+}
