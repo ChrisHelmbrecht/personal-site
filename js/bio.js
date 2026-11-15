@@ -198,6 +198,24 @@
   };
   document.addEventListener('lesson:open', () => rest(true));
   document.addEventListener('lesson:close', () => { lesson = false; stir(); });
+  // Easter egg in New York: a click on the engraving sends a yellow cab across its foot, the only thing on this page that is
+  // not blue. Whoever hails it (a click on the cab) is taken to DONT WALK, a game about crossing an avenue (jaywalk.html)
+  const CAB = ['...........wwwww..........', '.......bbbbbbbbbbbb.......', '......bgggbggggbgggb......', '......bgggbggggbgggb......', '.yyyyyyyyyyyyyyyyyyyyyyyy.', 'yyyyyyyyyyyyyyyyyyyyyyyyyy', 'wyybybybybybybybybybybyyyr', 'yyyyyyyyyyyyyyyyyyyyyyyyyy', '..ybbbbyyyyyyyyyyyybbbbyy.', '...bbbb............bbbb...'];
+  const HUE = { y: '#f5c518', b: '#0b1436', g: '#8ea3d8', w: '#f6f8f5', r: '#e2412d' };
+  document.querySelectorAll('.plate[data-plate="newyork"] .live').forEach(plate => plate.addEventListener('click', e => {
+    if (plate.cab || e.target.closest('.cab')) return;
+    const way = document.createElement('div'), a = document.createElement('a'), c = document.createElement('canvas'), x = c.getContext('2d');
+    way.className = 'cabway'; a.className = 'cab'; a.href = 'jaywalk.html'; a.setAttribute('aria-label', 'Hail the cab: DONT WALK, a hidden game');
+    c.width = CAB[0].length; c.height = CAB.length; CAB.forEach((row, j) => [...row].forEach((ch, i) => { if (ch !== '.') { x.fillStyle = HUE[ch]; x.fillRect(i, j, 1, 1); } }));
+    a.appendChild(c); way.appendChild(a); plate.appendChild(way); plate.cab = way;
+    const done = () => { way.remove(); plate.cab = null; };
+    if (calm) { a.style.left = '43%'; setTimeout(done, 7000); }                                     // no drive then: it waits at the kerb for a while
+    else a.animate([{ left: '100%' }, { left: '-18%' }], { duration: 5600, easing: 'linear' }).onfinish = done;
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;                   // two short honks, a third apart
+    air = air || new AC(); air.resume();
+    for (const [f, t] of [[370, 0], [466, 0], [370, .22], [466, .22]]) { const o = air.createOscillator(), v = air.createGain(), at = air.currentTime + .05 + t;
+      o.type = 'square'; o.frequency.value = f; v.gain.setValueAtTime(.0001, at); v.gain.linearRampToValueAtTime(.035, at + .01); v.gain.exponentialRampToValueAtTime(.0001, at + .16); o.connect(v).connect(air.destination); o.start(at); o.stop(at + .2); }
+  }));
   // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off his back
   // foot towards the words of the headline: a cloud of very fine blue dots, the way the spray in the engraving is stippled
   const rider = log.querySelector('.find');
