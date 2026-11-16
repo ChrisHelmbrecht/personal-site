@@ -123,8 +123,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2013-10
 file: GOPR7063-2.jpg

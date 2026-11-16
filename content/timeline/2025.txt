@@ -123,8 +123,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2025-10
 file: IMG_2819_jpg.jpg

@@ -84,8 +84,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: children
+draft: no
+
 
 photo: 2021-07
 file: 2021-10-12 23-03-25.jpg

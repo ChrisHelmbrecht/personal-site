@@ -162,8 +162,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides
+draft: no
+
 
 photo: 2009-13
 file: i17IMG_6330.jpg
@@ -215,8 +215,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides
+draft: no
+
 
 photo: 2009-17
 file: IMG_0816-3.jpg
@@ -710,8 +710,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides
+draft: no
+
 
 photo: 2009-55
 file: IMG_9838.jpg

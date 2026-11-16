@@ -58,8 +58,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2014-05
 file: 2014-11-06 23.10.07.jpg
@@ -98,8 +98,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2014-08
 file: DSC01496.jpg
@@ -125,8 +125,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2014-10
 file: DSC02187-2.jpg
@@ -217,8 +217,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2014-17
 file: image5-6.jpg

@@ -123,8 +123,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2015-10
 file: IMG_2898-3.jpg
@@ -150,8 +150,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2015-12
 file: #9b149175fbfe
@@ -164,8 +164,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2015-13
 file: #66e224f4f413
@@ -178,8 +178,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2015-14
 file: Фото11.jpg

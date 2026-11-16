@@ -149,8 +149,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2018-12
 file: #05f29fe9ea55
@@ -163,8 +163,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2018-13
 file: #5ba1007392a5
@@ -177,8 +177,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2018-14
 file: IMG_2058-3.jpg

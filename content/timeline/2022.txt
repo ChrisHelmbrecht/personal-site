@@ -19,8 +19,8 @@ place:
 when:
 credit:
 focus: 50% 50%
-draft: yes
-note: held back until Chris decides: a child
+draft: no
+
 
 photo: 2022-02
 file: 14CBD6D5-DA7E-47AC-A46B-0E27D336D6F8.jpg
