@@ -53,7 +53,7 @@ LANGS = ('en',)                               # 'de' joins when the whole site g
 NEWEST_FIRST = True                           # the order of the years on the overview. False: oldest first. The documents stay as they are
 PREVIEWS = 4                                  # photographs beside the lead photograph on the overview, at most
 EAGER = 8                                     # photographs of an album fetched at once; the rest when they come near
-PLACEHOLDERS = (2008, 2026)                   # years in this span that have no photographs yet are shown as empty frames
+PLACEHOLDERS = None                           # years in this span that have no photographs yet are shown as empty frames
                                               # ("Photos to come"). None: only years with photographs appear, as it is meant in the end
 DOCS, PICS = 'content/timeline', 'assets/timeline'
 

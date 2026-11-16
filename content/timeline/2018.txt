@@ -1,0 +1,363 @@
+year: 2018
+title_en:
+title_de:
+text_en:
+text_de:
+places:
+lead:
+previews:
+draft: no
+
+photo: 2018-01
+file: 39b31754-a947-4c42-b74c-903e5c3b1e30.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-02
+file: 80D4D0D3-997B-4F7B-A075-EC01A90A5D4F.jpg
+size: 1012x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-03
+file: 2016-09-04 07.11.16-1.jpg
+size: 1800x1012
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-04
+file: 05053197-0210-41A4-BE3E-2D7B8A46FFAE-2.jpg
+size: 1012x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-05
+file: c77db646-bd74-495a-a65e-636584d0606a.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-06
+file: Chris_Fly2.jpg
+size: 1800x855
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-07
+file: Chris_Fly.jpg
+size: 1800x933
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-08
+file: Chris_newheader.jpg
+size: 1800x1130
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-09
+file: IMG_0081-1.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-10
+file: IMG_0884-4.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-11
+file: #7b70e1e5d133
+size: 1354x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: yes
+note: held back until Chris decides: a child
+
+photo: 2018-12
+file: #05f29fe9ea55
+size: 1800x1354
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: yes
+note: held back until Chris decides: a child
+
+photo: 2018-13
+file: #5ba1007392a5
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: yes
+note: held back until Chris decides: a child
+
+photo: 2018-14
+file: IMG_2058-3.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-15
+file: IMG_2097.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-16
+file: IMG_2373-4.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-17
+file: IMG_2537-3.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-18
+file: IMG_2544-2.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-19
+file: IMG_2584-4.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-20
+file: IMG_2672.jpg
+size: 1354x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-21
+file: IMG_2693-3.jpg
+size: 1800x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-22
+file: IMG_3501 (2).jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-23
+file: IMG_4112-2.jpg
+size: 1012x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-24
+file: IMG_6859-4.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-25
+file: IMG_6871.jpg
+size: 1350x1800
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-26
+file: xa 35 aero.mxf_snapshot_04.26.792.jpg
+size: 1800x1012
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2018-27
+file: xa 35 aero.mxf_snapshot_04.28.027.jpg
+size: 1800x1012
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

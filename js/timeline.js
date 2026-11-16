@@ -50,6 +50,12 @@
       pick.querySelectorAll('.dec').forEach(d => d.classList.toggle('cur', d.contains(a)));
       if (rail()) { const r = a.getBoundingClientRect(), b = list.getBoundingClientRect(); if (r.top < b.top || r.bottom > b.bottom) list.scrollTop += r.top < b.top ? r.top - b.top - 8 : r.bottom - b.bottom + 8; }
     };
+    pick.addEventListener('click', e => {                 // a year far away: go there at once. Gliding past twenty years would fetch all their pictures on the way
+      const a = e.target.closest('nav a'), el = a && plain(e) && document.getElementById(a.hash.slice(1));
+      if (!el || Math.abs(el.getBoundingClientRect().top) < innerHeight * 3) return;
+      e.preventDefault(); root.style.scrollBehavior = 'auto'; location.hash = a.hash;
+      requestAnimationFrame(() => { root.style.scrollBehavior = ''; mark(); });
+    });
     addEventListener('scroll', () => { if (!tick) tick = requestAnimationFrame(mark); }, { passive: true });
     addEventListener('resize', mark); addEventListener('load', mark);
     mark(); setTimeout(mark, 900);                        // again once the page has finished arriving

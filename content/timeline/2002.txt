@@ -176,3 +176,29 @@ when:
 credit:
 focus: 50% 50%
 draft: no
+
+photo: 2002-14
+file: 4ac4528d-e0d2-462b-bb6d-4a627f08429e.jpg
+size: 1800x1350
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no
+
+photo: 2002-15
+file: IMGP7868_1.jpg
+size: 1800x1352
+caption_en:
+caption_de:
+alt_en:
+alt_de:
+place:
+when:
+credit:
+focus: 50% 50%
+draft: no

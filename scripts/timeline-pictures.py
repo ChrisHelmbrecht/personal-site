@@ -4,6 +4,7 @@
   timeline-pictures.py <folder with the originals>            every year found there
   timeline-pictures.py <folder> 1997 2003                     only these years
   timeline-pictures.py <folder> --hold "1986/Scan_12.jpg"     take this one in as a draft (repeat as needed)
+  timeline-pictures.py <folder> --hold-list FILE              the same for many: one "year/name | note" per line
   timeline-pictures.py <folder> --again                       make the web sizes of everything anew
 
 The originals lie in one folder per year (<folder>/1997/anything.jpg) and stay where they are: they are
@@ -14,16 +15,20 @@ never copied into the site. For every picture that is new, this script
     brought to sRGB, and without any of the original's hidden data (place, camera, date);
   - adds a block for it at the end of content/timeline/1997.txt, which scripts/build-timeline.py explains.
 Pictures already entered are left alone, text and all. A photo that is a draft gets no web sizes: nothing of
-it lies in the site. After this, run scripts/build-timeline.py.
+it lies in the site. Not even its name: a picture taken in as a draft is entered under a mark made from its
+name (file: #3f9c…), because file names can say who is in a picture, and this repository is public. After this, run scripts/build-timeline.py.
 """
-import sys, os, re, io
+import sys, os, re, io, hashlib
 from PIL import Image, ImageOps, ImageCms
 
 args = sys.argv[1:]
-hold, again, years, src = set(), False, [], None
+hold, again, years, src = {}, False, [], None
 while args:
     a = args.pop(0)
-    if a == '--hold': hold.add(args.pop(0))
+    if a == '--hold': hold[args.pop(0)] = ''
+    elif a == '--hold-list':
+        for line in open(args.pop(0), encoding='utf-8'):
+            if line.strip(): k, _, note = line.partition('|'); hold[k.strip()] = note.strip()
     elif a == '--again': again = True
     elif re.fullmatch(r'\d{4}', a): years.append(a)
     else: src = a
@@ -34,6 +39,7 @@ LONG = 1800                               # the large view, on its long side
 PIC = ('.jpg', '.jpeg', '.png', '.webp', '.tif', '.tiff')
 natural = lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split(r'(\d+)', s)]
 SRGB = ImageCms.createProfile('sRGB')
+mark = lambda year, f: '#' + hashlib.sha1(f'{year}/{f}'.encode('utf-8')).hexdigest()[:12]      # stands for a file name without giving it away
 
 YEAR_HEAD = '''year: {y}
 title_en:
@@ -95,18 +101,18 @@ for year in sorted(d for d in os.listdir(src) if re.fullmatch(r'\d{4}', d) and o
         if f: known[f.group(1).strip()] = (pid, bool(d and d.group(1).lower() in ('yes', 'true', '1')))
     last = max([int(pid.split('-')[-1]) for pid, _ in blocks if pid.split('-')[-1].isdigit()] or [0])
     for f in sorted((f for f in os.listdir(f'{src}/{year}') if f.lower().endswith(PIC)), key=natural):
-        if f in known:
-            pid, draft = known[f]
+        if f in known or mark(year, f) in known:
+            pid, draft = known.get(f) or known[mark(year, f)]
             if not draft and (again or not os.path.exists(f'{OUT}/{year}/{pid}-l.webp')):
                 sizes(load(f'{src}/{year}/{f}'), year, pid); made += 1
             continue
-        last += 1; pid = f'{year}-{last:02d}'; draft = f'{year}/{f}' in hold
+        last += 1; pid = f'{year}-{last:02d}'; draft = f'{year}/{f}' in hold; note = hold.get(f'{year}/{f}', '')
         im = load(f'{src}/{year}/{f}')
         if draft:
             k = min(1, LONG / max(im.size)); w, h = round(im.width * k), round(im.height * k)
         else:
             w, h = sizes(im, year, pid); made += 1
-        text = text.rstrip('\n') + '\n' + PHOTO.format(id=pid, file=f, w=w, h=h, draft='yes' if draft else 'no')
+        text = text.rstrip('\n') + '\n' + PHOTO.format(id=pid, file=mark(year, f) if draft else f, w=w, h=h, draft='yes' if draft else 'no') + (f'note: {note}\n' if draft and note else '')
         new += 1
         print(('held  ' if draft else 'new   ') + pid, f, f'{w}x{h}')
     open(doc, 'w', encoding='utf-8').write(text)
