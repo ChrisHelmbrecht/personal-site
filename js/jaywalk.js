@@ -87,7 +87,7 @@
   const audio = () => { if (muted) return; try {
     if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); out = ac.createGain(); out.gain.value = 1.6; out.connect(ac.destination);
       noise = ac.createBuffer(1, Math.floor(ac.sampleRate * .5), ac.sampleRate); const n = noise.getChannelData(0); for (let i = 0; i < n.length; i++) n[i] = Math.random() * 2 - 1; }
-    if (ac.state !== 'running') ac.resume(); } catch (e) { ac = null; } };
+    if (ac.state !== 'running') { if (window.siteSound) window.siteSound.wake(ac); else ac.resume(); } } catch (e) { ac = null; } };
   const unlock = () => { audio(); if (ac && ac.state === 'running') ['pointerup', 'touchend', 'click', 'keydown'].forEach(n => removeEventListener(n, unlock)); };
   ['pointerup', 'touchend', 'click', 'keydown'].forEach(n => addEventListener(n, unlock, { passive: true }));
   const tone = (f, dur, vol = .07, type = 'square', wait = 0) => { if (!ac || muted) return; const t = ac.currentTime + wait, o = ac.createOscillator(), v = ac.createGain();
@@ -248,7 +248,7 @@
     Math.abs(ax) > Math.abs(ay) ? move(Math.sign(ax), 0) : move(0, ay < 0 ? 1 : -1); });
   cv.addEventListener('pointercancel', () => { down = null; }); cv.addEventListener('contextmenu', e => e.preventDefault());
   if (pauseBtn) pauseBtn.addEventListener('click', () => { setPause(!paused); pauseBtn.blur(); });
-  const setMuted = v => { muted = v; try { localStorage.setItem('walk-sound', v ? 'off' : 'on'); } catch (e) {} if (!v) audio(); if (sndBtn) sndBtn.textContent = v ? 'Sound off' : 'Sound on'; };
+  const setMuted = v => { muted = v; try { localStorage.setItem('walk-sound', v ? 'off' : 'on'); } catch (e) {} if (!v) { if (window.siteSound) window.siteSound.loud(); audio(); } if (sndBtn) sndBtn.textContent = v ? 'Sound off' : 'Sound on'; };
   if (sndBtn) { sndBtn.textContent = muted ? 'Sound off' : 'Sound on'; sndBtn.addEventListener('click', () => { setMuted(!muted); sndBtn.blur(); }); }
   document.addEventListener('visibilitychange', () => { if (document.hidden) setPause(true); });
   addEventListener('blur', () => setPause(true));

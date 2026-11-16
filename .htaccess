@@ -20,6 +20,9 @@
   Header always add X-Robots-Tag "bingbot: noindex, nofollow" env=STAGING
 </IfModule>
 
+# An address that does not exist gets the site's own page for that, with the way back
+ErrorDocument 404 /404.html
+
 # Working files that visitors have no use for
 <FilesMatch "(^README\.md$|\.mjs$|\.py$)">
   Require all denied

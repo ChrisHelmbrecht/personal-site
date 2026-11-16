@@ -132,7 +132,7 @@
         echo = ac.createGain(); echo.connect(out); echo.connect(d); d.connect(back); back.connect(d); d.connect(out);
         noise = ac.createBuffer(1, Math.floor(ac.sampleRate * .5), ac.sampleRate); const n = noise.getChannelData(0); for (let i = 0; i < n.length; i++) n[i] = Math.random() * 2 - 1;
       }
-      if (ac.state !== 'running') ac.resume();
+      if (ac.state !== 'running') { if (window.siteSound) window.siteSound.wake(ac); else ac.resume(); }
     } catch (e) { ac = null; }
   };
   // browsers only let sound start inside a real gesture, and for a finger that is the lift, not the touch
@@ -571,7 +571,7 @@
   let soundBtn = null; const sndBtn = document.getElementById('snd');
   if (sndBtn) sndBtn.addEventListener('click', () => { setMuted(!muted); sndBtn.blur(); });
   const setMuted = (v, keep = true) => {
-    muted = v; if (keep) { try { localStorage.setItem('owl-sound', muted ? 'off' : 'on'); } catch (e) {} audio(); }
+    muted = v; if (keep) { try { localStorage.setItem('owl-sound', muted ? 'off' : 'on'); } catch (e) {} if (!muted && window.siteSound) window.siteSound.loud(); audio(); }
     if (out) out.gain.value = muted ? 0 : LOUD;
     if (soundBtn) { soundBtn.classList.toggle('playing', !muted); soundBtn.classList.toggle('muted', muted); soundBtn.setAttribute('aria-pressed', !muted); soundBtn.setAttribute('aria-label', muted ? 'Play sound' : 'Mute sound'); }
     if (sndBtn) sndBtn.textContent = muted ? 'Sound off' : 'Sound on';

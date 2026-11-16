@@ -79,7 +79,7 @@
   const still = c => { const box = c.parentElement; box.classList.remove('on'); if (box.classList.contains('flight')) box.classList.add('calm'); };   // back to the still picture; the helicopter must stay visible, it is a way in
   const film = c => {
     if (c.dead) return;
-    if (c.film) return void c.film.play().catch(() => {});
+    if (c.film) return void c.film.play().catch(e => { if (e && e.name === 'NotAllowedError') held(c); });
     const v = c.film = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true });
     v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
     const [hi, lo] = (c.dataset.key || '232,150').split(',').map(Number), keep = (c.dataset.keep || '0,0,0').split(',').map(Number), stacked = 'alpha' in c.dataset;
@@ -93,7 +93,14 @@
       v.requestVideoFrameCallback ? v.requestVideoFrameCallback(frame) : requestAnimationFrame(frame);
     };
     v.addEventListener('playing', frame); v.addEventListener('error', fail);
-    v.src = c.dataset.src; v.play().catch(() => {});
+    v.src = c.dataset.src; v.play().catch(e => { if (e && e.name === 'NotAllowedError') held(c); });
+  };
+  // A phone that is saving power does not start films by itself. Then the still picture stands in, and the first touch starts the films
+  let waiting = false;
+  const held = c => {
+    still(c); if (waiting) return; waiting = true;
+    const go = () => { waiting = false; ['pointerup', 'touchend', 'click', 'keydown'].forEach(k => removeEventListener(k, go)); sync(); };
+    ['pointerup', 'touchend', 'click', 'keydown'].forEach(k => addEventListener(k, go, { passive: true }));
   };
 
   // The line: `drawn` runs from 0 to 4 legs and follows `goal`; the swallow sits at its tip
@@ -186,7 +193,7 @@
   document.addEventListener('sound:change', () => { if (quiet()) hush(); });
   const hear = (start, span, x0) => {                     // take-off time, length of the flight in ms, where it hovers (-1 left … 1 right)
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC || quiet()) return;
-    air = air || new AC(); air.resume();
+    air = air || new AC(); window.siteSound.wake(air);      // inside the tap, so a phone lets the sound out
     engine = engine || fetch('assets/audio/alouette.mp3').then(r => r.arrayBuffer()).then(b => new Promise((ok, no) => air.decodeAudioData(b, ok, no)));
     engine.then(buf => {
       const late = (performance.now() - start) / 1000, T = span / 1000; if (late > T * .7 || quiet() || document.hidden) return;

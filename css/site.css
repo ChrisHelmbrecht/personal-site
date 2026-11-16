@@ -127,6 +127,9 @@ main { padding-left: var(--gl); padding-right: var(--gr); padding-bottom: 96px; 
 .room { max-width: 760px; margin: 0 auto; padding-block: 28px 8px; }
 .room h2 { font: italic 600 clamp(2.4rem, 7vw, 3.6rem)/1 var(--display); margin: 0 0 14px; color: var(--ink); text-wrap: balance; }
 .room p { margin: 0 0 12px; max-width: 62ch; }
+/* Without script there is no header and no menu: this plain list of the pages takes their place (it sits in a <noscript>) */
+.plain-nav { display: flex; flex-wrap: wrap; gap: 4px 20px; padding: calc(14px + env(safe-area-inset-top, 0px)) var(--gr) 0 var(--gl); font: 500 .72rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.plain-nav a { display: inline-flex; align-items: center; min-height: 40px; color: var(--ink-deep); }
 .tag { font: .7rem var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
 
 /* Dialogs that fill the window (the DJ page's photographs, the timeline's large view) */

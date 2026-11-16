@@ -61,6 +61,32 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - **Trying things out** with made-up years (one, five, thirty and 120 photographs, long captions, chapters, many years), never in the site: `python3 scripts/build-timeline.py --out <a copy of the site> --synthetic`, or `--only 3` for just a few years.
 - The documents in `content/` are not served. The repository is public, though: whatever is committed here can be seen by anyone, the web sizes included. A photograph that should not be public must be a draft **before** it is committed.
 
+## Found and read: search engines, link previews, assistants
+
+- **One address for everything:** `SITE` in `scripts/siteconf.py`. The three scripts that write pages read it from there.
+- `python3 scripts/seo.py` looks after the hand-written pages (index, bio, dj, writing, press, contact, making-of). Between `<!--seo-->` and `<!--/seo-->` in each head it writes the description, the canonical address, the tags for link previews (Open Graph, Twitter) and the page's structured data (schema.org as JSON-LD: the person with his profiles, the website, the bio as a profile page, the eight DJ sets read from the DJ page's own list, the book, the contact point, breadcrumbs). The descriptions are in that script, written from what the pages say. **Do not edit the block by hand; change the script and run it.** Run it again after changing a page's text.
+- `build-blog.py` and `build-timeline.py` do the same for their pages: articles are `BlogPosting`s with date, language and picture; a year is an `ImageGallery` with its photographs.
+- **Without script** every page still has its text in the HTML, and the menu, which script builds, is there as a plain list (`<noscript>`). That is also what crawlers of search engines and AI assistants get, since most of them run no script.
+- `llms.txt` (a short guide for assistants; its source is `content/llms.txt`, edit that), `llms-full.txt` (the main pages as plain text in one file, made from the pages), `robots.txt` (everyone may read; names the sitemap) and `sitemap.xml` (written by `build-blog.py`; includes the timeline's years) are generated. The two hidden games carry `noindex`.
+- `404.html` is what an address that does not exist gets.
+- **The staging address** tells Google and Bing not to index it (`.htaccess`, by host name `new.`). On the real domain that rule does not apply; nothing has to be removed.
+
+### At launch
+
+1. Put the real address into `SITE` in `scripts/siteconf.py`, run `python3 scripts/seo.py && python3 scripts/build-blog.py && python3 scripts/build-timeline.py`, commit.
+2. Switch on the redirects from the old site's addresses (`content/blog/redirects.txt` holds the blog's; they go into `.htaccess`).
+3. In `.htaccess`, let pictures, films, sound and fonts be kept by browsers (the note there says how). Until then every file is checked on each visit.
+4. Imprint and privacy page (among other things a sentence that Mixcloud is contacted only after Play).
+5. Register the site and its sitemap with Google Search Console and Bing Webmaster Tools.
+6. German pages come with the site's language switch; until then only the blog has German addresses (`hreflang` is set there).
+
+## Sound
+
+- One switch for the site: the button in the header of the start page and the bio, kept as `sound` in the browser's storage (`off` silences every page). The two arcade games and the flying lesson have a switch of their own.
+- Browsers let sound out only inside a tap, click or key press. `window.siteSound.wake(ctx)` (in `js/site.js`) does what is needed at that moment and is called wherever a sound begins.
+- An iPhone whose ringer switch is off keeps a web page's sounds silent, though not a film's. `siteSound.loud()` asks the phone to treat the page's sound like a film's. It is called only for someone who has switched sound **on by hand**; a visitor who never asked keeps a silent phone silent and their own music playing. On the bio, switching sound on answers with a short soft note, so one hears at once that sound comes out.
+- A phone puts the sound to sleep when the page is left; back on the page, the next touch wakes it.
+
 ## Hotspots
 
 The clickable areas are the `<a class="spot">` elements in `index.html`, positioned in percent of the skull image.

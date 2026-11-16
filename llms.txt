@@ -7,17 +7,22 @@ The start page is one drawing: a skull in blue ink, like Delft porcelain. Inside
 Every element of the skull is a door to a page. Clicking one zooms into it.
 
 ## Pages
-- [DJ](dj.html): the moon. Eight recordings on a drawn turntable (they play through Mixcloud): Love Room London, Gleiskultur Friedland, a private party in Teheran, Gazgolder Moscow, LUMA Munich, a Munich subway station and two PLAY sessions. Melodic techno, indie dance and house, from exclusive events to the underground; a list of clubs, festivals and residencies; booking direct at dj@chrishelmbrecht.com.
-- [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
-- [Writing](writing.html): the book "Fucking Moskau" and other texts.
-- [Blog](blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
-- [Timeline](timeline.html): a photo archive by year. Each year has an album page (timeline/1997.html) with all its photographs.
-- [Press](press.html): the Twin Towers. Television, video and print (in preparation).
-- [Contact](contact.html): the teeth. Socials, DJ booking, literary agent.
-- [Making of](making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
-- [Owl Night Long](game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
+- [DJ](https://new.chrishelmbrecht.com/dj.html): the moon. Eight recordings on a drawn turntable (they play through Mixcloud): Love Room London, Gleiskultur Friedland, a private party in Teheran, Gazgolder Moscow, LUMA Munich, a Munich subway station and two PLAY sessions. Melodic techno, indie dance and house, from exclusive events to the underground; a list of clubs, festivals and residencies; booking direct at dj@chrishelmbrecht.com.
+- [Bio](https://new.chrishelmbrecht.com/bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
+- [Writing](https://new.chrishelmbrecht.com/writing.html): the book "Fucking Moskau" and other texts.
+- [Blog](https://new.chrishelmbrecht.com/blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
+- [Timeline](https://new.chrishelmbrecht.com/timeline.html): a photo archive by year. Each year has an album page (timeline/1997.html) with all its photographs.
+- [Press](https://new.chrishelmbrecht.com/press.html): the Twin Towers. Television, video and print (in preparation).
+- [Contact](https://new.chrishelmbrecht.com/contact.html): the teeth. Socials, DJ booking, literary agent.
+- [Making of](https://new.chrishelmbrecht.com/making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
+- [Owl Night Long](https://new.chrishelmbrecht.com/game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
 
 ## Elsewhere
 - Book: https://fuckingmoskau.de
 - Work: https://dieneue.social
 - Shop: https://sublime1.myspreadshop.de/
+
+## For assistants
+- [All texts of the main pages in one file](https://new.chrishelmbrecht.com/llms-full.txt)
+- [Sitemap](https://new.chrishelmbrecht.com/sitemap.xml)
+- [Blog feed, English](https://new.chrishelmbrecht.com/blog/feed.xml), [German](https://new.chrishelmbrecht.com/blog/de/feed.xml)

@@ -1,0 +1,23 @@
+# Chris Helmbrecht
+
+> Private website of Chris Helmbrecht from Munich: DJ, author of the book "Fucking Moskau" (Heyne) and brand consultant at dieneue.social. Built as a showcase of what one person and a few AI tools can make today.
+
+The start page is one drawing: a skull in blue ink, like Delft porcelain. Inside it an owl sits on a branch in front of the moon, below it the skylines of the cities of Chris's life: the onion domes of St Basil's in Moscow, the Frauenkirche in Munich, the Teide on Tenerife and the old New York skyline with the Twin Towers. Short films make the drawing move: the owl blinks, clouds drift past the moon and the Teide, the trees sway, water ripples, two figures walk down a path, a flock of swallows and a flying girl circle the sky. There is a quiet night sound with an owl.
+
+Every element of the skull is a door to a page. Clicking one zooms into it.
+
+## Pages
+- [DJ](dj.html): the moon. Eight recordings on a drawn turntable (they play through Mixcloud): Love Room London, Gleiskultur Friedland, a private party in Teheran, Gazgolder Moscow, LUMA Munich, a Munich subway station and two PLAY sessions. Melodic techno, indie dance and house, from exclusive events to the underground; a list of clubs, festivals and residencies; booking direct at dj@chrishelmbrecht.com.
+- [Bio](bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
+- [Writing](writing.html): the book "Fucking Moskau" and other texts.
+- [Blog](blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
+- [Timeline](timeline.html): a photo archive by year. Each year has an album page (timeline/1997.html) with all its photographs.
+- [Press](press.html): the Twin Towers. Television, video and print (in preparation).
+- [Contact](contact.html): the teeth. Socials, DJ booking, literary agent.
+- [Making of](making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
+- [Owl Night Long](game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
+
+## Elsewhere
+- Book: https://fuckingmoskau.de
+- Work: https://dieneue.social
+- Shop: https://sublime1.myspreadshop.de/

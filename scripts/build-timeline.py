@@ -47,7 +47,8 @@ A = ap.parse_args()
 OUT = A.out
 assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test years never go into the site: use --out'
 
-SITE = 'https://new.chrishelmbrecht.com'      # where the site lives. At launch: the real address, then build again
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from siteconf import SITE, NAME, ME, OG, NOSCRIPT, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
 LANGS = ('en',)                               # 'de' joins when the whole site gets its language switch; the German labels are ready below
 NEWEST_FIRST = True                           # the order of the years on the overview. False: oldest first. The documents stay as they are
 PREVIEWS = 4                                  # photographs beside the lead photograph on the overview, at most
@@ -181,7 +182,7 @@ def picker(lang, here=None, to_album=False):
     return f'<details class="tl-pick" id="tl-pick"><summary>{t["choose"]}</summary><nav aria-label="{t["years"]}"><ol class="decades">{"".join(out)}</ol></nav></details>'
 
 
-def page(path, lang, title, desc, body, cls=''):
+def page(path, lang, title, desc, body, head=''):
     b = up(path)
     doc = f'''<!doctype html>
 <html lang="{lang}">
@@ -192,8 +193,15 @@ def page(path, lang, title, desc, body, cls=''):
 <meta name="referrer" content="strict-origin-when-cross-origin">
 {f'<base href="{b}">' if b else ''}
 <meta name="description" content="{esc(desc)}">
+<meta name="author" content="{NAME}">
 <link rel="canonical" href="{SITE}/{path}">
-<link rel="icon" href="favicon.ico" sizes="48x48">
+<meta property="og:site_name" content="{NAME}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:url" content="{SITE}/{path}">
+<meta name="twitter:card" content="summary_large_image">
+{head}<link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
 <!--page-->
@@ -202,6 +210,7 @@ def page(path, lang, title, desc, body, cls=''):
 <meta name="theme-color" content="#d6d9d6">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/timeline.css">
+{NOSCRIPT}
 {body}
 <script src="js/site.js"></script>
 <script src="js/timeline.js"></script>
@@ -253,7 +262,10 @@ def overview(lang):
     </div>
   </article>
 </main>'''
-    page(home(lang), lang, f'{t["nav"]} · Chris Helmbrecht', t['desc'].format(n=total, y=len(years)), body)
+    path = home(lang)
+    head = f'<meta property="og:image" content="{OG}">\n' + ld({'@type': 'CollectionPage', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': f'{t["nav"]}: {t["h1"]}', 'description': t['desc'].format(n=total, y=len(years)), 'inLanguage': lang, 'about': {'@id': ME},
+                'hasPart': [{'@type': 'ImageGallery', 'name': str(y['year']), 'url': f'{SITE}/{album(y["year"], lang)}'} for y in sorted(years, key=lambda y: -y['year'])]}, person(), crumbs((t['nav'], path))) + '\n'
+    page(path, lang, f'{t["nav"]} · Chris Helmbrecht', t['desc'].format(n=total, y=len(years)), body, head)
 
 
 # ---------------------------------------------------------------- one year: the contact sheet
@@ -302,7 +314,12 @@ def year_page(y, lang):
   <button class="lb-arrow" id="lb-next" type="button" aria-label="{t["next"]}"><span aria-hidden="true">→</span></button>
   <div class="lb-foot"><p id="lb-cap"></p><p class="tag" id="lb-meta"></p></div>
 </dialog>'''
-    page(album(y['year'], lang), lang, f'{y["year"]} · {t["nav"]} · Chris Helmbrecht', t['desc_year'].format(y=y['year'], c=count(n, lang)), body)
+    path = album(y['year'], lang); by_id = {p['id']: p for p in y['photos']}; lead = by_id.get(raw.get('lead', '').strip()) or y['photos'][0]
+    shot = lambda p: {k: v for k, v in (('@type', 'ImageObject'), ('contentUrl', f'{SITE}/{p["base"]}-l.webp'), ('thumbnailUrl', f'{SITE}/{p["base"]}-s.webp'), ('width', p['w']), ('height', p['h']), ('caption', said(p['d'], 'caption', lang)[0]),
+                                          ('contentLocation', p['d'].get('place', '')), ('creditText', p['d'].get('credit', ''))) if v}
+    head = f'<meta property="og:image" content="{SITE}/{lead["base"]}-l.webp">\n' + ld({'@type': 'ImageGallery', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': f'{y["year"]}' + (f': {title}' if title else ''), 'description': t['desc_year'].format(y=y['year'], c=count(n, lang)),
+                'inLanguage': lang, 'temporalCoverage': str(y['year']), 'about': {'@id': ME}, 'image': [shot(p) for p in y['photos']]}, person(), crumbs((t['nav'], home(lang)), (str(y['year']), path))) + '\n'
+    page(path, lang, f'{y["year"]} · {t["nav"]} · Chris Helmbrecht', t['desc_year'].format(y=y['year'], c=count(n, lang)), body, head)
 
 
 for lang in LANGS:

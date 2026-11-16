@@ -309,17 +309,42 @@
     window.owlHoot = () => { if (!calm && !owl.classList.contains('hoot')) once('hoot', 700); };
   }
 
+  // Sound, for every script of the site. `off()`: the visitor has switched the site's sound off. `wake(ctx)`, called inside a tap
+  // or a key press: lets the sound out (browsers hold it back until then; older iPhones also want one sample played at that
+  // moment). `loud()`: for someone who has switched sound on by hand. An iPhone whose ringer is switched off keeps a page's
+  // sounds silent, though not a film's; after this they are heard like a film. Nobody else is given that: a visitor who never
+  // asked for sound keeps a silent phone silent, and their own music keeps playing
+  const stored = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  window.siteSound = {
+    off: () => stored('sound') === 'off',
+    asked: () => stored('sound') === 'on',
+    loud() { try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {} },
+    wake(ctx) { try { if (ctx.state !== 'running') ctx.resume(); const s = ctx.createBufferSource(); s.buffer = ctx.createBuffer(1, 1, 22050); s.connect(ctx.destination); s.start(0); } catch (e) {} },
+  };
+  if (window.siteSound.asked()) window.siteSound.loud();
+
   // Night sound: a quiet loop through the Web Audio API. Browsers only let audio start on a real
   // gesture (click, tap or key; scrolling alone does not count), so it fades in on the first one.
   const audioBtn = $('audio');
   if (audioBtn && !$('skull')) {
     // A page with sounds of its own but without the night sound (the bio): here the button is the site's sound switch and nothing
     // more. The choice is the same one the start page keeps, so "off" silences every page; scripts hear of a change by an event
-    let muted = false, hush; try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    let muted = false, hush, tone = null; try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    const chirp = () => {                                  // switched on: a short soft note says that sound really comes out, here and now
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        tone = tone || new AC(); window.siteSound.wake(tone);
+        const t = tone.currentTime + .03, o = tone.createOscillator(), g = tone.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(523, t); o.frequency.exponentialRampToValueAtTime(784, t + .18);
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.08, t + .04); g.gain.exponentialRampToValueAtTime(.0001, t + .36);
+        o.connect(g).connect(tone.destination); o.start(t); o.stop(t + .4);
+      } catch (e) {}
+    };
     const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? 'Sound is off. Turn it on' : 'Sound is on. Turn it off'); };
     audioBtn.addEventListener('click', () => {
       muted = !muted; try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
       paint(); audioBtn.dataset.say = muted ? 'Sound off' : 'Sound on'; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
+      if (!muted) { window.siteSound.loud(); chirp(); }
       document.dispatchEvent(new Event('sound:change'));
     });
     paint();
@@ -342,7 +367,7 @@
       if (started || loading || muted) return;
       try {
         ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-        ctx.resume();
+        window.siteSound.wake(ctx);
         if (ctx.state !== 'running') { ctx.onstatechange = () => { if (ctx.state === 'running') start(); }; return; } // waits for a gesture the browser accepts
         loading = true;
         const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
@@ -366,12 +391,15 @@
       started = true; loading = false;
       GESTURES.forEach(g => removeEventListener(g, onGesture));
       fade(VOL, FADE); paint(); say('Sound on');
+      // a phone puts the sound to sleep when the page is left for another app or the screen is locked. Back here, the next touch wakes it
+      ['pointerup', 'touchend', 'click', 'keydown'].forEach(g => addEventListener(g, () => { if (ctx && !muted && ctx.state !== 'running') ctx.resume(); }, { passive: true }));
+      document.addEventListener('visibilitychange', () => { if (ctx && !muted && !document.hidden && ctx.state !== 'running') ctx.resume().catch(() => {}); });
     };
     const onGesture = e => { if (!(e.target instanceof Element && e.target.closest('#audio'))) start(); }; // the button decides for itself
     GESTURES.forEach(g => addEventListener(g, onGesture, { passive: true }));
     audioBtn.addEventListener('click', () => {
-      if (!started) { muted = false; start(); }
-      else { muted = !muted; fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? 'Sound off' : 'Sound on'); }
+      if (!started) { muted = false; window.siteSound.loud(); start(); }
+      else { muted = !muted; if (!muted) { window.siteSound.loud(); if (ctx) window.siteSound.wake(ctx); } fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? 'Sound off' : 'Sound on'); }
       try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
     });
     paint();

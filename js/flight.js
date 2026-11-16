@@ -306,6 +306,7 @@
   // His lines are always on screen as well, so nothing is lost without sound
   const VOICE = new Map([[QUOTES[0], 'q1'], [QUOTES[1], 'q2'], [QUOTES[2], 'q3'], ...Object.keys(SAY).map(k => [SAY[k], k])]), CABIN = .34;
   const fetched = name => sound.bufs[name] || (sound.bufs[name] = fetch(`assets/audio/flight/${name}.mp3`).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(b => new Promise((ok, no) => sound.ctx.decodeAudioData(b, ok, no))).catch(() => null));
+  const wake = ctx => window.siteSound ? window.siteSound.wake(ctx) : ctx.resume();      // inside the tap that starts or resumes a round
   const audio = () => {
     if (sound) return sound; const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
     const ctx = new AC(), cabin = ctx.createGain(), duck = ctx.createGain(), voice = ctx.createGain(); cabin.gain.value = 0; cabin.connect(duck); duck.connect(ctx.destination); voice.connect(ctx.destination);
@@ -317,10 +318,10 @@
   const hush = () => { if (sound && sound.talk) { try { sound.talk.onended = null; sound.talk.stop(); } catch (e) {} sound.talk = null; sound.duck.gain.setTargetAtTime(1, sound.ctx.currentTime, .2); } };
   const hum = on => {
     if (!on || !soundOn) { if (sound) { sound.cabin.gain.setTargetAtTime(0, sound.ctx.currentTime, .15); if (!soundOn) hush(); } return; }
-    const a = audio(); if (!a) return; a.ctx.resume(); a.cabin.gain.setTargetAtTime(CABIN, a.ctx.currentTime, .4);
+    const a = audio(); if (!a) return; wake(a.ctx); a.cabin.gain.setTargetAtTime(CABIN, a.ctx.currentTime, .4);
   };
   const speak = pair => {
-    const name = VOICE.get(pair); if (!name || !soundOn) return; const a = audio(); if (!a) return; a.ctx.resume();
+    const name = VOICE.get(pair); if (!name || !soundOn) return; const a = audio(); if (!a) return; if (a.ctx.state !== 'running') a.ctx.resume();
     fetched(name).then(buf => { if (sound !== a || !buf || !soundOn || a.ctx.state !== 'running') return;   // one voice at a time: a new line cuts the old one off
       hush(); const src = a.talk = a.ctx.createBufferSource(); src.buffer = buf; src.connect(a.voice); a.duck.gain.setTargetAtTime(.5, a.ctx.currentTime, .05);
       src.onended = () => { if (a.talk === src) { a.talk = null; a.duck.gain.setTargetAtTime(1, a.ctx.currentTime, .3); } }; src.start(); });
@@ -398,7 +399,8 @@
     ui.card.addEventListener('keydown', e => { const lv = e.target.closest('[data-level]'), d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!lv || !d) return; e.preventDefault(); e.stopPropagation(); const ks = Object.keys(LEVELS), n = ks[(ks.indexOf(lv.dataset.level) + d + ks.length) % ks.length]; pick(n); ui.card.querySelector(`[data-level="${n}"]`).focus(); });   // a radio group: the arrow keys move the choice
     ui.card.addEventListener('click', e => { const lv = e.target.closest('[data-level]'); if (lv) return pick(lv.dataset.level); const d = e.target.closest('[data-do]'); if (!d) return; const w = d.dataset.do;
       if (w === 'start') begin(false); else if (w === 'skip') begin(true); else if (w === 'resume') pause(false); else if (w === 'close') close(); else if (w === 'menu') startCard(); else if (w === 'lang') { lang = lang === 'de' ? 'en' : 'de'; store.set('flight-lang', lang); labels(); startCard(); } });
-    ui.snd.addEventListener('click', () => { soundOn = !soundOn; store.set('flight-sound', soundOn); labels(); hum(soundOn && !paused && phase !== 'idle' && phase !== 'result'); if (!soundOn) hush(); });
+    ui.snd.addEventListener('click', () => { soundOn = !soundOn; store.set('flight-sound', soundOn); labels(); if (soundOn && window.siteSound) window.siteSound.loud();      // switched on by hand: also heard on a phone whose ringer is off
+      hum(soundOn && !paused && phase !== 'idle' && phase !== 'result'); if (!soundOn) hush(); });
     ui.pause.addEventListener('click', () => pause(!paused)); ui.x.addEventListener('click', close);
     el.addEventListener('cancel', e => { e.preventDefault(); if (phase !== 'idle' && phase !== 'result' && !paused) pause(true); else close(); });   // Escape pauses first, then closes
   };

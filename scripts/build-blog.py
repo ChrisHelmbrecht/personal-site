@@ -37,7 +37,8 @@ A = ap.parse_args()
 OUT = A.out
 assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test entries never go into the site: use --out'
 
-SITE = 'https://new.chrishelmbrecht.com'      # where the site lives. At launch: the real address, then build again
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from siteconf import SITE, NAME, ME, OG, NOSCRIPT, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
 EXPLORE, FRESH, PER_PAGE = 7, 3, 12           # floating cards at most; of those, places kept for the newest; articles per archive page
 # EXPLORE can go down, not up: the arrangement (js/blog.js "chosen", css/blog.css ".drift-col") has seven places, one large, two middle,
 # four small. More cards need new places there first. A growing blog grows in the archive, not here.
@@ -161,7 +162,10 @@ def page(path, lang, title, desc, body, head='', cls='', scripts=True):
 <meta name="referrer" content="strict-origin-when-cross-origin">
 {f'<base href="{b}">' if b else ''}
 <meta name="description" content="{esc(desc)}">
+<meta name="author" content="{NAME}">
 <link rel="canonical" href="{SITE}/{path}">
+<meta property="og:site_name" content="{NAME}">
+<meta name="twitter:card" content="summary_large_image">
 {head}<link rel="alternate" type="application/rss+xml" title="{esc(T[lang]['feed'])}" href="blog/{'de/' if lang == 'de' else ''}feed.xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
@@ -172,6 +176,7 @@ def page(path, lang, title, desc, body, head='', cls='', scripts=True):
 <meta name="theme-color" content="#d6d9d6">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/blog.css">
+{NOSCRIPT}
 {body}
 <script src="js/site.js"></script>
 <script src="js/blog.js"></script>
@@ -237,6 +242,9 @@ for lang, mine in by.items():
 </main>
 <div class="peek" id="b-peek" hidden></div>'''
     head = alternates([(l, home(l)) for l in ('en', 'de') if by[l]])
+    head += (f'<meta property="og:type" content="website">\n<meta property="og:title" content="{esc(L["blog"])} · {NAME}">\n<meta property="og:description" content="{esc(L["desc"])}">\n<meta property="og:image" content="{OG}">\n<meta property="og:url" content="{SITE}/{path}">\n'
+             + ld({'@type': 'Blog', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': 'Food for thought', 'description': L['desc'], 'inLanguage': lang, 'author': {'@id': ME},
+                   'blogPost': [{'@type': 'BlogPosting', 'headline': q['title'], 'url': f'{SITE}/{url(q)}', 'datePublished': q['date']} for q in mine]}, person(), crumbs((L['blog'], path))) + '\n')
     page(path, lang, f"{L['blog']} · Chris Helmbrecht", L['desc'], body, head)
 
 # ---------------------------------------------------------------- the articles
@@ -294,7 +302,11 @@ for lang, mine in by.items():
         og = f'{SITE}/assets/blog/{p["image"]}-og.jpg' if p['image'] else f'{SITE}/assets/og.jpg'
         head = (alternates([(l, url(q)) for l, q in ((lang, p), (other, tw)) if q])
                 + f'<meta property="og:type" content="article">\n<meta property="og:title" content="{esc(p["title"])}">\n<meta property="og:description" content="{esc(brief(p["peek"], 200))}">\n'
-                  f'<meta property="og:image" content="{og}">\n<meta property="og:url" content="{SITE}/{path}">\n<meta property="article:published_time" content="{p["date"]}">\n')
+                  f'<meta property="og:image" content="{og}">\n<meta property="og:url" content="{SITE}/{path}">\n<meta property="article:published_time" content="{p["date"]}">\n'
+                + ld({'@type': 'BlogPosting', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'mainEntityOfPage': f'{SITE}/{path}', 'headline': p['title'], 'description': brief(p['peek'], 300),
+                      'datePublished': p['date'], 'dateModified': p.get('updated') or p['date'], 'inLanguage': lang, 'image': og, 'author': {'@id': ME}, 'publisher': {'@id': ME},
+                      'keywords': ', '.join(p['tags']), 'isPartOf': {'@type': 'Blog', '@id': f'{SITE}/{home(lang)}', 'name': 'Food for thought'}},
+                     person(), crumbs((L['blog'], home(lang)), (p['title'], path))) + '\n')
         page(path, lang, f"{p['title']} · Chris Helmbrecht", brief(p['peek'], 160) or p['title'], doc, head)
 
 # ---------------------------------------------------------------- feeds, sitemap, redirects
