@@ -1,6 +1,6 @@
 # Chris Helmbrecht
 
-> The main pages of https://new.chrishelmbrecht.com as plain text, made from the pages themselves by scripts/seo.py. For the short guide see https://new.chrishelmbrecht.com/llms.txt.
+> The main pages of https://new.chrishelmbrecht.com as plain text, made from the pages themselves by scripts/seo.py. For the short guide see https://new.chrishelmbrecht.com/llms.txt. In German: https://new.chrishelmbrecht.com/llms-full-de.txt
 
 ---
 

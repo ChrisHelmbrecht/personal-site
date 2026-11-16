@@ -6,6 +6,12 @@
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches, wide = matchMedia('(min-width: 900px)');
   const net = navigator.connection, thrifty = !!net && (net.saveData || /(^|-)2g$/.test(net.effectiveType || ''));
   const W = 1000, H = 660, clamp = (v, a, b) => Math.max(a, Math.min(b, v)), root = document.documentElement;
+  // what this script says itself, in the language of the page (the page's own text is in bio.html and content/de/bio.txt)
+  const TEXT = root.lang === 'de'
+    ? { takeOff: 'Hubschrauber: abheben', catchIt: 'Den Hubschrauber fangen: eine Flugstunde', again: 'Noch einmal versuchen', loading: 'Lädt …', failed: ' konnte nicht geladen werden.', lesson: 'Die Flugstunde', invite: 'Flugstunde',
+        film: 'Der Film', pano: 'Teneriffa, im Meer: ein 360°-Film', panoTag: 'Teneriffa · 360°', aim: 'Polizei' }
+    : { takeOff: 'Helicopter: take off', catchIt: 'Catch the helicopter: a flying lesson', again: 'Try again', loading: 'Loading …', failed: ' could not be loaded.', lesson: 'The flying lesson', invite: 'Flying lesson',
+        film: 'The film', pano: 'Tenerife, in the sea: a 360° film', panoTag: 'Tenerife · 360°', aim: 'Force' };
   //             pin that lights up, legs drawn, plate shown, where the camera looks: x, y on the chart and how close
   const STEPS = [['munich', 0, 'munich', [500, 330, 1]], ['newyork', 1, 'newyork', [418, 246, 1.5]], ['tenerife', 2, 'tenerife', [345, 372, 1.65]], ['moscow', 3, 'moscow', [652, 318, 1.75]],
     [null, 3, 'music', [500, 330, 1]], ['munich', 4, 'home', [716, 214, 2.4]], [null, 4, 'now', [500, 330, 1]]];
@@ -221,8 +227,8 @@
       { transform: at(out, up, 9), offset: .42 },                                                    // gone on the right ...
       { transform: at(back, up * .8, 5), offset: .42, easing: 'cubic-bezier(.1, .55, .3, 1)' },      // ... and in again on the left
       { transform: at(-r.width * .1, up * .08, -6), offset: .9, easing: 'ease-out' },                // nose up, it slows down
-      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; f.classList.remove('away'); root.classList.remove('flying'); f.setAttribute('aria-label', 'Helicopter: take off'); };
-    f.setAttribute('aria-label', 'Catch the helicopter: a flying lesson');
+      { transform: at(0, 0, 0) }], { duration: 9500 }).onfinish = () => { f.away = false; f.classList.remove('away'); root.classList.remove('flying'); f.setAttribute('aria-label', TEXT.takeOff); };
+    f.setAttribute('aria-label', TEXT.catchIt);
   }));
   // ... and whoever manages to click it a second time, in mid-flight, has caught it: that opens "Was soll das werden?", a
   // flying lesson (js/flight.js). The game is fetched only then. Catching it is a game of skill before the game of skill, so the
@@ -232,22 +238,22 @@
     let n = box.querySelector('.note'); if (!text) return void (n && n.remove());
     if (!n) { n = document.createElement('p'); n.className = 'note'; n.setAttribute('role', 'status'); box.appendChild(n); }
     n.textContent = text + ' ';
-    if (retry) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Try again'; b.addEventListener('click', e => { e.stopPropagation(); n.remove(); retry(); }); n.appendChild(b); }
+    if (retry) { const b = document.createElement('button'); b.type = 'button'; b.textContent = TEXT.again; b.addEventListener('click', e => { e.stopPropagation(); n.remove(); retry(); }); n.appendChild(b); }
   };
   const need = (src, box, what, again) => {                // fetch a script once; say so if it takes a while, and say so if it fails
-    const slow = setTimeout(() => note(box, 'Loading …'), 350);
+    const slow = setTimeout(() => note(box, TEXT.loading), 350);
     loads[src] = loads[src] || new Promise((ok, no) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => { el.remove(); no(); }; document.head.appendChild(el); });
-    return loads[src].then(() => { clearTimeout(slow); note(box, ''); }, () => { clearTimeout(slow); loads[src] = null; note(box, `${what} could not be loaded.`, again); throw 0; });
+    return loads[src].then(() => { clearTimeout(slow); note(box, ''); }, () => { clearTimeout(slow); loads[src] = null; note(box, what + TEXT.failed, again); throw 0; });
   };
   let lesson = false;
   const caught = f => {
     if (lesson) return; lesson = true; hush();              // one world of sound at a time
-    need('js/flight.js', f.closest('.live'), 'The flying lesson', () => caught(f)).then(() => window.flightLesson.open(f)).catch(() => { lesson = false; });
+    need('js/flight.js', f.closest('.live'), TEXT.lesson, () => caught(f)).then(() => window.flightLesson.open(f)).catch(() => { lesson = false; });
   };
   const invite = f => {
     const scene = f.closest('.live'); if (scene.querySelector('.invite')) return;
     const p = document.createElement('p'); p.className = 'invite'; p.setAttribute('role', 'status');
-    p.innerHTML = '<button type="button"><i lang="de">„Sie wollten doch Pilot werden.“</i><span>Flying lesson</span></button>';
+    p.innerHTML = '<button type="button"><i lang="de">„Sie wollten doch Pilot werden.“</i><span>' + TEXT.invite + '</span></button>';
     scene.appendChild(p); requestAnimationFrame(() => requestAnimationFrame(() => p.classList.add('on')));
     let t; const gone = () => { clearTimeout(t); p.classList.remove('on'); setTimeout(() => p.remove(), 700); };
     const stay = () => { clearTimeout(t); t = setTimeout(() => p.matches(':hover, :focus-within') ? stay() : gone(), calm ? 30000 : 14000); };   // it does not leave while someone is on it
@@ -259,7 +265,7 @@
   // finger, a mouse and the keyboard all find it. Tenerife opens a pop-up with a film of the sea that can be looked around in
   // (js/pano.js; viewer and film are fetched only then). New York is a plain link to DONT WALK, a game about crossing an avenue
   const PANO = [30656881, 13910081];                         // sizes of the two films in bytes, should the server not say
-  const around = b => need('js/pano.js', b.closest('.live'), 'The film', () => around(b)).then(() => window.pano.open({ label: 'Tenerife, in the sea: a 360° film', tag: 'Tenerife · 360°', poster: 'assets/pano/tenerife.webp',
+  const around = b => need('js/pano.js', b.closest('.live'), TEXT.film, () => around(b)).then(() => window.pano.open({ label: TEXT.pano, tag: TEXT.panoTag, poster: 'assets/pano/tenerife.webp',
     large: ['assets/pano/tenerife-4k.mp4', PANO[0]], small: ['assets/pano/tenerife-2k.mp4', PANO[1]] }, b)).catch(() => {});
   document.querySelectorAll('.plate[data-plate="tenerife"] .secret').forEach(b => b.addEventListener('click', () => around(b)));
   // Easter egg: when the snowboarder leans into his turn (pointer over his chapter, or a tap on him), powder flies off his back
@@ -293,8 +299,8 @@
       const box = leg.getBoundingClientRect(), r = rider.getBoundingClientRect();
       if (!snowing) { const d = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(box.width * d); cv.height = Math.round(box.height * d); ctx.setTransform(d, 0, 0, d, 0, 0); }
       from = [r.left - box.left + r.width * .4, r.top - box.top + r.height * .56, r.width]; pour = 46;                  // his back foot, in the drawing
-      const h = leg.querySelector('h2'), tn = h && h.firstChild, at = tn && tn.nodeType === 3 ? tn.data.indexOf('Force') : -1; let to = h ? h.getBoundingClientRect() : null;
-      if (at >= 0) { const rg = document.createRange(); rg.setStart(tn, at); rg.setEnd(tn, tn.data.length); const rs = [...rg.getClientRects()];   // the words "Force to Adventure", wherever the line breaks put them
+      const h = leg.querySelector('h2'), tn = h && h.firstChild, at = tn && tn.nodeType === 3 ? tn.data.indexOf(TEXT.aim) : -1; let to = h ? h.getBoundingClientRect() : null;
+      if (at >= 0) { const rg = document.createRange(); rg.setStart(tn, at); rg.setEnd(tn, tn.data.length); const rs = [...rg.getClientRects()];   // the words "Force to Adventure" (German: "Polizei ins Abenteuer"), wherever the line breaks put them
         if (rs.length) to = { left: Math.min(...rs.map(q => q.left)), right: Math.max(...rs.map(q => q.right)), top: Math.min(...rs.map(q => q.top)), bottom: Math.max(...rs.map(q => q.bottom)) }; }
       if (to) { const dx = (to.left + to.right) / 2 - box.left - from[0], dy = (to.top + to.bottom) / 2 - box.top - from[1], d = Math.hypot(dx, dy) || 1; aim = [dx / d, dy / d, d]; }
       if (!snowing) { snowing = true; then = now; requestAnimationFrame(snow); }

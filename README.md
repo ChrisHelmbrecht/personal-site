@@ -10,6 +10,8 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 
 - `index.html` – start page: the skull and the night-sound switch
 - `bio.html`, `writing.html`, `timeline.html`, `blog.html`, `press.html`, `contact.html` – one page per room
+- `de/` – the same pages in German, written by `scripts/seo.py` (see "Two languages")
+- `js/lang.js` – which language a visitor gets
 - The blog, "Food for thought": `content/blog/`, `scripts/build-blog.py`, `blog.html`, `blog/`, `css/blog.css`, `js/blog.js`, `assets/blog/`.
   - **One source.** Each article is a folder in `content/blog/` named date-and-a-few-words (that name is its id) with `en.html` and/or `de.html`: a few lines of facts, three dashes, the text as plain HTML. `scripts/build-blog.py` (standard Python, nothing to install; its opening comment explains every field) makes everything else from them: the overviews `blog.html` and `blog/de/index.html`, one page per article (`blog/<slug>.html`, German `blog/de/<slug>.html`), the three "More food for thought" and six "Other articles" on every article, `blog/feed.xml` and `blog/de/feed.xml`, `sitemap.xml`, and `content/blog/redirects.txt`. **Never edit the pages in `blog/` or `blog.html` by hand; they are overwritten.**
   - **To publish an article:** add its folder and document(s), put the picture's original through `scripts/blog-pictures.py <folder with originals> assets/blog` (makes the sizes, the link-preview picture and `pictures.json`), run `python3 scripts/build-blog.py`, commit. `draft: yes` keeps a document out. `featured: yes` keeps an article among the floating cards when newer ones arrive and gives it one of the two middle places with the note "Personally selected" (set on "Why I Write"). `teaser:` is an optional short text for the preview, two or three sentences written to make curious; while it is empty the preview shows the first whole sentences of the intro. Reading time is counted from the text (220 words a minute).
@@ -61,6 +63,19 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - **Trying things out** with made-up years (one, five, thirty and 120 photographs, long captions, chapters, many years), never in the site: `python3 scripts/build-timeline.py --out <a copy of the site> --synthetic`, or `--only 3` for just a few years.
 - The documents in `content/` are not served. The repository is public, though: whatever is committed here can be seen by anyone, the web sizes included. A photograph that should not be public must be a draft **before** it is committed.
 
+## Two languages
+
+Every page exists in English and in German. The two hidden games exist in English only.
+
+- **Addresses.** English is at the plain addresses (`bio.html`), German beside it in `de/` (`de/bio.html`). Blog and timeline keep their own folders: `blog/de/…`, `timeline/de/…`.
+- **Who gets what** (`js/lang.js`, loaded in every head): a browser set to German is sent from an English page to its German twin; every other browser gets English. Nobody is sent away from a German page: whoever opens a German address asked for it, and search engines must be able to read the German pages.
+- **The switch** is the round DE / EN button in the header (`js/site.js`). It leads to the same page in the other language, keeps what came after the address (an open photograph, a jump mark, a filter) and remembers the choice in that browser. From then on the choice wins over the browser's language.
+- **The hand-written pages are written once, in English.** Their German text lies in `content/de/<page>.txt` as pairs: a line starting with `== ` is the English as it stands in the page, the line below it the German. `python3 scripts/seo.py` writes the German pages into `de/` from that. **Never edit a file in `de/`**: change the English page or the German text and run the script. It stops if an English piece is no longer found (the page was changed, the German must follow) and lists anything that would appear in English on a German page.
+- **What scripts say themselves** (menu, sound switch, the deck's messages, the 360° film, the flying lesson) is in the scripts, each with both languages side by side near its top. The menu's names are in `js/site.js` and, for readers without script, in `scripts/siteconf.py`.
+- **Blog:** one document per article and language, as before. **Timeline:** `title_de`, `text_de`, `caption_de`, `alt_de` in the year documents; where the German is empty the English is shown, and the other way round.
+- Each page names both versions in its head (`hreflang`), the sitemap lists both, and `llms-full-de.txt` holds the German texts.
+- `404.html` holds both languages in one file and shows the one that fits.
+
 ## Found and read: search engines, link previews, assistants
 
 - **One address for everything:** `SITE` in `scripts/siteconf.py`. The three scripts that write pages read it from there.
@@ -73,12 +88,11 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 
 ### At launch
 
-1. Put the real address into `SITE` in `scripts/siteconf.py`, run `python3 scripts/seo.py && python3 scripts/build-blog.py && python3 scripts/build-timeline.py`, commit.
+1. Put the real address into `SITE` in `scripts/siteconf.py`, run `python3 scripts/build-timeline.py && python3 scripts/build-blog.py && python3 scripts/seo.py`, commit. (In this order: the sitemap lists the timeline's pages, and `llms-full.txt` reads the finished overviews.)
 2. Switch on the redirects from the old site's addresses (`content/blog/redirects.txt` holds the blog's; they go into `.htaccess`).
 3. In `.htaccess`, let pictures, films, sound and fonts be kept by browsers (the note there says how). Until then every file is checked on each visit.
 4. Imprint and privacy page (among other things a sentence that Mixcloud is contacted only after Play).
 5. Register the site and its sitemap with Google Search Console and Bing Webmaster Tools.
-6. German pages come with the site's language switch; until then only the blog has German addresses (`hreflang` is set there).
 
 ## Sound
 

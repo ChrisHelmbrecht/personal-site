@@ -1,0 +1,30 @@
+# German for the start page (index.html → de/index.html). See the top of scripts/seo.py for how this works.
+
+== Blue ink skull holding an owl, the moon and a skyline of Moscow, Munich, Tenerife and New York
+Schädel in blauer Tinte mit einer Eule, dem Mond und einer Skyline aus Moskau, München, Teneriffa und New York
+
+== The book: Fucking Moskau
+Das Buch: Fucking Moskau
+
+== Work: dieneue.social
+Arbeit: dieneue.social
+
+== Press
+Presse
+
+== Making of
+Making-of
+
+== Owl Night Long, a hidden game
+Owl Night Long, ein verstecktes Spiel
+
+== Socials &amp; contact
+Socials &amp; Kontakt
+
+== About this site
+Über diese Seite
+
+== DJ, author of the book Fucking Moskau and brand consultant in Munich. This site is one drawing: a skull in blue ink holding an owl, the moon and the skylines of Moscow, Munich, Tenerife and New York, the cities of his life. Every part of the skull is a door: the moon leads to DJ, the owl to the bio, the trees to the blog, the Twin Towers to press, the path to the timeline and the teeth to contact. A making-of hides on the right cheekbone and an arcade game on the left.
+DJ, Autor des Buchs Fucking Moskau und Markenberater in München. Diese Seite ist eine einzige Zeichnung: ein Schädel in blauer Tinte mit einer Eule, dem Mond und den Skylines von Moskau, München, Teneriffa und New York, den Städten seines Lebens. Jeder Teil des Schädels ist eine Tür: Der Mond führt zum DJ, die Eule zur Bio, die Bäume zum Blog, die Twin Towers zur Presse, der Weg zur Timeline und die Zähne zum Kontakt. Auf dem rechten Wangenknochen versteckt sich ein Making-of, auf dem linken ein Arcade-Spiel.
+
+= Chris Helmbrecht

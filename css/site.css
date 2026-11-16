@@ -150,7 +150,13 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 }
 
 /* Sound switch: top right, beside the menu */
-.bar .tools { display: flex; align-items: center; gap: 10px; }
+.bar .tools { display: flex; align-items: center; gap: 10px; margin: 0; }
+.bar .tools .burger, .bar .tools .audio { border: 1.5px solid var(--ink); }   /* the blog has a .tools of its own (its search form); its rules stay out of the header */
+/* Language switch: a round button like its neighbours. It names the other language and leads to this page in it (js/site.js) */
+.lang { width: 46px; height: 46px; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--card); display: grid; place-content: center; font: 500 .7rem/1 var(--mono); letter-spacing: .1em; text-indent: .1em; color: var(--ink); text-decoration: none; touch-action: manipulation; }
+@media (max-width: 380px) { .bar .tools { gap: 7px; } .name { letter-spacing: .15em; } }
+/* The page for a missing address carries both languages; js/lang.js picks one. Without script both are shown */
+.picked[lang="de"] .alt[lang="en"], .picked[lang="en"] .alt[lang="de"] { display: none; }
 .audio { width: 46px; height: 46px; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--card); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; position: relative; }
 .audio i { width: 2px; height: 16px; border-radius: 1px; background: var(--ink); transform: scaleY(.18); transform-origin: 50% 50%; transition: transform .3s; }
 .audio.playing i { animation: wave 1.1s ease-in-out infinite; }

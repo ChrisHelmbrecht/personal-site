@@ -1,31 +1,55 @@
 (() => {
   const $ = id => document.getElementById(id);
 
+  // Two languages. Every page exists in English and in German (bio.html and de/bio.html; blog/de/… and timeline/de/… for
+  // those two), and js/lang.js, loaded in the head, has already sent a German browser to the German pages. Here the header
+  // gets its switch: a link to the same page in the other language, which also remembers that choice (in this browser only).
+  // A page that exists in one language only (the two games) has no switch; its menu speaks the visitor's language
+  const root = document.documentElement, pageLang = root.lang === 'de' ? 'de' : 'en';
+  const SL = window.siteLang || { here: pageLang, want: pageLang, leaving: false, twin: () => null, choose() {} };
+  const both = root.hasAttribute('data-both');            // the page for a missing address holds both languages in one file
+  const other = l => l === 'de' ? 'en' : 'de';
+  const paired = both || !!SL.twin(other(pageLang));
+  const LANG = both ? SL.here : paired ? pageLang : SL.want;
+  const GERMAN = { 'index.html': 'de/index.html', 'bio.html': 'de/bio.html', 'dj.html': 'de/dj.html', 'writing.html': 'de/writing.html', 'press.html': 'de/press.html',
+    'contact.html': 'de/contact.html', 'making-of.html': 'de/making-of.html', 'blog.html': 'blog/de/index.html', 'timeline.html': 'timeline/de/index.html' };
+  const to = h => { if (LANG !== 'de') return h; const [page, mark] = h.split('#'); return (GERMAN[page] || page) + (mark ? '#' + mark : ''); };   // a page of the site, in the language being read
+  // one name for a page whichever language it is read in: 'bio.html' for bio.html and de/bio.html alike
+  const pageKey = p => { p = p.replace(/^[a-z]+:\/\/[^/]+/, '').split(/[?#]/)[0].replace(/^\//, '').replace(/(^|\/)de\//, '$1') || 'index.html'; return p === 'blog/index.html' ? 'blog.html' : p === 'timeline/index.html' ? 'timeline.html' : p; };
+  const T = LANG === 'de'
+    ? { skull: 'Der Schädel', nav: ['DJ', 'Bio', 'Autor', 'Timeline', 'Blog', 'Presse', 'Kontakt'], else: 'Anderswo', menu: 'Menü', sound: 'Ton', on: 'Ton an', off: 'Ton aus',
+        isOff: 'Ton ist aus. Einschalten', isOn: 'Ton ist an. Ausschalten', mute: 'Ton ausschalten', unmute: 'Ton einschalten', tilt: 'Jetzt das Handy neigen', back: 'Zurück zum Schädel', gone: 'Nicht hier · Chris Helmbrecht' }
+    : { skull: 'The Skull', nav: ['DJ', 'Bio', 'Writing', 'Timeline', 'Blog', 'Press', 'Contact'], else: 'Elsewhere', menu: 'Menu', sound: 'Sound', on: 'Sound on', off: 'Sound off',
+        isOff: 'Sound is off. Turn it on', isOn: 'Sound is on. Turn it off', mute: 'Mute sound', unmute: 'Play sound', tilt: 'Now tilt your phone', back: 'Back to the skull', gone: '' };
+
   // Header + hamburger menu, shared by every page
-  const NAV = [
-    ['DJ', 'dj.html'], ['Bio', 'bio.html'], ['Writing', 'writing.html'], ['Timeline', 'timeline.html'],
-    ['Blog', 'blog.html'], ['Press', 'press.html'], ['Contact', 'contact.html'],
-  ];
+  const NAV = ['dj.html', 'bio.html', 'writing.html', 'timeline.html', 'blog.html', 'press.html', 'contact.html'].map((h, k) => [T.nav[k], to(h)]);
   const OUT = [
     ['Shop', 'https://sublime1.myspreadshop.de/'], ['Fucking Moskau', 'https://fuckingmoskau.de'], ['dieneue.social', 'https://dieneue.social'],
   ];
+  const next = other(LANG), twin = both ? (next === 'de' ? 'de/index.html' : 'index.html') : SL.twin(next);
   document.body.insertAdjacentHTML('afterbegin', `
     <header class="bar">
-      <a class="name" href="index.html">Chris Helmbrecht</a>
+      <a class="name" href="${to('index.html')}">Chris Helmbrecht</a>
       <div class="tools">
-        ${document.getElementById('skull') || document.getElementById('log') ? '<button class="audio" id="audio" type="button" aria-label="Sound" aria-pressed="false"><i></i><i></i><i></i><i></i></button>' : ''}
-        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+        ${twin ? `<a class="lang" id="lang" href="${twin}" lang="${next}" hreflang="${next}" aria-label="${next === 'de' ? 'Deutsch' : 'English'}">${next.toUpperCase()}</a>` : ''}
+        ${document.getElementById('skull') || document.getElementById('log') ? `<button class="audio" id="audio" type="button" aria-label="${T.sound}" aria-pressed="false"><i></i><i></i><i></i><i></i></button>` : ''}
+        <button class="burger" id="burger" aria-label="${T.menu}" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
       </div>
     </header>
-    <nav class="menu" id="menu" aria-label="Site">
-      <a href="index.html">The Skull</a>
+    <nav class="menu" id="menu" aria-label="${T.menu}">
+      <a href="${to('index.html')}">${T.skull}</a>
       ${NAV.map(([t, h]) => `<a href="${h}">${t}</a>`).join('')}
-      <small>Elsewhere</small>
+      <small>${T.else}</small>
       ${OUT.map(([t, h]) => `<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('')}
-      <a class="fine" href="making-of.html#credits">Credits &amp; Sound</a>
+      <a class="fine" href="${to('making-of.html#credits')}">Credits &amp; Sound</a>
     </nav>`);
+  // The switch remembers the choice, and goes to the same spot of the other page (a photograph open in the timeline, a jump mark)
+  const langLink = $('lang');
+  if (langLink) langLink.addEventListener('click', () => { SL.choose(next); if (!both) langLink.href = twin + location.search + location.hash; });
+  if (both && LANG === 'de') { document.title = T.gone; const b = document.querySelector('.back'); if (b) { b.href = to('index.html'); b.setAttribute('aria-label', T.back); } }
   // Inner pages leave a note, so the start page knows where a returning visitor comes from
-  if (!document.getElementById('skull')) { try { sessionStorage.setItem('from', location.pathname.split('/').pop() || ''); } catch (e) {} }
+  if (!document.getElementById('skull')) { try { sessionStorage.setItem('from', pageKey(location.pathname)); } catch (e) {} }
   const burger = $('burger'), menu = $('menu');
   const setMenu = open => { menu.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); };
   burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
@@ -126,7 +150,7 @@
           Promise.resolve().then(() => Motion.requestPermission()).then(answer => {
             if (answer !== 'granted') return;
             try { sessionStorage.setItem('tilt', '1'); } catch (err) {}
-            if (first && !was) { const b = $('branch'); b.dataset.say = 'Now tilt your phone'; b.classList.add('say'); setTimeout(() => b.classList.remove('say'), 3200); }
+            if (first && !was) { const b = $('branch'); b.dataset.say = T.tilt; b.classList.add('say'); setTimeout(() => b.classList.remove('say'), 3200); }
           }).catch(() => {});
         };
         let allowed = false; try { allowed = sessionStorage.getItem('tilt') === '1'; } catch (err) {}
@@ -158,7 +182,7 @@
       pathFilm.classList.add('leaving'); pathFilm.classList.remove('on');
       setTimeout(() => { walking = false; setTimeout(wanderOff, 12000); }, 2600);
     }, 4000));
-    skull.querySelector('.spot[href="timeline.html"]').addEventListener('pointerenter', wanderOff);
+    spots.find(s => pageKey(s.getAttribute('href')) === 'timeline.html').addEventListener('pointerenter', wanderOff);
 
     // The flock: swallows and the flying girl follow one closed flight path through the whole dome, always nose first.
     // Up from the right, over to the left, down, back behind the owl and past the moon, and round again.
@@ -276,13 +300,13 @@
     };
     const readFrom = () => { try { const f = sessionStorage.getItem('from'); sessionStorage.removeItem('from'); return f; } catch (err) { return null; } };
     const zoomedIn = from => {                                           // set up before the first paint, so nothing flashes
-      const door = from && doors.find(s => s.getAttribute('href') === from);
+      const door = from && doors.find(s => !s.target && pageKey(s.getAttribute('href')) === from);
       if (door) tilt.style.transformOrigin = originOf(door); else if (from !== null) tilt.style.transformOrigin = '50% 45%';
       diving = true; skull.classList.add('dive'); veil.classList.remove('on'); veil.classList.add('hold');
       if (tilt.getAnimations) tilt.getAnimations().forEach(a => a.cancel());
       tilt.style.transition = 'none'; tilt.style.transform = `scale(${ZOOM})`;
     };
-    let pending = !calm && readFrom();
+    let pending = !calm && !SL.leaving && readFrom();   // on the way to the German page: that one reads the note
     if (pending !== null && pending !== false) zoomedIn(pending); else pending = null;
     addEventListener('pageshow', e => {
       if (e.persisted) {                                                 // restored by the back button, still zoomed in
@@ -340,10 +364,10 @@
         o.connect(g).connect(tone.destination); o.start(t); o.stop(t + .4);
       } catch (e) {}
     };
-    const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? 'Sound is off. Turn it on' : 'Sound is on. Turn it off'); };
+    const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? T.isOff : T.isOn); };
     audioBtn.addEventListener('click', () => {
       muted = !muted; try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
-      paint(); audioBtn.dataset.say = muted ? 'Sound off' : 'Sound on'; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
+      paint(); audioBtn.dataset.say = muted ? T.off : T.on; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
       if (!muted) { window.siteSound.loud(); chirp(); }
       document.dispatchEvent(new Event('sound:change'));
     });
@@ -357,7 +381,7 @@
     const paint = () => {
       const playing = started && !muted;
       audioBtn.classList.toggle('playing', playing); audioBtn.classList.toggle('muted', muted);
-      audioBtn.setAttribute('aria-pressed', playing); audioBtn.setAttribute('aria-label', playing ? 'Mute sound' : 'Play sound');
+      audioBtn.setAttribute('aria-pressed', playing); audioBtn.setAttribute('aria-label', playing ? T.mute : T.unmute);
     };
     const fade = (to, secs) => {
       if (gain) { const t = ctx.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(to, t + secs); }
@@ -390,7 +414,7 @@
       }
       started = true; loading = false;
       GESTURES.forEach(g => removeEventListener(g, onGesture));
-      fade(VOL, FADE); paint(); say('Sound on');
+      fade(VOL, FADE); paint(); say(T.on);
       // a phone puts the sound to sleep when the page is left for another app or the screen is locked. Back here, the next touch wakes it
       ['pointerup', 'touchend', 'click', 'keydown'].forEach(g => addEventListener(g, () => { if (ctx && !muted && ctx.state !== 'running') ctx.resume(); }, { passive: true }));
       document.addEventListener('visibilitychange', () => { if (ctx && !muted && !document.hidden && ctx.state !== 'running') ctx.resume().catch(() => {}); });
@@ -399,7 +423,7 @@
     GESTURES.forEach(g => addEventListener(g, onGesture, { passive: true }));
     audioBtn.addEventListener('click', () => {
       if (!started) { muted = false; window.siteSound.loud(); start(); }
-      else { muted = !muted; if (!muted) { window.siteSound.loud(); if (ctx) window.siteSound.wake(ctx); } fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? 'Sound off' : 'Sound on'); }
+      else { muted = !muted; if (!muted) { window.siteSound.loud(); if (ctx) window.siteSound.wake(ctx); } fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? T.off : T.on); }
       try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
     });
     paint();

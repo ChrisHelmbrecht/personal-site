@@ -1,0 +1,29 @@
+# German for the writing page (writing.html → de/writing.html). See the top of scripts/seo.py for how this works.
+# The German is Chris's own text from his old website.
+
+== Writing
+Autor
+
+== A writer at heart.
+Ein Autor durch und durch.
+
+== For more than 30 years, I’ve been sharing stories through writing. My early days were filled with interviews featuring iconic bands like the Beastie Boys, Metallica, Suicidal Tendencies, and many others. I also chronicled my adventures as a professional snowboarder in Germany’s top snowboarding magazines.
+Seit über 30 Jahren schreibe ich Geschichten. Meine Anfänge waren geprägt von Interviews mit legendären Bands wie den Beastie Boys, Metallica, Suicidal Tendencies und vielen anderen. Außerdem habe ich meine Erlebnisse als professioneller Snowboarder in den renommiertesten Snowboard-Magazinen Deutschlands festgehalten.
+
+== I’m a keen observer, diving headfirst into risky, exhilarating adventures and reaping fascinating stories as rewards. These true experiences fuel the content of my blogs and have even found their way into my published work.
+Ich bin ein aufmerksamer Beobachter, der sich gerne in spannende und manchmal riskante Abenteuer stürzt – stets belohnt mit faszinierenden Geschichten. Diese wahren Erlebnisse füllen meine Blogs und haben auch Eingang in meine Bücher gefunden.
+
+== As a contributor to Stern.de and the magazine Stern, I’ve brought readers closer to my unique perspective. These days, I continue writing for clients, crafting compelling blog posts, and creating concepts for TV documentaries. Recently, my storytelling has extended into filmmaking, where I’ve been involved in various productions.
+Als Autor für Stern.de und das Magazin Stern habe ich meinen Lesern einzigartige Perspektiven eröffnet. Heute schreibe ich weiterhin für Kunden, entwickle spannende Blogposts und konzipiere TV-Dokumentationen. In den letzten Jahren hat sich meine Arbeit auch auf die Filmwelt ausgeweitet, wo ich an verschiedenen Projekten beteiligt war.
+
+== Author of “Fucking Moskau!”
+Autor von „Fucking Moskau!“
+
+== In 2013, my book “Fucking Moskau!” was published in Germany by Heyne Verlag/Randomhouse. It’s a bold, no-holds-barred journey into the world of unbridled luxury, unrestrained indulgence, and the breathtaking contrasts of Moscow – a city of both frozen extremes and fiery encounters.
+Im Jahr 2013 wurde mein Buch „Fucking Moskau!“ vom Heyne Verlag (Randomhouse) in Deutschland veröffentlicht. Es ist eine schonungslose Reise in die Welt des hemmungslosen Luxus, der ungebremsten Exzesse und der atemberaubenden Gegensätze Moskaus – eine Stadt, die Extreme in jeder Hinsicht vereint.
+
+== Moscow is a city that dazzles with its contradictions. I’ve encountered staggering wealth and a relentless hunger for life and pleasure. In “Fucking Moskau!” I share stories of vodka-soaked nights, outrageous oligarch parties, and the insatiable thirst for money and hedonism that defines this vibrant metropolis.
+Moskau ist eine Stadt voller schillernder Widersprüche. Hier bin ich unglaublichem Reichtum begegnet und habe gleichzeitig die unbändige Lebens- und Genusslust der Menschen erlebt. In „Fucking Moskau!“ erzähle ich von wodkagetränkten Nächten, dekadenten Partys der Oligarchen und der unstillbaren Gier nach Geld und Vergnügen, die das Lebensgefühl dieser Metropole prägt.
+
+== Read the blog
+Zum Blog

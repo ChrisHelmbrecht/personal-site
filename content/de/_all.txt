@@ -1,0 +1,40 @@
+# German that several pages share. How these documents work is explained at the top of scripts/seo.py.
+# "== " is the English as it stands in the pages, the line below is the German. "= " stays as it is.
+
+== Back to the skull
+Zurück zum Schädel
+
+== Munich
+München
+
+== Moscow
+Moskau
+
+== Tenerife
+Teneriffa
+
+== Direct, no agency.
+Direkt, ohne Agentur.
+
+== Literary agent
+Literaturagentur
+
+== Coming soon.
+Kommt bald.
+
+= DJ
+= Bio
+= Blog
+= Timeline
+= Shop
+= Booking
+= New York
+= London
+= Instagram
+= SoundCloud
+= Mixcloud
+= Facebook
+= Telegram
+= fuckingmoskau.de
+= dj@chrishelmbrecht.com
+= Literarische Agentur Gaeb &amp; Eggers GmbH, +49 30 54 71 40 02

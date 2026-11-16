@@ -17,6 +17,12 @@ Every element of the skull is a door to a page. Clicking one zooms into it.
 - [Making of](making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
 - [Owl Night Long](game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
 
+## Languages
+Every page exists in English and in German. English is at the plain addresses above; German is at:
+- [Start page](de/index.html), [DJ](de/dj.html), [Bio](de/bio.html), [Autor](de/writing.html), [Presse](de/press.html), [Kontakt](de/contact.html), [Making-of](de/making-of.html)
+- [Blog](blog/de/index.html) and [Timeline](timeline/de/index.html)
+A browser set to German is sent to the German pages; the switch in the header (DE / EN) changes language on every page. The two hidden games exist in English only.
+
 ## Elsewhere
 - Book: https://fuckingmoskau.de
 - Work: https://dieneue.social

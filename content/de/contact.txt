@@ -1,0 +1,13 @@
+# German for the contact page (contact.html → de/contact.html). See the top of scripts/seo.py for how this works.
+# Headline and first sentence are Chris's own German from his old website.
+
+== Contact
+Kontakt
+
+== Let’s stay connected.
+Lass uns in Kontakt bleiben.
+
+== If you want to learn more about me, my music, or my projects, I’d love to hear from you.
+Wenn du mehr über mich, meine Musik oder meine Projekte erfahren möchtest, freue ich mich über eine Nachricht.
+
+= +49 176 843 93190

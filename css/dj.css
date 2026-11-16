@@ -76,6 +76,7 @@
 .mix-no { display: block; margin-top: 14px; font: .68rem/1 var(--mono); letter-spacing: .18em; color: var(--ink-mid); }
 .mix.on .mix-no::after { content: " · on the deck"; text-transform: uppercase; color: var(--ink); }
 .mix.on.playing .mix-no::after { content: " · playing"; }
+:lang(de) .mix.on .mix-no::after { content: " · liegt auf"; } :lang(de) .mix.on.playing .mix-no::after { content: " · läuft"; }
 .mix-title { display: block; margin-top: 6px; font: italic 600 1.42rem/1.12 var(--display); color: var(--ink); text-wrap: balance; }
 .mix-meta { display: block; margin-top: 7px; font: .62rem/1.55 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mid); }
 .dj-room .mix p { margin: 8px 0 0; font-size: 1.02rem; line-height: 1.4; }

@@ -1,0 +1,19 @@
+# German for the press page (press.html → de/press.html). See the top of scripts/seo.py for how this works.
+
+== Press
+Presse
+
+== TV features, videos and newspaper articles from Munich, Moscow and New York. This page is being put together.
+TV-Beiträge, Videos und Zeitungsartikel aus München, Moskau und New York. Diese Seite entsteht gerade.
+
+== Television
+Fernsehen
+
+== Press contact
+Pressekontakt
+
+== Making of this site
+Making-of dieser Seite
+
+= Video
+= Print

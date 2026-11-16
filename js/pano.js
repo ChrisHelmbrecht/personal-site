@@ -19,7 +19,9 @@ void main() {
   d = vec3(d.x * turn.y - d.z * turn.x, d.y, d.x * turn.x + d.z * turn.y);   // ... then turn
   gl_FragColor = texture2D(t, vec2(atan(d.x, -d.z) / 6.2831853 + .5, .5 - asin(clamp(d.y, -1., 1.)) / 3.1415927));
 }`;
-  const TEXT = { hint: 'Drag to look around', load: 'Loading', soundOn: 'Sound on', soundOff: 'Sound off', pause: 'Pause', play: 'Play', close: 'Close', fail: 'The film could not be loaded.', again: 'Try again', flat: 'This browser cannot show the film all around. Here it is flat.' };
+  const TEXT = document.documentElement.lang === 'de'
+    ? { hint: 'Ziehen, um sich umzusehen', keys: ', oder mit den Pfeiltasten.', film: '360°-Film', load: 'Lädt', soundOn: 'Ton an', soundOff: 'Ton aus', pause: 'Pause', play: 'Play', close: 'Schließen', fail: 'Der Film konnte nicht geladen werden.', again: 'Noch einmal versuchen', flat: 'Dieser Browser kann den Film nicht rundum zeigen. Hier ist er flach.' }
+    : { hint: 'Drag to look around', keys: ', or use the arrow keys.', film: '360° film', load: 'Loading', soundOn: 'Sound on', soundOff: 'Sound off', pause: 'Pause', play: 'Play', close: 'Close', fail: 'The film could not be loaded.', again: 'Try again', flat: 'This browser cannot show the film all around. Here it is flat.' };
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let el = null, cv, gl, tex, video, ui = {}, raf = 0, opened = false, trigger = null, abort = null, blob = '';
   let yaw = 0, pitch = 0, fov = rad(92), vy = 0, vp = 0, drift = true, dirty = true, fresh = false, held = new Map(), pinch = 0, keys = new Set(), last = 0, wantSound = true, loaded = false;
@@ -102,8 +104,8 @@ void main() {
   const open = (o, from) => {
     if (opened) return; opened = true; trigger = from || null; yaw = rad(o.yaw || 0); pitch = 0; fov = rad(92); vy = vp = 0; drift = true; dirty = true; try { wantSound = localStorage.getItem('sound') !== 'off'; } catch (e) { wantSound = true; }   // the site's sound switch decides how the film starts
     if (!document.querySelector('link[data-pano]')) document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: 'css/pano.css' })).dataset.pano = '1';
-    el = document.createElement('dialog'); el.className = 'pn'; el.setAttribute('aria-label', o.label || '360° film');
-    el.innerHTML = `<canvas class="pn-view" tabindex="0" aria-label="${o.label || '360° film'}. ${TEXT.hint}, or use the arrow keys."></canvas>
+    el = document.createElement('dialog'); el.className = 'pn'; el.setAttribute('aria-label', o.label || TEXT.film);
+    el.innerHTML = `<canvas class="pn-view" tabindex="0" aria-label="${o.label || TEXT.film}. ${TEXT.hint}${TEXT.keys}"></canvas>
       <div class="pn-tools"><button type="button" id="pn-snd" hidden></button><button type="button" id="pn-play" hidden></button><button type="button" id="pn-x" aria-label="${TEXT.close}">×</button></div>
       <p class="pn-tag">${o.tag || ''}</p><p class="pn-hint">${TEXT.hint}</p><p class="pn-load" id="pn-load" role="status" hidden></p>`;
     document.body.appendChild(el); cv = el.querySelector('canvas');

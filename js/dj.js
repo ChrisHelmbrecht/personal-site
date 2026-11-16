@@ -21,6 +21,14 @@
   const PIVOT = [.81436, .25642];                       // the point the arm turns about, as a share of the deck's box
   const SPEED = 200;                                    // 33⅓ turns a minute, in degrees a second
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  // what this script says itself, in the language of the page (the page's own text is in dj.html and content/de/dj.txt)
+  const TEXT = document.documentElement.lang === 'de'
+    ? { fine: 'Läuft über Mixcloud. Deren Player lädt erst beim Druck auf Play.', out: 'Auf Mixcloud öffnen', play: 'Play', pause: 'Pause', deck: 'Auf dem Plattenteller', toDeck: 'Zum Plattenspieler',
+        cannot: 'Mixcloud konnte diese Aufnahme nicht abspielen.', press: 'Bitte im Mixcloud-Player unten auf Play drücken.', again: 'Noch einmal versuchen', open: 'auf Mixcloud öffnen', or: ' oder ',
+        failed: 'Der Mixcloud-Player wurde nicht geladen.', loading: 'Der Mixcloud-Player lädt …', player: 'Mixcloud-Player', noJump: 'Mixcloud lässt den Sprung an diese Stelle nicht zu.' }
+    : { fine: 'Plays through Mixcloud. Their player loads when you press play.', out: 'Open on Mixcloud', play: 'Play', pause: 'Pause', deck: 'On the deck', toDeck: 'To the deck',
+        cannot: 'Mixcloud could not play this recording.', press: 'Press play in the Mixcloud player below.', again: 'Try again', open: 'open it on Mixcloud', or: ' or ',
+        failed: 'The Mixcloud player did not load.', loading: 'Loading the Mixcloud player …', player: 'Mixcloud player', noJump: 'Mixcloud does not allow jumping to that point.' };
   const clock = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return `${h}:${String(m).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
 
   const MIX = [...document.querySelectorAll('.mix')].map(li => ({
@@ -36,7 +44,7 @@
   const play = document.createElement('button');
   play.type = 'button'; play.className = 'dj-play'; play.id = 'dj-play';
   el('play').replaceWith(play);
-  el('fine').innerHTML = 'Plays through Mixcloud. Their player loads when you press play. <a id="dj-out" target="_blank" rel="noopener">Open on Mixcloud</a>';
+  el('fine').innerHTML = `${TEXT.fine} <a id="dj-out" target="_blank" rel="noopener">${TEXT.out}</a>`;
   const out = el('out');
   document.documentElement.classList.add('dj-on');
   MIX.forEach(m => m.a.setAttribute('role', 'button'));
@@ -55,8 +63,8 @@
   const face = () => {
     const mine = loaded === sel;
     play.classList.toggle('playing', mine && playing);
-    play.innerHTML = `<i></i>${mine && playing ? 'Pause' : 'Play'}`;
-    play.setAttribute('aria-label', `${mine && playing ? 'Pause' : 'Play'}: ${MIX[sel].title}`);
+    play.innerHTML = `<i></i>${mine && playing ? TEXT.pause : TEXT.play}`;
+    play.setAttribute('aria-label', `${mine && playing ? TEXT.pause : TEXT.play}: ${MIX[sel].title}`);
     time.textContent = mine && (pos || playing) ? `${clock(pos)} / ${clock(length())}` : clock(MIX[sel].len);
     bar.style.width = (mine ? clamp(pos / length(), 0, 1) * 100 : 0).toFixed(2) + '%';
     tt.classList.toggle('playing', mine && playing);
@@ -87,15 +95,15 @@
   // ---- a small remote at the foot of the screen, once a recording is in their player and the deck is out of sight.
   // No second player: it presses the same button
   const mini = document.createElement('div');
-  mini.className = 'dj-mini'; mini.setAttribute('role', 'region'); mini.setAttribute('aria-label', 'On the deck');
-  mini.innerHTML = '<span id="dj-mini-t"></span><button type="button" id="dj-mini-p"></button><a href="#listen" id="dj-mini-g">To the deck</a>';
+  mini.className = 'dj-mini'; mini.setAttribute('role', 'region'); mini.setAttribute('aria-label', TEXT.deck);
+  mini.innerHTML = `<span id="dj-mini-t"></span><button type="button" id="dj-mini-p"></button><a href="${location.pathname}#listen" id="dj-mini-g">${TEXT.toDeck}</a>`;   // the page is named: the German page has a <base>, and a bare #listen would leave it
   document.body.append(mini);
   let away = false;
   function remote() {
     const mine = loaded === sel && playing;
     el('mini-t').textContent = `${String(sel + 1).padStart(2, '0')} · ${MIX[sel].title}`;
-    el('mini-p').textContent = mine ? 'Pause' : 'Play';
-    el('mini-p').setAttribute('aria-label', `${mine ? 'Pause' : 'Play'}: ${MIX[sel].title}`);
+    el('mini-p').textContent = mine ? TEXT.pause : TEXT.play;
+    el('mini-p').setAttribute('aria-label', `${mine ? TEXT.pause : TEXT.play}: ${MIX[sel].title}`);
     mini.classList.toggle('show', away && !!frame);
   }
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { away = !es[0].isIntersecting; remote(); }).observe(el('now').parentNode);
@@ -126,7 +134,7 @@
     pause() { playing = false; if (settled) want = false; face(); },      // not settled: the pause is our own, between two records
     progress(p, d) { if (!settled || typeof p !== 'number') return; pos = p; if (d > 0) dur = d; if (onDeck) place(); face(); },
     ended() { playing = false; want = false; onDeck = false; pos = 0; place(); face(); },
-    error() { note('Mixcloud could not play this recording.'); },
+    error() { note(TEXT.cannot); },
   };
   const ready = () => {
     const mine = turn;
@@ -134,7 +142,7 @@
     call('getDuration').then(d => { if (mine === turn && d > 0) { dur = d; face(); } });
     call('play');                                        // some browsers want the press inside their player
     clearTimeout(nudge);
-    nudge = setTimeout(() => { if (mine === turn && !playing) note('Press play in the Mixcloud player below.'); }, 3200);
+    nudge = setTimeout(() => { if (mine === turn && !playing) note(TEXT.press); }, 3200);
   };
   addEventListener('message', e => {
     if (!frame || e.origin !== ORIGIN || e.source !== frame.contentWindow) return;
@@ -150,21 +158,21 @@
     clearTimeout(wait); clearTimeout(nudge);
     if (frame) frame.remove();
     turn++; frame = api = null; loaded = -1; settled = false; want = false; playing = false; onDeck = false; pos = dur = 0; place(); face();
-    const again = document.createElement('button'); again.type = 'button'; again.textContent = 'Try again'; again.onclick = press;
-    const link = document.createElement('a'); link.href = MIX[sel].href; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'open it on Mixcloud';
-    note('The Mixcloud player did not load.', [again, ' or ', link, '.']);
+    const again = document.createElement('button'); again.type = 'button'; again.textContent = TEXT.again; again.onclick = press;
+    const link = document.createElement('a'); link.href = MIX[sel].href; link.target = '_blank'; link.rel = 'noopener'; link.textContent = TEXT.open;
+    note(TEXT.failed, [again, TEXT.or, link, '.']);
   };
   // put the chosen recording on. With start, the needle goes to the first groove at once and the label turns when
   // sound comes; without, it only lies ready in their player (which is there already) and waits for play
   const put = start => {
     const m = MIX[sel], mine = ++turn;
     loaded = sel; pos = dur = 0; playing = false; settled = false; want = !!start; onDeck = !!start; place(); face();
-    note(start ? 'Loading the Mixcloud player …' : '');
+    note(start ? TEXT.loading : '');
     clearTimeout(wait); clearTimeout(nudge);
     if (frame && can('load')) {
       call('load', m.key, !!start).then(() => { if (mine === turn) note(''); });       // the length comes with the first progress; asked for now, the player still names the old one
-      frame.title = `Mixcloud player: ${m.title}`;
-      if (start) nudge = setTimeout(() => { if (mine === turn && !playing) note('Press play in the Mixcloud player below.'); }, 5000);
+      frame.title = `${TEXT.player}: ${m.title}`;
+      if (start) nudge = setTimeout(() => { if (mine === turn && !playing) note(TEXT.press); }, 5000);
       return;
     }
     api = null; calls = {};
@@ -174,7 +182,7 @@
       frame.addEventListener('load', () => { post({ type: 'getApi' }); clearTimeout(wait); wait = setTimeout(() => { if (!api) failed(); }, 6000); });
       box.append(frame);
     }
-    frame.title = `Mixcloud player: ${m.title}`;
+    frame.title = `${TEXT.player}: ${m.title}`;
     frame.src = source(m);
     wait = setTimeout(() => { if (!api) failed(); }, 14000);
   };
@@ -244,7 +252,7 @@
     const ok = await call('seek', to);
     if (mine !== turn) return;                            // another recording has gone on meanwhile
     if (ok === true) { pos = to; note(''); if (!playing) call('play'); }
-    else if (ok === false) note('Mixcloud does not allow jumping to that point.');
+    else if (ok === false) note(TEXT.noJump);
     else {                                                // no answer: the arm only believes what the player itself reports
       const p = await call('getPosition');
       if (mine !== turn) return;

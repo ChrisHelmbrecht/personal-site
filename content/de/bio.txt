@@ -1,0 +1,104 @@
+# German for the bio (bio.html → de/bio.html). See the top of scripts/seo.py for how this works.
+# Where Chris's old website had the sentence in German, his own wording is used.
+
+== Hi there! I’m Chris Helmbrecht, born in 1971 in Munich.
+Servus! Ich bin Chris Helmbrecht, geboren 1971 in München.
+
+== My life has taken me through the most diverse worlds – from the streets of New York to the clubs of Moscow, from marketing projects to DJ sets across the globe. I staged exclusive events and worked for Russian oligarchs and for wealthy guests from all over the world who came to Moscow. But my heart and soul were always in the underground. I DJed at both. What drives me? Curiosity, passion, and the relentless desire to keep reinventing myself.
+Mein Leben hat mich durch die unterschiedlichsten Welten geführt – von den Straßen New Yorks bis zu den Clubs Moskaus, von Marketingprojekten bis zu DJ-Sets in aller Welt. Ich habe exklusive Events gemacht und für russische Oligarchen gearbeitet, und für wohlhabende Gäste aus aller Welt, die nach Moskau kamen. Aber Herz und Seele waren immer im Underground. Aufgelegt habe ich in beiden Welten. Was mich antreibt? Neugier, Leidenschaft und der unbedingte Wille, mich immer wieder neu zu erfinden.
+
+== Helicopter: take off
+Hubschrauber: abheben
+
+== Munich · born 1971
+München · geboren 1971
+
+== DONT WALK: a game about crossing an avenue in New York
+DONT WALK: ein Spiel über das Überqueren einer Avenue in New York
+
+== Tenerife all around: a 360° film of the sea
+Teneriffa rundum: ein 360°-Film vom Meer
+
+== Everywhere
+Überall
+
+== Munich · today
+München · heute
+
+== Munich and the Alps
+München und die Alpen
+
+== From the Police Force to Adventure
+Von der Polizei ins Abenteuer
+
+== Snowboarder: a turn in the powder
+Snowboarder: ein Schwung im Pulverschnee
+
+== After completing my training as a police officer in a mountain unit, I began my career with the <em class="k">Federal Police helicopter squad</em>. Back then, my goal was to become a helicopter pilot, but life had other plans. Alongside my job, I was an <em class="k">extreme snowboarder</em> and wrote for snowboarding magazines. This phase taught me the importance of trying new things and exploring uncharted paths. Most of all, not to limit myself, and not to let the fear of failing keep me from even trying. My first interview for a snowboard magazine was with <em class="k">MCA of the Beastie Boys</em>, and I learned extreme riding from none other than the <em class="k">“King of the Hill”</em> himself.
+Nach meiner Ausbildung zum Polizisten in einer Gebirgseinheit begann ich meinen beruflichen Weg bei der <em class="k">Hubschrauberstaffel der Bundespolizei</em>. Mein Ziel war damals, Hubschrauberpilot zu werden, aber das Leben hatte andere Pläne. Neben meinem Job war ich als <em class="k">Extrem-Snowboarder</em> unterwegs und schrieb für Snowboardmagazine. Diese Phase hat mir gezeigt, wie wichtig es ist, sich auszuprobieren und neue Wege zu gehen. Vor allem: mich nicht selbst zu begrenzen und mich von der Angst zu scheitern nicht davon abhalten zu lassen, es überhaupt zu versuchen. Mein erstes Interview für ein Snowboardmagazin war mit <em class="k">MCA von den Beastie Boys</em>, und das Extremboarden habe ich von keinem Geringeren gelernt als dem <em class="k">„King of the Hill“</em> persönlich.
+
+== In 1995 I started doing web design as a side job, and in 1997 I decided to leave the police force behind and dive into the digital world – one of the best decisions of my life.
+1995 fing ich nebenbei mit Webdesign an, und 1997 entschied ich mich, die Polizei hinter mir zu lassen und in die digitale Welt einzutauchen – eine der besten Entscheidungen meines Lebens.
+
+== Munich to New York
+Von München nach New York
+
+== My Entry into the Digital World
+Einstieg in die digitale Welt
+
+== My journey into the digital realm began in Munich, where I worked on web projects for clients like MTV. Later, I moved to <em class="k">New York</em>, focusing on interactive design and integrated marketing. As a manager at <em class="k">MVBMS Euro RSCG / Havas</em>, one of the largest advertising agencies in the U.S., I was responsible for digital campaigns and websites for clients like Volvo, New Balance, and VitaminShoppe. It was an intense period where I learned a lot – especially about leadership and creativity.
+Meine Reise in die digitale Welt begann in München, wo ich an Webprojekten für Kunden wie MTV arbeitete. Dann zog es mich nach <em class="k">New York</em>. Dort habe ich mich auf Interactive Design und Integrated Marketing spezialisiert. Als Manager bei <em class="k">MVBMS Euro RSCG / Havas</em>, einer der größten Werbeagenturen der USA, war ich für digitale Kampagnen und Websites von Kunden wie Volvo, New Balance und VitaminShoppe verantwortlich. Das war eine intensive Zeit, in der ich viel gelernt habe – vor allem über Führung und Kreativität.
+
+== With my own company in New York, I had the freedom to implement my ideas and began seeing the world from a truly global perspective.
+Mit meiner eigenen Firma in New York konnte ich meine Ideen frei umsetzen und fing an, die Welt aus einer wirklich globalen Perspektive zu sehen.
+
+== Tenerife, then Moscow
+Teneriffa, dann Moskau
+
+== Tenerife, Moscow, and My Love for Events
+Teneriffa, Moskau und die Liebe zur Eventwelt
+
+== After a stint at a tech startup in <em class="k">Tenerife</em>, I found myself in Moscow. There, as the managing director of the agency <em class="k">Kollektiv</em>, I worked on websites, TV commercials, and new media projects for clients. <span class="mark" data-step="3"></span>At the same time, I discovered my passion for exclusive events. From Formula 1 parties to the <em class="k">FIFA World Cup in 2018</em>, I was fortunate to create unique experiences for international guests. This work showed me the power of bringing people together and creating unforgettable moments. Those years became a book: <a href="writing.html">“Fucking Moskau!”</a>, published in 2013.
+Nach einer Station bei einem Tech-Startup auf <em class="k">Teneriffa</em> verschlug es mich nach Moskau. Dort habe ich als Geschäftsführer der Agentur <em class="k">Kollektiv</em> Websites, TV-Werbespots und New-Media-Projekte für Kunden entwickelt. <span class="mark" data-step="3"></span>Gleichzeitig entdeckte ich meine Leidenschaft für exklusive Events. Von Formel-1-Partys bis zur <em class="k">FIFA-Weltmeisterschaft 2018</em> – ich durfte einzigartige Erlebnisse für internationale Gäste schaffen. Diese Arbeit hat mir gezeigt, wie wichtig es ist, Menschen zusammenzubringen und unvergessliche Momente zu schaffen. Aus diesen Jahren ist ein Buch geworden: <a href="writing.html">„Fucking Moskau!“</a>, erschienen 2013.
+
+== Music, My Constant
+Musik, meine Konstante
+
+== Music has always been a cornerstone of my life. During my school days, I DJed at parties and made mixtapes. Today, I perform international sets that range from <em class="k">melodic techno to indie dance to house</em>. For me, music is a way to tell stories – and I love it when these stories resonate with people.
+Musik war immer ein fester Bestandteil meines Lebens. Schon in meiner Schulzeit habe ich auf Partys aufgelegt und Mixtapes gemacht. Heute spiele ich internationale Sets, die von <em class="k">Melodic Techno über Indie Dance bis House</em> reichen. Für mich ist Musik eine Art, Geschichten zu erzählen – und ich liebe es, wenn diese Geschichten die Menschen bewegen.
+
+== To the mixes
+Zu den Mixen
+
+== Moscow to Munich
+Von Moskau nach München
+
+== Back in Munich: Back to the roots.
+Zurück in München: Back to the roots.
+
+== After more than 25 years of globetrotting, I’ve returned to Munich. Here, I find balance between the vibrancy of the city and the tranquility of the mountains around Schliersee and Spitzingsee. Whether hiking, snowboarding, or working as a <em class="k">guide and snowboard instructor</em>, I enjoy the variety my life now offers. Hours at the computer with marketing, AI and websites, mixed with time out in nature.
+Nach mehr als 25 Jahren in der Welt bin ich wieder in München angekommen. Hier finde ich eine Balance zwischen der Dynamik der Stadt und der Ruhe der Berge rund um Schliersee und Spitzingsee. Ob beim Wandern, beim Snowboarden oder als <em class="k">Guide und Snowboardlehrer</em> – ich genieße die Vielfalt, die mein Leben hier bietet. Stunden am Computer mit Marketing, KI und Websites, dazwischen Zeit draußen in der Natur.
+
+== And I am still on the road a lot. I also work for a Norwegian chocolate company and fly out for meetings with them, or to DJ at parties and festivals.
+Und ich bin immer noch viel unterwegs. Ich arbeite auch für eine norwegische Schokoladenfirma und fliege zu Meetings dorthin, oder um auf Partys und Festivals aufzulegen.
+
+== From here
+Von hier aus
+
+== And now?
+Und jetzt?
+
+== I believe in never standing still. Whether in the digital world, the event industry, or music – I’m always seeking new ways to connect my passions and experiences. For me, it’s about embracing life with all its challenges and opportunities.
+Ich glaube daran, dass man niemals stehen bleiben darf. Ob in der digitalen Welt, in der Eventbranche oder in der Musik – ich suche ständig nach neuen Wegen, meine Leidenschaften und Erfahrungen zu verbinden. Für mich geht es darum, das Leben zu leben, mit all seinen Herausforderungen und Möglichkeiten.
+
+== See the timeline
+Zur Timeline
+
+== Writing
+Autor
+
+== Get in touch
+Kontakt aufnehmen
+
+= Kollektiv
+= MVBMS Euro RSCG / Havas

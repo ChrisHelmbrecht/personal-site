@@ -1,6 +1,6 @@
 # Everyone may read this site: search engines and the crawlers of AI assistants alike
 # (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, Applebot-Extended, CCBot and others).
-# A short guide for assistants is at /llms.txt, the main texts in one file at /llms-full.txt.
+# A short guide for assistants is at /llms.txt, the main texts in one file at /llms-full.txt (German: /llms-full-de.txt).
 User-agent: *
 Allow: /
 Disallow: /assets/source/

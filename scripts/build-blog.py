@@ -38,7 +38,7 @@ OUT = A.out
 assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test entries never go into the site: use --out'
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from siteconf import SITE, NAME, ME, OG, NOSCRIPT, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
+from siteconf import SITE, NAME, ME, OG, PLAIN, DE, de, address, alternates, noscript, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
 EXPLORE, FRESH, PER_PAGE = 7, 3, 12           # floating cards at most; of those, places kept for the newest; articles per archive page
 # EXPLORE can go down, not up: the arrangement (js/blog.js "chosen", css/blog.css ".drift-col") has seven places, one large, two middle,
 # four small. More cards need new places there first. A growing blog grows in the archive, not here.
@@ -151,8 +151,11 @@ def card(p, small=False):
             f'<strong>{esc(p["title"])}</strong><time datetime="{p["date"]}">{day(p["date"], p["lang"])}</time></a>')
 
 
-def page(path, lang, title, desc, body, head='', cls='', scripts=True):
+def page(path, lang, title, desc, body, head='', cls='', scripts=True, pair=None):
+    """pair: this page's address in English and in German, when it exists in both."""
     b = up(path)
+    langs = alternates(*pair) if pair else '<script src="js/lang.js"></script>\n'
+    twin = pair and pair[lang == 'en']
     doc = f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -161,7 +164,7 @@ def page(path, lang, title, desc, body, head='', cls='', scripts=True):
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 {f'<base href="{b}">' if b else ''}
-<meta name="description" content="{esc(desc)}">
+{langs}<meta name="description" content="{esc(desc)}">
 <meta name="author" content="{NAME}">
 <link rel="canonical" href="{SITE}/{path}">
 <meta property="og:site_name" content="{NAME}">
@@ -176,7 +179,7 @@ def page(path, lang, title, desc, body, head='', cls='', scripts=True):
 <meta name="theme-color" content="#d6d9d6">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/blog.css">
-{NOSCRIPT}
+{noscript(lang, twin)}
 {body}
 <script src="js/site.js"></script>
 <script src="js/blog.js"></script>
@@ -189,8 +192,7 @@ def page(path, lang, title, desc, body, head='', cls='', scripts=True):
     open(full, 'w', encoding='utf-8').write(doc)
 
 
-def alternates(pairs):
-    return ''.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}/{u}">\n' for l, u in pairs)
+skull = lambda lang: de('index.html') if lang == 'de' else 'index.html'
 
 
 # ---------------------------------------------------------------- the overviews
@@ -210,12 +212,11 @@ for lang, mine in by.items():
     chips = ''.join(f'<button type="button" data-cat="{c}" aria-pressed="false">{esc(CATS[c][lang == "de"])}</button>' for c in used)
     labels = {k: L[k] for k in ('pause', 'play', 'all_n', 'intro', 'read', 'close', 'empty', 'reset', 'prev', 'next', 'count_1', 'count_n', 'of', 'pages', 'preview', 'lead', 'picked', 'mins')}
     body = f'''<main class="page blog" id="blog" data-lang="{lang}" data-home="{path}" data-explore="{EXPLORE}" data-fresh="{FRESH}" data-per-page="{PER_PAGE}" data-labels="{esc(json.dumps(labels, ensure_ascii=False))}">
-  <a class="back" href="index.html" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
+  <a class="back" href="{skull(lang)}" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <div class="room blog-room">
     <header class="blog-head">
       <div><span class="tag">{L['blog']}</span>
       <h1>{L['name']}</h1></div>
-      <nav class="blog-lang" aria-label="{L['lang_label']}"><span aria-current="true">{L['this_lang']}</span>{f'<a href="{home(other)}" lang="{other}" hreflang="{other}">{L["other_lang"]}</a>' if by[other] else ''}</nav>
     </header>
     <div class="blog-bar" id="b-bar" hidden>
       <div class="views" role="group" aria-label="{L['view']}"><a href="{path}?view=explore" data-view="explore">{L['explore']}</a><a href="{path}?view=archive" data-view="archive">{L['archive']}</a></div>
@@ -241,11 +242,10 @@ for lang, mine in by.items():
   </div>
 </main>
 <div class="peek" id="b-peek" hidden></div>'''
-    head = alternates([(l, home(l)) for l in ('en', 'de') if by[l]])
-    head += (f'<meta property="og:type" content="website">\n<meta property="og:title" content="{esc(L["blog"])} · {NAME}">\n<meta property="og:description" content="{esc(L["desc"])}">\n<meta property="og:image" content="{OG}">\n<meta property="og:url" content="{SITE}/{path}">\n'
+    head = (f'<meta property="og:type" content="website">\n<meta property="og:title" content="{esc(L["blog"])} · {NAME}">\n<meta property="og:description" content="{esc(L["desc"])}">\n<meta property="og:image" content="{OG}">\n<meta property="og:url" content="{SITE}/{path}">\n'
              + ld({'@type': 'Blog', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': 'Food for thought', 'description': L['desc'], 'inLanguage': lang, 'author': {'@id': ME},
-                   'blogPost': [{'@type': 'BlogPosting', 'headline': q['title'], 'url': f'{SITE}/{url(q)}', 'datePublished': q['date']} for q in mine]}, person(), crumbs((L['blog'], path))) + '\n')
-    page(path, lang, f"{L['blog']} · Chris Helmbrecht", L['desc'], body, head)
+                   'blogPost': [{'@type': 'BlogPosting', 'headline': q['title'], 'url': f'{SITE}/{url(q)}', 'datePublished': q['date']} for q in mine]}, person(), crumbs((L['blog'], path), lang=lang)) + '\n')
+    page(path, lang, f"{L['blog']} · Chris Helmbrecht", L['desc'], body, head, pair=(home('en'), home('de')) if by['en'] and by['de'] else None)
 
 # ---------------------------------------------------------------- the articles
 def article_body(p):
@@ -277,11 +277,10 @@ for lang, mine in by.items():
         upd = f' · {L["updated"]} {day(p["updated"], lang)}' if p.get('updated') else ''
         doc = f'''<div class="reading" aria-hidden="true"></div>
 <main class="page article-page" data-lang="{lang}" data-home="{home(lang)}" data-id="{esc(p['id'])}">
-  <a class="back" href="index.html" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
+  <a class="back" href="{skull(lang)}" aria-label="{L['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <article class="room article">
     <nav class="article-top" aria-label="{L['blog']}">
       <a class="to-blog" id="b-home" href="{home(lang)}">{L['back']}</a>
-      {f'<a class="to-twin" href="{url(tw)}" lang="{other}" hreflang="{other}">{L["other_lang"]}</a>' if tw else ''}
       <details class="others"><summary>{L['others']}</summary><div><ul>{''.join(f'<li>{card(q)}</li>' for q in rest[:6])}</ul><p><a href="{home(lang)}?view=archive">{L['all_n'].format(n=len(mine))}</a></p></div></details>
     </nav>
     <p class="tag article-meta"><time datetime="{p['date']}">{day(p['date'], lang)}</time>{upd} · {L['mins'].format(n=p['mins'])}{cats}</p>
@@ -300,14 +299,13 @@ for lang, mine in by.items():
   </article>
 </main>'''
         og = f'{SITE}/assets/blog/{p["image"]}-og.jpg' if p['image'] else f'{SITE}/assets/og.jpg'
-        head = (alternates([(l, url(q)) for l, q in ((lang, p), (other, tw)) if q])
-                + f'<meta property="og:type" content="article">\n<meta property="og:title" content="{esc(p["title"])}">\n<meta property="og:description" content="{esc(brief(p["peek"], 200))}">\n'
+        head = (f'<meta property="og:type" content="article">\n<meta property="og:title" content="{esc(p["title"])}">\n<meta property="og:description" content="{esc(brief(p["peek"], 200))}">\n'
                   f'<meta property="og:image" content="{og}">\n<meta property="og:url" content="{SITE}/{path}">\n<meta property="article:published_time" content="{p["date"]}">\n'
                 + ld({'@type': 'BlogPosting', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'mainEntityOfPage': f'{SITE}/{path}', 'headline': p['title'], 'description': brief(p['peek'], 300),
                       'datePublished': p['date'], 'dateModified': p.get('updated') or p['date'], 'inLanguage': lang, 'image': og, 'author': {'@id': ME}, 'publisher': {'@id': ME},
                       'keywords': ', '.join(p['tags']), 'isPartOf': {'@type': 'Blog', '@id': f'{SITE}/{home(lang)}', 'name': 'Food for thought'}},
-                     person(), crumbs((L['blog'], home(lang)), (p['title'], path))) + '\n')
-        page(path, lang, f"{p['title']} · Chris Helmbrecht", brief(p['peek'], 160) or p['title'], doc, head)
+                     person(), crumbs((L['blog'], home(lang)), (p['title'], path), lang=lang)) + '\n')
+        page(path, lang, f"{p['title']} · Chris Helmbrecht", brief(p['peek'], 160) or p['title'], doc, head, pair=tw and ((path, url(tw)) if lang == 'en' else (url(tw), path)))
 
 # ---------------------------------------------------------------- feeds, sitemap, redirects
 rfc = lambda d: datetime.datetime.strptime(d, '%Y-%m-%d').strftime('%a, %d %b %Y 08:00:00 +0000')
@@ -317,7 +315,9 @@ for lang, mine in by.items():
     f = os.path.join(OUT, f"blog/{'de/' if lang == 'de' else ''}feed.xml"); os.makedirs(os.path.dirname(f), exist_ok=True)
     open(f, 'w', encoding='utf-8').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>{esc(T[lang]["feed"])}</title><link>{SITE}/{home(lang)}</link><description>{esc(T[lang]["desc"])}</description><language>{lang}</language>\n{items}</channel></rss>\n')
 if not A.synthetic and not A.only:
-    fixed = ['', 'dj.html', 'bio.html', 'writing.html', 'timeline.html', 'press.html', 'contact.html', 'making-of.html'] + [home(l) for l in by if by[l]] + sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html'))      # the timeline's year pages, made by build-timeline.py
+    # every page in both languages: the hand-written ones (their German twins are made by seo.py), blog and timeline (year pages by build-timeline.py)
+    fixed = [address(p)[len(SITE) + 1:] for p in PLAIN] + [address(DE[p])[len(SITE) + 1:] for p in PLAIN] + ['timeline.html', 'timeline/de/index.html'] + [home(l) for l in by if by[l]]
+    fixed += sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html') + glob.glob('timeline/de/*.html') if not f.endswith('index.html'))
     rows = [f'<url><loc>{SITE}/{u}</loc></url>' for u in fixed] + [f'<url><loc>{SITE}/{url(p)}</loc><lastmod>{p.get("updated") or p["date"]}</lastmod></url>' for l in by for p in by[l]]
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(rows) + '\n</urlset>\n')
     red = ['# Old addresses of the articles and where they live now. A plan, not switched on: at launch these lines go',

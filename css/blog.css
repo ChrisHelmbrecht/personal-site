@@ -5,11 +5,7 @@
 .blog-room { max-width: 1180px; }
 .blog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 28px; flex-wrap: wrap; }
 .blog-room .blog-head h1 { margin-bottom: 0; }
-.blog-lang, .article-top, .blog-bar, .tools, .count, .pager, .to-archive, .entry time, .float time, .mini time, .peek time { font: 500 .68rem/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mid); }
-.blog-lang { display: flex; gap: 6px; padding-bottom: 12px; }
-.blog-lang > * { padding: 9px 13px 8px; border: 1.5px solid transparent; border-radius: 999px; text-decoration: none; color: var(--ink); }
-.blog-lang [aria-current] { border-color: var(--ink-deep); color: var(--ink-deep); }
-.blog-lang a:hover { border-color: var(--ink); }
+.article-top, .blog-bar, .tools, .count, .pager, .to-archive, .entry time, .float time, .mini time, .peek time { font: 500 .68rem/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mid); }
 
 .blog-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-top: 26px; }
 .views { display: inline-flex; padding: 3px; border: 1.5px solid var(--ink-deep); border-radius: 999px; background: var(--card); }

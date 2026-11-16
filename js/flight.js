@@ -68,7 +68,7 @@
       passed: 'Lesson passed', taken: 'Taken over by the instructor', stable: 'Stable hover time', longest: 'Longest calm spell', far: 'Furthest off', climbed: 'Climb task', yes: 'done', no: 'not done', best: 'Best calm spell so far', s: 's', m: 'm' },
   };
   const store = { get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-  let lang = store.get('flight-lang') || ((navigator.language || 'en').toLowerCase().startsWith('de') ? 'de' : 'en');
+  let lang = store.get('flight-lang') || (document.documentElement.lang === 'de' ? 'de' : 'en');   // the page's language, until the game's own switch is used
   let level = LEVELS[store.get('flight-level')] ? store.get('flight-level') : 'easy', LV = LEVELS[level];
   const t = () => TEXT[lang], line = pair => lang === 'de' ? pair[0] : `${pair[0]}<small>${pair[1]}</small>`;
 

@@ -1,0 +1,284 @@
+# German for the DJ page (dj.html → de/dj.html). See the top of scripts/seo.py for how this works.
+# Names of nights, venues and genres stay as they are.
+
+== Storytelling with music.
+Storytelling durch Musik.
+
+== Eight recordings. Clubs, a festival, a subway station, a private party in Teheran. I won’t be put into one box. I play what fits the room and the people in it.
+Acht Aufnahmen. Clubs, ein Festival, eine U-Bahn-Station, eine Privatparty in Teheran. Ich lasse mich in keine Schublade stecken. Ich spiele, was zum Raum passt und zu den Leuten darin.
+
+== Listening station
+Hörstation
+
+== A turntable seen from above, drawn in blue ink. The record on it carries the cover of the chosen recording.
+Ein Plattenspieler von oben, gezeichnet in blauer Tinte. Die Platte darauf trägt das Cover der gewählten Aufnahme.
+
+== Start and stop
+Start und Stopp
+
+== Listen on Mixcloud
+Auf Mixcloud hören
+
+== The recordings play through Mixcloud.
+Die Aufnahmen laufen über Mixcloud.
+
+== Eight recordings
+Acht Aufnahmen
+
+== Choose one and it goes on the deck. Play starts it.
+Eine auswählen, und sie liegt auf dem Plattenteller. Play startet sie.
+
+# 01 Love Room
+== Live recording · closing set
+Live-Mitschnitt · Closing-Set
+
+== 20 March 2026 · London
+20. März 2026 · London
+
+== 20 March 2026
+20. März 2026
+
+== I played the big room last and closed the night. It starts energetic and slowly turns trippy. A bit housey in parts. Keep in mind where it was played: London, a kinky party, a beautiful crowd.
+Ich habe als Letzter im großen Raum gespielt und die Nacht zugemacht. Es fängt energetisch an und wird langsam trippy. Stellenweise etwas housig. Man muss wissen, wo das gespielt wurde: London, eine Kinky Party, ein wunderschönes Publikum.
+
+# 02 Gleiskultur
+== 11 July 2026
+11. Juli 2026
+
+== Live recording · festival
+Live-Mitschnitt · Festival
+
+== Open air at Gleiskultur. Great audience, great stage, great sound system. The DJ after me needed a different mixer, so the music had to stop for a minute. That let me say a proper goodbye, with Perel’s version of Eisbär.
+Open Air bei Gleiskultur. Tolles Publikum, tolle Bühne, tolle Anlage. Der DJ nach mir brauchte einen anderen Mixer, also musste die Musik für eine Minute aus. So konnte ich mich richtig verabschieden, mit Perels Version von Eisbär.
+
+# 03 Teheran
+== July 2018
+Juli 2018
+
+== Live recording · private party
+Live-Mitschnitt · Privatparty
+
+== A private party in Teheran, in an underground location below a parking garage. 250+ people. Uncharted DJ territory. Not many people get to play there. The audience was awesome. I hope I get invited back some day.
+Eine Privatparty in Teheran, in einer Underground-Location unter einem Parkhaus. 250+ Leute. DJ-Neuland. Dort dürfen nicht viele spielen. Das Publikum war großartig. Ich hoffe, ich werde irgendwann wieder eingeladen.
+
+# 04 Gazgolder
+== 1 March 2019
+1. März 2019
+
+== Live recording · warm-up
+Live-Mitschnitt · Warm-up
+
+== A warm-up session on the terrace at Gazgolder. It is always nice to play your own favourite venue. Lots of friends, a good vibe.
+Eine Warm-up-Session auf der Terrasse vom Gazgolder. Es ist immer schön, im eigenen Lieblingsladen zu spielen. Viele Freunde, guter Vibe.
+
+# 05 PLAY TF-5
+== PLAY session
+PLAY-Session
+
+== PLAY is where I try out the newest tracks in a live set. This one was recorded during Oktoberfest, just back from Tenerife. TF-5 is my favourite highway on the island. Full of energy, groovy in parts, and a little underground at the very end.
+Bei PLAY probiere ich die neuesten Tracks in einem Live-Set aus. Dieses hier entstand während der Wiesn, gerade zurück aus Teneriffa. Die TF-5 ist meine Lieblingsautobahn auf der Insel. Voller Energie, stellenweise groovy, und ganz am Ende ein bisschen Underground.
+
+# 06 LUMA
+== Summer 2026
+Sommer 2026
+
+== Live recording · open air
+Live-Mitschnitt · Open Air
+
+== An open air on a small river next to the Englischer Garten. Several DJs played that day. I finished with two hours. We had a curfew. Otherwise this would have gone until sunrise.
+Ein Open Air an einem kleinen Fluss neben dem Englischen Garten. An dem Tag haben mehrere DJs gespielt. Ich habe mit zwei Stunden den Abschluss gemacht. Es gab eine Sperrstunde. Sonst wäre das bis Sonnenaufgang gegangen.
+
+# 07 Im Namen der Kunst
+== July 2026
+Juli 2026
+
+== Munich, U-Bahn Universität
+München, U-Bahn Universität
+
+== Live recording · exhibition opening
+Live-Mitschnitt · Vernissage
+
+== The opening of Corinna Rosa Falkenberg’s exhibition in the Universität subway station. Not on the platform like on the cover, but in the entrance one floor up. You don’t get to play a subway station legally every day.
+Die Eröffnung der Ausstellung von Corinna Rosa Falkenberg im U-Bahnhof Universität. Nicht auf dem Bahnsteig wie auf dem Cover, sondern im Eingang eine Etage höher. In einer U-Bahn-Station legt man nicht alle Tage legal auf.
+
+# 08 PLAY the Eclipse
+== 12 August 2026
+12. August 2026
+
+== PLAY session · listening set
+PLAY-Session · Listening-Set
+
+== Recorded on the evening of the partial eclipse over Munich. Not a club set. More of a listening session. It is a live recording, so if you listen carefully you will catch a few mistakes.
+Aufgenommen am Abend der partiellen Sonnenfinsternis über München. Kein Club-Set. Eher eine Listening-Session. Es ist ein Live-Mitschnitt, wer genau hinhört, findet also ein paar Fehler.
+
+# The photographs
+== Some nights stay with you.
+Manche Nächte bleiben.
+
+~~ Photo (\d+) of (\d+), open large
+Foto \1 von \2, groß öffnen
+
+== Chris Helmbrecht at the decks on a rooftop at night, a floodlit city behind him
+Chris Helmbrecht nachts an den Decks auf einer Dachterrasse, hinter ihm eine angestrahlte Stadt
+
+== Black and white: Chris with headphones round his neck, pointing up, in front of a wall covered in chalk drawings
+Schwarz-weiß: Chris mit Kopfhörern um den Hals, zeigt nach oben, vor einer Wand voller Kreidezeichnungen
+
+== Black and white: Chris laughing behind a controller, cap and headphones
+Schwarz-weiß: Chris lacht hinter einem Controller, mit Kappe und Kopfhörern
+
+== Chris at the mixer in deep red light, a dancer behind him
+Chris am Mixer in tiefrotem Licht, hinter ihm tanzt jemand
+
+== Chris in profile at the decks, seen through a blur of blue light
+Chris im Profil an den Decks, durch einen Schleier aus blauem Licht gesehen
+
+== Chris playing on a rooftop terrace at night, red light on the booth
+Chris legt nachts auf einer Dachterrasse auf, rotes Licht auf dem DJ-Pult
+
+== View from the booth over the decks onto a full dance floor under a tent roof, red light
+Blick vom DJ-Pult über die Decks auf eine volle Tanzfläche unter einem Zeltdach, rotes Licht
+
+== Chris behind the mixer at night, laughing and pointing into the camera
+Chris nachts hinter dem Mixer, lacht und zeigt in die Kamera
+
+== Chris bent over the decks in a dark club, red and green light
+Chris über die Decks gebeugt in einem dunklen Club, rotes und grünes Licht
+
+== Two DJs behind laptops and decks in red light, one with his hands raised above his head
+Zwei DJs hinter Laptops und Decks in rotem Licht, einer mit den Händen über dem Kopf
+
+== Black and white: Chris at the decks, one hand on the headphones
+Schwarz-weiß: Chris an den Decks, eine Hand am Kopfhörer
+
+== A DJ booth on an open-air stage under a light rig at dusk, blue light
+Ein DJ-Pult auf einer Open-Air-Bühne unter einem Lichtrigg in der Dämmerung, blaues Licht
+
+== Chris at the turntables in a pink T-shirt, coloured light trails around him
+Chris an den Plattenspielern im rosa T-Shirt, um ihn herum farbige Lichtspuren
+
+== Chris in a turquoise T-shirt at the decks, two men behind him
+Chris im türkisen T-Shirt an den Decks, hinter ihm zwei Männer
+
+== Chris with white and black face paint, headphones round his neck
+Chris mit weiß-schwarzer Gesichtsbemalung, Kopfhörer um den Hals
+
+== Chris with headphones round his neck next to a man shouting with his fist out, light trails around them
+Chris mit Kopfhörern um den Hals neben einem Mann, der mit ausgestreckter Faust ruft, um sie herum Lichtspuren
+
+== Chris in a grey hoodie at the decks in daylight, people behind him
+Chris im grauen Hoodie bei Tageslicht an den Decks, hinter ihm Leute
+
+== Black and white: Chris in a white T-shirt at a turntable, one hand on the headphones
+Schwarz-weiß: Chris im weißen T-Shirt an einem Plattenspieler, eine Hand am Kopfhörer
+
+== Chris at the decks in a car showroom under a large Mercedes star
+Chris an den Decks in einem Autohaus unter einem großen Mercedes-Stern
+
+# The lists
+== On record
+Als Aufnahme
+
+== Private party, 250+ people
+Privatparty, 250+ Leute
+
+== Loden Frey Park, Munich
+Loden Frey Park, München
+
+== U-Bahn Universität, Munich
+U-Bahn Universität, München
+
+== Hurghada, Egypt
+Hurghada, Ägypten
+
+== Clubs, hotels, one-offs
+Clubs, Hotels, Einmaliges
+
+== Milan
+Mailand
+
+== Formula 1 party
+Formel-1-Party
+
+== Sochi
+Sotschi
+
+== World Cup afterparty on a yacht
+Worldcup-Afterparty auf einer Yacht
+
+== Season closing 2018
+Saisonabschluss 2018
+
+# About
+== More than thirty years.
+Mehr als dreißig Jahre.
+
+== It started with mixtapes and house parties in my school days. In the 90s, as a snowboarder, I organized parties in the Alps. Then I left Munich for New York, Tenerife and Moscow.
+Angefangen hat es mit Mixtapes und Hauspartys in meiner Schulzeit. In den 90ern habe ich als Snowboarder Partys in den Alpen veranstaltet. Dann ging ich aus München weg, nach New York, Teneriffa und Moskau.
+
+== I played Formula 1 parties and five-star hotels, for Russian oligarchs and wealthy guests from all over the world. I also played legendary techno clubs in Moscow and various underground scenes. My heart and soul were always in the underground. I DJed at both.
+Ich habe auf Formel-1-Partys und in Fünf-Sterne-Hotels gespielt, für russische Oligarchen und wohlhabende Gäste aus aller Welt. Und in legendären Techno-Clubs in Moskau und in verschiedenen Underground-Szenen. Herz und Seele waren immer im Underground. Aufgelegt habe ich in beiden Welten.
+
+== Today my sets move from melodic techno to indie dance to house.
+Heute reichen meine Sets von Melodic Techno über Indie Dance bis House.
+
+# The large view of the photographs
+== Photographs
+Fotos
+
+== Some nights
+Manche Nächte
+
+== Close
+Schließen
+
+== Next photo
+Nächstes Foto
+
+== Back
+Zurück
+
+== Next
+Weiter
+
+= Love Room / London
+= Gleiskultur / Friedland
+= Private Session / Teheran
+= WLCM SPRNG @ Gazgolder
+= PLAY TF-5
+= LUMA @ Loden Frey Park
+= Im Namen der Kunst (Vol. 4)
+= PLAY the Eclipse
+= Friedland
+= Teheran, Iran
+= September 2026
+= Indie dance · Melodic techno · House
+= Melodic techno · Indie dance · House
+= Tech house · Deep tech house · Deep house
+= Deep house · Deep tech · Tech house
+= Techno · Melodic techno · Deep house
+= Indie dance · Melodic techno · Afro house
+= Deep house · Tech house · Afro house
+= Love Room
+= Gazgolder
+= LUMA
+= Im Namen der Kunst
+= Residencies
+= Festivals
+= Gleiskultur
+= Mendeleev
+= Time Out
+= Suzuran
+= Berlin Bar
+= Kinky Party Moscow
+= Odyssey Festival
+= Scala Festival
+= Volna Festival
+= Krysha Mira
+= Dissident
+= Kvadrat Afterhour, White Nights
+= St. Petersburg
+= W Hotel
+= Rosa Grand Hotel
+= Ritz-Carlton O2 Lounge Terrace
+= Riga

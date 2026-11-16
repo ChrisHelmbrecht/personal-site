@@ -48,8 +48,8 @@ OUT = A.out
 assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test years never go into the site: use --out'
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from siteconf import SITE, NAME, ME, OG, NOSCRIPT, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
-LANGS = ('en',)                               # 'de' joins when the whole site gets its language switch; the German labels are ready below
+from siteconf import SITE, NAME, ME, OG, de, alternates, noscript, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
+LANGS = ('en', 'de')                          # every page in both languages; the header's switch leads from one to the other
 NEWEST_FIRST = True                           # the order of the years on the overview. False: oldest first. The documents stay as they are
 PREVIEWS = 4                                  # photographs beside the lead photograph on the overview, at most
 EAGER = 8                                     # photographs of an album fetched at once; the rest when they come near
@@ -64,14 +64,14 @@ T = {
             photo='Photo {a} of {n}, {y}', large='Photo {a} of {n}, open large', desc='Timeline: {n} photographs from {y} years. Chris Helmbrecht, DJ, author of Fucking Moskau and brand consultant in Munich.',
             desc_year='{y}: {c}. From the timeline of Chris Helmbrecht.', dialog='Photo, large', close='Close', prev='Previous photo', next='Next photo',
             zoom_in='Full size', zoom_out='Fit to window', count='{a} / {n}', end='That was {y}.', again='View again', onward='On to {y}', album='Back to the album',
-            failed='This photo did not load.', retry='Try again', by='Photo: {c}'),
- 'de': dict(nav='Timeline', h1='Ein Leben in Bildern.', lead='München, New York, Teneriffa, Moskau und zurück. Die <a href="bio.html">Bio</a> erzählt den Weg. Hier sind die Bilder.',
+            failed='This photo did not load.', retry='Try again', by='Photo: {c}', skull='Back to the skull'),
+ 'de': dict(nav='Timeline', h1='Ein Leben in Bildern.', lead='München, New York, Teneriffa, Moskau und zurück. Die <a href="de/bio.html">Bio</a> erzählt den Weg. Hier sind die Bilder.',
             sum_='{n} Fotos · {y} Jahre', n1='1 Foto', nn='{n} Fotos', open='Jahr öffnen', open_aria='{y} öffnen: {c}', soon='Fotos folgen',
             choose='Jahr wählen', years='Jahre', decade='{d}er', back='Zur Timeline', prev_year='Früheres Jahr', next_year='Späteres Jahr',
             photo='Foto {a} von {n}, {y}', large='Foto {a} von {n}, groß öffnen', desc='Timeline: {n} Fotos aus {y} Jahren. Chris Helmbrecht, DJ, Autor von Fucking Moskau und Markenberater in München.',
             desc_year='{y}: {c}. Aus der Timeline von Chris Helmbrecht.', dialog='Foto, groß', close='Schließen', prev='Vorheriges Foto', next='Nächstes Foto',
             zoom_in='Volle Größe', zoom_out='Ins Fenster einpassen', count='{a} / {n}', end='Das war {y}.', again='Noch einmal ansehen', onward='Weiter zu {y}', album='Zurück zum Album',
-            failed='Dieses Foto konnte nicht geladen werden.', retry='Noch einmal versuchen', by='Foto: {c}'),
+            failed='Dieses Foto konnte nicht geladen werden.', retry='Noch einmal versuchen', by='Foto: {c}', skull='Zurück zum Schädel'),
 }
 JS_LABELS = ('close', 'prev', 'next', 'zoom_in', 'zoom_out', 'count', 'end', 'again', 'onward', 'album', 'failed', 'retry', 'by', 'choose')
 
@@ -154,6 +154,7 @@ def span(text, l, lang, tag='span', cls=''):
 def count(n, lang): return T[lang]['n1'] if n == 1 else T[lang]['nn'].format(n=n)
 def album(year, lang): return f"timeline/{'de/' if lang == 'de' else ''}{year}.html"
 def home(lang): return 'timeline.html' if lang == 'en' else 'timeline/de/index.html'
+def skull(lang): return de('index.html') if lang == 'de' else 'index.html'
 def up(path): return '../' * path.count('/')
 def alt(p, y, lang): return said(p['d'], 'alt', lang)[0] or T[lang]['photo'].format(a=p['n'], n=len(y['photos']), y=y['year'])
 
@@ -182,8 +183,11 @@ def picker(lang, here=None, to_album=False):
     return f'<details class="tl-pick" id="tl-pick"><summary>{t["choose"]}</summary><nav aria-label="{t["years"]}"><ol class="decades">{"".join(out)}</ol></nav></details>'
 
 
-def page(path, lang, title, desc, body, head=''):
+def page(path, lang, title, desc, body, head='', pair=None):
+    """pair: this page's address in English and in German."""
     b = up(path)
+    langs = alternates(*pair) if pair else ''
+    twin = pair and pair[lang == 'en']
     doc = f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -192,7 +196,7 @@ def page(path, lang, title, desc, body, head=''):
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 {f'<base href="{b}">' if b else ''}
-<meta name="description" content="{esc(desc)}">
+{langs}<meta name="description" content="{esc(desc)}">
 <meta name="author" content="{NAME}">
 <link rel="canonical" href="{SITE}/{path}">
 <meta property="og:site_name" content="{NAME}">
@@ -210,7 +214,7 @@ def page(path, lang, title, desc, body, head=''):
 <meta name="theme-color" content="#d6d9d6">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/timeline.css">
-{NOSCRIPT}
+{noscript(lang, twin)}
 {body}
 <script src="js/site.js"></script>
 <script src="js/timeline.js"></script>
@@ -249,7 +253,7 @@ def overview(lang):
     lis = ''.join(group(rows[n], lang, n == first) if n in rows else f'<li class="yr empty" id="{n}" data-year="{n}"><div class="yr-facts"><h2 class="yr-no">{n}</h2></div><div class="yr-pics"><span class="yr-soon tag">{t["soon"]}</span></div></li>' for n in order)
     total = sum(len(y['photos']) for y in years)
     body = f'''<main class="page tl" id="tl" data-lang="{lang}">
-  <a class="back" href="index.html" aria-label="Back to the skull"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
+  <a class="back" href="{skull(lang)}" aria-label="{t['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <article class="room tl-room">
     <header class="tl-head"><span class="tag">{t["nav"]}</span>
       <h1>{t["h1"]}</h1>
@@ -264,8 +268,8 @@ def overview(lang):
 </main>'''
     path = home(lang)
     head = f'<meta property="og:image" content="{OG}">\n' + ld({'@type': 'CollectionPage', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': f'{t["nav"]}: {t["h1"]}', 'description': t['desc'].format(n=total, y=len(years)), 'inLanguage': lang, 'about': {'@id': ME},
-                'hasPart': [{'@type': 'ImageGallery', 'name': str(y['year']), 'url': f'{SITE}/{album(y["year"], lang)}'} for y in sorted(years, key=lambda y: -y['year'])]}, person(), crumbs((t['nav'], path))) + '\n'
-    page(path, lang, f'{t["nav"]} · Chris Helmbrecht', t['desc'].format(n=total, y=len(years)), body, head)
+                'hasPart': [{'@type': 'ImageGallery', 'name': str(y['year']), 'url': f'{SITE}/{album(y["year"], lang)}'} for y in sorted(years, key=lambda y: -y['year'])]}, person(), crumbs((t['nav'], path), lang=lang)) + '\n'
+    page(path, lang, f'{t["nav"]} · Chris Helmbrecht', t['desc'].format(n=total, y=len(years)), body, head, (home('en'), home('de')))
 
 
 # ---------------------------------------------------------------- one year: the contact sheet
@@ -294,7 +298,7 @@ def year_page(y, lang):
             (f'<a rel="next" href="{album(y["after"], lang)}" aria-label="{t["next_year"]}: {y["after"]}">{y["after"]} →</a>' if y['after'] else ''))
     labels = {key: T[lang][key] for key in JS_LABELS}
     body = f'''<main class="page tl tl-album" id="tl-album" data-lang="{lang}" data-year="{y["year"]}" data-home="{home(lang)}#{y["year"]}"{f' data-after="{y["after"]}" data-after-href="{album(y["after"], lang)}"' if y["after"] else ''} data-labels="{esc(json.dumps(labels, ensure_ascii=False))}">
-  <a class="back" href="index.html" aria-label="Back to the skull"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
+  <a class="back" href="{skull(lang)}" aria-label="{t['skull']}"><img src="assets/skull-thumb.webp" alt="" width="252" height="252"></a>
   <article class="room tl-room">
     <nav class="al-top" aria-label="{t["nav"]}"><a id="tl-home" href="{home(lang)}#{y["year"]}">← {t["back"]}</a>{picker(lang, y["year"], True)}<span class="al-step">{step}</span></nav>
     <header class="al-head"><span class="tag">{t["nav"]}</span>
@@ -318,8 +322,8 @@ def year_page(y, lang):
     shot = lambda p: {k: v for k, v in (('@type', 'ImageObject'), ('contentUrl', f'{SITE}/{p["base"]}-l.webp'), ('thumbnailUrl', f'{SITE}/{p["base"]}-s.webp'), ('width', p['w']), ('height', p['h']), ('caption', said(p['d'], 'caption', lang)[0]),
                                           ('contentLocation', p['d'].get('place', '')), ('creditText', p['d'].get('credit', ''))) if v}
     head = f'<meta property="og:image" content="{SITE}/{lead["base"]}-l.webp">\n' + ld({'@type': 'ImageGallery', '@id': f'{SITE}/{path}', 'url': f'{SITE}/{path}', 'name': f'{y["year"]}' + (f': {title}' if title else ''), 'description': t['desc_year'].format(y=y['year'], c=count(n, lang)),
-                'inLanguage': lang, 'temporalCoverage': str(y['year']), 'about': {'@id': ME}, 'image': [shot(p) for p in y['photos']]}, person(), crumbs((t['nav'], home(lang)), (str(y['year']), path))) + '\n'
-    page(path, lang, f'{y["year"]} · {t["nav"]} · Chris Helmbrecht', t['desc_year'].format(y=y['year'], c=count(n, lang)), body, head)
+                'inLanguage': lang, 'temporalCoverage': str(y['year']), 'about': {'@id': ME}, 'image': [shot(p) for p in y['photos']]}, person(), crumbs((t['nav'], home(lang)), (str(y['year']), path), lang=lang)) + '\n'
+    page(path, lang, f'{y["year"]} · {t["nav"]} · Chris Helmbrecht', t['desc_year'].format(y=y['year'], c=count(n, lang)), body, head, (album(y['year'], 'en'), album(y['year'], 'de')))
 
 
 for lang in LANGS:

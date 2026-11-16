@@ -1,0 +1,44 @@
+# German for the making-of (making-of.html → de/making-of.html). See the top of scripts/seo.py for how this works.
+# The credits of the elevation data keep the wording their licences ask for.
+
+== Making of
+Making-of
+
+== This site is a showcase of what one person and a handful of AI tools can build today. The full story of how it came together follows here.
+Diese Seite zeigt, was ein Mensch und eine Handvoll KI-Tools heute bauen können. Wie sie entstanden ist, steht bald hier.
+
+== The tools
+Die Tools
+
+== Perplexity – the research at the start and the brief for the first draft of the skull
+Perplexity – die Recherche am Anfang und das Briefing für den ersten Entwurf des Schädels
+
+== Midjourney – the skull drawing from that brief, the small figures, and the helicopter, the Teide and the moonlit tree in the bio, the drawings of the flight game, and the turntable on the DJ page
+Midjourney – die Schädelzeichnung nach diesem Briefing, die kleinen Figuren, in der Bio der Hubschrauber, der Teide und der Baum im Mondlicht, die Zeichnungen des Flugspiels und der Plattenspieler auf der DJ-Seite
+
+== Runway – the short films of the owl, the moon, the trees, the path, the city and the water, and in the bio the helicopter, the clouds at the Teide and the night sky
+Runway – die kurzen Filme von Eule, Mond, Bäumen, Weg, Stadt und Wasser, und in der Bio der Hubschrauber, die Wolken am Teide und der Nachthimmel
+
+== ElevenLabs – the night sound, and the voice in the flight game
+ElevenLabs – die Nachtgeräusche und die Stimme im Flugspiel
+
+== Topaz Gigapixel – the 4K version of the drawing
+Topaz Gigapixel – die 4K-Fassung der Zeichnung
+
+== Claude – concept, code and assembly
+Claude – Konzept, Code und Zusammenbau
+
+== The steps
+Die Schritte
+
+== Photos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
+Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
+
+== Helicopter sound effects on the bio page and in the flight game: freeSFX —
+Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX —
+
+== The Alps in the flight game are computed from open elevation data (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
+Die Alpen im Flugspiel sind aus offenen Höhendaten berechnet (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
+
+= Credits &amp; Sound
+= www.freesfx.co.uk
