@@ -13,7 +13,9 @@
 .tt img { position: absolute; display: block; max-width: none; height: auto; -webkit-user-drag: none; }
 .tt-base { left: 68.464%; top: 8.693%; width: 25.944%; }
 .tt-deck { left: 0; top: 0; width: 100%; }
+/* the platter is the deck's own circle, cut out: it lies exactly on the drawing and turns with the label while a recording plays (js/dj.js) */
 .tt-platter { left: 3.207%; top: 3.285%; width: 71.62%; border-radius: 50%; cursor: pointer; }
+.tt.playing .tt-platter, .tt.playing .tt-label img { will-change: transform; }
 /* the start button drawn on the plate works: it presses in, and stays shaded while a recording plays */
 .tt-start { position: absolute; left: 3.3%; top: 86.9%; width: 9.8%; height: 9%; margin: 0; padding: 0; border: 0; border-radius: 3px; background: rgba(18, 38, 95, 0); cursor: pointer; touch-action: manipulation; transition: background-color .25s ease, box-shadow .25s ease; }
 .tt-start::before { content: ""; position: absolute; inset: -8px; }                 /* a fingertip needs more room than the drawing gives */

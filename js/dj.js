@@ -1,7 +1,8 @@
 /* DJ page: the listening station.
    Eight recordings sit in the shelf (plain links to Mixcloud without this script). One of them is on the drawn
    turntable. Pressing play loads Mixcloud's own player, and only then: before that nothing is fetched from them.
-   The record's label turns while the recording really plays, and the tonearm stands where the recording is:
+   The record turns while the recording really plays (the drawn platter with its vinyl, and the label on it, as one
+   disc), and the tonearm stands where the recording is:
    first groove at the start, last groove at the end. Lifting the arm and putting it down elsewhere jumps there.
    A sleeve in the shelf chooses a recording; if music is running the new one plays on, otherwise it waits for play.
 
@@ -108,14 +109,15 @@
   }
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { away = !es[0].isIntersecting; remote(); }).observe(el('now').parentNode);
 
-  // ---- the label turns while it plays: it runs up and runs down like a platter does
+  // ---- the record turns while it plays: platter, vinyl and label as one disc. It runs up and runs down like a platter does
+  const disc = document.querySelector('#tt .tt-platter');
   let angle = 0, speed = 0, raf = 0, last = 0;
   const tick = t => {
     const dt = Math.min(.05, (t - last) / 1000); last = t;
     const goal = playing && loaded === sel ? SPEED : 0;
     speed += (goal - speed) * Math.min(1, dt / (goal ? .55 : .7));
     angle = (angle + speed * dt) % 360;
-    cover.style.transform = `rotate(${angle.toFixed(2)}deg)`;
+    cover.style.transform = disc.style.transform = `rotate(${angle.toFixed(2)}deg)`;
     raf = goal || speed > .6 ? requestAnimationFrame(tick) : 0;
   };
   const spin = () => { if (!raf && !calm.matches) { last = performance.now(); raf = requestAnimationFrame(tick); } };
@@ -162,7 +164,7 @@
     const link = document.createElement('a'); link.href = MIX[sel].href; link.target = '_blank'; link.rel = 'noopener'; link.textContent = TEXT.open;
     note(TEXT.failed, [again, TEXT.or, link, '.']);
   };
-  // put the chosen recording on. With start, the needle goes to the first groove at once and the label turns when
+  // put the chosen recording on. With start, the needle goes to the first groove at once and the record turns when
   // sound comes; without, it only lies ready in their player (which is there already) and waits for play
   const put = start => {
     const m = MIX[sel], mine = ++turn;
