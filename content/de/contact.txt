@@ -1,13 +1,54 @@
 # German for the contact page (contact.html → de/contact.html). See the top of scripts/seo.py for how this works.
-# Headline and first sentence are Chris's own German from his old website.
+# "Lass uns in Kontakt bleiben." is Chris's own German from his old website.
 
 == Contact
 Kontakt
 
+== Write to me.
+Schreib mir.
+
+== About music, a text, or something else entirely.
+Über Musik, einen Text oder etwas ganz anderes.
+
+== Stamp with an owl
+Briefmarke mit einer Eule
+
+== COPIED
+KOPIERT
+
+== To
+An
+
+== Write an e-mail
+E-Mail schreiben
+
+== Copy address
+Adresse kopieren
+
+== Address copied.
+Adresse kopiert.
+
+== Copying did not work. The address is selected.
+Kopieren hat nicht geklappt. Die Adresse ist markiert.
+
+== Owl: back into the stamp
+Eule: zurück in die Briefmarke
+
 == Let’s stay connected.
 Lass uns in Kontakt bleiben.
 
-== If you want to learn more about me, my music, or my projects, I’d love to hear from you.
-Wenn du mehr über mich, meine Musik oder meine Projekte erfahren möchtest, freue ich mich über eine Nachricht.
+== Work
+Arbeit
 
 = +49 176 843 93190
+= München
+= MÜNCHEN
+= Booking
+= Chris Helmbrecht
+= dj@chrishelmbrecht.com
+= dieneue.social
+= Instagram
+= SoundCloud
+= Mixcloud
+= Facebook
+= Telegram

@@ -1,0 +1,78 @@
+/* Contact: one scene. A postcard lies on the paper, a corner of the skull looks in from behind it. The card carries the
+   whole way to write: the address, a link that opens the mail program, a button that copies. Copying drops a postmark
+   onto the card. The stamp is alive (js/contact.js); nothing on the page depends on that. */
+.pc-room { max-width: 880px; }
+.pc-scene { position: relative; margin: 54px 0 0; padding: 0 clamp(0px, 7vw, 84px) 26px 0; }
+.pc-skull { position: absolute; z-index: 0; right: clamp(-22px, -1.5vw, 0px); top: -46px; width: clamp(190px, 34vw, 330px); height: auto; pointer-events: none; mix-blend-mode: multiply; opacity: .92;
+  -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 60%, transparent 100%); mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 60%, transparent 100%); }
+
+.pc-card { --tilt: -1.6deg; --pc: #f1f2ee; position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr); min-height: clamp(380px, 46vw, 440px); background: var(--pc); border: 1.5px solid var(--ink-deep); border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(18, 38, 95, .3), 0 22px 34px -20px rgba(18, 38, 95, .5); transform: rotate(var(--tilt)); transform-origin: 40% 60%; }
+.pc-card::before { content: ""; position: absolute; inset: 7px; border: 1px solid var(--ink-soft); border-radius: 2px; pointer-events: none; }   /* the fine inner line of a printed card */
+/* taken off the table for a moment when the mail link is pressed; the link itself does not wait for it */
+.pc-card.lift { animation: pc-lift 1.1s cubic-bezier(.3, .1, .2, 1); }
+@keyframes pc-lift { 35% { transform: rotate(-4.2deg) translate(8px, -12px); box-shadow: 0 1px 0 rgba(18, 38, 95, .3), 0 40px 44px -22px rgba(18, 38, 95, .42); } }
+
+.pc-msg { padding: clamp(26px, 5vw, 44px) clamp(22px, 4vw, 38px); display: flex; flex-direction: column; justify-content: center; }
+.pc-msg h1 { margin: 0 0 14px; font: italic 600 clamp(3rem, 8vw, 4.6rem)/.96 var(--display); color: var(--ink); }
+.pc-msg p { margin: 0; max-width: 22ch; font: italic 500 clamp(1.3rem, 3vw, 1.6rem)/1.28 var(--display); color: var(--ink-deep); }
+
+.pc-addr { position: relative; padding: clamp(22px, 4vw, 34px) clamp(22px, 4vw, 34px) clamp(20px, 3.4vw, 30px); padding-top: clamp(150px, 19vw, 172px); border-left: 1.5px solid var(--ink); margin-block: 22px; display: flex; flex-direction: column; justify-content: flex-end; }
+.pc-to { margin: 0 0 2px !important; }
+.pc-line { margin: 0 !important; padding: 15px 0 6px; max-width: none !important; border-bottom: 1px solid var(--ink-mid); font: italic 600 1.45rem/1.1 var(--display); color: var(--ink-deep); }
+.pc-line a { font: 500 clamp(.84rem, 2.1vw, .98rem)/1.2 var(--mono); letter-spacing: .02em; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+.pc-line a:hover { text-decoration: underline; text-underline-offset: .25em; }
+.pc-act { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0 !important; max-width: none !important; }
+.pc-act a, .pc-act button { display: inline-flex; align-items: center; min-height: 44px; font: 500 .68rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; white-space: nowrap; color: var(--ink-deep); border: 1.5px solid var(--ink); padding: 0 14px; border-radius: 999px; background: var(--card); cursor: pointer; touch-action: manipulation; -webkit-appearance: none; appearance: none; }
+.pc-act a { background: var(--ink-deep); color: var(--card); border-color: var(--ink-deep); }
+.pc-act a:hover, .pc-act button:hover { background: var(--ink); border-color: var(--ink); color: var(--card); }
+.pc-act button[hidden] { display: none; }
+.pc-say { margin: 10px 0 0 !important; min-height: 1.5em; font: .66rem/1.5 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
+
+/* the stamp: white paper with a perforated edge, the owl from the drawing on it */
+.pc-stamp { position: absolute; right: clamp(16px, 3vw, 28px); top: 8px; width: clamp(84px, 13vw, 104px); padding: 9px 9px 6px; margin: 0; border: 0; background: #fff; color: var(--ink-deep); cursor: pointer; transform: rotate(2.2deg); filter: drop-shadow(0 1px 1px rgba(18, 38, 95, .35)); touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-appearance: none; appearance: none; font: inherit; }
+.pc-stamp::before { content: ""; position: absolute; inset: -4px; border: 8px dotted var(--pc); pointer-events: none; }   /* the dots are the card's own paper: they bite the perforation out of the white */
+.pc-stamp:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.pc-pic { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: #fff; }
+.pc-pic::after { content: ""; position: absolute; inset: 0; z-index: 2; border: 1px solid var(--ink); pointer-events: none; }   /* the picture's fine frame lies above owl and film */
+.pc-pic img { position: absolute; left: 10.98%; top: 3.45%; width: 78.04%; height: 95.13%; display: block; }           /* where the owl stands in its film, so the two change places unseen */
+.pc-pic i { position: absolute; left: 0; top: 0; width: 100%; height: 201%; display: block; opacity: 0; }            /* the film carries its outline in its lower half: only the upper half is shown */
+.pc-pic video { width: 100%; height: 100%; object-fit: fill; display: block; }
+.pc-pic.filmed i { opacity: 1; }
+.pc-pic.filmed img { opacity: 0; }
+.pc-pic.empty img { visibility: hidden; }
+.pc-val { display: block; margin-top: 5px; font: 500 .5rem/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; text-align: center; }
+
+/* the owl outside its stamp: it sits on the card's upper edge */
+.pc-owl { position: absolute; z-index: 3; left: clamp(20px, 9%, 70px); bottom: calc(100% - 7px); width: clamp(50px, 9vw, 70px); aspect-ratio: 288 / 468; margin: 0; padding: 0; border: 0; background: none; cursor: pointer; transform-origin: 50% 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-appearance: none; appearance: none; filter: drop-shadow(0 3px 3px rgba(18, 38, 95, .28)); }
+.pc-owl img { display: block; width: 100%; height: 100%; }
+.pc-owl:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
+
+/* the postmark: it is not there until the address has been copied, then it falls onto the card, a little askew */
+.pc-mark { position: absolute; z-index: 2; right: clamp(84px, 12.5vw, 112px); top: 4px; width: clamp(112px, 16vw, 132px); display: block; color: var(--ink); opacity: .86; transform: rotate(-11deg); pointer-events: none; mix-blend-mode: multiply; }
+.pc-mark[hidden] { display: none; }
+.pc-mark svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pc-mark text { font-family: var(--mono); font-weight: 500; fill: currentColor; stroke: none; }
+.pc-mark.hit { animation: pc-hit .34s cubic-bezier(.5, 0, .9, .5); }
+@keyframes pc-hit { 0% { opacity: 0; transform: rotate(-5deg) translateY(-34px) scale(1.5); } 80% { opacity: .95; transform: rotate(-11deg) scale(.97); } 100% { opacity: .86; transform: rotate(-11deg) scale(1); } }
+
+/* what else there is: quiet, below the scene */
+.pc-more { margin-top: 44px; padding-top: 4px; border-top: 1.5px solid var(--ink); }
+.pc-more h2 { margin: 22px 0 6px; }
+.pc-more .links { max-width: none; }
+.pc-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 30px; margin-top: 30px; }
+.pc-cols h3 { margin: 0 0 6px; font: 500 .7rem/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
+.pc-cols p { margin: 0 0 12px; }
+
+@media (max-width: 640px) {
+  .pc-scene { margin-top: 62px; padding-right: 0; }
+  .pc-skull { top: -58px; right: -10px; width: 46vw; }
+  .pc-card { --tilt: -1deg; grid-template-columns: minmax(0, 1fr); }
+  .pc-msg { padding-bottom: 22px; }
+  .pc-msg p { max-width: 22ch; }
+  .pc-addr { border-left: 0; border-top: 1.5px solid var(--ink); margin: 0 22px 14px; padding: 96px 0 12px; }
+  .pc-stamp { right: 2px; top: 16px; }
+  .pc-mark { right: 78px; top: 8px; }
+  .pc-cols { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .pc-card.lift, .pc-mark.hit { animation: none; } }

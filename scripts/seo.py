@@ -45,7 +45,7 @@ PAGES = {
  'writing.html': dict(title='Writing · Chris Helmbrecht', kind='website', crumb='Writing',
     desc='Chris Helmbrecht as a writer: music interviews, snowboard stories, pieces for Stern and Stern.de, and the book “Fucking Moskau!”, published by Heyne in 2013.'),
  'contact.html': dict(title='Contact · Chris Helmbrecht', kind='website', crumb='Contact',
-    desc='Contact Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook and Telegram, DJ booking direct by e-mail or phone, and his literary agent.'),
+    desc='Write to Chris Helmbrecht: a postcard with his e-mail address, then Instagram, SoundCloud, Mixcloud, Facebook and Telegram, DJ booking direct by e-mail or phone, and his literary agent.'),
  'making-of.html': dict(title='Making of · Chris Helmbrecht', kind='website', crumb='Making of',
     desc='How this site was made: why a skull, the drafts, who did what (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), what did not work at first, and the games and hidden things, revealed on request. With credits.'),
 }
@@ -59,7 +59,7 @@ PAGES_DE = {                # crumb: the page's name on the way back to the star
  'writing.html': dict(title='Autor · Chris Helmbrecht', crumb='Autor',
     desc='Chris Helmbrecht als Autor: Musikinterviews, Snowboard-Geschichten, Texte für Stern und Stern.de und das Buch „Fucking Moskau!“, 2013 bei Heyne erschienen.'),
  'contact.html': dict(title='Kontakt · Chris Helmbrecht', crumb='Kontakt',
-    desc='Kontakt zu Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook und Telegram, DJ-Booking direkt per E-Mail oder Telefon, und seine Literaturagentur.'),
+    desc='Schreib Chris Helmbrecht: eine Postkarte mit seiner E-Mail-Adresse, dazu Instagram, SoundCloud, Mixcloud, Facebook und Telegram, DJ-Booking direkt per E-Mail oder Telefon, und seine Literaturagentur.'),
  'making-of.html': dict(title='Making-of · Chris Helmbrecht', crumb='Making-of',
     desc='Wie diese Seite entstanden ist: warum ein Schädel, die Entwürfe, wer was gemacht hat (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), was nicht auf Anhieb geklappt hat, und die Spiele und Verstecke, auf Wunsch aufgelöst. Mit Credits.'),
 }
