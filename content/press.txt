@@ -16,6 +16,18 @@
 
 # ------------------------------------------------------------ print and online
 
+clip: sz-2009
+section: print
+medium: Süddeutsche Zeitung
+title: „Druschba“, Beats und gute Laune
+date: 2009-11-18
+lang: de
+url:
+note_en: Oliver Bilger on the man from Munich and his parties in Moscow. Munich section, page 39.
+note_de: Oliver Bilger über den Münchner und seine Partys in Moskau. Münchner Teil, Seite 39.
+source: PDF of the page in the archive (SZ.pdf: Mittwoch, 18. November 2009, Nr. 266, Seite 39, "Von Oliver Bilger")
+draft: no
+
 clip: cnn-2009
 section: print
 medium: CNN
@@ -27,6 +39,19 @@ url: https://edition.cnn.com/2009/TRAVEL/05/05/moscow.localview/index.html
 note_en: Interview by Mark Tutton about living and going out in Moscow.
 note_de: Interview von Mark Tutton über das Leben und Ausgehen in Moskau.
 source: read online 17 Nov 2026; date from the address; PDF in the archive
+draft: no
+
+clip: element-2010
+section: print
+medium: element
+programme: feis kontrol
+title: Chris Helmbrecht
+date: 2010-06
+lang: en
+url:
+note_en: Where and how he spends his time in Moscow. Issue of 24 June to 7 July 2010.
+note_de: Wo und wie er seine Zeit in Moskau verbringt. Ausgabe vom 24. Juni bis 7. Juli 2010.
+source: PDF of the page in the archive (elem_12_11.pdf: "element / june 24-july 7 / 2010", column "feis kontrol")
 draft: no
 
 clip: hauteliving-2010
@@ -41,16 +66,100 @@ note_de: Porträt mit seinen Adressen in Moskau.
 source: read online 17 Nov 2026; date from the address; screenshot in the archive
 draft: no
 
+clip: afishamir-2011
+section: print
+medium: Afisha Mir
+title: Историческая родина: Мюнхен
+date: 2011-03
+lang: ru
+url:
+note_en: “Home town: Munich”. His places in the city he comes from. Issue 161 (78).
+note_de: „Heimatstadt: München“. Seine Orte in der Stadt, aus der er kommt. Heft 161 (78).
+source: scan of the spread in the archive (AfishaMir_Muenchen.jpg: Журнал «Афиша Мир» 161 (78), март 2011, pages 54–55)
+draft: no
+
+clip: lookatme-2011
+section: print
+medium: Look At Me
+title: Крис Хельмбрехт, Германия, создатель вечеринок LBLFCKR
+date: 2011
+lang: ru
+url:
+note_en: Street style: how he dresses, and why.
+note_de: Streetstyle: wie er sich anzieht und warum.
+source: screenshot in the archive (Internet/Lookatme.jpg, saved June 2011). Exact date not known
+draft: no
+
+clip: elle-2011
+section: print
+medium: Elle Russia
+title: Здравствуйте, приехали
+date: 2011-09
+lang: ru
+url:
+note_en: Twelve foreigners tell Maria Krupnova how they live in Moscow.
+note_de: Zwölf Ausländer erzählen Maria Krupnowa, wie sie in Moskau leben.
+source: PDF of the pages in the archive (E79_162-167_MoscowExpats.pdf) and a photo of the spread (Elle_092011.jpg: issue of September 2011)
+draft: no
+
+clip: mdz-2012
+section: print
+medium: Moskauer Deutsche Zeitung
+title: Schokolade bis zum Abwinken
+date: 2012-02
+lang: de
+url: https://de.rbth.com/articles/2012/03/11/schokolade_bis_zum_abwinken_14279
+note_en: A conversation with him and DJ Dima Schabelnikow about going out in Moscow. Online at Russia Beyond.
+note_de: Ein Gespräch mit ihm und DJ Dima Schabelnikow über das Ausgehen in Moskau. Online bei Russia Beyond.
+source: PDF of the page in the archive (Moskauer Deutsche Zeitung Nr. 2 (321), Februar 2012, Feuilleton). The address is Russia Beyond's copy of 11 March 2012; it answered on 17 Nov 2026
+draft: no
+
+clip: stern-2013
+section: print
+medium: Stern.de
+title: „Russinnen nehmen sich, was sie wollen“
+date: 2013-08-25
+lang: de
+url:
+note_en: Interview about his years in Moscow’s nightlife and the blog he kept about them.
+note_de: Interview über seine Jahre im Moskauer Nachtleben und den Blog, den er darüber schrieb.
+source: screenshots in the archive (Internet/Stern_de.png: stern.de, Lifestyle / Leute, 25. August 2013, 17:27 Uhr; SternCover.png: on the site's front page). Its address today was not found
+draft: no
+
 clip: bild-2013
 section: print
 medium: Bild.de
 title: In Moskaus Discos tanzt der Sex: DJ erklärt Russlands Nachtleben
 date: 2013-09-27
 lang: de
-url:
+url: https://www.bild.de/reise/europa/partyurlaub/moskau-nachtleben-sex-party-32473928.bild.html
 note_en: Interview on the book “Fucking Moskau!” and Moscow’s nightlife.
 note_de: Interview zum Buch „Fucking Moskau!“ und zum Moskauer Nachtleben.
-source: PDF of the article in the archive (27.09.2013, 21:27). Address then: http://www.bild.de/reise/europa/partyurlaub/moskau-nachtleben-sex-party-32473928.bild.html, not checked whether it still answers
+source: PDF of the article in the archive (27.09.2013, 21:27). The address answered on 17 Nov 2026
+draft: no
+
+clip: faces-2013
+section: print
+medium: Faces
+title: Fucking Moskau! – Sex, Drugs & Wodka
+date: 2013-10-22
+lang: de
+url:
+note_en: On the book.
+note_de: Über das Buch.
+source: screenshot in the archive (Internet/Faces_ch.png: faces.ch, Culture / Wettbewerbe, 22.10.2013). Its address today was not found
+draft: no
+
+clip: businesstraveller-2013
+section: print
+medium: Business Traveller
+title: Buch-Tipp: „Fucking Moskau!“
+date: 2013
+lang: de
+url:
+note_en:
+note_de:
+source: photo of the page and screenshot in the archive (Buchtipp.jpg, BusinessTraveller.png, saved November 2013). Issue not known
 draft: no
 
 clip: bg-2014
@@ -62,7 +171,7 @@ lang: ru
 url:
 note_en: “Moscow through the eyes of foreigners”: his five favourite places in the city. Text by Maria Grigoryan.
 note_de: „Moskau mit den Augen von Ausländern“: seine fünf Lieblingsorte in der Stadt. Text von Maria Grigorjan.
-source: PDF of the page in the archive (dated 2 January; the text speaks of the book published "in July last year"). Address then: bg.ru/city/moskva_glazami_inostrantsev-20714/?chapter=2, not checked
+source: PDF of the page in the archive (dated 2 January; the text speaks of the book published "in July last year"). Its old address (bg.ru/city/moskva_glazami_inostrantsev-20714/?chapter=2) no longer answers
 draft: no
 
 clip: rbth-2014
@@ -76,6 +185,30 @@ url: https://de.rbth.com/gesellschaft/2014/04/23/ein_deutscher_partyloewe_in_mos
 note_en: Interview by Olga Sokolowa about work, nightlife and everyday life in Moscow.
 note_de: Interview von Olga Sokolowa über Arbeit, Nachtleben und Alltag in Moskau.
 source: found online 17 Nov 2026 (the site lets no program read it); text, date and author from the PDF in the archive
+draft: no
+
+clip: mdz-2015
+section: print
+medium: Moskauer Deutsche Zeitung
+title: „99 Prozent der Moskauer Klubs sind nicht profitabel“
+date: 2015-02
+lang: de
+url:
+note_en: Interview by Simon Schütt on the crisis in Moscow’s nightlife.
+note_de: Interview von Simon Schütt zur Krise im Moskauer Nachtleben.
+source: PDF of the page in the archive (S13 MDZ 394_Feb2015.pdf: Nr. 3 (394), Februar 2015, Seite 13, "Das Interview führte Simon Schütt")
+draft: no
+
+clip: mdz-2018
+section: print
+medium: Moskauer Deutsche Zeitung
+title: Heimatgefühle
+date: 2018-03
+lang: de
+url:
+note_en: On the Berlin Bar in Moscow, where he plays and had a hand in the design.
+note_de: Über die Berlin Bar in Moskau, wo er auflegt und an der Einrichtung mitgewirkt hat.
+source: PDF of the issue in the archive (MDZ_467_04.pdf: Nr. 4 (467), März 2018, page 23)
 draft: no
 
 clip: mdz-2020
@@ -99,20 +232,90 @@ lang: de
 url: https://mdz-moskau.eu/djs-die-muntermacher-am-mischpult/
 note_en: Interview by Frank Ebbecke about DJing in Moscow.
 note_de: Interview von Frank Ebbecke über das Auflegen in Moskau.
-source: read online 17 Nov 2026; the page gives no date
+source: read online 17 Nov 2026; the page gives no date. A screenshot in the archive was saved in September 2019
 draft: no
 
+clip: passport
+section: print
+medium: Passport Magazine
+title: Chris Helmbrecht, Pacha Moscow, the Soho Rooms, and an interview with Jean Roch
+date:
+lang: en
+url:
+note_en: Miguel Francis in the magazine’s club pages.
+note_de: Miguel Francis auf den Clubseiten des Magazins.
+source: photo of the page in the archive (Passport_Magazine.jpg). Issue and year not known
+draft: no
+
+clip: expatlife
+section: print
+medium: Moscow Expat Life
+title: Social Movers
+date:
+lang: en
+url:
+note_en: Questions and answers on his part in Moscow’s social scene.
+note_de: Fragen und Antworten zu seiner Rolle in der Moskauer Szene.
+source: photo of the page in the archive (MoscowExpatLife_original.jpg, saved February 2013). Issue not known
+draft: no
+
+clip: myself-2015
+section: print
+medium: Myself
+title: Deutsch-russische Beziehungen
+date: 2015-02
+lang: de
+url:
+note_en:
+note_de:
+source: photo of the spread in the archive (Myself_Germany_Feb2015.jpg). A piece on German-Russian couples: private life, so Chris decides whether it is listed
+draft: yes
+
+clip: mdz-2018-paare
+section: print
+medium: Moskauer Deutsche Zeitung
+title: Счастливы вместе в России
+date: 2018-02
+lang: ru
+url:
+note_en:
+note_de:
+source: PDF of the page in the archive (MDZ_16022018.pdf: Nr. 3, February 2018, Russian part). A piece on Russian-German couples: private life, so Chris decides whether it is listed
+draft: yes
+
+clip: afisha-solyanka
+section: print
+medium: Afisha
+date:
+lang: ru
+url:
+note_en:
+note_de:
+source: photo of a magazine page in the archive (Afisha.jpg: "Крис Хельмбрехт (в центре), клуб «Солянка»"). Title and issue not known
+draft: yes
+
 # ------------------------------------------------------------ television and video
+
+clip: rt-2011
+section: tv
+medium: RT
+date: 2011-06
+lang: en
+url:
+note_en: Report on the German expat who made partying and social networking his living in Moscow.
+note_de: Beitrag über den deutschen Expat, der in Moskau vom Feiern und Netzwerken lebt.
+source: recordings in the archive ("Russia Today Jun 2011", "Expat turns partying into profession") and screenshots with the channel's caption "German expat makes partying and social networking his living here". Exact date and the report's own title not known
+draft: no
 
 clip: m24-2013
 section: tv
 medium: Moskva 24
 date: 2013-09
-lang:
+lang: ru
 url:
-note_en: Television report.
-note_de: Fernsehbeitrag.
-source: file names in the archive only (M24_Sep2013). Title and exact date not known
+note_en: Television interview.
+note_de: Fernsehinterview.
+source: recording and screenshot in the archive (M24_Sep2013, m24_sep2013.png: he is interviewed, named "Крис Хельмбрехт"). Title and exact date not known
 draft: no
 
 clip: punkt12-2014
@@ -139,63 +342,78 @@ note_de: Videoporträt.
 source: found online 17 Nov 2026 (the site lets no program read it); date from the address; a recording is in the archive (RBTH_Feb2015)
 draft: no
 
-clip: taff-kinky
+clip: taff-sibirien-2015
 section: tv
 medium: ProSieben
 programme: taff
-date:
+title: Bonnie und Steffi go Sibirien: Folge 2
+date: 2015
+lang: de
+url: https://www.youtube.com/watch?v=_V3QC5DbZIM&t=150s
+note_en: He produced the series on location in Russia and appears in this episode.
+note_de: Er hat die Serie vor Ort in Russland produziert und ist in dieser Folge zu sehen.
+source: Chris, 17 Nov 2026 (produced locally, is in the video). Title, channel (taff, official) and "taff classics Clip von 2015" read from YouTube on 17 Nov 2026. A disc image is in the archive (Pro7_Taff_BonnieSteffiRussia)
+draft: no
+
+clip: taff-kinky-2021
+section: tv
+medium: ProSieben
+programme: taff
+title: Kinky-Party in Moskau: Die exklusivste Sex-Party Russlands
+date: 2021
 lang: de
 url: https://www.youtube.com/watch?v=6DeOfoHYddY
-note_en: Report on Kinky Party in Moscow.
-note_de: Beitrag über die Kinky Party in Moskau.
-source: Chris: broadcast 2021. Perplexity: official taff upload of 21 Nov 2023, filmed 2020. Could not be opened on 17 Nov 2026; its title there differs from the one in Perplexity's list. To confirm: that Chris is in this cut, title, year
-draft: yes
+note_en: Filmed in 2020. He co-produced the report on location and appears in it.
+note_de: Gedreht 2020. Er hat den Beitrag vor Ort mitproduziert und ist darin zu sehen.
+source: Chris, 17 Nov 2026 (broadcast 2021, co-produced locally, is in the video). Title, channel (taff, official upload of 21 Nov 2023) and "Wir haben 2020 dort gedreht" read from YouTube on 17 Nov 2026
+draft: no
 
 clip: sex-drogen-wodka
 section: tv
-medium:
+medium: N24
 title: Sex, Drogen und Wodka
 date:
 lang: de
-url:
-note_en:
-note_de:
-source: recordings in the archive ("90 Min Sex Drogen Wodka", "Sex, Drogen und Wodka Moskau Doku Deutsch 2015"). Broadcaster and year not known; the copy on YouTube is not an official upload
-draft: yes
+url: https://www.youtube.com/watch?v=bFM1CqwtS2w
+note_en: Documentary from Moscow.
+note_de: Dokumentation aus Moskau.
+source: Chris, 17 Nov 2026: shown on N24 / WELT; link it. The address is a copy on someone else's YouTube channel ("Sex, Drogen Und Wodka Moskau Doku Deutsch 2015", uploaded 16 Aug 2015), not the broadcaster's. Recordings in the archive ("90 Min Sex Drogen Wodka"). Year of broadcast not known
+draft: no
 
-clip: n24-petersburg
+clip: weisse-naechte
 section: tv
 medium: N24
+title: Die Weißen Nächte – Schlaflos in St. Petersburg
 date:
 lang: de
-url:
-note_en:
-note_de:
-source: recording in the archive (N24_StPetersburgNightlife; also N24Doku.zip). Title and year not known
-draft: yes
+url: https://www.youtube.com/watch?v=Qx9A0xHGTZc&t=1425s
+note_en: Documentary by reporter Christoph Wanner on St Petersburg’s nightlife. He appears in it several times.
+note_de: Dokumentation von Reporter Christoph Wanner über das Nachtleben von St. Petersburg. Er ist mehrmals zu sehen.
+source: Chris, 17 Nov 2026 (is in the video several times). Title, channel (WELT Doku, official upload of 4 Nov 2019) and description read from YouTube on 17 Nov 2026. Recordings in the archive (N24_StPetersburgNightlife, Die Weissen Naechte). Year of first broadcast not known
+draft: no
 
-clip: taff-bonnie-steffi
+clip: wodka
 section: tv
-medium: ProSieben
-programme: taff
+medium: N24
+title: Wodka – Freund und Feind der Russen
 date:
 lang: de
-url:
-note_en:
-note_de:
-source: disc image in the archive (Pro7_Taff_BonnieSteffiRussia). Title and year not known
-draft: yes
+url: https://www.youtube.com/watch?v=6l9BO1AikfI&t=2539s
+note_en: Documentary by reporter Christoph Wanner. He produced it on location and appears in it.
+note_de: Dokumentation von Reporter Christoph Wanner. Er hat sie vor Ort produziert und ist darin zu sehen.
+source: Chris, 17 Nov 2026 (produced locally, is in the video). Title, channel (WELT Nachrichtensender, official upload of 7 Sep 2019) and description read from YouTube on 17 Nov 2026. A recording is in the archive (N24_Vodka). Year of first broadcast not known
+draft: no
 
 clip: rubel-rollt
 section: tv
-medium:
+medium: N24
 title: Rubel rollt
 date:
 lang: de
 url:
 note_en:
 note_de:
-source: recording in the archive (Rubel_rollt). Broadcaster and year not known
+source: recording in the archive ("Rubel rollt WANNER MIT TC", saved October 2013). Exact title and year not known; not found online
 draft: yes
 
 clip: auswanderer
@@ -206,22 +424,10 @@ lang: de
 url:
 note_en:
 note_de:
-source: recordings in the archive (Auswanderer_Chris). Broadcaster, programme and year not known
+source: recordings in the archive (Auswanderer_Chris, saved November 2014). Broadcaster, programme and year not known
 draft: yes
 
-clip: weisse-naechte
-section: tv
-medium:
-title: Die weißen Nächte
-date:
-lang: de
-url:
-note_en:
-note_de:
-source: recording in the archive (Die Weissen Naechte). Broadcaster and year not known
-draft: yes
-
-clip: rt-partymaker
+clip: rt-other
 section: tv
 medium: RT
 date:
@@ -229,10 +435,34 @@ lang: en
 url:
 note_en:
 note_de:
-source: recording and screenshots in the archive ("Expat turns partying into profession", RT_Partymaker, RT_Opera, RT_BeverlyHills). Titles and years not known
+source: screenshots and a broken recording in the archive (RT_Opera, RT_BeverlyHills, RT_PrimeTime_Oct28th). Further appearances on RT; titles and years not known
 draft: yes
 
 # ------------------------------------------------------------ radio
+
+clip: vor-2011
+section: radio
+medium: The Voice of Russia
+title: Once you have a Russian friend, you have a friend
+date: 2011-01-23
+lang: en
+url:
+note_en: Radio portrait: from the police helicopter to New York, Spain and Moscow.
+note_de: Radioporträt: vom Polizeihubschrauber nach New York, Spanien und Moskau.
+source: screenshot of the programme page in the archive (Radio/VoiceOfRussia.png, "23 January") and the recording (11_Home_23_01_11_Chris_Helmbrecht.mp3). The station's site no longer exists
+draft: no
+
+clip: funkhaus-2013
+section: radio
+medium: Funkhaus Europa
+title: Fuckin’ Moskau – Die wilden Nächte in Russlands Hauptstadt
+date: 2013-07-05
+lang: de
+url:
+note_en: On the book.
+note_de: Zum Buch.
+source: screenshot of the station's site in the archive (Radio/FunkhausEuropa.png, of 7 July 2013, player at 06:19) and a recording of the same length named helmbrecht_fucking_moskau_130705
+draft: no
 
 clip: fritz-2013
 section: radio
@@ -281,59 +511,7 @@ note_de:
 source: file name in the archive only (Deutschlandfunk_SexInRussland_04052014). Programme and title not known
 draft: no
 
-clip: funkhaus-europa
-section: radio
-medium: Funkhaus Europa
-date:
-lang: de
-url:
-note_en:
-note_de:
-source: recording and screenshot in the archive (FunkhausEuropa_Moskau_nacht_zvuk). Programme and year not known
-draft: yes
-
-clip: radio-2013-07-05
-section: radio
-medium:
-date: 2013-07-05
-lang: de
-url:
-note_en:
-note_de:
-source: recording in the archive (helmbrecht_fucking_moskau_130705). Station not known
-draft: yes
-
-# ------------------------------------------------------------ print, not yet clear
-
-clip: stern
-section: print
-medium: Stern
-date:
-lang: de
-url:
-note_en:
-note_de:
-source: screenshots in the archive (SternCover, SternCover2, Stern_de). To clear up: are these pieces about Chris, or pieces he wrote? What he wrote belongs on the writing page
-draft: yes
-
-clip: faces
-section: print
-medium: Faces
-date:
-lang: de
-url:
-note_en:
-note_de:
-source: screenshot in the archive (Faces_ch). Title and date not known
-draft: yes
-
-clip: lookatme
-section: print
-medium: Look At Me
-date:
-lang: ru
-url:
-note_en:
-note_de:
-source: screenshots in the archive (Lookatme, Lookatme2). Title and date not known
-draft: yes
+# ------------------------------------------------------------ not press: what Chris wrote himself (for the writing page, one day)
+# Stern.de, blog "Der Jetlagger" (e.g. "Die Moskwa", 3 December 2009)
+# Moskauer Deutsche Zeitung Nr. 18 (361), September 2013: "Trotz Face Control zum Partyexzess"
+# Moskauer Deutsche Zeitung Nr. 13 (572), 6 July 2022: on the German Stammtisch in Moscow

@@ -82,7 +82,7 @@ def page(lang):
     home = de('index.html') if lang == 'de' else 'index.html'
     contact = de('contact.html') if lang == 'de' else 'contact.html'
     span = dict(n=len(clips), a=years[0], b=years[-1])
-    known = [m for m in ('CNN', 'RTL', 'ProSieben', 'WDR 5', 'Deutschlandfunk', 'Bild.de') if any(d['medium'] == m for d in clips)]      # the names a searcher would know, as far as they are on the page
+    known = [m for m in ('CNN', 'Süddeutsche Zeitung', 'Stern.de', 'RTL', 'ProSieben', 'N24', 'Deutschlandfunk') if any(d['medium'] == m for d in clips)]      # the names a searcher would know, as far as they are on the page
     desc = t['desc'].format(m=(', '.join(known[:-1]) + (' und ' if lang == 'de' else ' and ') + known[-1]) if len(known) > 1 else ''.join(known), **span)
     parts = []
     for s in SECTIONS:
