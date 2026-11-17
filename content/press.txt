@@ -7,8 +7,8 @@
 #   title:     the piece's own title, in its own language, exactly as published. Leave empty rather than make one up
 #   date:      2009-05-05, 2014-04 or 2020. Leave empty if not known
 #   lang:      de | en | ru   (the language of the piece)
-#   url:       where it can still be read, heard or seen. Empty: the piece is listed as "Archive"
-#   note_en / note_de: one plain line on what it is. Facts only
+#   url:       where it can be read, heard or seen. Empty: the piece is listed as "Archive". A piece may be listed without a link on purpose (see its source)
+#   note_en / note_de: one plain line on what it is, in Chris's own voice ("I", "my", never "he"). Facts only
 #   source:    how the facts above are known. Never shown
 #   draft:     yes keeps the piece off the pages until it is checked
 #
@@ -23,8 +23,8 @@ title: „Druschba“, Beats und gute Laune
 date: 2009-11-18
 lang: de
 url:
-note_en: Oliver Bilger on the man from Munich and his parties in Moscow. Munich section, page 39.
-note_de: Oliver Bilger über den Münchner und seine Partys in Moskau. Münchner Teil, Seite 39.
+note_en: Oliver Bilger about me and my parties in Moscow. Munich section, page 39.
+note_de: Oliver Bilger über mich und meine Partys in Moskau. Münchner Teil, Seite 39.
 source: PDF of the page in the archive (SZ.pdf: Mittwoch, 18. November 2009, Nr. 266, Seite 39, "Von Oliver Bilger")
 draft: no
 
@@ -49,8 +49,8 @@ title: Chris Helmbrecht
 date: 2010-06
 lang: en
 url:
-note_en: Where and how he spends his time in Moscow. Issue of 24 June to 7 July 2010.
-note_de: Wo und wie er seine Zeit in Moskau verbringt. Ausgabe vom 24. Juni bis 7. Juli 2010.
+note_en: Where and how I spent my time in Moscow back then. Issue of 24 June to 7 July 2010.
+note_de: Wo und wie ich damals meine Zeit in Moskau verbracht habe. Ausgabe vom 24. Juni bis 7. Juli 2010.
 source: PDF of the page in the archive (elem_12_11.pdf: "element / june 24-july 7 / 2010", column "feis kontrol")
 draft: no
 
@@ -61,8 +61,8 @@ title: Haute Secrets Moscow: Chris Helmbrecht
 date: 2010-11
 lang: en
 url: https://hauteliving.com/2010/11/haute-secrets-moscow-chris-helmbrecht/103463/
-note_en: Profile with his places to go in Moscow.
-note_de: Porträt mit seinen Adressen in Moskau.
+note_en: A profile with my favourite places in Moscow at the time.
+note_de: Ein Porträt mit meinen damaligen Lieblingsadressen in Moskau.
 source: read online 17 Nov 2026; date from the address; screenshot in the archive
 draft: no
 
@@ -73,8 +73,8 @@ title: Историческая родина: Мюнхен
 date: 2011-03
 lang: ru
 url:
-note_en: “Home town: Munich”. His places in the city he comes from. Issue 161 (78).
-note_de: „Heimatstadt: München“. Seine Orte in der Stadt, aus der er kommt. Heft 161 (78).
+note_en: “Home town: Munich”. My places in the city I come from. Issue 161 (78).
+note_de: „Heimatstadt: München“. Meine Orte in der Stadt, aus der ich komme. Heft 161 (78).
 source: scan of the spread in the archive (AfishaMir_Muenchen.jpg: Журнал «Афиша Мир» 161 (78), март 2011, pages 54–55)
 draft: no
 
@@ -85,8 +85,8 @@ title: Крис Хельмбрехт, Германия, создатель ве�
 date: 2011
 lang: ru
 url:
-note_en: Street style: how he dresses, and why.
-note_de: Streetstyle: wie er sich anzieht und warum.
+note_en: Street style: how I dressed back then, and why.
+note_de: Streetstyle: wie ich mich damals angezogen habe und warum.
 source: screenshot in the archive (Internet/Lookatme.jpg, saved June 2011). Exact date not known
 draft: no
 
@@ -108,10 +108,10 @@ medium: Moskauer Deutsche Zeitung
 title: Schokolade bis zum Abwinken
 date: 2012-02
 lang: de
-url: https://de.rbth.com/articles/2012/03/11/schokolade_bis_zum_abwinken_14279
-note_en: A conversation with him and DJ Dima Schabelnikow about going out in Moscow. Online at Russia Beyond.
-note_de: Ein Gespräch mit ihm und DJ Dima Schabelnikow über das Ausgehen in Moskau. Online bei Russia Beyond.
-source: PDF of the page in the archive (Moskauer Deutsche Zeitung Nr. 2 (321), Februar 2012, Feuilleton). The address is Russia Beyond's copy of 11 March 2012; it answered on 17 Nov 2026
+url:
+note_en: A conversation with me and DJ Dima Schabelnikow about going out in Moscow.
+note_de: Ein Gespräch mit mir und DJ Dima Schabelnikow über das Ausgehen in Moskau.
+source: PDF of the page in the archive (Moskauer Deutsche Zeitung Nr. 2 (321), Februar 2012, Feuilleton). Listed without a link: Chris's decision of 17 Nov 2026, do not add one
 draft: no
 
 clip: stern-2013
@@ -121,8 +121,8 @@ title: „Russinnen nehmen sich, was sie wollen“
 date: 2013-08-25
 lang: de
 url:
-note_en: Interview about his years in Moscow’s nightlife and the blog he kept about them.
-note_de: Interview über seine Jahre im Moskauer Nachtleben und den Blog, den er darüber schrieb.
+note_en: Interview about my years in Moscow’s nightlife and the blog I kept about them.
+note_de: Interview über meine Jahre im Moskauer Nachtleben und den Blog, den ich darüber geschrieben habe.
 source: screenshots in the archive (Internet/Stern_de.png: stern.de, Lifestyle / Leute, 25. August 2013, 17:27 Uhr; SternCover.png: on the site's front page). Its address today was not found
 draft: no
 
@@ -133,8 +133,8 @@ title: In Moskaus Discos tanzt der Sex: DJ erklärt Russlands Nachtleben
 date: 2013-09-27
 lang: de
 url: https://www.bild.de/reise/europa/partyurlaub/moskau-nachtleben-sex-party-32473928.bild.html
-note_en: Interview on the book “Fucking Moskau!” and Moscow’s nightlife.
-note_de: Interview zum Buch „Fucking Moskau!“ und zum Moskauer Nachtleben.
+note_en: Interview on my book “Fucking Moskau!” and Moscow’s nightlife.
+note_de: Interview zu meinem Buch „Fucking Moskau!“ und zum Moskauer Nachtleben.
 source: PDF of the article in the archive (27.09.2013, 21:27). The address answered on 17 Nov 2026
 draft: no
 
@@ -145,8 +145,8 @@ title: Fucking Moskau! – Sex, Drugs & Wodka
 date: 2013-10-22
 lang: de
 url:
-note_en: On the book.
-note_de: Über das Buch.
+note_en: About my book.
+note_de: Über mein Buch.
 source: screenshot in the archive (Internet/Faces_ch.png: faces.ch, Culture / Wettbewerbe, 22.10.2013). Its address today was not found
 draft: no
 
@@ -169,8 +169,8 @@ title: Москва глазами иностранцев
 date: 2014-01
 lang: ru
 url:
-note_en: “Moscow through the eyes of foreigners”: his five favourite places in the city. Text by Maria Grigoryan.
-note_de: „Moskau mit den Augen von Ausländern“: seine fünf Lieblingsorte in der Stadt. Text von Maria Grigorjan.
+note_en: “Moscow through the eyes of foreigners”: my five favourite places in the city at the time. Text by Maria Grigoryan.
+note_de: „Moskau mit den Augen von Ausländern“: meine fünf damaligen Lieblingsorte in der Stadt. Text von Maria Grigorjan.
 source: PDF of the page in the archive (dated 2 January; the text speaks of the book published "in July last year"). Its old address (bg.ru/city/moskva_glazami_inostrantsev-20714/?chapter=2) no longer answers
 draft: no
 
@@ -206,8 +206,8 @@ title: Heimatgefühle
 date: 2018-03
 lang: de
 url:
-note_en: On the Berlin Bar in Moscow, where he plays and had a hand in the design.
-note_de: Über die Berlin Bar in Moskau, wo er auflegt und an der Einrichtung mitgewirkt hat.
+note_en: On the Berlin Bar in Moscow, where I played and had a hand in the design.
+note_de: Über die Berlin Bar in Moskau, wo ich aufgelegt und an der Einrichtung mitgewirkt habe.
 source: PDF of the issue in the archive (MDZ_467_04.pdf: Nr. 4 (467), März 2018, page 23)
 draft: no
 
@@ -217,10 +217,10 @@ medium: Moskauer Deutsche Zeitung
 title: Helmbrecht: „Wir müssen jetzt zusammenrücken“
 date: 2020
 lang: de
-url: https://mdz-moskau.eu/helmbrecht-wir-muessen-jetzt-zusammenruecken/
-note_en: Tino Künzel on how he kept Germans in Moscow informed in the first weeks of the pandemic.
-note_de: Tino Künzel darüber, wie er in den ersten Wochen der Pandemie Deutsche in Moskau auf dem Laufenden hielt.
-source: read online 17 Nov 2026; the page gives no date, the text is about spring 2020
+url:
+note_en: Tino Künzel on how I kept Germans in Moscow informed in the first weeks of the pandemic.
+note_de: Tino Künzel darüber, wie ich in den ersten Wochen der Pandemie Deutsche in Moskau auf dem Laufenden gehalten habe.
+source: read online 17 Nov 2026; the page gives no date, the text is about spring 2020. Listed without a link: Chris's decision of 17 Nov 2026, do not add one
 draft: no
 
 clip: mdz-djs
@@ -254,8 +254,8 @@ title: Social Movers
 date:
 lang: en
 url:
-note_en: Questions and answers on his part in Moscow’s social scene.
-note_de: Fragen und Antworten zu seiner Rolle in der Moskauer Szene.
+note_en: Questions and answers on my part in Moscow’s social scene.
+note_de: Fragen und Antworten zu meiner Rolle in der Moskauer Szene.
 source: photo of the page in the archive (MoscowExpatLife_original.jpg, saved February 2013). Issue not known
 draft: no
 
@@ -339,8 +339,8 @@ title: Bonnie und Steffi go Sibirien: Folge 2
 date: 2015
 lang: de
 url: https://www.youtube.com/watch?v=_V3QC5DbZIM&t=150s
-note_en: He produced the series on location in Russia and appears in this episode.
-note_de: Er hat die Serie vor Ort in Russland produziert und ist in dieser Folge zu sehen.
+note_en: I produced the series on location in Russia and appear in this episode.
+note_de: Ich habe die Serie vor Ort in Russland produziert und bin in dieser Folge zu sehen.
 source: Chris, 17 Nov 2026 (produced locally, is in the video). Title, channel (taff, official) and "taff classics Clip von 2015" read from YouTube on 17 Nov 2026. A disc image is in the archive (Pro7_Taff_BonnieSteffiRussia)
 draft: no
 
@@ -352,8 +352,8 @@ title: Kinky-Party in Moskau: Die exklusivste Sex-Party Russlands
 date: 2021
 lang: de
 url: https://www.youtube.com/watch?v=6DeOfoHYddY
-note_en: Filmed in 2020. He co-produced the report on location and appears in it.
-note_de: Gedreht 2020. Er hat den Beitrag vor Ort mitproduziert und ist darin zu sehen.
+note_en: Filmed in Moscow in 2020. I co-produced the report on location and appear in it.
+note_de: 2020 in Moskau gedreht. Ich habe den Beitrag vor Ort mitproduziert und bin darin zu sehen.
 source: Chris, 17 Nov 2026 (broadcast 2021, co-produced locally, is in the video). Title, channel (taff, official upload of 21 Nov 2023) and "Wir haben 2020 dort gedreht" read from YouTube on 17 Nov 2026
 draft: no
 
@@ -375,9 +375,9 @@ medium: N24
 title: Die Weißen Nächte – Schlaflos in St. Petersburg
 date:
 lang: de
-url: https://www.youtube.com/watch?v=Qx9A0xHGTZc&t=1425s
-note_en: Documentary by reporter Christoph Wanner on St Petersburg’s nightlife. He appears in it several times.
-note_de: Dokumentation von Reporter Christoph Wanner über das Nachtleben von St. Petersburg. Er ist mehrmals zu sehen.
+url: https://www.youtube.com/watch?v=Qx9A0xHGTZc
+note_en: Christoph Wanner’s documentary on St Petersburg’s nightlife. I appear in it several times.
+note_de: Christoph Wanners Dokumentation über das Nachtleben von St. Petersburg. Ich bin darin mehrfach zu sehen.
 source: Chris, 17 Nov 2026 (is in the video several times). Title, channel (WELT Doku, official upload of 4 Nov 2019) and description read from YouTube on 17 Nov 2026. Recordings in the archive (N24_StPetersburgNightlife, Die Weissen Naechte). Year of first broadcast not known
 draft: no
 
@@ -387,9 +387,9 @@ medium: N24
 title: Wodka – Freund und Feind der Russen
 date:
 lang: de
-url: https://www.youtube.com/watch?v=6l9BO1AikfI&t=2539s
-note_en: Documentary by reporter Christoph Wanner. He produced it on location and appears in it.
-note_de: Dokumentation von Reporter Christoph Wanner. Er hat sie vor Ort produziert und ist darin zu sehen.
+url: https://www.youtube.com/watch?v=6l9BO1AikfI
+note_en: Christoph Wanner’s documentary. I produced it on location and appear in it.
+note_de: Christoph Wanners Dokumentation. Ich habe sie vor Ort produziert und bin darin zu sehen.
 source: Chris, 17 Nov 2026 (produced locally, is in the video). Title, channel (WELT Nachrichtensender, official upload of 7 Sep 2019) and description read from YouTube on 17 Nov 2026. A recording is in the archive (N24_Vodka). Year of first broadcast not known
 draft: no
 
@@ -437,8 +437,8 @@ title: Fuckin’ Moskau – Die wilden Nächte in Russlands Hauptstadt
 date: 2013-07-05
 lang: de
 url:
-note_en: On the book.
-note_de: Zum Buch.
+note_en: About my book.
+note_de: Zu meinem Buch.
 source: screenshot of the station's site in the archive (Radio/FunkhausEuropa.png, of 7 July 2013, player at 06:19) and a recording of the same length named helmbrecht_fucking_moskau_130705
 draft: no
 
@@ -461,8 +461,8 @@ title: Moskauer Nachtleben. Ein Insider
 date: 2013-09-27
 lang: de
 url:
-note_en: Studio guest of Martina Wiedemann, on Moscow’s nightlife and the book.
-note_de: Studiogast bei Martina Wiedemann, über das Moskauer Nachtleben und das Buch.
+note_en: I was Martina Wiedemann’s studio guest, on Moscow’s nightlife and my book.
+note_de: Ich war Studiogast bei Martina Wiedemann, über das Moskauer Nachtleben und mein Buch.
 source: PDF of the programme page in the archive; date from the address of the recording (2013/09/27). The station's site no longer exists
 draft: no
 

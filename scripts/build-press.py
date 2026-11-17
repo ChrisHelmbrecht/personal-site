@@ -5,7 +5,8 @@
 
 content/press.txt holds one block per piece (its head explains the fields). This script writes press.html and
 de/press.html: three lists (television and video, radio, print and online), newest first, pieces without a date last.
-A piece with an address is a link to the original; one without is marked "Archive". Titles stay in the language they
+A piece with an address is a link to it; one without is marked "Archive". Below the lead a line of plain links jumps to the three
+lists, with the number of pieces in each (counted, never typed). Titles stay in the language they
 were published in. Drafts (draft: yes) are left out and counted in the script's last line, so nothing unchecked appears.
 
 Never edit press.html or de/press.html by hand. Run scripts/seo.py afterwards: llms-full.txt reads the finished page.
@@ -20,14 +21,14 @@ MONTHS = {'en': 'January February March April May June July August September Oct
           'de': 'Januar Februar März April Mai Juni Juli August September Oktober November Dezember'.split()}
 T = {
  'en': dict(nav='Press', title='Press · Chris Helmbrecht', h1='In the press.',
-            lead='Television, radio and print, most of it from the Moscow years. Where a piece is still online, its title leads there. The rest is in my archive.',
-            desc='Press about Chris Helmbrecht: {n} pieces from television, radio, print and online, {a} to {b}, among them {m}. With links to the originals.',
-            tv='Television & video', radio='Radio', print='Print & online', sum_='{n} pieces · {a}–{b}', archive='Archive', undated='n.d.', opens='opens the original in a new tab',
+            lead='Television, radio and print, most of it from the Moscow years. Where a title is a link, it leads to the piece. Entries without a link are documented in my personal archive.',
+            desc='Press about Chris Helmbrecht: {n} pieces from television, radio, print and online, {a} to {b}, among them {m}. With links to the pieces.',
+            tv='Television & video', radio='Radio', print='Print & online', sum_='{n} pieces · {a}–{b}', archive='Archive', undated='n.d.', opens='Opens the piece in a new tab', jump='Sections',
             langs={'de': 'German', 'en': 'English', 'ru': 'Russian'}, contact='Press contact', skull='Back to the skull', more='More is being checked and added.'),
  'de': dict(nav='Presse', title='Presse · Chris Helmbrecht', h1='In der Presse.',
-            lead='Fernsehen, Radio und Print, das meiste aus den Moskauer Jahren. Wo ein Beitrag noch online ist, führt der Titel dorthin. Der Rest liegt in meinem Archiv.',
-            desc='Presse über Chris Helmbrecht: {n} Beiträge aus Fernsehen, Radio, Print und Online, {a} bis {b}, darunter {m}. Mit Links zu den Originalen.',
-            tv='Fernsehen & Video', radio='Radio', print='Print & Online', sum_='{n} Beiträge · {a}–{b}', archive='Archiv', undated='o. J.', opens='öffnet das Original in einem neuen Tab',
+            lead='Fernsehen, Radio und Print, das meiste aus den Moskauer Jahren. Wo ein Titel verlinkt ist, führt er zum Beitrag. Einträge ohne Link sind in meinem persönlichen Archiv dokumentiert.',
+            desc='Presse über Chris Helmbrecht: {n} Beiträge aus Fernsehen, Radio, Print und Online, {a} bis {b}, darunter {m}. Mit Links zu den Beiträgen.',
+            tv='Fernsehen & Video', radio='Radio', print='Print & Online', sum_='{n} Beiträge · {a}–{b}', archive='Archiv', undated='o. J.', opens='Öffnet den Beitrag in einem neuen Tab', jump='Bereiche',
             langs={'de': 'Deutsch', 'en': 'Englisch', 'ru': 'Russisch'}, contact='Pressekontakt', skull='Zurück zum Schädel', more='Weitere Beiträge werden geprüft und ergänzt.'),
 }
 
@@ -84,9 +85,10 @@ def page(lang):
     span = dict(n=len(clips), a=years[0], b=years[-1])
     known = [m for m in ('CNN', 'Süddeutsche Zeitung', 'Stern.de', 'RTL', 'ProSieben', 'N24', 'Deutschlandfunk') if any(d['medium'] == m for d in clips)]      # the names a searcher would know, as far as they are on the page
     desc = t['desc'].format(m=(', '.join(known[:-1]) + (' und ' if lang == 'de' else ' and ') + known[-1]) if len(known) > 1 else ''.join(known), **span)
-    parts = []
+    parts, jump = [], []
     for s in SECTIONS:
         mine = [d for d in clips if d['section'] == s]
+        if mine: jump.append(f'<a href="{path if lang == "de" else ""}#p-{s}">{esc(t[s])} <span>({len(mine)})</span></a>')      # the German page has a base address, so its links name the page
         if mine: parts.append(f'    <section class="press-part" aria-labelledby="p-{s}">\n      <h2 id="p-{s}">{esc(t[s])}</h2>\n      <ol class="clips">\n' + '\n'.join(clip(d, lang) for d in mine) + '\n      </ol>\n    </section>')
     kinds = {'tv': 'TVEpisode', 'radio': 'RadioEpisode', 'print': 'Article'}
     def thing(d):
@@ -140,6 +142,7 @@ def page(lang):
       <h1>{t['h1']}</h1>
       <p class="press-lead">{t['lead']}</p>
       <p class="tag press-sum">{t['sum_'].format(**span)}</p>
+      <nav class="press-jump" aria-label="{t['jump']}">{''.join(jump)}</nav>
     </header>
 {chr(10).join(parts)}
     <footer class="press-foot">

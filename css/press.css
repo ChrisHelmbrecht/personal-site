@@ -3,6 +3,11 @@
 .press-room { max-width: 880px; }
 .press-lead { font-size: 1.12em; max-width: 54ch; }
 .press-sum { margin-top: 16px !important; }
+/* the way to the three lists: plain links in the small type of the page, wrapping where the screen is narrow */
+.press-jump { display: flex; flex-wrap: wrap; gap: 0 22px; margin-top: 14px; padding-top: 6px; border-top: 1px solid var(--ink-soft); font: 500 .7rem/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.press-jump a { display: inline-flex; align-items: center; gap: .5em; min-height: 44px; color: var(--ink-deep); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; text-decoration-color: var(--ink-mid); }
+.press-jump a:hover { color: var(--ink); text-decoration-color: var(--ink); }
+.press-jump span { color: var(--ink-mid); letter-spacing: .08em; }
 .press-part { margin-top: 46px; }
 .press-part h2 { margin: 0 0 14px; }
 .clips { list-style: none; margin: 0 !important; padding: 0 !important; max-width: none !important; border-top: 1.5px solid var(--ink); }
