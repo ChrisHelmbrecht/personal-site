@@ -24,11 +24,12 @@ void main() {
     : { hint: 'Drag to look around', keys: ', or use the arrow keys.', film: '360° film', load: 'Loading', soundOn: 'Sound on', soundOff: 'Sound off', pause: 'Pause', play: 'Play', close: 'Close', fail: 'The film could not be loaded.', again: 'Try again', flat: 'This browser cannot show the film all around. Here it is flat.' };
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let el = null, cv, gl, tex, video, ui = {}, raf = 0, opened = false, trigger = null, abort = null, blob = '';
-  let yaw = 0, pitch = 0, fov = rad(92), vy = 0, vp = 0, drift = true, dirty = true, fresh = false, held = new Map(), pinch = 0, keys = new Set(), last = 0, wantSound = true, loaded = false;
+  let yaw = 0, pitch = 0, fov = rad(92), vy = 0, vp = 0, drift = true, dirty = true, fresh = false, held = new Map(), pinch = 0, keys = new Set(), last = 0, wantSound = true, loaded = false, watch = null;
 
   const look = () => {                             // one frame: steer, then draw if anything changed
     raf = requestAnimationFrame(look);
     const now = performance.now(), dt = Math.min(.05, (now - last) / 1000); last = now;
+    if (!watch) size();                            // a browser without ResizeObserver: look at the box every frame (two numbers compared)
     const kx = (keys.has('ArrowRight') ? 1 : 0) - (keys.has('ArrowLeft') ? 1 : 0), ky = (keys.has('ArrowUp') ? 1 : 0) - (keys.has('ArrowDown') ? 1 : 0);
     if (kx || ky) { vy = kx * 1.1; vp = ky * .8; drift = false; }
     if (!held.size) { if (drift && !calm) vy = .035; if (Math.abs(vy) > .0005 || Math.abs(vp) > .0005) { yaw += vy * dt; pitch = clamp(pitch + vp * dt, -1.45, 1.45); dirty = true; } if (!drift) { vy *= Math.pow(.02, dt); vp *= Math.pow(.02, dt); } }
@@ -39,7 +40,9 @@ void main() {
     gl.viewport(0, 0, w, h); gl.uniform2f(ui.view, a >= 1 ? T : T * a, a >= 1 ? T / a : T); gl.uniform4f(ui.turn, Math.sin(yaw), Math.cos(yaw), Math.sin(pitch), Math.cos(pitch));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
-  const size = () => { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); if (r.width < 2) return; cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); dirty = true; };
+  // The drawing surface has as many pixels as the window it is shown in, in the same proportion: otherwise the picture is stretched.
+  // The window gets its size from css/pano.css, which arrives after the first open has begun, so this is asked again whenever the box changes
+  const size = () => { if (!cv) return; const d = Math.min(devicePixelRatio || 1, 2), w = Math.round(cv.clientWidth * d), h = Math.round(cv.clientHeight * d); if (w < 2 || h < 2 || (w === cv.width && h === cv.height)) return; cv.width = w; cv.height = h; dirty = true; };
   const perPixel = () => fov / Math.max(cv.clientWidth, cv.clientHeight);   // how much of the view one pixel of dragging is
 
   const setup = () => {
@@ -95,10 +98,10 @@ void main() {
   const hide = () => { if (!video || !loaded) return; if (document.hidden) { ui.was = !video.paused; video.pause(); } else if (ui.was) start(); };
 
   const close = () => {
-    if (!opened) return; opened = false; cancelAnimationFrame(raf); removeEventListener('keydown', key); removeEventListener('keyup', key); removeEventListener('resize', size); document.removeEventListener('visibilitychange', hide);
+    if (!opened) return; opened = false; cancelAnimationFrame(raf); removeEventListener('keydown', key); removeEventListener('keyup', key); removeEventListener('resize', size); document.removeEventListener('visibilitychange', hide); if (watch) { watch.disconnect(); watch = null; }
     if (abort) abort.abort(); if (video) { video.pause(); video.removeAttribute('src'); video.load(); } if (blob) URL.revokeObjectURL(blob);
     if (gl) { const lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
-    if (el.open) el.close(); el.remove(); el = gl = video = null; blob = ''; loaded = false; held.clear(); keys.clear();
+    if (el.open) el.close(); el.remove(); el = gl = video = cv = null; blob = ''; loaded = false; held.clear(); keys.clear();
     document.documentElement.classList.remove('lesson'); document.dispatchEvent(new Event('lesson:close')); if (trigger && trigger.focus) trigger.focus({ preventScroll: true });
   };
   const open = (o, from) => {
@@ -122,7 +125,7 @@ void main() {
     }
     ui.queue = small || gl.getParameter(gl.MAX_TEXTURE_SIZE) < 3840 ? [o.small] : [o.large, o.small];
     const still = new Image(); still.onload = () => { if (opened && gl && !loaded) { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, still); dirty = true; } }; still.src = o.poster;
-    size(); addEventListener('resize', size); addEventListener('keydown', key); addEventListener('keyup', key); document.addEventListener('visibilitychange', hide);
+    size(); addEventListener('resize', size); if ('ResizeObserver' in window) { watch = new ResizeObserver(size); watch.observe(cv); } addEventListener('keydown', key); addEventListener('keyup', key); document.addEventListener('visibilitychange', hide);
     cv.addEventListener('pointerdown', down); cv.addEventListener('pointermove', move); for (const n of ['pointerup', 'pointercancel', 'lostpointercapture']) cv.addEventListener(n, up);
     cv.addEventListener('wheel', wheel, { passive: false }); cv.focus({ preventScroll: true });
     ui.all = ui.queue.slice(); next(); last = performance.now(); raf = requestAnimationFrame(look);
