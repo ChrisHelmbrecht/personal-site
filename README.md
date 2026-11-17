@@ -40,6 +40,7 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `css/site.css`, `js/site.js` – shared styles and script (the menu is built in `site.js`)
 - `assets/video/*.mp4` – short looping films laid over parts of the skull (sky, owl, path, city, water)
 - `assets/audio/night-owl.mp3` – 30-second night loop with an owl (ElevenLabs)
+- `assets/owl-fly.webp` – the owl in flight: one wing beat as a strip of 18 pictures with a see-through background, made by `scripts/owl-wings.py` from `assets/source/owl-flight-624.mp4` (Midjourney: the site's owl redrawn in flight, then animated there as a loop). Used where the owl flies: on the start page when the branch has been shaken three times, and on the contact page when it leaves its stamp. Fetched only then (with the first shake, the first press). The flying owl looks left; where it flies to the right it is mirrored. The way home has keyframes of its own (`flyhome`), because the same keyframes set to run backwards do not start again
 - `assets/skull.webp` – web version of the skull
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
 - The timeline, "A life in frames": `content/timeline/`, `scripts/timeline-pictures.py`, `scripts/build-timeline.py`, `timeline.html`, `timeline/`, `css/timeline.css`, `js/timeline.js`, `assets/timeline/`. The bio tells the life; the timeline shows the pictures. Three levels: the overview of years, one album page per year, one large view.
@@ -63,7 +64,7 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - **The address** on the card is chris@chrishelmbrecht.com (Chris, 17 Nov 2026); booking below keeps dj@chrishelmbrecht.com. Without script it is a normal mail link; the copy button only appears with script.
 - **The postmark** (inline SVG with a filter that roughens and wears the ink) falls onto the card only when the address really is on the clipboard, with today's date and hour. If the browser refuses, the address is selected instead and the card says so. Nothing ever claims that a message was sent.
 - **The mail link** lifts the card for a moment; the link is not held back.
-- **The stamp is alive** and nothing points at it (it is told in the making-of, `#egg-stamp`): first press, the owl looks round (its film `assets/video/owl-ink.mp4`, fetched only then, upper half shown; the still stands where the owl stands in the film); second press, it flies onto the card's upper edge; third, home. With reduced motion it changes places without flying and the film is never fetched. Stamp and owl are real buttons.
+- **The stamp is alive** and nothing points at it (it is told in the making-of, `#egg-stamp`): first press, the owl looks round (its film `assets/video/owl-ink.mp4`, fetched only then, upper half shown; the still stands where the owl stands in the film); second press, it flies onto the card's upper edge, beating its wings (`assets/owl-fly.webp`, fetched with the first press); third, home. With reduced motion it changes places without flying and the film is never fetched. Stamp and owl are real buttons.
 
 ## The press page
 

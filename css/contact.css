@@ -45,7 +45,15 @@
 
 /* the owl outside its stamp: it sits on the card's upper edge */
 .pc-owl { position: absolute; z-index: 3; left: clamp(20px, 9%, 70px); bottom: calc(100% - 7px); width: clamp(50px, 9vw, 70px); aspect-ratio: 288 / 468; margin: 0; padding: 0; border: 0; background: none; cursor: pointer; transform-origin: 50% 50%; touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-appearance: none; appearance: none; filter: drop-shadow(0 3px 3px rgba(18, 38, 95, .28)); }
-.pc-owl img { display: block; width: 100%; height: 100%; }
+.pc-owl img { display: block; width: 100%; height: 100%; transition: opacity .16s linear; }
+/* in the air it beats its wings: the same strip of pictures as on the start page (assets/owl-fly.webp), fetched with the first press on the stamp.
+   The flying owl looks left, the way out of the stamp; on the way home it is mirrored */
+.pc-fly { position: absolute; left: 50%; top: 50%; width: 290%; aspect-ratio: 613 / 523; transform: translate(-46.7%, -55.1%); background: 0 0 / 1800% 100% no-repeat; opacity: 0; pointer-events: none; transition: opacity .16s linear; }
+.pc-owl.fly .pc-fly { opacity: 1; background-image: url(../assets/owl-fly.webp); animation: pc-beat .9s steps(18) infinite; }
+.pc-owl.fly.home .pc-fly { transform: translate(-53.3%, -55.1%) scaleX(-1); }
+.pc-owl.fly img { opacity: 0; }
+.pc-owl.fly { filter: none; }
+@keyframes pc-beat { to { background-position-x: 105.8824%; } }
 .pc-owl:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
 
 /* the postmark: it is not there until the address has been copied, then it falls onto the card, a little askew */

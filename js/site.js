@@ -266,14 +266,19 @@
     });
 
     // Easter egg: shake the branch three times and the owl takes off (on an iPhone the branch also switches on the tilt)
-    let shakes = 0, gone = false;
+    // It flies with beating wings: a strip of pictures (assets/owl-fly.webp) that is fetched with the first shake. If it has not arrived
+    // by the third, the owl leaves the old way, as the standing drawing
+    let shakes = 0, gone = false, wings = null;
     $('branch').addEventListener('click', () => {
       if (askTilt) askTilt();                                            // on an iPhone the first shake also offers the tilt
       if (gone) return;
+      if (!wings && !calm) { wings = new Image(); wings.src = 'assets/owl-fly.webp'; }
       if (++shakes < 3) return once('hoot', 700);
-      shakes = 0; gone = true; owl.classList.add('away');
-      setTimeout(() => { owl.classList.remove('away'); owl.classList.add('back'); }, 14000);
-      setTimeout(() => { owl.classList.remove('back'); gone = false; }, 15700);
+      const fly = !!wings && wings.complete && wings.naturalWidth > 0, out = fly ? 2300 : 1500, home = fly ? 2400 : 1700;
+      shakes = 0; gone = true; owl.classList.toggle('fly', fly); owl.classList.add('away', 'beat');
+      setTimeout(() => owl.classList.remove('beat'), out + 100);          // out of sight: the wings rest
+      setTimeout(() => { owl.classList.remove('away'); owl.classList.add('back', 'beat'); }, 14000);
+      setTimeout(() => { owl.classList.remove('back', 'beat', 'fly'); gone = false; }, 14000 + home);
     });
     // Dive: fly into the clicked doorway, then open its page. The sharp 4K image loads in the background for the close-up
     const hires = $('hires'), veil = $('veil');

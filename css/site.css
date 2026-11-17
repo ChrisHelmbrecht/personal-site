@@ -257,6 +257,41 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 .branch { position: absolute; display: block; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .branch::after { content: attr(data-say); position: absolute; left: 50%; top: calc(100% + 6px); transform: translate(-50%, 4px); white-space: nowrap; font: 500 .68rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; background: var(--ink-deep); color: var(--card); padding: 7px 10px 6px; border-radius: 2px; opacity: 0; transition: opacity .8s ease-in-out, transform .8s ease-in-out; pointer-events: none; z-index: 2; }
 .branch.say::after { opacity: 1; transform: translate(-50%, 0); }
+/* Shaken off its branch, the owl flies: one wing beat as a strip of eighteen pictures (assets/owl-fly.webp, made by scripts/owl-wings.py),
+   fetched with the first shake. It gathers itself as the standing owl, then the flying one takes over; it comes home the other way
+   round. The flying owl looks left, so leaving to the right it is mirrored. Should the strip not have arrived, the old flight below stays */
+.owl .wing { position: absolute; left: 50%; top: 50%; width: 300%; aspect-ratio: 613 / 523; transform: translate(-53.3%, -55.1%) scaleX(-1); background: 0 0 / 1800% 100% no-repeat; opacity: 0; pointer-events: none; }
+.owl.fly .wing { background-image: url(../assets/owl-fly.webp); }
+.owl.fly.back .wing { transform: translate(-46.7%, -55.1%); }
+.owl.fly.away > div, .owl.fly.filmed.away > div { animation: flyaway 2.3s cubic-bezier(.45, 0, .75, .55) forwards; }
+.owl.fly.back > div, .owl.fly.filmed.back > div { animation: flyhome 2.4s cubic-bezier(.25, .45, .55, 1) both; }   /* its own keyframes: the same ones run backwards would not start again */
+.owl.fly.away .wing { animation: wing-in 2.3s linear forwards; }
+.owl.fly.back .wing { animation: wing-out 2.4s linear both; }
+.owl.fly.away.beat .wing { animation: wing-in 2.3s linear forwards, wing-beat .9s steps(18) infinite; }
+.owl.fly.back.beat .wing { animation: wing-out 2.4s linear both, wing-beat .9s steps(18) infinite; }
+.owl.fly.away img, .owl.fly.away .owlfilm { animation: perch-out 2.3s linear forwards; }
+.owl.fly.back img, .owl.fly.back .owlfilm { animation: perch-in 2.4s linear both; }
+.owl.fly.away:not(.filmed) .owlfilm, .owl.fly.back:not(.filmed) .owlfilm, .owl.fly.filmed.away img, .owl.fly.filmed.back img { animation: none; }
+.owl.fly.away .lid, .owl.fly.back .lid { opacity: 0; }
+@keyframes flyaway {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  8% { transform: translate(0, 3%) scale(1.04, .94); }
+  13% { transform: translate(2%, -4%) scale(1); }
+  82% { opacity: 1; }
+  100% { transform: translate(330%, -180%) scale(.5); opacity: 0; }
+}
+@keyframes flyhome {
+  0% { transform: translate(330%, -180%) scale(.5); opacity: 0; }
+  18% { opacity: 1; }
+  87% { transform: translate(2%, -4%) scale(1); }
+  92% { transform: translate(0, 3%) scale(1.04, .94); }
+  100% { transform: translate(0, 0) scale(1); opacity: 1; }
+}
+@keyframes wing-in { 0%, 11% { opacity: 0; } 13%, 100% { opacity: 1; } }
+@keyframes wing-out { 0%, 87% { opacity: 1; } 89%, 100% { opacity: 0; } }
+@keyframes perch-in { 0%, 87% { opacity: 0; } 89%, 100% { opacity: 1; } }
+@keyframes perch-out { 0%, 11% { opacity: 1; } 13%, 100% { opacity: 0; } }
+@keyframes wing-beat { to { background-position-x: 105.8824%; } }
 .owl.away > div { animation: flyoff 1.5s cubic-bezier(.5, 0, .9, .6) forwards; }
 .owl.back > div { animation: flyoff 1.6s cubic-bezier(.1, .4, .5, 1) reverse both; }
 @keyframes flyoff {

@@ -6,8 +6,9 @@
    2. A press on the mail link lifts the card for a moment. The link is not held back by that, and nothing claims a
       message was sent.
    3. The stamp is alive, and nothing points at it: the first press makes the owl look round (its film, fetched only
-      then), the second lets it fly out of the stamp onto the card's edge, the third sends it home. With reduced
-      motion it changes places without flying and without the film. */
+      then), the second lets it fly out of the stamp onto the card's edge, the third sends it home. In the air it
+      beats its wings (a strip of pictures, fetched with the first press; without it the standing owl glides). With
+      reduced motion it changes places without flying and without the film. */
 (() => {
   const $ = id => document.getElementById('pc-' + id);
   const card = $('card'), copy = $('copy'), mark = $('mark'), say = $('say'), mail = $('mail');
@@ -40,9 +41,12 @@
   // ---- the stamp
   const stamp = $('stamp'), owl = $('owl'); if (!stamp || !owl) return;
   const pic = stamp.querySelector('.pc-pic'), still = pic.querySelector('img'), FROM = 2.4;   // the film's owl looks straight ahead there, like the drawn one
-  let state = 0, busy = false, film = null;              // 0 at home · 1 has looked round · 2 out on the edge
+  let state = 0, busy = false, film = null, wings = null; // 0 at home · 1 has looked round · 2 out on the edge
+  const winged = back => { const ok = !!wings && wings.complete && wings.naturalWidth > 0; owl.classList.toggle('fly', ok); owl.classList.toggle('home', ok && back); };
+  const folded = () => owl.classList.remove('fly', 'home');
   const rest = () => { pic.classList.remove('filmed'); if (film) film.pause(); };
   const look = () => {
+    if (!wings) { wings = new Image(); wings.src = 'assets/owl-fly.webp'; }
     if (film) { film.currentTime = FROM; return; }
     const frame = document.createElement('i'); film = document.createElement('video');
     film.muted = true; film.playsInline = true; film.setAttribute('playsinline', ''); film.preload = 'auto'; film.tabIndex = -1; film.setAttribute('aria-hidden', 'true');
@@ -63,15 +67,15 @@
   const out = () => {
     rest(); owl.hidden = false; const w = way(); pic.classList.add('empty'); state = 2;
     if (calm.matches || !owl.animate) return;
-    busy = true;
-    owl.animate([{ transform: w[0] }, { transform: w[1], offset: .58 }, { transform: w[2] }], { duration: 1500, easing: 'cubic-bezier(.4, 0, .3, 1)' }).onfinish = () => { busy = false; };
+    busy = true; winged(false);
+    owl.animate([{ transform: w[0] }, { transform: w[1], offset: .58 }, { transform: w[2] }], { duration: 1900, easing: 'cubic-bezier(.4, 0, .3, 1)' }).onfinish = () => { folded(); busy = false; };
   };
   const home = () => {
     const w = way(); state = 0;
-    const land = () => { if (document.activeElement === owl) stamp.focus({ preventScroll: true }); owl.hidden = true; pic.classList.remove('empty'); busy = false; };
+    const land = () => { if (document.activeElement === owl) stamp.focus({ preventScroll: true }); owl.hidden = true; folded(); pic.classList.remove('empty'); busy = false; };
     if (calm.matches || !owl.animate) return land();
-    busy = true;
-    owl.animate([{ transform: w[2] }, { transform: w[1], offset: .42 }, { transform: w[0] }], { duration: 1400, easing: 'cubic-bezier(.4, 0, .3, 1)' }).onfinish = land;
+    busy = true; winged(true);
+    owl.animate([{ transform: w[2] }, { transform: w[1], offset: .42 }, { transform: w[0] }], { duration: 1800, easing: 'cubic-bezier(.4, 0, .3, 1)' }).onfinish = land;
   };
   const press = () => {
     if (busy) return;
