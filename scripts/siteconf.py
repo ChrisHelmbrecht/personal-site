@@ -1,7 +1,7 @@
-"""What every build script of the site has to agree on. Imported by seo.py, build-blog.py and build-timeline.py.
+"""What every build script of the site has to agree on. Imported by seo.py, build-blog.py, build-timeline.py and build-press.py.
 
 AT LAUNCH: put the real address into SITE, then run
-    python3 scripts/build-timeline.py && python3 scripts/build-blog.py && python3 scripts/seo.py
+    python3 scripts/build-timeline.py && python3 scripts/build-press.py && python3 scripts/build-blog.py && python3 scripts/seo.py
 and commit. Every canonical link, link preview, feed, sitemap entry and llms.txt then names the real domain.
 """
 SITE = 'https://new.chrishelmbrecht.com'      # where the site lives, without a slash at the end
@@ -30,6 +30,7 @@ def alternates(en, de_):
 
 # The site's pages in menu order: what a visitor without script, a search engine or an assistant gets as the way around.
 # The same names are in js/site.js, which builds the menu people see.
+TIMELINE = False     # the timeline in menus, sitemap and llms files. Off while it is being reworked: its pages stay at their addresses, nothing leads there
 NAV = {'en': [('The Skull', 'index.html'), ('DJ', 'dj.html'), ('Bio', 'bio.html'), ('Writing', 'writing.html'), ('Timeline', 'timeline.html'),
               ('Blog', 'blog.html'), ('Press', 'press.html'), ('Contact', 'contact.html'), ('Making of', 'making-of.html')],
        'de': [('Der Schädel', 'index.html'), ('DJ', 'dj.html'), ('Bio', 'bio.html'), ('Autor', 'writing.html'), ('Timeline', 'timeline.html'),
@@ -38,7 +39,7 @@ OTHER = {'en': ('de', 'Deutsch'), 'de': ('en', 'English')}
 def noscript(lang='en', twin=None):
     """The menu as plain links, with the way to the same page in the other language at its end (twin: that page's address)."""
     o, name = OTHER[lang]
-    links = ''.join(f'<a href="{de(h) if lang == "de" else h}">{t}</a>' for t, h in NAV[lang])
+    links = ''.join(f'<a href="{de(h) if lang == "de" else h}">{t}</a>' for t, h in NAV[lang] if TIMELINE or h != 'timeline.html')
     return f'<noscript><nav class="plain-nav" aria-label="Site">{links}' + (f'<a href="{twin}" lang="{o}" hreflang="{o}">{name}</a>' if twin else '') + '</nav></noscript>'
 
 import json

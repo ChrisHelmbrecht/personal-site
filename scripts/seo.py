@@ -4,7 +4,7 @@ and write the files crawlers look for.
 
   python3 scripts/seo.py          (from the repository's root; standard Python)
 
-The hand-written pages (index, bio, dj, writing, press, contact, making-of) are written once, in English. For each of
+The hand-written pages (index, bio, dj, writing, contact, making-of) are written once, in English. For each of
 them this script
   - rewrites one marked block in the head (between <!--seo--> and <!--/seo-->): description, canonical address, the
     addresses of both language versions, the tags for link previews and the page's structured data;
@@ -21,8 +21,8 @@ genre). content/de/_all.txt holds what several pages share. The script stops whe
 in its page (the page's text was changed: bring the German up to date) and lists every text that would appear on a
 German page untranslated.
 
-The two hidden games get the menu only; they exist in English alone and stay out of search engines. Blog and timeline
-pages get all of this from their own build scripts.
+The two hidden games get the menu only; they exist in English alone and stay out of search engines. Blog, timeline and
+the press page get all of this from their own build scripts (build-blog.py, build-timeline.py, build-press.py).
 
 It also writes llms.txt (from content/llms.txt, with full addresses), llms-full.txt (the pages' texts as plain text,
 for assistants that want everything in one file) and robots.txt.
@@ -32,7 +32,7 @@ Descriptions are written here, from what the pages say; nothing in them is to be
 """
 import re, os, sys, html, json, glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from siteconf import SITE, NAME, ME, OG, NAV, DE, de, address, alternates, noscript, person, crumbs, ld
+from siteconf import SITE, NAME, ME, OG, NAV, PLAIN, DE, TIMELINE, de, address, alternates, noscript, person, crumbs, ld
 
 esc = lambda s: html.escape(str(s), quote=True)
 PAGES = {
@@ -44,8 +44,6 @@ PAGES = {
     desc='DJ: eight recordings by Chris Helmbrecht on a drawn turntable. Melodic techno, indie dance and house, the nights behind them, and booking.'),
  'writing.html': dict(title='Writing · Chris Helmbrecht', kind='website', crumb='Writing',
     desc='Chris Helmbrecht as a writer: music interviews, snowboard stories, pieces for Stern and Stern.de, and the book “Fucking Moskau!”, published by Heyne in 2013.'),
- 'press.html': dict(title='Press · Chris Helmbrecht', kind='website', crumb='Press',
-    desc='Press about Chris Helmbrecht: television, video and print from Munich, Moscow and New York. In preparation.'),
  'contact.html': dict(title='Contact · Chris Helmbrecht', kind='website', crumb='Contact',
     desc='Contact Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook and Telegram, DJ booking direct by e-mail or phone, and his literary agent.'),
  'making-of.html': dict(title='Making of · Chris Helmbrecht', kind='website', crumb='Making of',
@@ -60,8 +58,6 @@ PAGES_DE = {                # crumb: the page's name on the way back to the star
     desc='DJ: acht Aufnahmen von Chris Helmbrecht auf einem gezeichneten Plattenspieler. Melodic Techno, Indie Dance und House, die Nächte dahinter und Booking.'),
  'writing.html': dict(title='Autor · Chris Helmbrecht', crumb='Autor',
     desc='Chris Helmbrecht als Autor: Musikinterviews, Snowboard-Geschichten, Texte für Stern und Stern.de und das Buch „Fucking Moskau!“, 2013 bei Heyne erschienen.'),
- 'press.html': dict(title='Presse · Chris Helmbrecht', crumb='Presse',
-    desc='Presse über Chris Helmbrecht: Fernsehen, Video und Print aus München, Moskau und New York. In Vorbereitung.'),
  'contact.html': dict(title='Kontakt · Chris Helmbrecht', crumb='Kontakt',
     desc='Kontakt zu Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook und Telegram, DJ-Booking direkt per E-Mail oder Telefon, und seine Literaturagentur.'),
  'making-of.html': dict(title='Making-of · Chris Helmbrecht', crumb='Making-of',
@@ -185,6 +181,8 @@ for path, c in PAGES.items():
     s = menu(s, noscript('en', DE[path]))
     open(path, 'w', encoding='utf-8').write(s); texts[path] = text_of(s)
     left[path], texts_de[path] = german(path, s, {**c, **PAGES_DE[path]})
+if os.path.exists('press.html'):                         # made by build-press.py; its text belongs to the main pages all the same
+    texts['press.html'], texts_de['press.html'] = text_of(open('press.html', encoding='utf-8').read()), text_of(open(DE['press.html'], encoding='utf-8').read())
 for path in MENU_ONLY:
     s = open(path, encoding='utf-8').read()
     s = re.sub(r'<script src="js/lang.js"></script>\n?', '', s)
@@ -208,7 +206,7 @@ def listed(lang):
         out.append(f'\n---\n\n{"Seite" if d else "Page"}: {SITE}/{f}\n\n## Blog: Food for thought\n\n{intro}\n\n' +
                    '\n'.join(f'- {dt}: [{html.unescape(t)}]({SITE}/{u}). {html.unescape(i)}' for dt, u, t, i in entries) + '\n')
     f = DE['timeline.html'] if d else 'timeline.html'
-    tl = open(f, encoding='utf-8').read() if os.path.exists(f) else ''
+    tl = open(f, encoding='utf-8').read() if TIMELINE and os.path.exists(f) else ''      # out of the navigation: out of this file too
     yrs = re.findall(r'<li class="yr" id="(\d{4})".*?class="tag yr-count">(.*?)</p>', tl, re.S)
     if yrs:
         head = 'Timeline: Ein Leben in Bildern\n\nEin Fotoarchiv nach Jahren. Jedes Jahr hat eine Albumseite.' if d else 'Timeline: A life in frames\n\nA photo archive by year. Each year has an album page.'
@@ -216,10 +214,12 @@ def listed(lang):
     return out
 
 full = [f'# {NAME}\n\n> The main pages of {SITE} as plain text, made from the pages themselves by scripts/seo.py. For the short guide see {SITE}/llms.txt. In German: {SITE}/llms-full-de.txt\n']
-for path in PAGES: full.append(f'\n---\n\nPage: {address(path)}\n\n{texts[path]}\n')
+for path in PLAIN:
+    if path in texts: full.append(f'\n---\n\nPage: {address(path)}\n\n{texts[path]}\n')
 open('llms-full.txt', 'w', encoding='utf-8').write(''.join(full + listed('en')))
 voll = [f'# {NAME}\n\n> Die Hauptseiten von {SITE} auf Deutsch als reiner Text, von scripts/seo.py aus den Seiten selbst erzeugt. Kurzer Wegweiser: {SITE}/llms.txt. Auf Englisch: {SITE}/llms-full.txt\n']
-for path in PAGES: voll.append(f'\n---\n\nSeite: {address(DE[path])}\n\n{texts_de[path]}\n')
+for path in PLAIN:
+    if path in texts_de: voll.append(f'\n---\n\nSeite: {address(DE[path])}\n\n{texts_de[path]}\n')
 open('llms-full-de.txt', 'w', encoding='utf-8').write(''.join(voll + listed('de')))
 
 open('robots.txt', 'w', encoding='utf-8').write(f"""# Everyone may read this site: search engines and the crawlers of AI assistants alike

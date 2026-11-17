@@ -242,7 +242,7 @@ dialog::backdrop { background: rgba(18, 38, 95, .93); }
 .owl.blink .lid { transform: scaleY(1); }
 .city { position: absolute; inset: 0; pointer-events: none; }
 .city > img { position: absolute; inset: auto; }
-.teide { position: absolute; display: block; }
+.teide, .pathway { position: absolute; display: block; }
 .rider { position: absolute; left: 54.6%; top: 35.2%; width: 8%; pointer-events: none; opacity: 0; }
 .rider img { position: static; width: 100%; height: auto; }
 .rider.go { animation: ride 3.4s cubic-bezier(.45, .05, .6, 1) forwards; }

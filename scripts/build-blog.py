@@ -38,7 +38,7 @@ OUT = A.out
 assert not (A.synthetic and os.path.abspath(OUT) == os.path.abspath('.')), 'test entries never go into the site: use --out'
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from siteconf import SITE, NAME, ME, OG, PLAIN, DE, de, address, alternates, noscript, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
+from siteconf import SITE, NAME, ME, OG, PLAIN, DE, TIMELINE, de, address, alternates, noscript, person, crumbs, ld      # the site's address and name live in scripts/siteconf.py
 EXPLORE, FRESH, PER_PAGE = 7, 3, 12           # floating cards at most; of those, places kept for the newest; articles per archive page
 # EXPLORE can go down, not up: the arrangement (js/blog.js "chosen", css/blog.css ".drift-col") has seven places, one large, two middle,
 # four small. More cards need new places there first. A growing blog grows in the archive, not here.
@@ -316,8 +316,8 @@ for lang, mine in by.items():
     open(f, 'w', encoding='utf-8').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>{esc(T[lang]["feed"])}</title><link>{SITE}/{home(lang)}</link><description>{esc(T[lang]["desc"])}</description><language>{lang}</language>\n{items}</channel></rss>\n')
 if not A.synthetic and not A.only:
     # every page in both languages: the hand-written ones (their German twins are made by seo.py), blog and timeline (year pages by build-timeline.py)
-    fixed = [address(p)[len(SITE) + 1:] for p in PLAIN] + [address(DE[p])[len(SITE) + 1:] for p in PLAIN] + ['timeline.html', 'timeline/de/index.html'] + [home(l) for l in by if by[l]]
-    fixed += sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html') + glob.glob('timeline/de/*.html') if not f.endswith('index.html'))
+    fixed = [address(p)[len(SITE) + 1:] for p in PLAIN] + [address(DE[p])[len(SITE) + 1:] for p in PLAIN] + (['timeline.html', 'timeline/de/index.html'] if TIMELINE else []) + [home(l) for l in by if by[l]]
+    if TIMELINE: fixed += sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html') + glob.glob('timeline/de/*.html') if not f.endswith('index.html'))
     rows = [f'<url><loc>{SITE}/{u}</loc></url>' for u in fixed] + [f'<url><loc>{SITE}/{url(p)}</loc><lastmod>{p.get("updated") or p["date"]}</lastmod></url>' for l in by for p in by[l]]
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(rows) + '\n</urlset>\n')
     red = ['# Old addresses of the articles and where they live now. A plan, not switched on: at launch these lines go',

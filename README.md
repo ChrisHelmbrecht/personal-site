@@ -44,7 +44,16 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
 - The timeline, "A life in frames": `content/timeline/`, `scripts/timeline-pictures.py`, `scripts/build-timeline.py`, `timeline.html`, `timeline/`, `css/timeline.css`, `js/timeline.js`, `assets/timeline/`. The bio tells the life; the timeline shows the pictures. Three levels: the overview of years, one album page per year, one large view.
 
+## The press page
+
+- **One source:** `content/press.txt`, one block per piece (television, radio, print and online); its head explains the fields. `python3 scripts/build-press.py` writes `press.html` and `de/press.html` from it; never edit those two by hand. Afterwards run `scripts/seo.py` (its `llms-full.txt` reads the finished page).
+- **Only what is documented.** A piece with an address links to the original, one without is marked "Archive". A title, date or broadcaster that is not certain stays empty. A piece that still has open questions is `draft: yes`: it is in the document with a note on what is missing (`source:`), and not on the page. To publish it, fill in what is known and set `draft: no`.
+- Titles stay in the language they were published in; `note_en` / `note_de` say in one line what the piece is.
+
 ## The timeline
+
+**Out of the navigation for now** (17 November 2026), while it is reworked. Its pages still answer at their addresses; nothing leads to them, and they are not in the sitemap or the llms files. To bring it back: `TIMELINE = True` in `scripts/siteconf.py` (menu without script, sitemap, llms files), `'timeline.html'` and its two names in the menu list at the top of `js/site.js`, the door on the skull in `index.html` (`<a class="spot" href="timeline.html" style="left:44%;top:62%;width:10%;height:9%;--d:1.5s"><b>Timeline</b></a>` in place of the `<span class="pathway" id="path">`), the sentence in the hidden text below it and its German in `content/de/index.txt`, the links in `bio.html` (with `content/de/bio.txt`) and `404.html`, and the line in `content/llms.txt`. Then run the build scripts.
+
 
 - **One source.** Each year is one text document, `content/timeline/1997.txt`: a block of facts about the year, then one block per photograph, optionally with chapter blocks between them. The order of the blocks is the order on the page. The opening comment of `scripts/build-timeline.py` explains every field. `python3 scripts/build-timeline.py` (standard Python, nothing to install) makes `timeline.html` and `timeline/<year>.html` from them. **Never edit those pages by hand; they are overwritten.**
 - **The originals stay outside the site.** They lie in one folder per year wherever they are kept (`<folder>/1997/anything.jpg`). `python3 scripts/timeline-pictures.py <folder>` (needs Pillow) takes in what is new: it gives each picture the next free id of its year (`1997-10`; an id never changes, links to single photographs use it), writes three web sizes into `assets/timeline/1997/` (`-s` 320 high, `-m` 640 high, `-l` 1800 on the long side; upright, sRGB, and without the camera's hidden data such as place and date) and adds a block at the end of the year's document.
@@ -79,7 +88,7 @@ Every page exists in English and in German. The two hidden games exist in Englis
 ## Found and read: search engines, link previews, assistants
 
 - **One address for everything:** `SITE` in `scripts/siteconf.py`. The three scripts that write pages read it from there.
-- `python3 scripts/seo.py` looks after the hand-written pages (index, bio, dj, writing, press, contact, making-of). Between `<!--seo-->` and `<!--/seo-->` in each head it writes the description, the canonical address, the tags for link previews (Open Graph, Twitter) and the page's structured data (schema.org as JSON-LD: the person with his profiles, the website, the bio as a profile page, the eight DJ sets read from the DJ page's own list, the book, the contact point, breadcrumbs). The descriptions are in that script, written from what the pages say. **Do not edit the block by hand; change the script and run it.** Run it again after changing a page's text.
+- `python3 scripts/seo.py` looks after the hand-written pages (index, bio, dj, writing, contact, making-of). Between `<!--seo-->` and `<!--/seo-->` in each head it writes the description, the canonical address, the tags for link previews (Open Graph, Twitter) and the page's structured data (schema.org as JSON-LD: the person with his profiles, the website, the bio as a profile page, the eight DJ sets read from the DJ page's own list, the book, the contact point, breadcrumbs). The descriptions are in that script, written from what the pages say. **Do not edit the block by hand; change the script and run it.** Run it again after changing a page's text.
 - `build-blog.py` and `build-timeline.py` do the same for their pages: articles are `BlogPosting`s with date, language and picture; a year is an `ImageGallery` with its photographs.
 - **Without script** every page still has its text in the HTML, and the menu, which script builds, is there as a plain list (`<noscript>`). That is also what crawlers of search engines and AI assistants get, since most of them run no script.
 - `llms.txt` (a short guide for assistants; its source is `content/llms.txt`, edit that), `llms-full.txt` (the main pages as plain text in one file, made from the pages), `robots.txt` (everyone may read; names the sitemap) and `sitemap.xml` (written by `build-blog.py`; includes the timeline's years) are generated. The two hidden games carry `noindex`.
@@ -88,7 +97,7 @@ Every page exists in English and in German. The two hidden games exist in Englis
 
 ### At launch
 
-1. Put the real address into `SITE` in `scripts/siteconf.py`, run `python3 scripts/build-timeline.py && python3 scripts/build-blog.py && python3 scripts/seo.py`, commit. (In this order: the sitemap lists the timeline's pages, and `llms-full.txt` reads the finished overviews.)
+1. Put the real address into `SITE` in `scripts/siteconf.py`, run `python3 scripts/build-timeline.py && python3 scripts/build-press.py && python3 scripts/build-blog.py && python3 scripts/seo.py`, commit. (In this order: the sitemap lists the timeline's pages, and `llms-full.txt` reads the finished overviews.)
 2. Switch on the redirects from the old site's addresses (`content/blog/redirects.txt` holds the blog's; they go into `.htaccess`).
 3. In `.htaccess`, let pictures, films, sound and fonts be kept by browsers (the note there says how). Until then every file is checked on each visit.
 4. Imprint and privacy page (among other things a sentence that Mixcloud is contacted only after Play).

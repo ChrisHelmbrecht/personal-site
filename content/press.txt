@@ -1,0 +1,339 @@
+# The press page: one block per piece. scripts/build-press.py makes press.html and de/press.html from this.
+#
+#   clip:      a short name for the piece, never shown (cnn-2009)
+#   section:   tv | radio | print        (print is also "online")
+#   medium:    who published or broadcast it
+#   programme: the programme or series, if there is one (Punkt 12, Neugier genügt)
+#   title:     the piece's own title, in its own language, exactly as published. Leave empty rather than make one up
+#   date:      2009-05-05, 2014-04 or 2020. Leave empty if not known
+#   lang:      de | en | ru   (the language of the piece)
+#   url:       where it can still be read, heard or seen. Empty: the piece is listed as "Archive"
+#   note_en / note_de: one plain line on what it is. Facts only
+#   source:    how the facts above are known. Never shown
+#   draft:     yes keeps the piece off the pages until it is checked
+#
+# Only what is documented goes in. A title, a date or a broadcaster that is not certain stays empty, or the piece stays a draft.
+
+# ------------------------------------------------------------ print and online
+
+clip: cnn-2009
+section: print
+medium: CNN
+programme: My City, My Life
+title: Living ‘Sex and the City’ in Moscow
+date: 2009-05-05
+lang: en
+url: https://edition.cnn.com/2009/TRAVEL/05/05/moscow.localview/index.html
+note_en: Interview by Mark Tutton about living and going out in Moscow.
+note_de: Interview von Mark Tutton über das Leben und Ausgehen in Moskau.
+source: read online 17 Nov 2026; date from the address; PDF in the archive
+draft: no
+
+clip: hauteliving-2010
+section: print
+medium: Haute Living
+title: Haute Secrets Moscow: Chris Helmbrecht
+date: 2010-11
+lang: en
+url: https://hauteliving.com/2010/11/haute-secrets-moscow-chris-helmbrecht/103463/
+note_en: Profile with his places to go in Moscow.
+note_de: Porträt mit seinen Adressen in Moskau.
+source: read online 17 Nov 2026; date from the address; screenshot in the archive
+draft: no
+
+clip: bild-2013
+section: print
+medium: Bild.de
+title: In Moskaus Discos tanzt der Sex: DJ erklärt Russlands Nachtleben
+date: 2013-09-27
+lang: de
+url:
+note_en: Interview on the book “Fucking Moskau!” and Moscow’s nightlife.
+note_de: Interview zum Buch „Fucking Moskau!“ und zum Moskauer Nachtleben.
+source: PDF of the article in the archive (27.09.2013, 21:27). Address then: http://www.bild.de/reise/europa/partyurlaub/moskau-nachtleben-sex-party-32473928.bild.html, not checked whether it still answers
+draft: no
+
+clip: bg-2014
+section: print
+medium: Bolshoi Gorod
+title: Москва глазами иностранцев
+date: 2014-01
+lang: ru
+url:
+note_en: “Moscow through the eyes of foreigners”: his five favourite places in the city. Text by Maria Grigoryan.
+note_de: „Moskau mit den Augen von Ausländern“: seine fünf Lieblingsorte in der Stadt. Text von Maria Grigorjan.
+source: PDF of the page in the archive (dated 2 January; the text speaks of the book published "in July last year"). Address then: bg.ru/city/moskva_glazami_inostrantsev-20714/?chapter=2, not checked
+draft: no
+
+clip: rbth-2014
+section: print
+medium: Russia Beyond
+programme: Deutsche in Russland
+title: Ein deutscher Partylöwe in Moskau
+date: 2014-04-23
+lang: de
+url: https://de.rbth.com/gesellschaft/2014/04/23/ein_deutscher_partyloewe_in_moskau_29107
+note_en: Interview by Olga Sokolowa about work, nightlife and everyday life in Moscow.
+note_de: Interview von Olga Sokolowa über Arbeit, Nachtleben und Alltag in Moskau.
+source: found online 17 Nov 2026 (the site lets no program read it); text, date and author from the PDF in the archive
+draft: no
+
+clip: mdz-2020
+section: print
+medium: Moskauer Deutsche Zeitung
+title: Helmbrecht: „Wir müssen jetzt zusammenrücken“
+date: 2020
+lang: de
+url: https://mdz-moskau.eu/helmbrecht-wir-muessen-jetzt-zusammenruecken/
+note_en: Tino Künzel on how he kept Germans in Moscow informed in the first weeks of the pandemic.
+note_de: Tino Künzel darüber, wie er in den ersten Wochen der Pandemie Deutsche in Moskau auf dem Laufenden hielt.
+source: read online 17 Nov 2026; the page gives no date, the text is about spring 2020
+draft: no
+
+clip: mdz-djs
+section: print
+medium: Moskauer Deutsche Zeitung
+title: DJs – die Muntermacher am Mischpult
+date:
+lang: de
+url: https://mdz-moskau.eu/djs-die-muntermacher-am-mischpult/
+note_en: Interview by Frank Ebbecke about DJing in Moscow.
+note_de: Interview von Frank Ebbecke über das Auflegen in Moskau.
+source: read online 17 Nov 2026; the page gives no date
+draft: no
+
+# ------------------------------------------------------------ television and video
+
+clip: m24-2013
+section: tv
+medium: Moskva 24
+date: 2013-09
+lang:
+url:
+note_en: Television report.
+note_de: Fernsehbeitrag.
+source: file names in the archive only (M24_Sep2013). Title and exact date not known
+draft: no
+
+clip: punkt12-2014
+section: tv
+medium: RTL
+programme: Punkt 12
+date: 2014-04-07
+lang: de
+url:
+note_en: Report from Moscow in two parts, on 7 and 8 April 2014.
+note_de: Reportage aus Moskau in zwei Teilen, am 7. und 8. April 2014.
+source: file names in the archive only (RTL_Punkt12_Teil1_07042014, Teil2_08042014)
+draft: no
+
+clip: rbth-video-2015
+section: tv
+medium: Russia Beyond
+title: Mein Leben in Russland: Chris Helmbrecht, DJ
+date: 2015-01-29
+lang: de
+url: https://de.rbth.com/multimedia/video/2015/01/29/mein_leben_in_russland_chris_helmbrecht_dj_32649
+note_en: Video portrait.
+note_de: Videoporträt.
+source: found online 17 Nov 2026 (the site lets no program read it); date from the address; a recording is in the archive (RBTH_Feb2015)
+draft: no
+
+clip: taff-kinky
+section: tv
+medium: ProSieben
+programme: taff
+date:
+lang: de
+url: https://www.youtube.com/watch?v=6DeOfoHYddY
+note_en: Report on Kinky Party in Moscow.
+note_de: Beitrag über die Kinky Party in Moskau.
+source: Chris: broadcast 2021. Perplexity: official taff upload of 21 Nov 2023, filmed 2020. Could not be opened on 17 Nov 2026; its title there differs from the one in Perplexity's list. To confirm: that Chris is in this cut, title, year
+draft: yes
+
+clip: sex-drogen-wodka
+section: tv
+medium:
+title: Sex, Drogen und Wodka
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recordings in the archive ("90 Min Sex Drogen Wodka", "Sex, Drogen und Wodka Moskau Doku Deutsch 2015"). Broadcaster and year not known; the copy on YouTube is not an official upload
+draft: yes
+
+clip: n24-petersburg
+section: tv
+medium: N24
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recording in the archive (N24_StPetersburgNightlife; also N24Doku.zip). Title and year not known
+draft: yes
+
+clip: taff-bonnie-steffi
+section: tv
+medium: ProSieben
+programme: taff
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: disc image in the archive (Pro7_Taff_BonnieSteffiRussia). Title and year not known
+draft: yes
+
+clip: rubel-rollt
+section: tv
+medium:
+title: Rubel rollt
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recording in the archive (Rubel_rollt). Broadcaster and year not known
+draft: yes
+
+clip: auswanderer
+section: tv
+medium:
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recordings in the archive (Auswanderer_Chris). Broadcaster, programme and year not known
+draft: yes
+
+clip: weisse-naechte
+section: tv
+medium:
+title: Die weißen Nächte
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recording in the archive (Die Weissen Naechte). Broadcaster and year not known
+draft: yes
+
+clip: rt-partymaker
+section: tv
+medium: RT
+date:
+lang: en
+url:
+note_en:
+note_de:
+source: recording and screenshots in the archive ("Expat turns partying into profession", RT_Partymaker, RT_Opera, RT_BeverlyHills). Titles and years not known
+draft: yes
+
+# ------------------------------------------------------------ radio
+
+clip: fritz-2013
+section: radio
+medium: Radio Fritz
+date: 2013-07-31
+lang: de
+url:
+note_en:
+note_de:
+source: file name in the archive only (Radio Fritz - buecher_20130731). Programme and title not known
+draft: no
+
+clip: stimme-russlands-2013
+section: radio
+medium: Stimme Russlands
+programme: Morgen ohne Sorgen
+title: Moskauer Nachtleben. Ein Insider
+date: 2013-09-27
+lang: de
+url:
+note_en: Studio guest of Martina Wiedemann, on Moscow’s nightlife and the book.
+note_de: Studiogast bei Martina Wiedemann, über das Moskauer Nachtleben und das Buch.
+source: PDF of the programme page in the archive; date from the address of the recording (2013/09/27). The station's site no longer exists
+draft: no
+
+clip: wdr5-2013
+section: radio
+medium: WDR 5
+programme: Neugier genügt
+date: 2013-12-04
+lang: de
+url:
+note_en: On Moscow’s nightlife.
+note_de: Über das Moskauer Nachtleben.
+source: file name in the archive only (WDR5_04122013_NeugierGenügt_MskVerrücktesNachtleben)
+draft: no
+
+clip: dlf-2014
+section: radio
+medium: Deutschlandfunk
+date: 2014-05-04
+lang: de
+url:
+note_en:
+note_de:
+source: file name in the archive only (Deutschlandfunk_SexInRussland_04052014). Programme and title not known
+draft: no
+
+clip: funkhaus-europa
+section: radio
+medium: Funkhaus Europa
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: recording and screenshot in the archive (FunkhausEuropa_Moskau_nacht_zvuk). Programme and year not known
+draft: yes
+
+clip: radio-2013-07-05
+section: radio
+medium:
+date: 2013-07-05
+lang: de
+url:
+note_en:
+note_de:
+source: recording in the archive (helmbrecht_fucking_moskau_130705). Station not known
+draft: yes
+
+# ------------------------------------------------------------ print, not yet clear
+
+clip: stern
+section: print
+medium: Stern
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: screenshots in the archive (SternCover, SternCover2, Stern_de). To clear up: are these pieces about Chris, or pieces he wrote? What he wrote belongs on the writing page
+draft: yes
+
+clip: faces
+section: print
+medium: Faces
+date:
+lang: de
+url:
+note_en:
+note_de:
+source: screenshot in the archive (Faces_ch). Title and date not known
+draft: yes
+
+clip: lookatme
+section: print
+medium: Look At Me
+date:
+lang: ru
+url:
+note_en:
+note_de:
+source: screenshots in the archive (Lookatme, Lookatme2). Title and date not known
+draft: yes

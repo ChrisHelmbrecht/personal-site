@@ -17,13 +17,15 @@
   // one name for a page whichever language it is read in: 'bio.html' for bio.html and de/bio.html alike
   const pageKey = p => { p = p.replace(/^[a-z]+:\/\/[^/]+/, '').split(/[?#]/)[0].replace(/^\//, '').replace(/(^|\/)de\//, '$1') || 'index.html'; return p === 'blog/index.html' ? 'blog.html' : p === 'timeline/index.html' ? 'timeline.html' : p; };
   const T = LANG === 'de'
-    ? { skull: 'Der Schädel', nav: ['DJ', 'Bio', 'Autor', 'Timeline', 'Blog', 'Presse', 'Kontakt'], else: 'Anderswo', menu: 'Menü', sound: 'Ton', on: 'Ton an', off: 'Ton aus',
+    ? { skull: 'Der Schädel', nav: ['DJ', 'Bio', 'Autor', 'Blog', 'Presse', 'Kontakt'], else: 'Anderswo', menu: 'Menü', sound: 'Ton', on: 'Ton an', off: 'Ton aus',
         isOff: 'Ton ist aus. Einschalten', isOn: 'Ton ist an. Ausschalten', mute: 'Ton ausschalten', unmute: 'Ton einschalten', tilt: 'Jetzt das Handy neigen', back: 'Zurück zum Schädel', gone: 'Nicht hier · Chris Helmbrecht' }
-    : { skull: 'The Skull', nav: ['DJ', 'Bio', 'Writing', 'Timeline', 'Blog', 'Press', 'Contact'], else: 'Elsewhere', menu: 'Menu', sound: 'Sound', on: 'Sound on', off: 'Sound off',
+    : { skull: 'The Skull', nav: ['DJ', 'Bio', 'Writing', 'Blog', 'Press', 'Contact'], else: 'Elsewhere', menu: 'Menu', sound: 'Sound', on: 'Sound on', off: 'Sound off',
         isOff: 'Sound is off. Turn it on', isOn: 'Sound is on. Turn it off', mute: 'Mute sound', unmute: 'Play sound', tilt: 'Now tilt your phone', back: 'Back to the skull', gone: '' };
 
   // Header + hamburger menu, shared by every page
-  const NAV = ['dj.html', 'bio.html', 'writing.html', 'timeline.html', 'blog.html', 'press.html', 'contact.html'].map((h, k) => [T.nav[k], to(h)]);
+  // The timeline is out of the navigation while it is being reworked (its pages still answer at their addresses). To bring it
+  // back: 'timeline.html' and its two names here, and the other places listed in README.md under "The timeline"
+  const NAV = ['dj.html', 'bio.html', 'writing.html', 'blog.html', 'press.html', 'contact.html'].map((h, k) => [T.nav[k], to(h)]);
   const OUT = [
     ['Shop', 'https://sublime1.myspreadshop.de/'], ['Fucking Moskau', 'https://fuckingmoskau.de'], ['dieneue.social', 'https://dieneue.social'],
   ];
@@ -182,7 +184,8 @@
       pathFilm.classList.add('leaving'); pathFilm.classList.remove('on');
       setTimeout(() => { walking = false; setTimeout(wanderOff, 12000); }, 2600);
     }, 4000));
-    spots.find(s => pageKey(s.getAttribute('href')) === 'timeline.html').addEventListener('pointerenter', wanderOff);
+    const path = $('path') || spots.find(s => pageKey(s.getAttribute('href')) === 'timeline.html');   // the path: a door to the timeline when that is in the navigation, otherwise just the path
+    if (path) path.addEventListener('pointerenter', wanderOff);
 
     // The flock: swallows and the flying girl follow one closed flight path through the whole dome, always nose first.
     // Up from the right, over to the left, down, back behind the owl and past the moon, and round again.
@@ -251,7 +254,7 @@
     const sprouts = $('sprouts');
     let grown = 0;
     tilt.addEventListener('click', e => {
-      if (e.target.closest('.spot, .egg, .branch, .teide')) return;
+      if (e.target.closest('.spot, .egg, .branch, .teide, .pathway')) return;
       const b = tilt.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 100, y = (e.clientY - b.top) / b.height * 100;
       if (Math.hypot(x - 50, (y - 50) * .82) > 37) return; // only on the skull, not the paper
       const m = document.createElement('span');

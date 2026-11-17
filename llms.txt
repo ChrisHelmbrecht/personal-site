@@ -11,8 +11,7 @@ Every element of the skull is a door to a page. Clicking one zooms into it.
 - [Bio](https://new.chrishelmbrecht.com/bio.html): the owl. A logbook with a chart: born 1971 in Munich, Federal Police helicopter squad and extreme snowboarding, web design from 1995, then New York, Tenerife, Moscow and back to Munich.
 - [Writing](https://new.chrishelmbrecht.com/writing.html): the book "Fucking Moskau" and other texts.
 - [Blog](https://new.chrishelmbrecht.com/blog.html): "Food for thought". 32 essays in English and German (German: blog/de/index.html) on politics, the economy, geopolitics, Germany, culture and society, each on its own page under blog/; feeds at blog/feed.xml and blog/de/feed.xml.
-- [Timeline](https://new.chrishelmbrecht.com/timeline.html): a photo archive by year. Each year has an album page (timeline/1997.html) with all its photographs.
-- [Press](https://new.chrishelmbrecht.com/press.html): the Twin Towers. Television, video and print (in preparation).
+- [Press](https://new.chrishelmbrecht.com/press.html): the Twin Towers. Television, radio, print and online pieces about Chris, with links to the originals where they are still online.
 - [Contact](https://new.chrishelmbrecht.com/contact.html): the teeth. Socials, DJ booking, literary agent.
 - [Making of](https://new.chrishelmbrecht.com/making-of.html): hidden on the right cheekbone. How the site was made and with which tools.
 - [Owl Night Long](https://new.chrishelmbrecht.com/game.html): hidden on the left cheekbone. An 80s-style arcade game in the same blue ink: the moon is gone and an owl looks for it in Munich, New York, Tenerife and Moscow before facing the skull that swallowed it.
@@ -20,7 +19,7 @@ Every element of the skull is a door to a page. Clicking one zooms into it.
 ## Languages
 Every page exists in English and in German. English is at the plain addresses above; German is at:
 - [Start page](https://new.chrishelmbrecht.com/de/), [DJ](https://new.chrishelmbrecht.com/de/dj.html), [Bio](https://new.chrishelmbrecht.com/de/bio.html), [Autor](https://new.chrishelmbrecht.com/de/writing.html), [Presse](https://new.chrishelmbrecht.com/de/press.html), [Kontakt](https://new.chrishelmbrecht.com/de/contact.html), [Making-of](https://new.chrishelmbrecht.com/de/making-of.html)
-- [Blog](https://new.chrishelmbrecht.com/blog/de/index.html) and [Timeline](https://new.chrishelmbrecht.com/timeline/de/index.html)
+- [Blog](https://new.chrishelmbrecht.com/blog/de/index.html)
 A browser set to German is sent to the German pages; the switch in the header (DE / EN) changes language on every page. The two hidden games exist in English only.
 
 ## Elsewhere

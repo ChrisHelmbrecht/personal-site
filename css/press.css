@@ -1,0 +1,27 @@
+/* Press: a ledger of cuttings. The year stands in the margin, the piece's own title large, who and when in small type above it.
+   Made by scripts/build-press.py from content/press.txt. */
+.press-room { max-width: 880px; }
+.press-lead { font-size: 1.12em; max-width: 54ch; }
+.press-sum { margin-top: 16px !important; }
+.press-part { margin-top: 46px; }
+.press-part h2 { margin: 0 0 14px; }
+.clips { list-style: none; margin: 0 !important; padding: 0 !important; max-width: none !important; border-top: 1.5px solid var(--ink); }
+.clip { display: grid; grid-template-columns: 6.4rem minmax(0, 1fr); column-gap: 26px; align-items: start; padding: 20px 0 22px; border-bottom: 1px solid var(--ink-soft); }
+.clip > * { grid-column: 2; }
+.clip-year { grid-column: 1; grid-row: 1 / span 3; font: italic 600 clamp(1.9rem, 4.4vw, 2.5rem)/1 var(--display); color: var(--ink); opacity: .55; font-variant-numeric: lining-nums; padding-top: 1px; }
+.clip-meta { margin: 0 0 7px !important; max-width: none !important; line-height: 1.6; }
+.clip-arch { padding: 2px 7px 1px; border: 1px solid var(--ink-mid); border-radius: 999px; letter-spacing: .14em; white-space: nowrap; }
+.clip-title { margin: 0; font: italic 600 clamp(1.45rem, 3.4vw, 1.95rem)/1.14 var(--display); color: var(--ink); text-wrap: balance; }
+.clip-title a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; text-decoration-color: var(--ink-soft); transition: text-decoration-color .3s ease; }
+.clip-title a::after { content: " ↗"; font: 500 .5em/1 var(--mono); vertical-align: .5em; white-space: nowrap; }
+.clip-title a:hover, .clip-title a:focus-visible { text-decoration-color: var(--ink); }
+.clip-note { margin: 8px 0 0 !important; max-width: 58ch; }
+.clip:target { background: linear-gradient(90deg, var(--ink-soft), transparent 70%); }
+.press-foot { margin-top: 34px; }
+@media (max-width: 560px) {
+  .clip { grid-template-columns: minmax(0, 1fr); padding: 16px 0 18px; }
+  .clip > * { grid-column: 1; }
+  .clip-year { grid-row: auto; font-size: 1.5rem; margin-bottom: 4px; }
+}
+/* A title in Cyrillic: the display face has no such letters, so a quiet serif of the system takes over, a little smaller */
+.clip-title [lang="ru"] { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: .84em; }
