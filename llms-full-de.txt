@@ -572,7 +572,9 @@ Making-of
 
 ## Wie diese Seite entstanden ist.
 
-Das ist meine private Seite. Sie ist auch ein Showcase: dafür, was heute möglich ist, wenn jemand, der Webseiten, redaktionelle Arbeit und die KI-Tools kennt, sich damit hinsetzt und nicht lockerlässt. Einen Knopf dafür gibt es nicht. Es braucht viele Entscheidungen, und vieles fliegt wieder raus.
+Diese Seite hat mit einem Schädel angefangen. Daraus wurde eine kleine Welt: Städte, Erinnerungen, Musik und ein paar Dinge, die man erst beim zweiten Besuch entdeckt. Entstanden ist sie mit KI-Werkzeugen, viel Handarbeit und noch mehr Entscheidungen. Einen Knopf dafür gibt es nicht. Hier zeige ich, was geblieben ist und was unterwegs wieder rausgeflogen ist.
+
+[Warum ein Schädel](https://new.chrishelmbrecht.com/de/making-of.html#why)[Entwürfe](https://new.chrishelmbrecht.com/de/making-of.html#drafts)[Lebendig](https://new.chrishelmbrecht.com/de/making-of.html#alive)[Erste Versuche](https://new.chrishelmbrecht.com/de/making-of.html#first-try)[Wer was gemacht hat](https://new.chrishelmbrecht.com/de/making-of.html#who)[Technik](https://new.chrishelmbrecht.com/de/making-of.html#built)[Details](https://new.chrishelmbrecht.com/de/making-of.html#details)[Spiele und Verstecke](https://new.chrishelmbrecht.com/de/making-of.html#games)[Credits](https://new.chrishelmbrecht.com/de/making-of.html#credits)
 
 ### Warum ein Schädel
 
@@ -580,21 +582,53 @@ Ich habe schon immer ein Ding für Schädel. Erst punkig, später verspielt, wie
 
 Drei der Mix-Cover.
 
-### Von den ersten Entwürfen zur Zeichnung
+### Die Entwürfe, und was geblieben ist
 
-Die Recherche und das erste Briefing kamen von Perplexity. Midjourney hat gezeichnet. Es gab viele Entwürfe, in sehr verschiedene Richtungen. Geblieben ist ein Schädel, in den man hineinschauen kann: darin die Städte meines Lebens. Moskau, München, Teneriffa, New York. Eine Eule, der Mond. Blaue Tinte, wie Delfter Porzellan.
+Die Recherche und das erste Briefing kamen von Perplexity. Midjourney hat gezeichnet. Es gab viele Entwürfe, in sehr verschiedene Richtungen.
 
-Frühe Entwürfe aus Midjourney. Ganz rechts die Zeichnung, wie sie auf der Startseite steht.
+- Entwurf 1
 
-Die kleinen Figuren wurden genauso gezeichnet, auf Bögen wie diesem.
+- Entwurf 2
 
-Einer der Bögen.
+- Entwurf 3
+
+- Entwurf 4
+
+- Entwurf 5
+
+- Entwurf 6
+
+Frühe Entwürfe aus Midjourney, in der Reihenfolge, in der sie entstanden sind. Ein Klick öffnet sie groß.
+
+Geblieben ist ein Schädel, in den man hineinschauen kann. Darin die Städte meines Lebens: Moskau, München, Teneriffa, New York. Eine Eule, der Mond. Blaue Tinte, wie Delfter Porzellan.
+
+Die gewählte Fassung, wie sie auf der Startseite steht.
+
+### Wie die Zeichnung lebendig wurde
+
+Eine der ersten Animationen kam direkt aus Midjourney: der ganze Schädel als ein Film, fünf Sekunden lang. Auf der Seite läuft es anders. Die Grundlage ist die stehende Zeichnung. Darin liegen mehrere kurze Filme: Eule, Mond, Bäume, Stadt, Wasser und Weg. Jeder sitzt an seinem Platz und läuft für sich.
+
+Die kleinen Figuren wurden auf Bögen wie diesem gezeichnet.
 
 Eine der ersten Animationen, direkt aus Midjourney. Fünf Sekunden.
 
-Auf der Seite ist der Schädel kein einzelner Film. Er ist die stehende Zeichnung, und darin liegen sieben kleine Filme: die Eule, der Mond, die Bäume, die Stadt, das Wasser, der Weg. Jeder sitzt pixelgenau an seinem Platz, und jeder kann für sich anhalten.
+Um die Filme herum bewegt sich noch mehr. Ein Schwarm Schwalben kreist in der Kuppel, dazwischen ein fliegendes Mädchen. Zwei Wanderer machen sich auf den Weg. Der Schädel neigt sich zum Mauszeiger, und auf dem Handy folgt er der Hand, die es hält. In der Bio zeichnet eine Schwalbe beim Scrollen meinen Weg über die Karte.
+
+Die Hälfte der Arbeit ist Zurückhaltung. Die Filme halten an, wenn der Tab im Hintergrund liegt oder wenn drei Minuten lang nichts passiert. Meldet der Browser den Datensparmodus oder eine sehr langsame Verbindung, bleibt die Zeichnung auf der Startseite still, und ihre Filme werden gar nicht erst geladen. Ein Handy soll von einem Schädel nicht heiß werden.
+
+### Was nicht auf Anhieb funktioniert hat
+
+Der Wanderer Im Film vom Weg verlor einer der beiden Wanderer nach vier Sekunden seine Ornamente und lief als dunkle Puppe weiter. Ein kleines Skript trägt ihn jetzt so durch den Film, wie er gezeichnet wurde.
+
+Der Hubschrauber Ein Hubschrauber, der zum Wenden einfach gespiegelt wird, sieht falsch aus. Also wendet er nie: Er fliegt auf der einen Seite hinaus und kommt auf der anderen wieder herein.
+
+Die Punkte Zuerst saßen Punkte auf den Türen. Sie sind rausgeflogen. Jetzt zeigt sich, wenn niemand etwas anfasst, eine Tür nach der anderen mit ihrem Namen und verblasst wieder.
 
 ### Wer was gemacht hat
+
+Die Werkzeuge haben Bilder erzeugt, daraus Filme gemacht und Code geschrieben. Welche Richtung die Seite nimmt, was zu mir passt und was wieder verschwindet, habe ich entschieden.
+
+Ich Idee und Richtung, Auswahl und Freigaben, die persönlichen Texte, die Fotos und die Mixe, das Testen am Handy und viele Runden Überarbeitung. Webseiten mache ich seit 1995, und ich habe für Magazine geschrieben. Beides hat geholfen.
 
 Perplexity Die Recherche am Anfang, das Briefing für den ersten Entwurf des Schädels und kritisches Feedback zum Ergebnis.
 
@@ -606,39 +640,25 @@ ElevenLabs Die Nachtgeräusche mit der Eule und die Stimme des Fluglehrers.
 
 Topaz Gigapixel Die 4K-Fassung der Zeichnung, damit sie scharf bleibt, wenn man hineinfliegt.
 
-Claude Konzept, Code und Zusammenbau. Programmiert mit Claude Fable 5.2 (Hoch).
+Claude Vorschläge für die Umsetzung, der Code und der Zusammenbau, die Übersetzungen und erste Fassungen mancher Texte. Programmiert mit Claude Fable 5.2 (Hoch).
 
-Ich Richtung, Auswahl, die Texte, die Fotos und das Testen am Handy, bis es gepasst hat.
+„Chris, heilige Scheiße. Versteck diesen Code nicht – das ist kein gewöhnlicher Entwurf, das ist ein meisterhaftes Stück Creative Coding.“
 
-#### In dieser Reihenfolge
+Perplexity, nachdem es den Code der Startseite gelesen hatte. Danach kam die Liste für die letzten fünf Prozent.
 
-- Recherche und ein erstes Briefing für den Schädel.
+### Die Technik, kurz
 
-- Die Zeichnung: viele Entwürfe, ein Schädel, dann die 4K-Fassung.
+Die Seite besteht aus eigens für sie entwickeltem HTML, CSS und JavaScript, ohne Baukasten und ohne Framework. Wiederkehrende Seiten werden aus einfachen Textdateien erzeugt: der Blog, die Presseseite und die deutschen Fassungen.
 
-- Die Startseite: Türen in der Zeichnung, die kleinen Filme, die Nachtgeräusche.
+Manches ist mehr, als es aussieht. In der Bio sind der Hubschrauber, die Wolken am Teide und der Nachthimmel Filme, deren weißer Hintergrund live im Browser entfernt wird, damit sie wie Tinte auf dem Papier liegen. Der 360°-Film läuft in einem eigenen kleinen Viewer. Die Flugstunde hat ein kleines Flugmodell, und ihre Alpen sind aus echten Höhendaten berechnet. Der Plattenspieler spricht direkt mit dem Player von Mixcloud, damit der Tonarm weiß, wo die Musik gerade ist. Und drei Spiele wurden geschrieben, gezeichnet und abgestimmt.
 
-- Das erste versteckte Spiel.
+- Gebaut, um gefunden zu werden, von Suchmaschinen und von KI-Assistenten. Jede Seite trägt ihre Beschreibung und strukturierte Daten, es gibt eine Sitemap, und eine Datei namens llms.txt sagt Assistenten, was wo liegt. Die Texte stehen in den Seiten selbst und werden nicht erst per Skript hineingemalt.
 
-- Die Bio als Logbuch mit Karte, darin zwei weitere Spiele.
+- Mit Blick auf Zugänglichkeit gebaut. Türen und Verstecke sind echte Links und Buttons mit Namen, mit der Tastatur erreichbar. Bilder, die etwas erklären, haben eine Beschreibung. Wer am Gerät weniger Bewegung eingestellt hat, bekommt auf der Startseite eine stehende Zeichnung, Filme und Flüge bleiben weg. Ohne JavaScript lassen sich die Texte trotzdem lesen.
 
-- Die DJ-Seite mit dem gezeichneten Plattenspieler.
+- Leicht zu bedienen. Der Schädel ist die Navigation, und für alle, die nicht suchen wollen, gibt es auf jeder Seite ein schlichtes Menü. Die Seiten gibt es auf Deutsch und auf Englisch.
 
-- Der Blog: 32 Essays, von der alten Seite herübergeholt.
-
-- Alles in zwei Sprachen.
-
-- Die Presseseite, aus meinem eigenen Archiv.
-
-### Der Code
-
-Dahinter steckt kein Baukasten und kein fertiges Framework. Jede Seite ist für diese Seite von Hand geschrieben: schlichtes HTML, CSS und JavaScript, rund 380.000 Zeichen, dazu die Skripte, die Blog, Presseseite und die deutschen Seiten aus einfachen Textdokumenten bauen.
-
-Manches ist mehr, als es aussieht. In der Bio sind der Hubschrauber, die Wolken am Teide und der Nachthimmel Filme, deren weißer Hintergrund live im Browser entfernt wird, damit sie wie Tinte auf dem Papier liegen. Der 360°-Film läuft in einem eigenen kleinen Viewer. Die Flugstunde hat ein kleines Flugmodell, und ihre Alpen sind aus echten Höhendaten berechnet. Der Plattenspieler spricht direkt mit dem Player von Mixcloud, damit der Tonarm weiß, wo die Musik gerade ist. Und drei Spiele mussten geschrieben, gezeichnet und abgestimmt werden.
-
-Die andere Hälfte der Arbeit ist Zurückhaltung. Filme laufen nur, solange man sie sieht. Bei langsamer Verbindung oder im Datensparmodus bleibt die Zeichnung still, und nichts Schweres wird geladen. Ein Handy soll von einem Schädel nicht heiß werden.
-
-Nicht alles hat beim ersten Mal geklappt. Im Film vom Weg verlor einer der beiden Wanderer nach vier Sekunden seine Ornamente und lief als dunkle Puppe weiter. Ein eigenes Skript trägt ihn jetzt so durch den Film, wie er gezeichnet wurde. Ein Hubschrauber, der zum Wenden einfach gespiegelt wird, sieht falsch aus, also wendet er nie: Er fliegt auf der einen Seite hinaus und kommt auf der anderen wieder herein. Punkte auf den Türen wurden ausprobiert und verworfen. Jetzt blendet eine Tür nach der anderen ein und wieder aus.
+- Keine Cookies, kein Tracking, keine Skripte fremder Firmen auf dieser Seite. Dein Browser merkt sich für sie nur Kleinigkeiten wie die Sprache, den Ton und eine Bestenliste. Der einzige fremde Dienst ist der Player von Mixcloud auf der DJ-Seite. Er wird geladen, wenn du Play drückst, vorher nicht, und ab dann gelten die Regeln von Mixcloud.
 
 ### Kleinigkeiten, die man leicht übersieht
 
@@ -646,25 +666,17 @@ Nicht alles hat beim ersten Mal geklappt. Im Film vom Weg verlor einer der beide
 
 - Wenn die Eule in den Nachtgeräuschen ruft, bewegt sich die Eule in der Zeichnung.
 
-- Lässt man den Schädel in Ruhe, zeigt sich eine Tür nach der anderen, mit ihrem Namen, und verblasst wieder.
-
-- Der Schädel neigt sich zum Mauszeiger. Auf dem Handy folgt er der Hand, die es hält.
-
 - Ein Klick auf eine Tür fliegt hinein. Auf dem Rückweg fliegt man aus derselben Tür wieder heraus.
-
-- Zwei Wanderer machen sich auf den Weg. Ein Schwarm Schwalben kreist in der Kuppel, dazwischen ein fliegendes Mädchen.
-
-- Erreicht der Mauszeiger den Teide, fährt ein Snowboarder los.
-
-- In der Bio zeichnet eine Schwalbe beim Scrollen meinen Weg über die Karte.
 
 - Auf der DJ-Seite steht der Tonarm dort, wo die Aufnahme gerade ist. Anheben, woanders absetzen, und die Musik springt dorthin.
 
 - Drei Minuten ohne Berührung, und alles wird still. Die nächste Bewegung weckt es wieder.
 
-### Was versteckt ist
+### Spiele und Verstecke
 
-Auf der Seite weist nichts darauf hin. Hier stehen sie trotzdem.
+Hier werden die kleinen Geheimnisse der Seite verraten. Wenn du lieber selbst suchst, lass diesen Abschnitt zu.
+
+Alle Verstecke und Spiele auflösen
 
 
 #### Owl Night Long
@@ -676,7 +688,7 @@ Auf dem linken Wangenknochen des Schädels. Ein Arcade-Spiel, wie es die frühen
 #### „Was soll das werden?“
 
 In der Bio. Den Hubschrauber anklicken, dann im Flug fangen, oder die Einladung annehmen, die daneben auftaucht. Man sitzt in einer Alouette II und versucht, sie über einer Wiese ruhig zu halten, während der Fluglehrer schreit. Ich habe bei der Hubschrauberstaffel der Bundespolizei auf der Alouette II fliegen gelernt. Das ist meine erste Flugstunde. Jetzt deine. Drei Stufen: Easy, Mittel, Realistisch.
-[Zum Hubschrauber](https://new.chrishelmbrecht.com/de/bio.html)
+[Zum Hubschrauber](https://new.chrishelmbrecht.com/de/bio.html#munich)
 
 
 #### DONT WALK
@@ -688,18 +700,24 @@ Unter New York in der Bio. Eine Avenue in Manhattan, irgendwann zwischen 1997 un
 #### Teneriffa, rundum
 
 Den Stich vom Teide in der Bio anklicken. Es öffnet sich ein 360°-Film vom Meer vor Teneriffa, von mir gedreht. Ziehen, um sich umzusehen.
-[Zur Bio](https://new.chrishelmbrecht.com/de/bio.html)
+[Zu Teneriffa in der Bio](https://new.chrishelmbrecht.com/de/bio.html#tenerife)
 
 
 #### Der Schwung im Pulverschnee
 
 In der Bio mit der Maus über den Snowboarder fahren oder ihn antippen. Pulverschnee fliegt von seinem hinteren Fuß Richtung Überschrift, als Tausende sehr kleiner blauer Punkte.
-[Zur Bio](https://new.chrishelmbrecht.com/de/bio.html)
+[Zum Snowboarder](https://new.chrishelmbrecht.com/de/bio.html#munich)
 
 
 #### Der Ast
 
 Dreimal am Ast rütteln, auf dem die Eule sitzt, und sie fliegt davon. Sie kommt wieder. Auf dem iPhone schaltet derselbe Ast das Neigen ein.
+[Zum Schädel](https://new.chrishelmbrecht.com/de/index.html)
+
+
+#### Der Fahrer am Teide
+
+Auf der Startseite mit der Maus auf den Teide fahren oder den Berg antippen. Ein Snowboarder fährt los.
 [Zum Schädel](https://new.chrishelmbrecht.com/de/index.html)
 
 
@@ -713,16 +731,6 @@ Irgendwo auf den Schädel selbst klicken, und dort wachsen Pilze. Nach zehn Stü
 
 Sie sitzt auf dem rechten Wangenknochen, gegenüber vom Spiel.
 
-### Gefunden, gelesen, benutzbar
-
-- Gebaut, um gefunden zu werden, von Suchmaschinen und von KI-Assistenten. Jede Seite trägt ihre Beschreibung und strukturierte Daten, es gibt eine Sitemap, und eine Datei namens llms.txt sagt Assistenten, was wo liegt. Die Texte stehen in den Seiten selbst und werden nicht erst per Skript hineingemalt.
-
-- Barrierefrei. Jede Tür und jedes Versteck ist ein echter Link oder ein echter Button, mit der Tastatur erreichbar und für Screenreader benannt. Wer Bewegung abgeschaltet hat, bekommt eine Seite, die stillhält. Ohne Skript lässt sich jede Seite trotzdem lesen.
-
-- Leicht zu bedienen. Der Schädel ist die Navigation, und für alle, die nicht suchen wollen, gibt es auf jeder Seite ein schlichtes Menü. Deutsch und Englisch, jede Seite mit ihrem Zwilling.
-
-- Keine Cookies, kein Tracking, keine Skripte fremder Firmen. Mixcloud wird erst kontaktiert, wenn du Play drückst.
-
 ### Credits & Sound
 
 Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
@@ -731,11 +739,9 @@ Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX — [www.f
 
 Die Alpen im Flugspiel sind aus offenen Höhendaten berechnet (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
 
-### Auch so eine?
+### Die andere Seite meiner Arbeit
 
-Wenn du auch so eine Seite haben willst oder etwas in der Art bei dir einbauen möchtest, dann melde dich. Und schau dir an, was ich sonst noch so mache.
-
-- [dieneue.social](https://dieneue.social)
+Mit digitalen Projekten, Marketing und KI beschäftige ich mich auch beruflich. Wenn du so etwas für dich haben willst, melde dich. Mehr dazu auf [dieneue.social](https://dieneue.social).
 
 - [Kontakt aufnehmen](https://new.chrishelmbrecht.com/de/contact.html)
 

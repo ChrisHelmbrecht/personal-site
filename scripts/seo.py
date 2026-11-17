@@ -47,7 +47,7 @@ PAGES = {
  'contact.html': dict(title='Contact · Chris Helmbrecht', kind='website', crumb='Contact',
     desc='Contact Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook and Telegram, DJ booking direct by e-mail or phone, and his literary agent.'),
  'making-of.html': dict(title='Making of · Chris Helmbrecht', kind='website', crumb='Making of',
-    desc='How this site was made: why a skull, the drafts, who did what (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), the code, and everything that is hidden in it. With credits.'),
+    desc='How this site was made: why a skull, the drafts, who did what (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), what did not work at first, and the games and hidden things, revealed on request. With credits.'),
 }
 PAGES_DE = {                # crumb: the page's name on the way back to the start page (structured data)
  'index.html': dict(title='Chris Helmbrecht · DJ, Autor und Markenberater in München',
@@ -61,7 +61,7 @@ PAGES_DE = {                # crumb: the page's name on the way back to the star
  'contact.html': dict(title='Kontakt · Chris Helmbrecht', crumb='Kontakt',
     desc='Kontakt zu Chris Helmbrecht: Instagram, SoundCloud, Mixcloud, Facebook und Telegram, DJ-Booking direkt per E-Mail oder Telefon, und seine Literaturagentur.'),
  'making-of.html': dict(title='Making-of · Chris Helmbrecht', crumb='Making-of',
-    desc='Wie diese Seite entstanden ist: warum ein Schädel, die Entwürfe, wer was gemacht hat (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), der Code und alles, was darin versteckt ist. Mit Credits.'),
+    desc='Wie diese Seite entstanden ist: warum ein Schädel, die Entwürfe, wer was gemacht hat (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), was nicht auf Anhieb geklappt hat, und die Spiele und Verstecke, auf Wunsch aufgelöst. Mit Credits.'),
 }
 MENU_ONLY = ['game.html', 'jaywalk.html', '404.html']       # one language (the games) or both in one file (404): the menu and the language script, nothing else
 

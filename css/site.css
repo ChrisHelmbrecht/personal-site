@@ -370,6 +370,7 @@ html.rest .bloom, html.rest .heli, html.rest .carrier img { animation-play-state
 .plate figcaption, .where { font: .68rem/1.4 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
 .log { position: relative; }
 .leg { position: relative; isolation: isolate; padding-block: 8px 30px; }
+.leg[id] { scroll-margin-top: 96px; }   /* a chapter that is linked from elsewhere (the making-of) arrives below the header */
 .leg::before { content: attr(data-n); position: absolute; z-index: -1; right: 0; top: -.08em; font: 500 clamp(7rem, 22vw, 12.5rem)/.8 var(--display); color: rgba(31, 63, 151, .1); pointer-events: none; }
 .leg h2 { font: italic 600 clamp(1.9rem, 5.4vw, 2.7rem)/1.05 var(--display); margin: 6px 0 16px; color: var(--ink); text-wrap: balance; max-width: 16ch; }
 .leg p { margin: 0 0 14px; max-width: 58ch; }

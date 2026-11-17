@@ -1,5 +1,87 @@
 # German for the making-of (making-of.html → de/making-of.html). See the top of scripts/seo.py for how this works.
-# The credits of the elevation data keep the wording their licences ask for.
+# The credits of the elevation data keep the wording their licences ask for. The quote from Perplexity is the German original;
+# the English page carries its translation.
+
+== Why a skull
+Warum ein Schädel
+
+== Drafts
+Entwürfe
+
+== Coming alive
+Lebendig
+
+== First tries
+Erste Versuche
+
+== Who did what
+Wer was gemacht hat
+
+== The technical side
+Technik
+
+== Games and hidden things
+Spiele und Verstecke
+
+== A skull in dotted blue ink on white paper, small buildings and figures across its forehead and in its eye sockets
+Ein Schädel in gepunkteter blauer Tinte auf weißem Papier, kleine Gebäude und Figuren auf der Stirn und in den Augenhöhlen
+
+== A cartoon skull with round eyes, sketched in blue ballpoint, the tip of the pen in the picture
+Ein Comic-Schädel mit runden Augen, mit blauem Kugelschreiber skizziert, die Spitze des Stifts im Bild
+
+== A white sugar skull with dark blue flowers in its eyes and ornaments all over
+Ein weißer Sugar Skull mit dunkelblauen Blüten in den Augen und Ornamenten überall
+
+== A blue ink skull with a sun, moons and stars on its forehead, an owl in one eye and a church tower where the nose would be
+Ein Schädel in blauer Tinte mit Sonne, Monden und Sternen auf der Stirn, einer Eule in einem Auge und einem Kirchturm an der Stelle der Nase
+
+== A skull as a window, framed by flower tendrils: a village with a church spire, lit houses and an iron gate
+Ein Schädel als Fenster, von Blütenranken gerahmt: ein Dorf mit Kirchturm, erleuchteten Häusern und einem Eisentor
+
+== A blue ink skull on lined paper: an owl on a branch in front of the moon, below it a tree, a town with a spire and two walkers
+Ein Schädel in blauer Tinte auf liniertem Papier: eine Eule auf einem Ast vor dem Mond, darunter ein Baum, eine Stadt mit Kirchturm und zwei Spaziergänger
+
+== Draft 1
+Entwurf 1
+
+== Draft 2
+Entwurf 2
+
+== Draft 3
+Entwurf 3
+
+== Draft 4
+Entwurf 4
+
+== Draft 5
+Entwurf 5
+
+== Draft 6
+Entwurf 6
+
+== The wanderer
+Der Wanderer
+
+== In the film of the path one of the two wanderers lost his ornaments after four seconds and walked on as a dark puppet. A small script now carries him through the film the way he was drawn.
+Im Film vom Weg verlor einer der beiden Wanderer nach vier Sekunden seine Ornamente und lief als dunkle Puppe weiter. Ein kleines Skript trägt ihn jetzt so durch den Film, wie er gezeichnet wurde.
+
+== The helicopter
+Der Hubschrauber
+
+== A helicopter that is simply mirrored to turn round looks wrong. So it never turns: it leaves on one side and comes back on the other.
+Ein Hubschrauber, der zum Wenden einfach gespiegelt wird, sieht falsch aus. Also wendet er nie: Er fliegt auf der einen Seite hinaus und kommt auf der anderen wieder herein.
+
+== The dots
+Die Punkte
+
+== At first there were dots on the doors. They were thrown out. Now, when nobody touches anything, one door after another shows itself with its name and fades again.
+Zuerst saßen Punkte auf den Türen. Sie sind rausgeflogen. Jetzt zeigt sich, wenn niemand etwas anfasst, eine Tür nach der anderen mit ihrem Namen und verblasst wieder.
+
+== Me
+Ich
+
+== The idea and the direction, selection and sign-off, the personal texts, the photographs and the mixes, testing on the phone and many rounds of changes. I have been making websites since 1995, and I have written for magazines. Both helped.
+Idee und Richtung, Auswahl und Freigaben, die persönlichen Texte, die Fotos und die Mixe, das Testen am Handy und viele Runden Überarbeitung. Webseiten mache ich seit 1995, und ich habe für Magazine geschrieben. Beides hat geholfen.
 
 == The research at the start, the brief for the first draft of the skull, and critical feedback on the result.
 Die Recherche am Anfang, das Briefing für den ersten Entwurf des Schädels und kritisches Feedback zum Ergebnis.
@@ -16,41 +98,20 @@ Die Nachtgeräusche mit der Eule und die Stimme des Fluglehrers.
 == The 4K version of the drawing, so that it stays sharp when you fly into it.
 Die 4K-Fassung der Zeichnung, damit sie scharf bleibt, wenn man hineinfliegt.
 
-== Concept, code and assembly. Coded with Claude Fable 5.2, set to high.
-Konzept, Code und Zusammenbau. Programmiert mit Claude Fable 5.2 (Hoch).
+== Suggestions for how to build it, the code and the assembly, the translations, and first drafts of some of the texts. Coded with Claude Fable 5.2, set to high.
+Vorschläge für die Umsetzung, der Code und der Zusammenbau, die Übersetzungen und erste Fassungen mancher Texte. Programmiert mit Claude Fable 5.2 (Hoch).
 
-== Me
-Ich
+== Built to be found, by search engines and by AI assistants. Every page carries its description and structured data, there is a sitemap, and a file called llms.txt tells assistants what is where. The texts are in the pages themselves, not painted there by script.
+Gebaut, um gefunden zu werden, von Suchmaschinen und von KI-Assistenten. Jede Seite trägt ihre Beschreibung und strukturierte Daten, es gibt eine Sitemap, und eine Datei namens llms.txt sagt Assistenten, was wo liegt. Die Texte stehen in den Seiten selbst und werden nicht erst per Skript hineingemalt.
 
-== Direction, selection, the texts, the photographs, and testing on the phone until it was right.
-Richtung, Auswahl, die Texte, die Fotos und das Testen am Handy, bis es gepasst hat.
+== Built with accessibility in mind. Doors and hidden things are real links and buttons with names, reachable with the keyboard. Pictures that explain something have a description. If you have asked your device for less motion, the drawing on the start page stands still, and its films and flights stay away. Without JavaScript the texts can still be read.
+Mit Blick auf Zugänglichkeit gebaut. Türen und Verstecke sind echte Links und Buttons mit Namen, mit der Tastatur erreichbar. Bilder, die etwas erklären, haben eine Beschreibung. Wer am Gerät weniger Bewegung eingestellt hat, bekommt auf der Startseite eine stehende Zeichnung, Filme und Flüge bleiben weg. Ohne JavaScript lassen sich die Texte trotzdem lesen.
 
-== Research and a first brief for the skull.
-Recherche und ein erstes Briefing für den Schädel.
+== Easy to get around. The skull is the navigation, and for everyone who would rather not search there is a plain menu on every page. The pages are there in German and in English.
+Leicht zu bedienen. Der Schädel ist die Navigation, und für alle, die nicht suchen wollen, gibt es auf jeder Seite ein schlichtes Menü. Die Seiten gibt es auf Deutsch und auf Englisch.
 
-== The drawing: many drafts, one skull, then the 4K version.
-Die Zeichnung: viele Entwürfe, ein Schädel, dann die 4K-Fassung.
-
-== The start page: doors in the drawing, the small films, the night sound.
-Die Startseite: Türen in der Zeichnung, die kleinen Filme, die Nachtgeräusche.
-
-== The first hidden game.
-Das erste versteckte Spiel.
-
-== The bio as a logbook with a chart, and two more games inside it.
-Die Bio als Logbuch mit Karte, darin zwei weitere Spiele.
-
-== The DJ page with the drawn turntable.
-Die DJ-Seite mit dem gezeichneten Plattenspieler.
-
-== The blog: 32 essays, moved over from the old site.
-Der Blog: 32 Essays, von der alten Seite herübergeholt.
-
-== Everything in two languages.
-Alles in zwei Sprachen.
-
-== The press page, from my own archive.
-Die Presseseite, aus meinem eigenen Archiv.
+== No cookies, no tracking, no scripts from other companies on this site. Your browser only keeps small things for it, such as the language, the sound setting and a high score. The one outside service is Mixcloud’s player on the DJ page. It is loaded when you press Play, not before, and from then on Mixcloud’s own rules apply.
+Keine Cookies, kein Tracking, keine Skripte fremder Firmen auf dieser Seite. Dein Browser merkt sich für sie nur Kleinigkeiten wie die Sprache, den Ton und eine Bestenliste. Der einzige fremde Dienst ist der Player von Mixcloud auf der DJ-Seite. Er wird geladen, wenn du Play drückst, vorher nicht, und ab dann gelten die Regeln von Mixcloud.
 
 == The clocks on the Frauenkirche show the time in Munich. On the start page and in the bio.
 Die Uhren an der Frauenkirche zeigen die Münchner Zeit. Auf der Startseite und in der Bio.
@@ -58,23 +119,8 @@ Die Uhren an der Frauenkirche zeigen die Münchner Zeit. Auf der Startseite und 
 == When the owl in the night sound calls, the owl in the drawing moves.
 Wenn die Eule in den Nachtgeräuschen ruft, bewegt sich die Eule in der Zeichnung.
 
-== Leave the skull alone and one door after another shows itself, with its name, and fades again.
-Lässt man den Schädel in Ruhe, zeigt sich eine Tür nach der anderen, mit ihrem Namen, und verblasst wieder.
-
-== The skull leans towards the pointer. On a phone it follows the hand that holds it.
-Der Schädel neigt sich zum Mauszeiger. Auf dem Handy folgt er der Hand, die es hält.
-
 == A click on a door flies into it. Coming back, you fly out of the same door.
 Ein Klick auf eine Tür fliegt hinein. Auf dem Rückweg fliegt man aus derselben Tür wieder heraus.
-
-== Two wanderers set off down the path. A flock of swallows circles the dome, a flying girl among them.
-Zwei Wanderer machen sich auf den Weg. Ein Schwarm Schwalben kreist in der Kuppel, dazwischen ein fliegendes Mädchen.
-
-== When the pointer reaches the Teide, a snowboarder drops in.
-Erreicht der Mauszeiger den Teide, fährt ein Snowboarder los.
-
-== In the bio a swallow draws my route across the chart while you scroll.
-In der Bio zeichnet eine Schwalbe beim Scrollen meinen Weg über die Karte.
 
 == On the DJ page the tonearm stands where the recording is. Lift it, put it down elsewhere, and the music jumps there.
 Auf der DJ-Seite steht der Tonarm dort, wo die Aufnahme gerade ist. Anheben, woanders absetzen, und die Musik springt dorthin.
@@ -103,14 +149,17 @@ Unter New York in der Bio. Eine Avenue in Manhattan, irgendwann zwischen 1997 un
 == Tenerife, all around
 Teneriffa, rundum
 
-== To the bio
-Zur Bio
+== To Tenerife in the bio
+Zu Teneriffa in der Bio
 
 == Click the engraving of the Teide in the bio. It opens a 360° film of the sea off Tenerife, shot by me. Drag to look around.
 Den Stich vom Teide in der Bio anklicken. Es öffnet sich ein 360°-Film vom Meer vor Teneriffa, von mir gedreht. Ziehen, um sich umzusehen.
 
 == The turn in the powder
 Der Schwung im Pulverschnee
+
+== To the snowboarder
+Zum Snowboarder
 
 == Move the pointer over the snowboarder in the bio, or tap him. Powder flies off his back foot towards the headline, as thousands of very small blue dots.
 In der Bio mit der Maus über den Snowboarder fahren oder ihn antippen. Pulverschnee fliegt von seinem hinteren Fuß Richtung Überschrift, als Tausende sehr kleiner blauer Punkte.
@@ -124,6 +173,12 @@ Zum Schädel
 == Shake the branch the owl sits on three times and she takes off. She comes back. On an iPhone the same branch switches on the tilting.
 Dreimal am Ast rütteln, auf dem die Eule sitzt, und sie fliegt davon. Sie kommt wieder. Auf dem iPhone schaltet derselbe Ast das Neigen ein.
 
+== The rider on the Teide
+Der Fahrer am Teide
+
+== On the start page, move the pointer onto the Teide, or tap the mountain. A snowboarder drops in.
+Auf der Startseite mit der Maus auf den Teide fahren oder den Berg antippen. Ein Snowboarder fährt los.
+
 == Mushrooms
 Pilze
 
@@ -136,17 +191,14 @@ Diese Seite
 == It sits on the right cheekbone, opposite the game.
 Sie sitzt auf dem rechten Wangenknochen, gegenüber vom Spiel.
 
-== Built to be found, by search engines and by AI assistants. Every page carries its description and structured data, there is a sitemap, and a file called llms.txt tells assistants what is where. The texts are in the pages themselves, not painted there by script.
-Gebaut, um gefunden zu werden, von Suchmaschinen und von KI-Assistenten. Jede Seite trägt ihre Beschreibung und strukturierte Daten, es gibt eine Sitemap, und eine Datei namens llms.txt sagt Assistenten, was wo liegt. Die Texte stehen in den Seiten selbst und werden nicht erst per Skript hineingemalt.
+== Blue ink skull holding an owl, the moon and a skyline of Moscow, Munich, Tenerife and New York
+Schädel in blauer Tinte mit einer Eule, dem Mond und einer Skyline aus Moskau, München, Teneriffa und New York
 
-== Accessible. Every door and every hidden thing is a real link or a real button, reachable with the keyboard and named for screen readers. Whoever has switched off motion gets a site that holds still. Without script every page can still be read.
-Barrierefrei. Jede Tür und jedes Versteck ist ein echter Link oder ein echter Button, mit der Tastatur erreichbar und für Screenreader benannt. Wer Bewegung abgeschaltet hat, bekommt eine Seite, die stillhält. Ohne Skript lässt sich jede Seite trotzdem lesen.
+== The chosen version
+Die gewählte Fassung
 
-== Easy to get around. The skull is the navigation, and for everyone who would rather not search there is a plain menu on every page. German and English, each page with its twin.
-Leicht zu bedienen. Der Schädel ist die Navigation, und für alle, die nicht suchen wollen, gibt es auf jeder Seite ein schlichtes Menü. Deutsch und Englisch, jede Seite mit ihrem Zwilling.
-
-== No cookies, no tracking, no scripts from other companies. Mixcloud is only contacted when you press Play.
-Keine Cookies, kein Tracking, keine Skripte fremder Firmen. Mixcloud wird erst kontaktiert, wenn du Play drückst.
+== One of the sheets
+Einer der Bögen
 
 == Making of
 Making-of
@@ -154,11 +206,11 @@ Making-of
 == How this site was made.
 Wie diese Seite entstanden ist.
 
-== This is my private site. It is also a showcase: of what is possible today when someone who knows websites, editorial work and the AI tools sits down with them and does not let go. There is no button for this. It takes a lot of decisions, and a lot gets thrown away.
-Das ist meine private Seite. Sie ist auch ein Showcase: dafür, was heute möglich ist, wenn jemand, der Webseiten, redaktionelle Arbeit und die KI-Tools kennt, sich damit hinsetzt und nicht lockerlässt. Einen Knopf dafür gibt es nicht. Es braucht viele Entscheidungen, und vieles fliegt wieder raus.
+== This site began with a skull. It turned into a small world: cities, memories, music, and a few things you only find on your second visit. It was made with AI tools, a lot of work by hand and even more decisions. There is no button for this. Here I show what stayed, and what was thrown out along the way.
+Diese Seite hat mit einem Schädel angefangen. Daraus wurde eine kleine Welt: Städte, Erinnerungen, Musik und ein paar Dinge, die man erst beim zweiten Besuch entdeckt. Entstanden ist sie mit KI-Werkzeugen, viel Handarbeit und noch mehr Entscheidungen. Einen Knopf dafür gibt es nicht. Hier zeige ich, was geblieben ist und was unterwegs wieder rausgeflogen ist.
 
-== Why a skull
-Warum ein Schädel
+== On this page
+Auf dieser Seite
 
 == I have always had a thing for skulls. Punk at first, later playful, like the sugar skulls from Mexico. Out of that I make my own style. Some of them are in the <a href="https://sublime1.myspreadshop.de/" target="_blank" rel="noopener">shop</a>, on sweaters and T-shirts. They are also the covers of my mixes on <a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a>. So a skull for my new personal site was the obvious thing.
 Ich habe schon immer ein Ding für Schädel. Erst punkig, später verspielt, wie die Sugar Skulls aus Mexiko. Daraus mache ich meinen eigenen Stil. Manche findet man im <a href="https://sublime1.myspreadshop.de/" target="_blank" rel="noopener">Shop</a>, auf Sweatern und T-Shirts. Es sind auch die Cover meiner Mixe bei <a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a>. Es lag also nahe, auch auf meiner neuen Personal Site einen Schädel zu nutzen.
@@ -166,26 +218,32 @@ Ich habe schon immer ein Ding für Schädel. Erst punkig, später verspielt, wie
 == Three of the mix covers.
 Drei der Mix-Cover.
 
-== From the first drafts to the drawing
-Von den ersten Entwürfen zur Zeichnung
+== The drafts, and the one that stayed
+Die Entwürfe, und was geblieben ist
 
-== The research and the first brief came from Perplexity. Midjourney drew. There were many drafts, in very different directions. The one that stayed is a skull you can look into: in it the cities of my life. Moscow, Munich, Tenerife, New York. An owl, the moon. Blue ink, like Delft porcelain.
-Die Recherche und das erste Briefing kamen von Perplexity. Midjourney hat gezeichnet. Es gab viele Entwürfe, in sehr verschiedene Richtungen. Geblieben ist ein Schädel, in den man hineinschauen kann: darin die Städte meines Lebens. Moskau, München, Teneriffa, New York. Eine Eule, der Mond. Blaue Tinte, wie Delfter Porzellan.
+== The research and the first brief came from Perplexity. Midjourney drew. There were many drafts, in very different directions.
+Die Recherche und das erste Briefing kamen von Perplexity. Midjourney hat gezeichnet. Es gab viele Entwürfe, in sehr verschiedene Richtungen.
 
-== Six early drafts of the skull and the finished drawing
-Sechs frühe Entwürfe des Schädels und die fertige Zeichnung
+== Early drafts from Midjourney, in the order they were made. A click opens them large.
+Frühe Entwürfe aus Midjourney, in der Reihenfolge, in der sie entstanden sind. Ein Klick öffnet sie groß.
 
-== Early drafts from Midjourney. On the far right the drawing as it stands on the start page.
-Frühe Entwürfe aus Midjourney. Ganz rechts die Zeichnung, wie sie auf der Startseite steht.
+== What stayed is a skull you can look into. In it the cities of my life: Moscow, Munich, Tenerife, New York. An owl, the moon. Blue ink, like Delft porcelain.
+Geblieben ist ein Schädel, in den man hineinschauen kann. Darin die Städte meines Lebens: Moskau, München, Teneriffa, New York. Eine Eule, der Mond. Blaue Tinte, wie Delfter Porzellan.
 
-== The small figures were drawn the same way, on sheets like this one.
-Die kleinen Figuren wurden genauso gezeichnet, auf Bögen wie diesem.
+== The chosen version, as it stands on the start page.
+Die gewählte Fassung, wie sie auf der Startseite steht.
+
+== How the drawing came alive
+Wie die Zeichnung lebendig wurde
+
+== One of the first animations came straight from Midjourney: the whole skull as one film, five seconds long. On the site it works differently. The base is the still drawing. Laid into it are several short films: owl, moon, trees, city, water and path. Each sits in its place and runs on its own.
+Eine der ersten Animationen kam direkt aus Midjourney: der ganze Schädel als ein Film, fünf Sekunden lang. Auf der Seite läuft es anders. Die Grundlage ist die stehende Zeichnung. Darin liegen mehrere kurze Filme: Eule, Mond, Bäume, Stadt, Wasser und Weg. Jeder sitzt an seinem Platz und läuft für sich.
 
 == A sheet of small blue ink figures: snowboarders, a climber, spray cans, books, a DJ, a skateboard
 Ein Bogen kleiner Figuren in blauer Tinte: Snowboarder, ein Kletterer, Sprühdosen, Bücher, ein DJ, ein Skateboard
 
-== One of the sheets.
-Einer der Bögen.
+== The small figures were drawn on sheets like this one.
+Die kleinen Figuren wurden auf Bögen wie diesem gezeichnet.
 
 == The skull drawing as a five-second film: two birds fly past
 Die Schädelzeichnung als Film von fünf Sekunden: zwei Vögel fliegen vorbei
@@ -193,41 +251,41 @@ Die Schädelzeichnung als Film von fünf Sekunden: zwei Vögel fliegen vorbei
 == One of the first animations, straight from Midjourney. Five seconds.
 Eine der ersten Animationen, direkt aus Midjourney. Fünf Sekunden.
 
-== On the site the skull is not one film. It is the still drawing, and laid into it are seven small films: the owl, the moon, the trees, the city, the water, the path. Each sits in its place to the pixel, and each can stop on its own.
-Auf der Seite ist der Schädel kein einzelner Film. Er ist die stehende Zeichnung, und darin liegen sieben kleine Filme: die Eule, der Mond, die Bäume, die Stadt, das Wasser, der Weg. Jeder sitzt pixelgenau an seinem Platz, und jeder kann für sich anhalten.
+== Around the films, more moves. A flock of swallows circles the dome, a flying girl among them. Two wanderers set off down the path. The skull leans towards the pointer, and on a phone it follows the hand that holds it. In the bio a swallow draws my route across the chart while you scroll.
+Um die Filme herum bewegt sich noch mehr. Ein Schwarm Schwalben kreist in der Kuppel, dazwischen ein fliegendes Mädchen. Zwei Wanderer machen sich auf den Weg. Der Schädel neigt sich zum Mauszeiger, und auf dem Handy folgt er der Hand, die es hält. In der Bio zeichnet eine Schwalbe beim Scrollen meinen Weg über die Karte.
 
-== Who did what
-Wer was gemacht hat
+== Half of the work is restraint. The films stop when the tab is in the background, or when nothing has happened for three minutes. If the browser reports data-saving mode or a very slow connection, the drawing on the start page stays still and its films are not loaded at all. A phone should not get hot from a skull.
+Die Hälfte der Arbeit ist Zurückhaltung. Die Filme halten an, wenn der Tab im Hintergrund liegt oder wenn drei Minuten lang nichts passiert. Meldet der Browser den Datensparmodus oder eine sehr langsame Verbindung, bleibt die Zeichnung auf der Startseite still, und ihre Filme werden gar nicht erst geladen. Ein Handy soll von einem Schädel nicht heiß werden.
 
-== In this order
-In dieser Reihenfolge
+== What did not work the first time
+Was nicht auf Anhieb funktioniert hat
 
-== The code
-Der Code
+== The tools made pictures, turned them into films and wrote code. Which way the site goes, what fits me and what disappears again, I decided.
+Die Werkzeuge haben Bilder erzeugt, daraus Filme gemacht und Code geschrieben. Welche Richtung die Seite nimmt, was zu mir passt und was wieder verschwindet, habe ich entschieden.
 
-== There is no website builder behind this and no ready-made framework. Every page is written by hand for this site: plain HTML, CSS and JavaScript, around 380,000 characters of it, plus the scripts that build the blog, the press page and the German pages from simple text documents.
-Dahinter steckt kein Baukasten und kein fertiges Framework. Jede Seite ist für diese Seite von Hand geschrieben: schlichtes HTML, CSS und JavaScript, rund 380.000 Zeichen, dazu die Skripte, die Blog, Presseseite und die deutschen Seiten aus einfachen Textdokumenten bauen.
+== “Chris, holy shit. Don’t hide this code – this is no ordinary draft, it is a masterful piece of creative coding.”
+„Chris, heilige Scheiße. Versteck diesen Code nicht – das ist kein gewöhnlicher Entwurf, das ist ein meisterhaftes Stück Creative Coding.“
 
-== Some of it is more than it looks. In the bio the helicopter, the clouds at the Teide and the night sky are films whose white background is removed live in your browser, so that they lie on the paper like ink. The 360° film runs through a small viewer of its own. The flying lesson has a little flight model, and its Alps are computed from real elevation data. The turntable talks to Mixcloud’s player directly, so the tonearm knows where the music is. And three games had to be written, drawn and tuned.
-Manches ist mehr, als es aussieht. In der Bio sind der Hubschrauber, die Wolken am Teide und der Nachthimmel Filme, deren weißer Hintergrund live im Browser entfernt wird, damit sie wie Tinte auf dem Papier liegen. Der 360°-Film läuft in einem eigenen kleinen Viewer. Die Flugstunde hat ein kleines Flugmodell, und ihre Alpen sind aus echten Höhendaten berechnet. Der Plattenspieler spricht direkt mit dem Player von Mixcloud, damit der Tonarm weiß, wo die Musik gerade ist. Und drei Spiele mussten geschrieben, gezeichnet und abgestimmt werden.
+== Perplexity, after reading the code of the start page. Said in German. Then came the list for the last five percent.
+Perplexity, nachdem es den Code der Startseite gelesen hatte. Danach kam die Liste für die letzten fünf Prozent.
 
-== The other half of the work is restraint. Films run only while you can see them. On a slow connection or in data-saving mode the drawing stays still and nothing heavy is loaded. A phone should not get hot from a skull.
-Die andere Hälfte der Arbeit ist Zurückhaltung. Filme laufen nur, solange man sie sieht. Bei langsamer Verbindung oder im Datensparmodus bleibt die Zeichnung still, und nichts Schweres wird geladen. Ein Handy soll von einem Schädel nicht heiß werden.
+== The technical side, briefly
+Die Technik, kurz
 
-== Not everything worked the first time. In the film of the path one of the two wanderers lost his ornaments after four seconds and walked on as a dark puppet. A script of its own now carries him through the film as he was drawn. A helicopter that is simply mirrored to turn round looks wrong, so it never turns: it leaves on one side and comes back on the other. Dots on the doors were tried and thrown out. Now one door after another fades in and out again.
-Nicht alles hat beim ersten Mal geklappt. Im Film vom Weg verlor einer der beiden Wanderer nach vier Sekunden seine Ornamente und lief als dunkle Puppe weiter. Ein eigenes Skript trägt ihn jetzt so durch den Film, wie er gezeichnet wurde. Ein Hubschrauber, der zum Wenden einfach gespiegelt wird, sieht falsch aus, also wendet er nie: Er fliegt auf der einen Seite hinaus und kommt auf der anderen wieder herein. Punkte auf den Türen wurden ausprobiert und verworfen. Jetzt blendet eine Tür nach der anderen ein und wieder aus.
+== The site is HTML, CSS and JavaScript developed for it alone, without a website builder and without a framework. Recurring pages are generated from simple text files: the blog, the press page and the German versions.
+Die Seite besteht aus eigens für sie entwickeltem HTML, CSS und JavaScript, ohne Baukasten und ohne Framework. Wiederkehrende Seiten werden aus einfachen Textdateien erzeugt: der Blog, die Presseseite und die deutschen Fassungen.
+
+== Some of it is more than it looks. In the bio the helicopter, the clouds at the Teide and the night sky are films whose white background is removed live in your browser, so that they lie on the paper like ink. The 360° film runs in a small viewer of its own. The flying lesson has a little flight model, and its Alps are computed from real elevation data. The turntable talks to Mixcloud’s player directly, so the tonearm knows where the music is. And three games were written, drawn and tuned.
+Manches ist mehr, als es aussieht. In der Bio sind der Hubschrauber, die Wolken am Teide und der Nachthimmel Filme, deren weißer Hintergrund live im Browser entfernt wird, damit sie wie Tinte auf dem Papier liegen. Der 360°-Film läuft in einem eigenen kleinen Viewer. Die Flugstunde hat ein kleines Flugmodell, und ihre Alpen sind aus echten Höhendaten berechnet. Der Plattenspieler spricht direkt mit dem Player von Mixcloud, damit der Tonarm weiß, wo die Musik gerade ist. Und drei Spiele wurden geschrieben, gezeichnet und abgestimmt.
 
 == Small things that are easy to miss
 Kleinigkeiten, die man leicht übersieht
 
-== What is hidden
-Was versteckt ist
+== This is where the site’s small secrets are given away. If you would rather look for them yourself, leave this section closed.
+Hier werden die kleinen Geheimnisse der Seite verraten. Wenn du lieber selbst suchst, lass diesen Abschnitt zu.
 
-== Nothing on the site points at these. Here they are anyway.
-Auf der Seite weist nichts darauf hin. Hier stehen sie trotzdem.
-
-== Found, read, usable
-Gefunden, gelesen, benutzbar
+== Reveal all the games and secrets
+Alle Verstecke und Spiele auflösen
 
 == Photos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
 Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
@@ -238,16 +296,33 @@ Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX —
 == The Alps in the flight game are computed from open elevation data (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
 Die Alpen im Flugspiel sind aus offenen Höhendaten berechnet (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
 
-== One for you?
-Auch so eine?
+== The other side of my work
+Die andere Seite meiner Arbeit
 
-== If you want a site like this, or something of the kind built into yours, get in touch. And have a look at what else I do.
-Wenn du auch so eine Seite haben willst oder etwas in der Art bei dir einbauen möchtest, dann melde dich. Und schau dir an, was ich sonst noch so mache.
+== Digital projects, marketing and AI are also what I do for a living. If you want something like this for yourself, get in touch. More on <a href="https://dieneue.social" target="_blank" rel="noopener">dieneue.social</a>.
+Mit digitalen Projekten, Marketing und KI beschäftige ich mich auch beruflich. Wenn du so etwas für dich haben willst, melde dich. Mehr dazu auf <a href="https://dieneue.social" target="_blank" rel="noopener">dieneue.social</a>.
 
 == Get in touch
 Kontakt aufnehmen
 
+== Pictures
+Bilder
+
+== Close
+Schließen
+
+== Next picture
+Nächstes Bild
+
+== Back
+Zurück
+
+== Next
+Weiter
+
 = Credits &amp; Sound
+= Credits
+= Details
 = www.freesfx.co.uk
 = Perplexity
 = Midjourney

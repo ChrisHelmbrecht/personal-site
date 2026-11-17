@@ -2,6 +2,10 @@
    German: content/de/making-of.txt, like every hand-written page. */
 .mk-room { max-width: 880px; }
 .mk-lead { font-size: 1.12em; max-width: 54ch; }
+/* the way through the page: plain links in small type, as on the press page */
+.mk-jump { display: flex; flex-wrap: wrap; gap: 0 22px; margin-top: 16px; padding-top: 6px; border-top: 1px solid var(--ink-soft); font: 500 .7rem/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.mk-jump a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-deep); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; text-decoration-color: var(--ink-mid); }
+.mk-jump a:hover { color: var(--ink); text-decoration-color: var(--ink); }
 .mk-part { margin-top: 46px; padding-top: 4px; border-top: 1.5px solid var(--ink); }
 .mk-part h2 { margin: 22px 0 14px; }
 .mk-part h3 { margin: 26px 0 8px; font: 500 .7rem/1.5 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mid); }
@@ -12,30 +16,48 @@
 .mk-fig img, .mk-fig video { display: block; width: 100%; height: auto; background: var(--card); border: 1.5px solid var(--ink-deep); border-radius: 3px; }
 .mk-fig figcaption { margin-top: 9px; font: .66rem/1.6 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
 .mk-covers > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(8px, 2vw, 16px); max-width: 560px; }
-/* the drafts: one row to push sideways, the finished drawing last, with a heavier frame */
-.mk-strip { display: flex; gap: clamp(8px, 1.6vw, 14px); align-items: flex-start; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-color: var(--ink) transparent; scrollbar-width: thin; }
-.mk-strip img { flex: 0 0 auto; width: clamp(150px, 26vw, 210px); aspect-ratio: 1; object-fit: cover; scroll-snap-align: start; }
-.mk-strip img:last-child { border-color: var(--ink); box-shadow: 0 0 0 1.5px var(--ink); }
+/* the drafts: a contact strip to push sideways, each with its number; the chosen drawing stands on its own below, larger */
+.room .mk-strip { list-style: none; margin: 0; padding: 4px 4px 10px; max-width: none; display: flex; gap: clamp(8px, 1.6vw, 14px); align-items: flex-start; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-color: var(--ink) transparent; scrollbar-width: thin; }
+.mk-strip li { flex: 0 0 auto; width: clamp(150px, 26vw, 210px); scroll-snap-align: start; }
+.mk-strip img { aspect-ratio: 1; object-fit: cover; }
+.mk-cap { display: block; margin-top: 7px; font: .66rem/1.4 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
+.mk-zoom { display: block; cursor: zoom-in; border-radius: 3px; }
+.mk-zoom:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.mk-chosen { max-width: 520px; }
+.mk-chosen img { border-color: var(--ink); }
 .mk-two { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(14px, 3vw, 26px); align-items: start; }
 .mk-two .mk-fig { margin-top: 10px; }
 .mk-two video { aspect-ratio: 1; object-fit: cover; }
 
-/* who did what, and the order */
+/* who did what, and what did not work at first: a name in the margin, the story beside it */
 .mk-cast { margin: 0; border-top: 1px solid var(--ink-soft); }
 .mk-cast > div { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); column-gap: 26px; padding: 13px 0 14px; border-bottom: 1px solid var(--ink-soft); }
 .mk-cast dt { font: italic 600 1.5rem/1.1 var(--display); color: var(--ink); }
 .mk-cast dd { margin: 0; max-width: 54ch; }
-.room .mk-steps, .room .mk-eggs { list-style: none; margin: 0; padding: 0; max-width: none; counter-reset: mk; }
-.mk-steps li { counter-increment: mk; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); padding: 5px 0; }
-.mk-steps li::before { content: counter(mk, decimal-leading-zero); font: 500 .7rem/2.3 var(--mono); letter-spacing: .14em; color: var(--ink-mid); }
+.room .mk-eggs { list-style: none; margin: 0; padding: 0; max-width: none; counter-reset: mk; }
+/* what an outside reader said: set like a cutting, the words large, who and when small beneath */
+.mk-quote { margin: 30px 0 4px; padding: 2px 0 2px 22px; border-left: 1.5px solid var(--ink); max-width: 640px; }
+.mk-quote blockquote { margin: 0; }
+.mk-quote p { margin: 0; max-width: none; font: italic 600 clamp(1.35rem, 3.2vw, 1.75rem)/1.22 var(--display); color: var(--ink); text-wrap: balance; }
+.mk-quote figcaption { margin-top: 12px; font: .66rem/1.6 var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--ink-mid); }
 
 /* the lists */
 .room .mk-list { list-style: none; margin: 0; padding: 0; max-width: none; border-top: 1px solid var(--ink-soft); }
 .mk-list li { position: relative; padding: 11px 0 12px 1.6rem; border-bottom: 1px solid var(--ink-soft); max-width: none; }
 .mk-list li::before { content: ""; position: absolute; left: .2rem; top: 1.45em; width: .5rem; height: 1.5px; background: var(--ink); }
 
-/* what is hidden: a number in the margin like the years of the press page */
-.mk-eggs { border-top: 1.5px solid var(--ink); margin-top: 18px !important; }
+/* what is hidden stays closed until someone opens it: one wide line to press, a plus that turns into a minus, nothing that moves */
+.mk-spoiler { margin-top: 18px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--card); }
+.mk-spoiler > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 8px 18px; cursor: pointer; border-radius: 2px; font: 500 .74rem/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-deep); -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.mk-spoiler > summary::-webkit-details-marker { display: none; }
+.mk-spoiler > summary::after { content: "+"; flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-content: center; border: 1.5px solid var(--ink); border-radius: 50%; font: 400 1.3rem/1 var(--mono); letter-spacing: 0; color: var(--ink); }
+.mk-spoiler[open] > summary::after { content: "–"; }
+.mk-spoiler[open] > summary { border-bottom: 1.5px solid var(--ink); border-radius: 2px 2px 0 0; }
+.mk-spoiler > summary:hover { background: var(--ink-soft); }
+.mk-spoiler > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.mk-spoiler .mk-eggs { padding: 0 18px; }
+.mk-eggs li:last-child { border-bottom: 0; }
+/* a number in the margin like the years of the press page */
 .mk-eggs li { counter-increment: mk; display: grid; grid-template-columns: 6.4rem minmax(0, 1fr); column-gap: 26px; padding: 20px 0 22px; border-bottom: 1px solid var(--ink-soft); }
 .mk-eggs li > * { grid-column: 2; }
 .mk-eggs li::before { content: counter(mk, decimal-leading-zero); grid-column: 1; grid-row: 1 / span 3; font: italic 600 clamp(1.9rem, 4.4vw, 2.5rem)/1 var(--display); color: var(--ink); opacity: .55; font-variant-numeric: lining-nums; }
@@ -48,7 +70,7 @@
 
 .mk-credits p { font-size: .94em; max-width: 66ch; }
 .mk-end { padding-bottom: 20px; }
-.mk-end p { font-size: 1.12em; max-width: 50ch; }
+.mk-end p { max-width: 54ch; }
 
 @media (max-width: 620px) {
   .mk-two { grid-template-columns: minmax(0, 1fr); }
