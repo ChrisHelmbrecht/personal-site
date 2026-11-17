@@ -60,7 +60,7 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 
 `contact.html` with `css/contact.css` and `js/contact.js`; German in `content/de/contact.txt`. One scene: a postcard on the paper, a corner of the skull behind it (`assets/contact/skull-corner.webp`, cut from `assets/skull.webp`). The card carries the whole way to write: the address as a mail link, "Write an e-mail", and "Copy address". Below the scene, quietly: the socials, booking, the literary agent, dieneue.social. No form, nothing to choose, nothing to click away.
 
-- **The address** on the card is the one the site has always given (dj@…). Without script it is a normal mail link; the copy button only appears with script.
+- **The address** on the card is chris@chrishelmbrecht.com (Chris, 17 Nov 2026); booking below keeps dj@chrishelmbrecht.com. Without script it is a normal mail link; the copy button only appears with script.
 - **The postmark** (inline SVG with a filter that roughens and wears the ink) falls onto the card only when the address really is on the clipboard, with today's date and hour. If the browser refuses, the address is selected instead and the card says so. Nothing ever claims that a message was sent.
 - **The mail link** lifts the card for a moment; the link is not held back.
 - **The stamp is alive** and nothing points at it (it is told in the making-of, `#egg-stamp`): first press, the owl looks round (its film `assets/video/owl-ink.mp4`, fetched only then, upper half shown; the still stands where the owl stands in the film); second press, it flies onto the card's upper edge; third, home. With reduced motion it changes places without flying and the film is never fetched. Stamp and owl are real buttons.
