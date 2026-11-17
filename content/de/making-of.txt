@@ -1,35 +1,233 @@
 # German for the making-of (making-of.html → de/making-of.html). See the top of scripts/seo.py for how this works.
 # The credits of the elevation data keep the wording their licences ask for.
 
+== The research at the start, the brief for the first draft of the skull, and critical feedback on the result.
+Die Recherche am Anfang, das Briefing für den ersten Entwurf des Schädels und kritisches Feedback zum Ergebnis.
+
+== The skull, the small figures, in the bio the helicopter, the Teide and the tree in the moonlight, the drawings of the flying lesson, and the turntable on the DJ page.
+Der Schädel, die kleinen Figuren, in der Bio der Hubschrauber, der Teide und der Baum im Mondlicht, die Zeichnungen der Flugstunde und der Plattenspieler auf der DJ-Seite.
+
+== The short films: owl, moon, trees, path, city and water on the start page, and in the bio the helicopter, the clouds at the Teide and the night sky.
+Die kurzen Filme: Eule, Mond, Bäume, Weg, Stadt und Wasser auf der Startseite, in der Bio der Hubschrauber, die Wolken am Teide und der Nachthimmel.
+
+== The night sound with the owl, and the voice of the flight instructor.
+Die Nachtgeräusche mit der Eule und die Stimme des Fluglehrers.
+
+== The 4K version of the drawing, so that it stays sharp when you fly into it.
+Die 4K-Fassung der Zeichnung, damit sie scharf bleibt, wenn man hineinfliegt.
+
+== Concept, code and assembly. Coded with Claude Fable 5.2, set to high.
+Konzept, Code und Zusammenbau. Programmiert mit Claude Fable 5.2 (Hoch).
+
+== Me
+Ich
+
+== Direction, selection, the texts, the photographs, and testing on the phone until it was right.
+Richtung, Auswahl, die Texte, die Fotos und das Testen am Handy, bis es gepasst hat.
+
+== Research and a first brief for the skull.
+Recherche und ein erstes Briefing für den Schädel.
+
+== The drawing: many drafts, one skull, then the 4K version.
+Die Zeichnung: viele Entwürfe, ein Schädel, dann die 4K-Fassung.
+
+== The start page: doors in the drawing, the small films, the night sound.
+Die Startseite: Türen in der Zeichnung, die kleinen Filme, die Nachtgeräusche.
+
+== The first hidden game.
+Das erste versteckte Spiel.
+
+== The bio as a logbook with a chart, and two more games inside it.
+Die Bio als Logbuch mit Karte, darin zwei weitere Spiele.
+
+== The DJ page with the drawn turntable.
+Die DJ-Seite mit dem gezeichneten Plattenspieler.
+
+== The blog: 32 essays, moved over from the old site.
+Der Blog: 32 Essays, von der alten Seite herübergeholt.
+
+== Everything in two languages.
+Alles in zwei Sprachen.
+
+== The press page, from my own archive.
+Die Presseseite, aus meinem eigenen Archiv.
+
+== The clocks on the Frauenkirche show the time in Munich. On the start page and in the bio.
+Die Uhren an der Frauenkirche zeigen die Münchner Zeit. Auf der Startseite und in der Bio.
+
+== When the owl in the night sound calls, the owl in the drawing moves.
+Wenn die Eule in den Nachtgeräuschen ruft, bewegt sich die Eule in der Zeichnung.
+
+== Leave the skull alone and one door after another shows itself, with its name, and fades again.
+Lässt man den Schädel in Ruhe, zeigt sich eine Tür nach der anderen, mit ihrem Namen, und verblasst wieder.
+
+== The skull leans towards the pointer. On a phone it follows the hand that holds it.
+Der Schädel neigt sich zum Mauszeiger. Auf dem Handy folgt er der Hand, die es hält.
+
+== A click on a door flies into it. Coming back, you fly out of the same door.
+Ein Klick auf eine Tür fliegt hinein. Auf dem Rückweg fliegt man aus derselben Tür wieder heraus.
+
+== Two wanderers set off down the path. A flock of swallows circles the dome, a flying girl among them.
+Zwei Wanderer machen sich auf den Weg. Ein Schwarm Schwalben kreist in der Kuppel, dazwischen ein fliegendes Mädchen.
+
+== When the pointer reaches the Teide, a snowboarder drops in.
+Erreicht der Mauszeiger den Teide, fährt ein Snowboarder los.
+
+== In the bio a swallow draws my route across the chart while you scroll.
+In der Bio zeichnet eine Schwalbe beim Scrollen meinen Weg über die Karte.
+
+== On the DJ page the tonearm stands where the recording is. Lift it, put it down elsewhere, and the music jumps there.
+Auf der DJ-Seite steht der Tonarm dort, wo die Aufnahme gerade ist. Anheben, woanders absetzen, und die Musik springt dorthin.
+
+== Left alone for three minutes, everything goes still. The next movement wakes it.
+Drei Minuten ohne Berührung, und alles wird still. Die nächste Bewegung weckt es wieder.
+
+== Play
+Spielen
+
+== On the skull’s left cheekbone. An arcade game the way the early eighties would have built it. The moon is gone. An owl looks for it in Munich, New York, Tenerife and Moscow, and in the end in the skull itself. The five best nights are kept with three initials, as in a real arcade, and only in your browser.
+Auf dem linken Wangenknochen des Schädels. Ein Arcade-Spiel, wie es die frühen Achtziger gebaut hätten. Der Mond ist weg. Eine Eule sucht ihn in München, New York, Teneriffa und Moskau und am Ende im Schädel selbst. Die fünf besten Nächte stehen mit drei Initialen da, wie in einer echten Spielhalle, und nur in deinem Browser.
+
+== “Was soll das werden?”
+„Was soll das werden?“
+
+== To the helicopter
+Zum Hubschrauber
+
+== In the bio. Click the helicopter, then catch it in flight, or take the invitation that appears beside it. You sit in an Alouette II and try to hold it still over a meadow while the flight instructor shouts. I learned to fly on the Alouette II with the Federal Police helicopter squad. This is my first flying lesson. Now yours. Three levels: easy, medium, realistic.
+In der Bio. Den Hubschrauber anklicken, dann im Flug fangen, oder die Einladung annehmen, die daneben auftaucht. Man sitzt in einer Alouette II und versucht, sie über einer Wiese ruhig zu halten, während der Fluglehrer schreit. Ich habe bei der Hubschrauberstaffel der Bundespolizei auf der Alouette II fliegen gelernt. Das ist meine erste Flugstunde. Jetzt deine. Drei Stufen: Easy, Mittel, Realistisch.
+
+== Under New York in the bio. An avenue in Manhattan, some year between 1997 and 2002, my years there. The light says DONT WALK and never changes. Six lanes, a lot of yellow cabs, and everything you want is on the other side.
+Unter New York in der Bio. Eine Avenue in Manhattan, irgendwann zwischen 1997 und 2002, meine Jahre dort. Die Ampel zeigt DONT WALK und schaltet nie um. Sechs Spuren, viele Yellow Cabs, und alles, was man will, liegt auf der anderen Seite.
+
+== Tenerife, all around
+Teneriffa, rundum
+
+== To the bio
+Zur Bio
+
+== Click the engraving of the Teide in the bio. It opens a 360° film of the sea off Tenerife, shot by me. Drag to look around.
+Den Stich vom Teide in der Bio anklicken. Es öffnet sich ein 360°-Film vom Meer vor Teneriffa, von mir gedreht. Ziehen, um sich umzusehen.
+
+== The turn in the powder
+Der Schwung im Pulverschnee
+
+== Move the pointer over the snowboarder in the bio, or tap him. Powder flies off his back foot towards the headline, as thousands of very small blue dots.
+In der Bio mit der Maus über den Snowboarder fahren oder ihn antippen. Pulverschnee fliegt von seinem hinteren Fuß Richtung Überschrift, als Tausende sehr kleiner blauer Punkte.
+
+== The branch
+Der Ast
+
+== To the skull
+Zum Schädel
+
+== Shake the branch the owl sits on three times and she takes off. She comes back. On an iPhone the same branch switches on the tilting.
+Dreimal am Ast rütteln, auf dem die Eule sitzt, und sie fliegt davon. Sie kommt wieder. Auf dem iPhone schaltet derselbe Ast das Neigen ein.
+
+== Mushrooms
+Pilze
+
+== Click anywhere on the skull itself and mushrooms grow there. After ten of them the whole skull trips for a while.
+Irgendwo auf den Schädel selbst klicken, und dort wachsen Pilze. Nach zehn Stück ist der ganze Schädel eine Weile auf dem Trip.
+
+== This page
+Diese Seite
+
+== It sits on the right cheekbone, opposite the game.
+Sie sitzt auf dem rechten Wangenknochen, gegenüber vom Spiel.
+
+== Built to be found, by search engines and by AI assistants. Every page carries its description and structured data, there is a sitemap, and a file called llms.txt tells assistants what is where. The texts are in the pages themselves, not painted there by script.
+Gebaut, um gefunden zu werden, von Suchmaschinen und von KI-Assistenten. Jede Seite trägt ihre Beschreibung und strukturierte Daten, es gibt eine Sitemap, und eine Datei namens llms.txt sagt Assistenten, was wo liegt. Die Texte stehen in den Seiten selbst und werden nicht erst per Skript hineingemalt.
+
+== Accessible. Every door and every hidden thing is a real link or a real button, reachable with the keyboard and named for screen readers. Whoever has switched off motion gets a site that holds still. Without script every page can still be read.
+Barrierefrei. Jede Tür und jedes Versteck ist ein echter Link oder ein echter Button, mit der Tastatur erreichbar und für Screenreader benannt. Wer Bewegung abgeschaltet hat, bekommt eine Seite, die stillhält. Ohne Skript lässt sich jede Seite trotzdem lesen.
+
+== Easy to get around. The skull is the navigation, and for everyone who would rather not search there is a plain menu on every page. German and English, each page with its twin.
+Leicht zu bedienen. Der Schädel ist die Navigation, und für alle, die nicht suchen wollen, gibt es auf jeder Seite ein schlichtes Menü. Deutsch und Englisch, jede Seite mit ihrem Zwilling.
+
+== No cookies, no tracking, no scripts from other companies. Mixcloud is only contacted when you press Play.
+Keine Cookies, kein Tracking, keine Skripte fremder Firmen. Mixcloud wird erst kontaktiert, wenn du Play drückst.
+
 == Making of
 Making-of
 
-== This site is a showcase of what one person and a handful of AI tools can build today. The full story of how it came together follows here.
-Diese Seite zeigt, was ein Mensch und eine Handvoll KI-Tools heute bauen können. Wie sie entstanden ist, steht bald hier.
+== How this site was made.
+Wie diese Seite entstanden ist.
 
-== The tools
-Die Tools
+== This is my private site. It is also a showcase: of what is possible today when someone who knows websites, editorial work and the AI tools sits down with them and does not let go. There is no button for this. It takes a lot of decisions, and a lot gets thrown away.
+Das ist meine private Seite. Sie ist auch ein Showcase: dafür, was heute möglich ist, wenn jemand, der Webseiten, redaktionelle Arbeit und die KI-Tools kennt, sich damit hinsetzt und nicht lockerlässt. Einen Knopf dafür gibt es nicht. Es braucht viele Entscheidungen, und vieles fliegt wieder raus.
 
-== Perplexity – the research at the start and the brief for the first draft of the skull
-Perplexity – die Recherche am Anfang und das Briefing für den ersten Entwurf des Schädels
+== Why a skull
+Warum ein Schädel
 
-== Midjourney – the skull drawing from that brief, the small figures, and the helicopter, the Teide and the moonlit tree in the bio, the drawings of the flight game, and the turntable on the DJ page
-Midjourney – die Schädelzeichnung nach diesem Briefing, die kleinen Figuren, in der Bio der Hubschrauber, der Teide und der Baum im Mondlicht, die Zeichnungen des Flugspiels und der Plattenspieler auf der DJ-Seite
+== I have always had a thing for skulls. Punk at first, later playful, like the sugar skulls from Mexico. Out of that I make my own style. Some of them are in the <a href="https://sublime1.myspreadshop.de/" target="_blank" rel="noopener">shop</a>, on sweaters and T-shirts. They are also the covers of my mixes on <a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a>. So a skull for my new personal site was the obvious thing.
+Ich habe schon immer ein Ding für Schädel. Erst punkig, später verspielt, wie die Sugar Skulls aus Mexiko. Daraus mache ich meinen eigenen Stil. Manche findet man im <a href="https://sublime1.myspreadshop.de/" target="_blank" rel="noopener">Shop</a>, auf Sweatern und T-Shirts. Es sind auch die Cover meiner Mixe bei <a href="https://soundcloud.com/chrishelmbrecht" target="_blank" rel="noopener">SoundCloud</a>. Es lag also nahe, auch auf meiner neuen Personal Site einen Schädel zu nutzen.
 
-== Runway – the short films of the owl, the moon, the trees, the path, the city and the water, and in the bio the helicopter, the clouds at the Teide and the night sky
-Runway – die kurzen Filme von Eule, Mond, Bäumen, Weg, Stadt und Wasser, und in der Bio der Hubschrauber, die Wolken am Teide und der Nachthimmel
+== Three of the mix covers.
+Drei der Mix-Cover.
 
-== ElevenLabs – the night sound, and the voice in the flight game
-ElevenLabs – die Nachtgeräusche und die Stimme im Flugspiel
+== From the first drafts to the drawing
+Von den ersten Entwürfen zur Zeichnung
 
-== Topaz Gigapixel – the 4K version of the drawing
-Topaz Gigapixel – die 4K-Fassung der Zeichnung
+== The research and the first brief came from Perplexity. Midjourney drew. There were many drafts, in very different directions. The one that stayed is a skull you can look into: in it the cities of my life. Moscow, Munich, Tenerife, New York. An owl, the moon. Blue ink, like Delft porcelain.
+Die Recherche und das erste Briefing kamen von Perplexity. Midjourney hat gezeichnet. Es gab viele Entwürfe, in sehr verschiedene Richtungen. Geblieben ist ein Schädel, in den man hineinschauen kann: darin die Städte meines Lebens. Moskau, München, Teneriffa, New York. Eine Eule, der Mond. Blaue Tinte, wie Delfter Porzellan.
 
-== Claude – concept, code and assembly
-Claude – Konzept, Code und Zusammenbau
+== Six early drafts of the skull and the finished drawing
+Sechs frühe Entwürfe des Schädels und die fertige Zeichnung
 
-== The steps
-Die Schritte
+== Early drafts from Midjourney. On the far right the drawing as it stands on the start page.
+Frühe Entwürfe aus Midjourney. Ganz rechts die Zeichnung, wie sie auf der Startseite steht.
+
+== The small figures were drawn the same way, on sheets like this one.
+Die kleinen Figuren wurden genauso gezeichnet, auf Bögen wie diesem.
+
+== A sheet of small blue ink figures: snowboarders, a climber, spray cans, books, a DJ, a skateboard
+Ein Bogen kleiner Figuren in blauer Tinte: Snowboarder, ein Kletterer, Sprühdosen, Bücher, ein DJ, ein Skateboard
+
+== One of the sheets.
+Einer der Bögen.
+
+== The skull drawing as a five-second film: two birds fly past
+Die Schädelzeichnung als Film von fünf Sekunden: zwei Vögel fliegen vorbei
+
+== One of the first animations, straight from Midjourney. Five seconds.
+Eine der ersten Animationen, direkt aus Midjourney. Fünf Sekunden.
+
+== On the site the skull is not one film. It is the still drawing, and laid into it are seven small films: the owl, the moon, the trees, the city, the water, the path. Each sits in its place to the pixel, and each can stop on its own.
+Auf der Seite ist der Schädel kein einzelner Film. Er ist die stehende Zeichnung, und darin liegen sieben kleine Filme: die Eule, der Mond, die Bäume, die Stadt, das Wasser, der Weg. Jeder sitzt pixelgenau an seinem Platz, und jeder kann für sich anhalten.
+
+== Who did what
+Wer was gemacht hat
+
+== In this order
+In dieser Reihenfolge
+
+== The code
+Der Code
+
+== There is no website builder behind this and no ready-made framework. Every page is written by hand for this site: plain HTML, CSS and JavaScript, around 380,000 characters of it, plus the scripts that build the blog, the press page and the German pages from simple text documents.
+Dahinter steckt kein Baukasten und kein fertiges Framework. Jede Seite ist für diese Seite von Hand geschrieben: schlichtes HTML, CSS und JavaScript, rund 380.000 Zeichen, dazu die Skripte, die Blog, Presseseite und die deutschen Seiten aus einfachen Textdokumenten bauen.
+
+== Some of it is more than it looks. In the bio the helicopter, the clouds at the Teide and the night sky are films whose white background is removed live in your browser, so that they lie on the paper like ink. The 360° film runs through a small viewer of its own. The flying lesson has a little flight model, and its Alps are computed from real elevation data. The turntable talks to Mixcloud’s player directly, so the tonearm knows where the music is. And three games had to be written, drawn and tuned.
+Manches ist mehr, als es aussieht. In der Bio sind der Hubschrauber, die Wolken am Teide und der Nachthimmel Filme, deren weißer Hintergrund live im Browser entfernt wird, damit sie wie Tinte auf dem Papier liegen. Der 360°-Film läuft in einem eigenen kleinen Viewer. Die Flugstunde hat ein kleines Flugmodell, und ihre Alpen sind aus echten Höhendaten berechnet. Der Plattenspieler spricht direkt mit dem Player von Mixcloud, damit der Tonarm weiß, wo die Musik gerade ist. Und drei Spiele mussten geschrieben, gezeichnet und abgestimmt werden.
+
+== The other half of the work is restraint. Films run only while you can see them. On a slow connection or in data-saving mode the drawing stays still and nothing heavy is loaded. A phone should not get hot from a skull.
+Die andere Hälfte der Arbeit ist Zurückhaltung. Filme laufen nur, solange man sie sieht. Bei langsamer Verbindung oder im Datensparmodus bleibt die Zeichnung still, und nichts Schweres wird geladen. Ein Handy soll von einem Schädel nicht heiß werden.
+
+== Not everything worked the first time. In the film of the path one of the two wanderers lost his ornaments after four seconds and walked on as a dark puppet. A script of its own now carries him through the film as he was drawn. A helicopter that is simply mirrored to turn round looks wrong, so it never turns: it leaves on one side and comes back on the other. Dots on the doors were tried and thrown out. Now one door after another fades in and out again.
+Nicht alles hat beim ersten Mal geklappt. Im Film vom Weg verlor einer der beiden Wanderer nach vier Sekunden seine Ornamente und lief als dunkle Puppe weiter. Ein eigenes Skript trägt ihn jetzt so durch den Film, wie er gezeichnet wurde. Ein Hubschrauber, der zum Wenden einfach gespiegelt wird, sieht falsch aus, also wendet er nie: Er fliegt auf der einen Seite hinaus und kommt auf der anderen wieder herein. Punkte auf den Türen wurden ausprobiert und verworfen. Jetzt blendet eine Tür nach der anderen ein und wieder aus.
+
+== Small things that are easy to miss
+Kleinigkeiten, die man leicht übersieht
+
+== What is hidden
+Was versteckt ist
+
+== Nothing on the site points at these. Here they are anyway.
+Auf der Seite weist nichts darauf hin. Hier stehen sie trotzdem.
+
+== Found, read, usable
+Gefunden, gelesen, benutzbar
 
 == Photos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
 Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
@@ -40,5 +238,23 @@ Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX —
 == The Alps in the flight game are computed from open elevation data (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
 Die Alpen im Flugspiel sind aus offenen Höhendaten berechnet (Mapzen Terrain Tiles): SRTM terrain data courtesy of the U.S. Geological Survey; Europe terrain data produced using Copernicus data and information funded by the European Union – EU-DEM layers; Austria terrain data © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.
 
+== One for you?
+Auch so eine?
+
+== If you want a site like this, or something of the kind built into yours, get in touch. And have a look at what else I do.
+Wenn du auch so eine Seite haben willst oder etwas in der Art bei dir einbauen möchtest, dann melde dich. Und schau dir an, was ich sonst noch so mache.
+
+== Get in touch
+Kontakt aufnehmen
+
 = Credits &amp; Sound
 = www.freesfx.co.uk
+= Perplexity
+= Midjourney
+= Runway
+= ElevenLabs
+= Topaz Gigapixel
+= Claude
+= Owl Night Long
+= DONT WALK
+= dieneue.social

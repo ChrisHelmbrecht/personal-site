@@ -44,6 +44,12 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - `assets/source/skull-master.png` – master image from Midjourney (2048 px)
 - The timeline, "A life in frames": `content/timeline/`, `scripts/timeline-pictures.py`, `scripts/build-timeline.py`, `timeline.html`, `timeline/`, `css/timeline.css`, `js/timeline.js`, `assets/timeline/`. The bio tells the life; the timeline shows the pictures. Three levels: the overview of years, one album page per year, one large view.
 
+## The making-of
+
+`making-of.html` with `css/making.css` (no script of its own); German in `content/de/making-of.txt`. It is the one page that names every hidden thing, with links, on Chris's wish. Its claims about the site (seven films on the start page, three minutes until everything rests, ten mushrooms, the amount of code, 32 essays) are counted from the code: when one of them changes, change the sentence. It says nothing about how long the site took or what it cost, and stays that way. The credits (`#credits`, linked from the foot of the menu) must stay, see "Sound credits".
+
+`assets/making/` holds what the page shows from the way there: `draft-1.webp` … `draft-6.webp` (early skull drafts from Midjourney, in the order they were made), `figures.webp` (one of the sheets of small figures), `first-animation.mp4` with its still (one of the first animations, straight from Midjourney). A quote from Perplexity's feedback is to be added once Chris has supplied its wording.
+
 ## The press page
 
 - **One source:** `content/press.txt`, one block per piece (television, radio, print and online); its head explains the fields. `python3 scripts/build-press.py` writes `press.html` and `de/press.html` from it; never edit those two by hand. Afterwards run `scripts/seo.py` (its `llms-full.txt` reads the finished page).
