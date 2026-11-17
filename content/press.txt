@@ -296,17 +296,6 @@ draft: yes
 
 # ------------------------------------------------------------ television and video
 
-clip: rt-2011
-section: tv
-medium: RT
-date: 2011-06
-lang: en
-url:
-note_en: Report on the German expat who made partying and social networking his living in Moscow.
-note_de: Beitrag über den deutschen Expat, der in Moskau vom Feiern und Netzwerken lebt.
-source: recordings in the archive ("Russia Today Jun 2011", "Expat turns partying into profession") and screenshots with the channel's caption "German expat makes partying and social networking his living here". Exact date and the report's own title not known
-draft: no
-
 clip: m24-2013
 section: tv
 medium: Moskva 24
@@ -425,17 +414,6 @@ url:
 note_en:
 note_de:
 source: recordings in the archive (Auswanderer_Chris, saved November 2014). Broadcaster, programme and year not known
-draft: yes
-
-clip: rt-other
-section: tv
-medium: RT
-date:
-lang: en
-url:
-note_en:
-note_de:
-source: screenshots and a broken recording in the archive (RT_Opera, RT_BeverlyHills, RT_PrimeTime_Oct28th). Further appearances on RT; titles and years not known
 draft: yes
 
 # ------------------------------------------------------------ radio
