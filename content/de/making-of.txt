@@ -296,8 +296,8 @@ Hier werden die kleinen Geheimnisse der Seite verraten. Wenn du lieber selbst su
 == Reveal all the games and secrets
 Alle Verstecke und Spiele auflösen
 
-== Photos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
-Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
+== Photos: Danny Strasser, <a href="https://www.claudiooliverio.com/" target="_blank" rel="noopener">Claudio Oliverio</a>, <a href="https://www.5see.media/" target="_blank" rel="noopener">Flo Hagena</a>, Chris Helmbrecht
+Fotos: Danny Strasser, <a href="https://www.claudiooliverio.com/" target="_blank" rel="noopener">Claudio Oliverio</a>, <a href="https://www.5see.media/" target="_blank" rel="noopener">Flo Hagena</a>, Chris Helmbrecht
 
 == Helicopter sound effects on the bio page and in the flight game: freeSFX —
 Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX —
@@ -341,4 +341,7 @@ Weiter
 = Claude
 = Owl Night Long
 = DONT WALK
+= Claudio Oliverio
+= Flo Hagena
+= , Chris Helmbrecht
 = dieneue.social

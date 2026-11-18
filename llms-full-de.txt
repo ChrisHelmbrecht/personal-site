@@ -757,7 +757,7 @@ Sie sitzt auf dem rechten Wangenknochen, gegenüber vom Spiel.
 
 ### Credits & Sound
 
-Fotos: Danny Strasser, Daniel Grund, Flo Hagena, Chris Helmbrecht
+Fotos: Danny Strasser, [Claudio Oliverio](https://www.claudiooliverio.com/), [Flo Hagena](https://www.5see.media/), Chris Helmbrecht
 
 Hubschrauber-Soundeffekte auf der Bio-Seite und im Flugspiel: freeSFX — [www.freesfx.co.uk](https://www.freesfx.co.uk/)
 
