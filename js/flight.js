@@ -406,7 +406,7 @@
   };
   const start = from => {
     if (open) return; open = true; trigger = from || null;
-    const own = store.get('flight-sound'); let site = true; try { site = localStorage.getItem('sound') !== 'off'; } catch (e) {}
+    const own = store.get('flight-sound'); const site = !(window.siteSound && window.siteSound.off());
     soundOn = own === null ? site : own !== false;      // the game has a sound switch of its own; until it has been used, the site's switch decides
     if (!document.querySelector('link[data-flight]')) document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: 'css/flight.css' })).dataset.flight = '1';
     build(); labels(); document.documentElement.classList.add('lesson'); document.dispatchEvent(new Event('lesson:open'));

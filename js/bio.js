@@ -194,7 +194,7 @@
   // distance, and drops a little in pitch while the helicopter flies away. Loaded on the first click only
   // Sound follows the site's own switch (the button in the header, kept in localStorage as on the start page): off means off
   let air = null, engine = null, voice = null;
-  const quiet = () => { try { return localStorage.getItem('sound') === 'off'; } catch (e) { return false; } };
+  const quiet = () => !!window.siteSound && window.siteSound.off();      // the site's switch, asked where it is kept (js/site.js): it also holds where a browser stores nothing
   const hush = (secs = .12) => { if (voice && air) { voice.gain.cancelScheduledValues(air.currentTime); voice.gain.setTargetAtTime(0, air.currentTime, secs); } };
   document.addEventListener('sound:change', () => { if (quiet()) hush(); });
   const hear = (start, span, x0) => {                     // take-off time, length of the flight in ms, where it hovers (-1 left … 1 right)

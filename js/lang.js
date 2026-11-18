@@ -10,12 +10,12 @@
 (() => {
   const root = document.documentElement, here = root.lang === 'de' ? 'de' : 'en';
   let chosen = null; try { chosen = localStorage.getItem('lang'); } catch (e) {}
-  if (chosen !== 'de' && chosen !== 'en') chosen = null;
+  if (chosen !== 'de' && chosen !== 'en') { const m = /(?:^|;)lang:(de|en)(?:;|$)/.exec(window.name || ''); chosen = m ? m[1] : null; }   // a browser that stores nothing: the choice travels with the tab
   const browser = (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en';
   const twin = l => { const a = document.querySelector(`link[rel="alternate"][hreflang="${l}"]`); return a ? new URL(a.href).pathname : null; };   // the path only: the same pages work at any address
   const lang = window.siteLang = {
     here, want: chosen || browser, leaving: false, twin,
-    choose(l) { try { localStorage.setItem('lang', l); } catch (e) {} },
+    choose(l) { try { localStorage.setItem('lang', l); } catch (e) { try { window.name = (window.name || '').split(';').filter(x => x && x.indexOf('lang:')).concat('lang:' + l).join(';'); } catch (x) {} } },
   };
   // The page for an address that does not exist is one file holding both languages: it shows the one that fits
   if (root.hasAttribute('data-both')) {

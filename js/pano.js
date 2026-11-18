@@ -105,7 +105,7 @@ void main() {
     document.documentElement.classList.remove('lesson'); document.dispatchEvent(new Event('lesson:close')); if (trigger && trigger.focus) trigger.focus({ preventScroll: true });
   };
   const open = (o, from) => {
-    if (opened) return; opened = true; trigger = from || null; yaw = rad(o.yaw || 0); pitch = 0; fov = rad(92); vy = vp = 0; drift = true; dirty = true; try { wantSound = localStorage.getItem('sound') !== 'off'; } catch (e) { wantSound = true; }   // the site's sound switch decides how the film starts
+    if (opened) return; opened = true; trigger = from || null; yaw = rad(o.yaw || 0); pitch = 0; fov = rad(92); vy = vp = 0; drift = true; dirty = true; wantSound = !(window.siteSound && window.siteSound.off());   // the site's sound switch decides how the film starts
     if (!document.querySelector('link[data-pano]')) document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: 'css/pano.css' })).dataset.pano = '1';
     el = document.createElement('dialog'); el.className = 'pn'; el.setAttribute('aria-label', o.label || TEXT.film);
     el.innerHTML = `<canvas class="pn-view" tabindex="0" aria-label="${o.label || TEXT.film}. ${TEXT.hint}${TEXT.keys}"></canvas>

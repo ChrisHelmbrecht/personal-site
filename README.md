@@ -135,6 +135,8 @@ Every page exists in English and in German. The two hidden games exist in Englis
 
 ## Sound
 
+The sound switch is kept in memory first (`window.siteSound` in `js/site.js`: `off()`, `asked()`, `set()`), and only also written to the browser's storage. Every script asks `siteSound`, never the storage itself: a browser that refuses to store anything (Brave with all cookies blocked, some private windows) must still obey the switch. There the choice, like the chosen language, travels with the tab in `window.name` (`sound:off;lang:en`).
+
 - One switch for the site: the button in the header of the start page and the bio, kept as `sound` in the browser's storage (`off` silences every page). The two arcade games and the flying lesson have a switch of their own.
 - Browsers let sound out only inside a tap, click or key press. `window.siteSound.wake(ctx)` (in `js/site.js`) does what is needed at that moment and is called wherever a sound begins.
 - An iPhone whose ringer switch is off keeps a web page's sounds silent, though not a film's. `siteSound.loud()` asks the phone to treat the page's sound like a film's. It is called only for someone who has switched sound **on by hand**; a visitor who never asked keeps a silent phone silent and their own music playing. On the bio, switching sound on answers with a short soft note, so one hears at once that sound comes out.

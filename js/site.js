@@ -351,10 +351,15 @@
   // moment). `loud()`: for someone who has switched sound on by hand. An iPhone whose ringer is switched off keeps a page's
   // sounds silent, though not a film's; after this they are heard like a film. Nobody else is given that: a visitor who never
   // asked for sound keeps a silent phone silent, and their own music keeps playing
+  // The choice itself is kept here, in memory, and only also written down: a browser that refuses to store anything (Brave with
+  // all cookies blocked, some private windows) must still obey the switch. There the choice travels with the tab instead (window.name)
   const stored = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  let pref = stored('sound');
+  if (pref !== 'on' && pref !== 'off') { const m = /(?:^|;)sound:(on|off)(?:;|$)/.exec(window.name || ''); pref = m ? m[1] : null; }
   window.siteSound = {
-    off: () => stored('sound') === 'off',
-    asked: () => stored('sound') === 'on',
+    off: () => pref === 'off',
+    asked: () => pref === 'on',
+    set(on) { pref = on ? 'on' : 'off'; try { localStorage.setItem('sound', pref); } catch (e) { try { window.name = (window.name || '').split(';').filter(x => x && x.indexOf('sound:')).concat('sound:' + pref).join(';'); } catch (x) {} } },
     loud() { try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {} },
     wake(ctx) { try { if (ctx.state !== 'running') ctx.resume(); const s = ctx.createBufferSource(); s.buffer = ctx.createBuffer(1, 1, 22050); s.connect(ctx.destination); s.start(0); } catch (e) {} },
   };
@@ -366,7 +371,7 @@
   if (audioBtn && !$('skull')) {
     // A page with sounds of its own but without the night sound (the bio): here the button is the site's sound switch and nothing
     // more. The choice is the same one the start page keeps, so "off" silences every page; scripts hear of a change by an event
-    let muted = false, hush, tone = null; try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    let muted = window.siteSound.off(), hush, tone = null;
     const chirp = () => {                                  // switched on: a short soft note says that sound really comes out, here and now
       try {
         const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
@@ -379,7 +384,7 @@
     };
     const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? T.isOff : T.isOn); };
     audioBtn.addEventListener('click', () => {
-      muted = !muted; try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
+      muted = !muted; window.siteSound.set(!muted);
       paint(); audioBtn.dataset.say = muted ? T.off : T.on; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
       if (!muted) { window.siteSound.loud(); chirp(); }
       document.dispatchEvent(new Event('sound:change'));
@@ -388,8 +393,7 @@
   } else if (audioBtn) {
     const SRC = 'assets/audio/night-owl.mp3', VOL = .15, FADE = 3;
     const GESTURES = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
-    let ctx, gain, el, started = false, loading = false, muted = false;
-    try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+    let ctx, gain, el, started = false, loading = false, muted = window.siteSound.off();
     let hush; const say = text => { audioBtn.dataset.say = text; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400); };
     const paint = () => {
       const playing = started && !muted;
@@ -437,7 +441,7 @@
     audioBtn.addEventListener('click', () => {
       if (!started) { muted = false; window.siteSound.loud(); start(); }
       else { muted = !muted; if (!muted) { window.siteSound.loud(); if (ctx) window.siteSound.wake(ctx); } fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? T.off : T.on); }
-      try { localStorage.setItem('sound', muted ? 'off' : 'on'); } catch (e) {}
+      window.siteSound.set(!muted);
     });
     paint();
   }
