@@ -127,6 +127,8 @@ Every page exists in English and in German. The two hidden games exist in Englis
 
 ### Launch (18 Nov 2026)
 
+The server publishes the `main` branch of this repository into the domain's `httpdocs` (Plesk, Git repository `site` on chrishelmbrecht.com). The old WordPress and its database are deleted; the staging subdomain is removed.
+
 Done:
 
 1. The real address is in `SITE` in `scripts/siteconf.py`. After changing it, everything is written again: `python3 scripts/build-timeline.py && python3 scripts/build-press.py && python3 scripts/build-blog.py && python3 scripts/seo.py` (in this order: the sitemap lists the timeline's pages, and `llms-full.txt` reads the finished overviews).
