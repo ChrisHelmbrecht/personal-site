@@ -135,11 +135,13 @@ Done:
 2. `www.` answers with the same address without it (`.htaccess`).
 3. The old site was a WordPress. Its addresses are redirected in `.htaccess`: the pages (`/bio/`, `/en/dj-2/`, `/impressum/` …) by hand, the blog's category archives and feeds to the new overviews and feeds, the 64 articles from `content/blog/redirects.txt`. Old addresses without a counterpart (the accessibility statement, uploaded pictures, the WordPress login) get the page for a missing address.
 4. Imprint and privacy page.
+5. Google Search Console: the property `https://chrishelmbrecht.com/` is Chris's. It was verified by a file of the old WordPress, which is gone; the start page now carries the mark instead (`GOOGLE` in `scripts/siteconf.py`, written by `seo.py`; it must stay). The sitemap is `/sitemap.xml`, the same address as before.
+6. chrishelmbrecht.de leads to chrishelmbrecht.com, page for page (an `.htaccess` in that domain's folder on the server, not in this repository).
 
 Still open:
 
 - In `.htaccess`, let pictures, films, sound and fonts be kept by browsers (the note there says how). While the site is still changed often, every file is checked on each visit.
-- Register the site and its sitemap with Google Search Console and Bing Webmaster Tools (Chris's accounts).
+- Bing Webmaster Tools: register the site and its sitemap (Chris's account).
 
 ## Sound
 

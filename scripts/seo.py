@@ -32,7 +32,7 @@ Descriptions are written here, from what the pages say; nothing in them is to be
 """
 import re, os, sys, html, json, glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from siteconf import SITE, NAME, ME, OG, NAV, PLAIN, DE, TIMELINE, de, address, alternates, noscript, person, crumbs, ld
+from siteconf import SITE, NAME, ME, OG, GOOGLE, NAV, PLAIN, DE, TIMELINE, de, address, alternates, noscript, person, crumbs, ld
 
 esc = lambda s: html.escape(str(s), quote=True)
 PAGES = {
@@ -114,7 +114,8 @@ def head_block(path, c, page_html, lang='en'):
     url = address(DE[path] if lang == 'de' else path)
     og_title = NAME if path == 'index.html' else c['title']
     return ('<!--seo-->\n'
-            + ('<meta name="robots" content="noindex, follow">\n' if c.get('noindex') else '') +
+            + ('<meta name="robots" content="noindex, follow">\n' if c.get('noindex') else '') 
+            + (f'<meta name="google-site-verification" content="{GOOGLE}">\n' if path == 'index.html' else '') +
             f'<meta name="description" content="{esc(c["desc"])}">\n<meta name="author" content="{NAME}">\n<link rel="canonical" href="{url}">\n{alternates(path, DE[path])}'
             f'<meta property="og:site_name" content="{NAME}">\n<meta property="og:type" content="{c["kind"]}">\n<meta property="og:title" content="{esc(og_title)}">\n'
             f'<meta property="og:description" content="{esc(c["desc"])}">\n<meta property="og:url" content="{url}">\n<meta property="og:image" content="{OG}">\n'
@@ -182,7 +183,7 @@ texts, texts_de, left = {}, {}, {}
 for path, c in PAGES.items():
     s = open(path, encoding='utf-8').read()
     s = re.sub(r'<!--seo-->.*?<!--/seo-->\n?', '', s, flags=re.S)
-    s = re.sub(r'<meta (name="description"|name="author"|name="robots"|property="og:[^"]+"|name="twitter:[^"]+")[^>]*>\n?', '', s)        # what an earlier hand put there
+    s = re.sub(r'<meta (name="description"|name="author"|name="robots"|name="google-site-verification"|property="og:[^"]+"|name="twitter:[^"]+")[^>]*>\n?', '', s)        # what an earlier hand put there
     s = re.sub(r'<link rel="canonical"[^>]*>\n?', '', s)
     s = re.sub(r'<title>.*?</title>', f'<title>{esc(c["title"])}</title>', s, count=1, flags=re.S)
     assert '<meta name="referrer"' in s, path

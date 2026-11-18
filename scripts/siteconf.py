@@ -8,6 +8,9 @@ SITE = 'https://chrishelmbrecht.com'      # where the site lives, without a slas
 NAME = 'Chris Helmbrecht'
 ME = SITE + '/#chris'                         # the name search engines know Chris by across all pages (structured data)
 OG = SITE + '/assets/og.jpg'                  # the picture for link previews when a page has none of its own
+# Google Search Console knows the site as Chris's by this mark in the head of the start page (Settings > Ownership verification
+# there). It must stay, or the property loses its owner. Not a secret: it is meant to be read in the page
+GOOGLE = 'v0j1T4DQSL-YS0ybD-LrN19pxVhRq4W2SPKLIUKfVW0'
 
 # ---------------------------------------------------------------- two languages
 # Every page exists in English and in German. English lives at the plain addresses (bio.html), German beside it under de/
