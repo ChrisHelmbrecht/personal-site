@@ -130,8 +130,9 @@ Every page exists in English and in German. The two hidden games exist in Englis
 Done:
 
 1. The real address is in `SITE` in `scripts/siteconf.py`. After changing it, everything is written again: `python3 scripts/build-timeline.py && python3 scripts/build-press.py && python3 scripts/build-blog.py && python3 scripts/seo.py` (in this order: the sitemap lists the timeline's pages, and `llms-full.txt` reads the finished overviews).
-2. The old site was a WordPress. Its addresses are redirected in `.htaccess`: the pages (`/bio/`, `/en/dj-2/`, `/impressum/` …) by hand, the blog's category archives and feeds to the new overviews and feeds, the 64 articles from `content/blog/redirects.txt`. Old addresses without a counterpart (the accessibility statement, uploaded pictures, the WordPress login) get the page for a missing address.
-3. Imprint and privacy page.
+2. `www.` answers with the same address without it (`.htaccess`).
+3. The old site was a WordPress. Its addresses are redirected in `.htaccess`: the pages (`/bio/`, `/en/dj-2/`, `/impressum/` …) by hand, the blog's category archives and feeds to the new overviews and feeds, the 64 articles from `content/blog/redirects.txt`. Old addresses without a counterpart (the accessibility statement, uploaded pictures, the WordPress login) get the page for a missing address.
+4. Imprint and privacy page.
 
 Still open:
 
