@@ -365,6 +365,17 @@
   };
   if (window.siteSound.asked()) window.siteSound.loud();
 
+  // A tap on the sound button is taken from the lifted finger as well as from the click that follows it, and counted once
+  // (`again` is told of the second one). The keyboard sends only the click
+  const onPress = (btn, act, again) => {
+    let last = 0, held = false;
+    const press = () => { const now = Date.now(); if (now - last < 600) { if (again) again(); return; } last = now; act(); };
+    btn.addEventListener('pointerdown', e => { held = e.isPrimary !== false; });
+    btn.addEventListener('pointercancel', () => { held = false; });
+    btn.addEventListener('pointerup', () => { if (held) { held = false; press(); } });
+    btn.addEventListener('click', press);
+  };
+
   // Night sound: a quiet loop through the Web Audio API. Browsers only let audio start on a real
   // gesture (click, tap or key; scrolling alone does not count), so it fades in on the first one.
   const audioBtn = $('audio');
@@ -383,7 +394,7 @@
       } catch (e) {}
     };
     const paint = () => { audioBtn.classList.toggle('muted', muted); audioBtn.classList.toggle('open', !muted); audioBtn.setAttribute('aria-pressed', !muted); audioBtn.setAttribute('aria-label', muted ? T.isOff : T.isOn); };
-    audioBtn.addEventListener('click', () => {
+    onPress(audioBtn, () => {
       muted = !muted; window.siteSound.set(!muted);
       paint(); audioBtn.dataset.say = muted ? T.off : T.on; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400);
       if (!muted) { window.siteSound.loud(); chirp(); }
@@ -393,16 +404,28 @@
   } else if (audioBtn) {
     const SRC = 'assets/audio/night-owl.mp3', VOL = .15, FADE = 3;
     const GESTURES = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
-    let ctx, gain, el, started = false, loading = false, muted = window.siteSound.off();
+    let ctx, gain, el, started = false, loading = false, muted = window.siteSound.off(), rest, oops = '';
+    // one step failing must never take the next ones with it: the button always answers, the sound always stops
+    const safe = (f, what) => { try { return f(); } catch (e) { oops = what + ': ' + (e && e.message || e); } };
     let hush; const say = text => { audioBtn.dataset.say = text; audioBtn.classList.add('say'); clearTimeout(hush); hush = setTimeout(() => audioBtn.classList.remove('say'), 2400); };
     const paint = () => {
-      const playing = started && !muted;
+      const playing = (started || loading) && !muted;                     // on its way counts: the button answers before the first note
       audioBtn.classList.toggle('playing', playing); audioBtn.classList.toggle('muted', muted);
       audioBtn.setAttribute('aria-pressed', playing); audioBtn.setAttribute('aria-label', playing ? T.mute : T.unmute);
     };
-    const fade = (to, secs) => {
-      if (gain) { const t = ctx.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(to, t + secs); }
-      if (el) { el.volume = to; to ? el.play().catch(() => {}) : el.pause(); }
+    // Loud or silent, as `muted` says. The ear gets a fade. Behind the fade, switching off also cuts the sound at its source
+    // (unplugged, the clock stopped), so that it is silent even in a browser that does not follow the fade
+    const apply = secs => {
+      clearTimeout(rest);
+      if (ctx && gain) {
+        if (!muted) { safe(() => gain.connect(ctx.destination), 'plug'); safe(() => { if (ctx.state !== 'running') ctx.resume(); }, 'resume'); }
+        safe(() => { const t = ctx.currentTime, g = gain.gain; g.cancelScheduledValues(t); g.setValueAtTime(Math.min(g.value, VOL) || 0, t); g.linearRampToValueAtTime(muted ? 0 : VOL, t + secs); }, 'fade');
+        if (muted) rest = setTimeout(() => {
+          if (!muted) return;
+          safe(() => { gain.gain.cancelScheduledValues(0); gain.gain.value = 0; }, 'zero'); safe(() => gain.disconnect(), 'unplug'); safe(() => ctx.suspend(), 'suspend');
+        }, secs * 1000 + 80);
+      }
+      if (el) safe(() => { el.muted = muted; el.volume = muted ? 0 : VOL; if (muted) el.pause(); else { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }, 'element');
     };
     const start = async () => {
       if (started || loading || muted) return;
@@ -410,39 +433,69 @@
         ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
         window.siteSound.wake(ctx);
         if (ctx.state !== 'running') { ctx.onstatechange = () => { if (ctx.state === 'running') start(); }; return; } // waits for a gesture the browser accepts
-        loading = true;
+        loading = true; paint();
         const buf = await ctx.decodeAudioData(await (await fetch(SRC)).arrayBuffer());
         const node = ctx.createBufferSource(); node.buffer = buf; node.loop = true;
-        gain = ctx.createGain(); gain.gain.value = 0; node.connect(gain).connect(ctx.destination); node.start();
+        const g = ctx.createGain(); g.gain.value = 0; node.connect(g).connect(ctx.destination); node.start(); gain = g;
         // the owl in the picture moves when the owl in the recording calls
-        const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
-        const samples = new Float32Array(ear.fftSize);
-        let heard = 0;
-        const listen = t => {
+        safe(() => {
+          const ear = ctx.createAnalyser(); ear.fftSize = 1024; node.connect(ear);
+          const samples = new Float32Array(ear.fftSize);
+          let heard = 0;
+          const listen = t => {
+            requestAnimationFrame(listen);
+            if (muted || t - heard < 60) return; heard = t;      // fifteen looks a second are enough to catch a hoot
+            ear.getFloatTimeDomainData(samples);
+            const rms = Math.sqrt(samples.reduce((a, v) => a + v * v, 0) / samples.length);
+            if (rms > .09 && window.owlHoot) window.owlHoot();
+          };
           requestAnimationFrame(listen);
-          if (t - heard < 60) return; heard = t;                 // fifteen looks a second are enough to catch a hoot
-          ear.getFloatTimeDomainData(samples);
-          const rms = Math.sqrt(samples.reduce((a, v) => a + v * v, 0) / samples.length);
-          if (!muted && rms > .09 && window.owlHoot) window.owlHoot();
-        };
-        requestAnimationFrame(listen);
+        }, 'ear');
       } catch (err) { // opened straight from disk: plain audio element instead
-        el = Object.assign(new Audio(SRC), { loop: true, volume: 0 });
+        oops = 'start: ' + (err && err.message || err);
+        if (!gain) el = el || Object.assign(new Audio(SRC), { loop: true, volume: 0 });
       }
       started = true; loading = false;
       GESTURES.forEach(g => removeEventListener(g, onGesture));
-      fade(VOL, FADE); paint(); say(T.on);
+      apply(FADE); paint(); if (!muted) say(T.on);                        // switched off while it was loading: it stays silent
       // a phone puts the sound to sleep when the page is left for another app or the screen is locked. Back here, the next touch wakes it
-      ['pointerup', 'touchend', 'click', 'keydown'].forEach(g => addEventListener(g, () => { if (ctx && !muted && ctx.state !== 'running') ctx.resume(); }, { passive: true }));
-      document.addEventListener('visibilitychange', () => { if (ctx && !muted && !document.hidden && ctx.state !== 'running') ctx.resume().catch(() => {}); });
+      ['pointerup', 'touchend', 'click', 'keydown'].forEach(g => addEventListener(g, () => { if (ctx && !muted && ctx.state !== 'running') safe(() => ctx.resume(), 'resume'); }, { passive: true }));
+      document.addEventListener('visibilitychange', () => { if (ctx && !muted && !document.hidden && ctx.state !== 'running') safe(() => ctx.resume().catch(() => {}), 'resume'); });
     };
     const onGesture = e => { if (!(e.target instanceof Element && e.target.closest('#audio'))) start(); }; // the button decides for itself
     GESTURES.forEach(g => addEventListener(g, onGesture, { passive: true }));
-    audioBtn.addEventListener('click', () => {
-      if (!started) { muted = false; window.siteSound.loud(); start(); }
-      else { muted = !muted; if (!muted) { window.siteSound.loud(); if (ctx) window.siteSound.wake(ctx); } fade(muted ? 0 : VOL, muted ? .4 : 1.2); paint(); say(muted ? T.off : T.on); }
+    // The button. Before anything plays, a tap on it starts the sound. From the moment the sound is on its way, a tap switches:
+    // also while the recording is still loading, so that nobody has to wait for a sound in order to refuse it
+    onPress(audioBtn, () => {
+      if (!started && !loading) { muted = false; window.siteSound.loud(); start(); paint(); }
+      else { muted = !muted; if (!muted) window.siteSound.loud(); apply(muted ? .4 : 1.2); paint(); say(muted ? T.off : T.on); }
       window.siteSound.set(!muted);
-    });
+    }, () => { if (!muted) { if (ctx) window.siteSound.wake(ctx); if (el && started) safe(() => el.play().catch(() => {}), 'element'); } });   // the click may be the gesture a phone accepts
+    // Sound check, for a phone that cannot be looked into from outside: the start page opened with #soundcheck shows what the
+    // button receives and what the sound is doing. Nothing of it runs without that mark
+    if (/soundcheck/.test(location.hash)) {
+      const seen = { down: 0, touch: 0, up: 0, click: 0, page: 0 };
+      const box = document.createElement('pre');
+      box.style.cssText = 'position:fixed;z-index:60;left:8px;right:8px;bottom:calc(34px + env(safe-area-inset-bottom,0px));margin:0;padding:8px 10px;font:11px/1.45 ui-monospace,Menlo,monospace;color:#000;background:#fff;border:1px solid #000;white-space:pre-wrap;pointer-events:none';
+      document.body.appendChild(box);
+      [['pointerdown', 'down'], ['touchstart', 'touch'], ['pointerup', 'up'], ['click', 'click']].forEach(([k, n]) => audioBtn.addEventListener(k, () => seen[n]++, { passive: true }));
+      addEventListener('pointerdown', () => seen.page++, { capture: true, passive: true });
+      const yn = v => v ? 'yes' : 'no';
+      let keeps = 'yes'; try { localStorage.setItem('check', '1'); localStorage.removeItem('check'); } catch (e) { keeps = 'no'; }
+      setInterval(() => {
+        const r = audioBtn.getBoundingClientRect(), vv = window.visualViewport;
+        box.textContent = [
+          'SOUND CHECK',
+          `button  down ${seen.down} · touch ${seen.touch} · up ${seen.up} · click ${seen.click}`,
+          `page    taps ${seen.page}`,
+          `sound   started ${yn(started)} · loading ${yn(loading)} · muted ${yn(muted)}`,
+          `source  ${ctx ? ctx.state : 'none'} · level ${gain ? gain.gain.value.toFixed(3) : '–'} · element ${yn(el)}`,
+          `place   button ${Math.round(r.left)}/${Math.round(r.top)} · window ${innerWidth}×${innerHeight}${vv ? ` · view ${Math.round(vv.offsetTop)}/${Math.round(vv.height)}` : ''}`,
+          `browser brave ${yn(navigator.brave)} · storage ${keeps} · session ${navigator.audioSession ? navigator.audioSession.type : '–'}`,
+          `error   ${oops || '–'}`,
+        ].join('\n');
+      }, 250);
+    }
     paint();
   }
 })();

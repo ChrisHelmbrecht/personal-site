@@ -141,6 +141,9 @@ The sound switch is kept in memory first (`window.siteSound` in `js/site.js`: `o
 - Browsers let sound out only inside a tap, click or key press. `window.siteSound.wake(ctx)` (in `js/site.js`) does what is needed at that moment and is called wherever a sound begins.
 - An iPhone whose ringer switch is off keeps a web page's sounds silent, though not a film's. `siteSound.loud()` asks the phone to treat the page's sound like a film's. It is called only for someone who has switched sound **on by hand**; a visitor who never asked keeps a silent phone silent and their own music playing. On the bio, switching sound on answers with a short soft note, so one hears at once that sound comes out.
 - A phone puts the sound to sleep when the page is left; back on the page, the next touch wakes it.
+- The start page's switch answers at once and stops the sound by more than one means. It shows "on" from the moment the recording is on its way, so a tap while it still loads refuses it. Switching off fades out, then unplugs the sound and stops its clock (`apply()` in `js/site.js`); every step is guarded on its own (`safe()`), so one that fails cannot keep the button from answering.
+- The sound button takes a tap from the lifted finger as well as from the click that follows, counted once (`onPress()`).
+- **Sound check.** The start page opened with `#soundcheck` at the end of its address shows a small readout: which events the button receives, whether the sound has started, is loading or muted, the state of its source, where the button sits, and the last error. It is there for phones that cannot be inspected from outside (first used for Brave on an iPhone, November 2026). Nothing of it runs without that mark; it can be removed once it is no longer needed.
 
 ## Hotspots
 
