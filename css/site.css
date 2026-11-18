@@ -74,7 +74,14 @@ a { color: var(--ink); }
 .menu a { color: var(--paper); text-decoration: none; font: italic 600 2rem/1.25 var(--display); }
 .menu a:hover { text-decoration: underline; text-underline-offset: 6px; }
 .menu small { font: .7rem var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .6; margin-top: 18px; }
-.menu a.fine { margin-top: auto; padding-top: 26px; font: .7rem/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .75; }   /* where the credits live: small, at the foot of the menu */
+.menu .fine { margin-top: auto; padding-top: 26px; display: flex; flex-wrap: wrap; gap: 2px 20px; }   /* credits, legal notice and privacy: small, at the foot of the menu */
+.menu .fine a { font: .7rem/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase; opacity: .75; min-height: 36px; display: inline-flex; align-items: center; }
+/* the same two links at the foot of every page, in the small type of the page names; on the start page they sit in the lower corner, above the fade */
+.legal { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; max-width: 880px; margin: 64px auto 0; padding: 14px 0 34px; border-top: 1px solid var(--ink-soft); font: 500 .66rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.legal a { display: inline-flex; align-items: center; min-height: 40px; color: var(--ink-mid); text-decoration: none; }
+.legal a:hover, .legal a:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: .3em; }
+.legal.corner { position: fixed; z-index: 6; left: var(--gl); bottom: calc(4px + env(safe-area-inset-bottom, 0px)); margin: 0; padding: 0; border: 0; gap: 0 16px; font-size: .6rem; }
+.legal.corner a { opacity: .8; }
 .room [id] { scroll-margin-top: 96px; }
 
 /* Skull */

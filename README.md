@@ -66,6 +66,14 @@ No build step. Serve the folder (`python3 -m http.server`) and open it, or open 
 - **The mail link** lifts the card for a moment; the link is not held back.
 - **The stamp is alive** and nothing points at it (it is told in the making-of, `#egg-stamp`): first press, the owl looks round (its film `assets/video/owl-ink.mp4`, fetched only then, upper half shown; the still stands where the owl stands in the film); second press, it flies onto the card's upper edge, beating its wings (`assets/owl-fly.webp`, fetched with the first press); third, home. With reduced motion it changes places without flying and the film is never fetched. Stamp and owl are real buttons.
 
+## Legal notice and privacy
+
+`imprint.html` and `privacy.html` (German: `de/imprint.html`, `de/privacy.html`, from `content/de/imprint.txt` and `content/de/privacy.txt`); they use the making-of's styles (`css/making.css`), text only. **The German is the binding text, the English its translation: change both together.**
+
+- **Where they are linked:** small, at the foot of the menu on every page and at the foot of every page (`js/site.js` adds a `<footer class="legal">`; on the start page it sits in the lower corner; the two games have the menu only). Without script the plain menu carries both links (`FOOT` in `scripts/siteconf.py`). A German legal notice has to be reachable from every page in two steps at most: do not remove these links.
+- **Not for search results:** both pages are `noindex` and stay out of the sitemap and the llms files (`LEGAL` in `scripts/siteconf.py`, `noindex` in `scripts/seo.py`).
+- **The facts** (name, address, VAT number) are from Chris's old site, the contact address is chris@chrishelmbrecht.com. The privacy page describes what this site really does, checked on 18 Nov 2026: server at DigitalOcean in Frankfurt, log rotation by size (ten files of 10 MB), no cookies, a few settings in the browser's own storage (language, sound, blog motion, scores; for the visit: the page one comes from, the tilt), the motion sensor read in the browser only, Mixcloud's player only after Play, mailbox at IONOS. **When the site changes in one of these points (hosting, logs, a new outside service, a form, statistics), the privacy page changes with it**, in both languages.
+
 ## The press page
 
 - **One source:** `content/press.txt`, one block per piece (television, radio, print and online); its head explains the fields. `python3 scripts/build-press.py` writes `press.html` and `de/press.html` from it; never edit those two by hand. Afterwards run `scripts/seo.py` (its `llms-full.txt` reads the finished page).

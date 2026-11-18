@@ -46,6 +46,10 @@ PAGES = {
     desc='Chris Helmbrecht as a writer: music interviews, snowboard stories, pieces for Stern and Stern.de, and the book “Fucking Moskau!”, published by Heyne in 2013.'),
  'contact.html': dict(title='Contact · Chris Helmbrecht', kind='website', crumb='Contact',
     desc='Write to Chris Helmbrecht: a postcard with his e-mail address, then Instagram, SoundCloud, Mixcloud, Facebook and Telegram, DJ booking direct by e-mail or phone, and his literary agent.'),
+ 'imprint.html': dict(title='Legal notice · Chris Helmbrecht', kind='website', crumb='Legal notice', noindex=True,
+    desc='Legal notice (Impressum) of chrishelmbrecht.com: who runs the site and how to reach him.'),
+ 'privacy.html': dict(title='Privacy · Chris Helmbrecht', kind='website', crumb='Privacy', noindex=True,
+    desc='Privacy on chrishelmbrecht.com: no cookies, no tracking, no forms. What the server logs, what your browser keeps, and when Mixcloud comes into play.'),
  'making-of.html': dict(title='Making of · Chris Helmbrecht', kind='website', crumb='Making of',
     desc='How this site was made: why a skull, the drafts, who did what (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), what did not work at first, and the games and hidden things, revealed on request. With credits.'),
 }
@@ -60,6 +64,10 @@ PAGES_DE = {                # crumb: the page's name on the way back to the star
     desc='Chris Helmbrecht als Autor: Musikinterviews, Snowboard-Geschichten, Texte für Stern und Stern.de und das Buch „Fucking Moskau!“, 2013 bei Heyne erschienen.'),
  'contact.html': dict(title='Kontakt · Chris Helmbrecht', crumb='Kontakt',
     desc='Schreib Chris Helmbrecht: eine Postkarte mit seiner E-Mail-Adresse, dazu Instagram, SoundCloud, Mixcloud, Facebook und Telegram, DJ-Booking direkt per E-Mail oder Telefon, und seine Literaturagentur.'),
+ 'imprint.html': dict(title='Impressum · Chris Helmbrecht', crumb='Impressum',
+    desc='Impressum von chrishelmbrecht.com: wer die Seite betreibt und wie man ihn erreicht.'),
+ 'privacy.html': dict(title='Datenschutz · Chris Helmbrecht', crumb='Datenschutz',
+    desc='Datenschutz auf chrishelmbrecht.com: keine Cookies, kein Tracking, keine Formulare. Was der Server protokolliert, was dein Browser speichert und wann Mixcloud ins Spiel kommt.'),
  'making-of.html': dict(title='Making-of · Chris Helmbrecht', crumb='Making-of',
     desc='Wie diese Seite entstanden ist: warum ein Schädel, die Entwürfe, wer was gemacht hat (Perplexity, Midjourney, Runway, ElevenLabs, Topaz, Claude), was nicht auf Anhieb geklappt hat, und die Spiele und Verstecke, auf Wunsch aufgelöst. Mit Credits.'),
 }
@@ -106,6 +114,7 @@ def head_block(path, c, page_html, lang='en'):
     url = address(DE[path] if lang == 'de' else path)
     og_title = NAME if path == 'index.html' else c['title']
     return ('<!--seo-->\n'
+            + ('<meta name="robots" content="noindex, follow">\n' if c.get('noindex') else '') +
             f'<meta name="description" content="{esc(c["desc"])}">\n<meta name="author" content="{NAME}">\n<link rel="canonical" href="{url}">\n{alternates(path, DE[path])}'
             f'<meta property="og:site_name" content="{NAME}">\n<meta property="og:type" content="{c["kind"]}">\n<meta property="og:title" content="{esc(og_title)}">\n'
             f'<meta property="og:description" content="{esc(c["desc"])}">\n<meta property="og:url" content="{url}">\n<meta property="og:image" content="{OG}">\n'
@@ -173,7 +182,7 @@ texts, texts_de, left = {}, {}, {}
 for path, c in PAGES.items():
     s = open(path, encoding='utf-8').read()
     s = re.sub(r'<!--seo-->.*?<!--/seo-->\n?', '', s, flags=re.S)
-    s = re.sub(r'<meta (name="description"|name="author"|property="og:[^"]+"|name="twitter:[^"]+")[^>]*>\n?', '', s)        # what an earlier hand put there
+    s = re.sub(r'<meta (name="description"|name="author"|name="robots"|property="og:[^"]+"|name="twitter:[^"]+")[^>]*>\n?', '', s)        # what an earlier hand put there
     s = re.sub(r'<link rel="canonical"[^>]*>\n?', '', s)
     s = re.sub(r'<title>.*?</title>', f'<title>{esc(c["title"])}</title>', s, count=1, flags=re.S)
     assert '<meta name="referrer"' in s, path

@@ -1,0 +1,70 @@
+# German for imprint.html → de/imprint.html. See the top of scripts/seo.py for how this works.
+# The German is the binding text; the English page is its translation. Change both together.
+
+== Provider
+Anbieter
+
+== Freelancer
+Freiberufler
+
+== 80687 Munich
+80687 München
+
+== Germany
+Deutschland
+
+== Contact
+Kontakt
+
+== VAT number
+Umsatzsteuer-ID
+
+== VAT identification number under § 27 a of the German VAT Act: DE356631724
+Umsatzsteuer-Identifikationsnummer nach § 27 a Umsatzsteuergesetz: DE356631724
+
+== Responsible for the content
+Verantwortlich für den Inhalt
+
+== Christian Helmbrecht, address as above (§ 18 (2) of the German Interstate Media Treaty)
+Christian Helmbrecht, Anschrift wie oben (§ 18 Abs. 2 MStV)
+
+== Liability for content
+Haftung für Inhalte
+
+== As a service provider I am responsible for my own content on these pages under the general laws (§ 7 (1) of the German Digital Services Act, DDG). Under §§ 8 to 10 DDG I am not obliged, however, to monitor information of others that is transmitted or stored, or to look for circumstances that point to unlawful activity. Obligations under the general laws to remove information or to block its use remain unaffected. Liability is only possible from the moment a specific infringement becomes known. When I learn of such an infringement, I remove the content without delay.
+Als Diensteanbieter bin ich nach § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG bin ich jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben davon unberührt. Eine Haftung ist erst ab dem Zeitpunkt möglich, an dem ich von einer konkreten Rechtsverletzung erfahre. Wird mir eine solche Rechtsverletzung bekannt, entferne ich die Inhalte umgehend.
+
+== Liability for links
+Haftung für Links
+
+== This site links to websites of others, on whose content I have no influence. I can therefore not vouch for that content. The provider or operator of a linked site is always responsible for it. I checked the linked sites for possible infringements when I set the links; none were apparent then. Checking them permanently is not reasonable without concrete indications of an infringement. When I learn of one, I remove the link without delay.
+Diese Seite verlinkt auf Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Für diese fremden Inhalte kann ich deshalb keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Die verlinkten Seiten habe ich beim Verlinken auf mögliche Rechtsverstöße geprüft; rechtswidrige Inhalte waren dabei nicht erkennbar. Eine dauernde Kontrolle der verlinkten Seiten ist ohne konkrete Anhaltspunkte für eine Rechtsverletzung nicht zumutbar. Wird mir eine Rechtsverletzung bekannt, entferne ich den Link umgehend.
+
+== Copyright
+Urheberrecht
+
+== The content and works I created for these pages are subject to German copyright law. Copying, editing, distributing or using them in any way beyond the limits of copyright law requires my written consent. Downloads and copies of this site are permitted for private, non-commercial use only. Where content on this site was not created by me, the copyrights of others are respected and their content is marked as such. Should you nevertheless notice an infringement, please let me know. When I learn of one, I remove the content without delay.
+Die von mir für diese Seiten erstellten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts brauchen meine schriftliche Zustimmung. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit Inhalte auf dieser Seite nicht von mir stammen, werden die Urheberrechte Dritter beachtet und deren Inhalte als solche gekennzeichnet. Solltest du trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitte ich um einen Hinweis. Wird mir eine Rechtsverletzung bekannt, entferne ich die Inhalte umgehend.
+
+== Picture credits
+Bildnachweise
+
+== Unless stated otherwise, the photographs are by Christian Helmbrecht, who holds the rights to them. The other photographers are named in the <a href="making-of.html#credits">credits of the making-of</a>, where the sources of sounds and map data stand too. The blog uses photographs from Pixabay.com and Unsplash.com; their authors are named at the end of each article.
+Falls nicht anders genannt, stammen die Fotos von Christian Helmbrecht; die Rechte liegen bei ihm. Die weiteren Fotografen stehen in den <a href="making-of.html#credits">Credits im Making-of</a>, dort auch die Quellen für Töne und Kartendaten. Im Blog werden Fotos von Pixabay.com und Unsplash.com genutzt; die Urheber stehen am Ende des jeweiligen Artikels.
+
+== As of November 2026. This page is a translation; the German version is the binding one.
+Stand: November 2026.
+
+== Legal notice
+Impressum
+
+== Legal notice.
+Impressum.
+
+== Who runs this site, and how to reach me.
+Wer diese Seite betreibt und wie du mich erreichst.
+
+= Christian Helmbrecht
+= Hauzenberger Str. 6
+= +49 176 843 93190
+= chris@chrishelmbrecht.com

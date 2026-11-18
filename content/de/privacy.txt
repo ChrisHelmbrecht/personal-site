@@ -1,0 +1,119 @@
+# German for privacy.html → de/privacy.html. See the top of scripts/seo.py for how this works.
+# The German is the binding text; the English page is its translation. Change both together.
+
+== In short
+Kurz gesagt
+
+== This site sets no cookies, counts no visitors and uses no tracking or advertising tools.
+Diese Seite setzt keine Cookies, zählt keine Besucher und nutzt keine Tracking- oder Werbewerkzeuge.
+
+== There is no form. If you write to me, you do so with your own mail program.
+Es gibt kein Formular. Wenn du mir schreibst, tust du das mit deinem eigenen Mailprogramm.
+
+== The server keeps the usual log of requests. Your browser keeps a few settings for the site, on your device only.
+Der Server führt das übliche Protokoll der Aufrufe. Dein Browser merkt sich ein paar Einstellungen für die Seite, nur auf deinem Gerät.
+
+== One outside service can come into play: Mixcloud’s player on the DJ page, and only after you press Play.
+Ein fremder Dienst kann ins Spiel kommen: der Player von Mixcloud auf der DJ-Seite, und erst, wenn du Play drückst.
+
+== Who is responsible
+Wer verantwortlich ist
+
+== Responsible for the processing of data on this site, within the meaning of the General Data Protection Regulation (GDPR):
+Verantwortlich für die Datenverarbeitung auf dieser Seite im Sinne der Datenschutz-Grundverordnung (DSGVO):
+
+== Controller
+Verantwortlicher
+
+== 80687 Munich, Germany
+80687 München
+
+== Hosting and server logs
+Hosting und Server-Protokolle
+
+== The site lies on a server of the cloud provider DigitalOcean, LLC (USA). The server stands in Frankfurt am Main. With every request the server processes data that is technically necessary and writes it to a log file: the IP address, date and time, the address requested, the page you come from (referrer), and browser and operating system. I use this data only to deliver the site, to find errors and to fend off attacks, and I do not combine it with other data. The legal basis is Art. 6 (1) (f) GDPR: my legitimate interest in running the site safely and reliably. The log files are rotated automatically: at most ten files of 10 MB each are kept, older ones are deleted.
+Die Seite liegt auf einem Server des Cloud-Anbieters DigitalOcean, LLC (USA). Der Server steht in Frankfurt am Main. Bei jedem Aufruf verarbeitet der Server technisch notwendige Daten und schreibt sie in eine Protokolldatei: die IP-Adresse, Datum und Uhrzeit, die aufgerufene Adresse, die Seite, von der du kommst (Referrer), sowie Browser und Betriebssystem. Ich nutze diese Daten nur, um die Seite auszuliefern, Fehler zu finden und Angriffe abzuwehren, und führe sie nicht mit anderen Daten zusammen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO: mein berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb. Die Protokolldateien werden automatisch rotiert: Es bleiben höchstens zehn Dateien von je 10 MB, ältere werden gelöscht.
+
+== A data processing agreement with DigitalOcean is in place. For transfers to the USA, DigitalOcean relies under that agreement on its certification under the EU-U.S. Data Privacy Framework, and otherwise on the European Commission’s standard contractual clauses. More in <a href="https://www.digitalocean.com/legal/data-processing-agreement" target="_blank" rel="noopener">DigitalOcean’s data processing agreement</a>.
+Mit DigitalOcean besteht ein Vertrag über Auftragsverarbeitung. Für Übermittlungen in die USA stützt sich DigitalOcean nach diesem Vertrag auf seine Zertifizierung unter dem EU-U.S. Data Privacy Framework, ersatzweise auf die Standardvertragsklauseln der EU-Kommission. Mehr im <a href="https://www.digitalocean.com/legal/data-processing-agreement" target="_blank" rel="noopener">Auftragsverarbeitungsvertrag von DigitalOcean</a>.
+
+== What your browser keeps for the site
+Was dein Browser für die Seite speichert
+
+== There are no cookies here. So that the site can remember a few things, your browser puts them into the local storage of your device: the language you chose, whether the sound is on or off, your setting for the motion in the blog, and the best scores of the games, in Owl Night Long with the three initials you enter yourself. For the length of your visit only, it also remembers which page you come back to the skull from and whether you allowed the tilting.
+Cookies gibt es hier nicht. Damit sich die Seite ein paar Dinge merken kann, legt dein Browser sie im lokalen Speicher deines Geräts ab: die gewählte Sprache, ob der Ton an oder aus ist, deine Einstellung zur Bewegung im Blog und die Bestwerte der Spiele, bei Owl Night Long mit den drei Initialen, die du selbst einträgst. Nur für die Dauer deines Besuchs merkt er sich außerdem, von welcher Seite du zum Schädel zurückkommst und ob du das Neigen erlaubt hast.
+
+== This information stays on your device and is not sent to me or to anyone else. You can delete it at any time in your browser’s settings. The legal basis is § 25 (2) no. 2 of the German Telecommunications Digital Services Data Protection Act (TDDDG): the storage is necessary for functions you call up yourself.
+Diese Angaben bleiben auf deinem Gerät und werden weder an mich noch an andere übertragen. Du kannst sie jederzeit in den Einstellungen deines Browsers löschen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG: Die Speicherung ist nötig für Funktionen, die du selbst aufrufst.
+
+== The motion sensor
+Der Bewegungssensor
+
+== On a phone the skull can follow the way you hold the device. For that the site reads the motion sensor, on an iPhone only after you have allowed it. The values are used in your browser for the picture alone. They are not stored and not sent anywhere.
+Auf dem Handy kann der Schädel der Haltung des Geräts folgen. Dafür liest die Seite den Bewegungssensor aus, auf dem iPhone erst, nachdem du es erlaubt hast. Die Werte werden nur in deinem Browser für die Darstellung verwendet. Sie werden nicht gespeichert und nirgendwohin übertragen.
+
+== The recordings on the DJ page play through the player of Mixcloud (Mixcloud Limited, Unit #2255, 275 New North Road, London N1 7AA, United Kingdom). The player is loaded when you press Play, not before. Until then no request goes to Mixcloud. From then on Mixcloud receives your IP address and technical details of your browser, and it can set cookies and process further data. If you are signed in to Mixcloud, it can connect the listening to your account. I have no influence on that.
+Die Aufnahmen auf der DJ-Seite laufen über den Player von Mixcloud (Mixcloud Limited, Unit #2255, 275 New North Road, London N1 7AA, Vereinigtes Königreich). Der Player wird geladen, wenn du Play drückst, vorher nicht. Bis dahin geht keine Anfrage an Mixcloud. Ab dann erhält Mixcloud deine IP-Adresse und technische Angaben zu deinem Browser und kann Cookies setzen und weitere Daten verarbeiten. Bist du bei Mixcloud angemeldet, kann Mixcloud das Hören deinem Konto zuordnen. Darauf habe ich keinen Einfluss.
+
+== The legal basis is your consent, given by pressing Play (Art. 6 (1) (a) GDPR, § 25 (1) TDDDG). You can withdraw it for the future by not starting the player again; cookies already set can be deleted in your browser. For the United Kingdom there is an adequacy decision of the European Commission. More in <a href="https://www.mixcloud.com/privacy/" target="_blank" rel="noopener">Mixcloud’s privacy policy</a>.
+Rechtsgrundlage ist deine Einwilligung durch den Klick auf Play (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Du kannst sie für die Zukunft widerrufen, indem du den Player nicht mehr startest; bereits gesetzte Cookies löschst du in deinem Browser. Für das Vereinigte Königreich gibt es einen Angemessenheitsbeschluss der EU-Kommission. Mehr in der <a href="https://www.mixcloud.com/privacy/" target="_blank" rel="noopener">Datenschutzerklärung von Mixcloud</a>.
+
+== Links to other sites
+Links zu anderen Seiten
+
+== The site links to other services, for example Instagram, SoundCloud, Mixcloud, Facebook, Telegram, YouTube, the shop at Spreadshop, fuckingmoskau.de and dieneue.social. These are plain links. Only when you click one does that provider learn of your visit, and then its own privacy rules apply.
+Die Seite verlinkt auf andere Angebote, zum Beispiel Instagram, SoundCloud, Mixcloud, Facebook, Telegram, YouTube, den Shop bei Spreadshop, fuckingmoskau.de und dieneue.social. Das sind einfache Links. Erst wenn du einen anklickst, erfährt der jeweilige Anbieter von deinem Besuch, und dann gelten dessen Datenschutzregeln.
+
+== Fonts, pictures, films and scripts come from this site’s own server. Nothing is loaded from other companies.
+Schriften, Bilder, Filme und Skripte kommen vom eigenen Server dieser Seite. Von fremden Firmen wird nichts nachgeladen.
+
+== When you write or call
+Wenn du schreibst oder anrufst
+
+== If you send me an e-mail or call me, I process what you tell me (for example your name, your address and the content of your message) in order to answer. The legal basis is Art. 6 (1) (b) GDPR where it is about a contract or the steps towards one, a booking for instance, and otherwise Art. 6 (1) (f) GDPR. I delete messages when they are no longer needed and no legal retention period stands against it. The mailbox is kept at IONOS SE in Germany.
+Wenn du mir eine E-Mail schreibst oder mich anrufst, verarbeite ich deine Angaben (zum Beispiel Name, Adresse und Inhalt der Nachricht), um zu antworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, wenn es um einen Vertrag oder dessen Anbahnung geht, etwa ein Booking, sonst Art. 6 Abs. 1 lit. f DSGVO. Ich lösche Nachrichten, wenn sie nicht mehr gebraucht werden und keine gesetzliche Aufbewahrungsfrist dagegensteht. Das Postfach liegt bei der IONOS SE in Deutschland.
+
+== I object to the use of the contact details in the legal notice for advertising that was not asked for.
+Der Nutzung der im Impressum genannten Kontaktdaten für nicht angeforderte Werbung widerspreche ich.
+
+== Encryption
+Verschlüsselung
+
+== The site is transmitted in encrypted form (TLS). You can tell by the “https” in the address.
+Die Seite wird verschlüsselt übertragen (TLS). Du erkennst das am „https“ in der Adresse.
+
+== Your rights
+Deine Rechte
+
+== Under the GDPR you have the right of access (Art. 15), to rectification (Art. 16), to erasure (Art. 17), to restriction of processing (Art. 18) and to data portability (Art. 20). Consent you have given can be withdrawn at any time for the future.
+Nach der DSGVO hast du das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Eine erteilte Einwilligung kannst du jederzeit für die Zukunft widerrufen.
+
+== Right to object (Art. 21 GDPR): where I process data on the basis of Art. 6 (1) (f) GDPR, you can object at any time on grounds arising from your particular situation. I then no longer process the data, unless there are compelling legitimate grounds that outweigh your interests, or the processing serves to establish, exercise or defend legal claims.
+Widerspruchsrecht (Art. 21 DSGVO): Soweit ich Daten auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO verarbeite, kannst du dem jederzeit aus Gründen widersprechen, die sich aus deiner besonderen Situation ergeben. Ich verarbeite die Daten dann nicht mehr, es sei denn, es gibt zwingende schutzwürdige Gründe, die deine Interessen überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
+
+== For all of this an e-mail to <a href="mailto:chris@chrishelmbrecht.com">chris@chrishelmbrecht.com</a> is enough.
+Für all das genügt eine E-Mail an <a href="mailto:chris@chrishelmbrecht.com">chris@chrishelmbrecht.com</a>.
+
+== You can also complain to a data protection supervisory authority. The one responsible for me is the Bavarian State Office for Data Protection Supervision (Bayerisches Landesamt für Datenschutzaufsicht), Promenade 18, 91522 Ansbach, Germany.
+Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. Für mich zuständig ist das Bayerische Landesamt für Datenschutzaufsicht, Promenade 18, 91522 Ansbach.
+
+== Date
+Stand
+
+== November 2026. When something about the site changes, I bring this page up to date. This page is a translation; the German version is the binding one.
+November 2026. Wenn sich an der Seite etwas ändert, bringe ich diese Erklärung auf den neuesten Stand.
+
+== Privacy
+Datenschutz
+
+== Privacy.
+Datenschutz.
+
+== What happens to your data when you visit this site. It is not much.
+Was mit deinen Daten passiert, wenn du diese Seite besuchst. Es ist nicht viel.
+
+= Christian Helmbrecht
+= Hauzenberger Str. 6
+= +49 176 843 93190
+= chris@chrishelmbrecht.com
+= Mixcloud

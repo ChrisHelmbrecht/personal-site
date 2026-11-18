@@ -12,14 +12,14 @@
   const paired = both || !!SL.twin(other(pageLang));
   const LANG = both ? SL.here : paired ? pageLang : SL.want;
   const GERMAN = { 'index.html': 'de/index.html', 'bio.html': 'de/bio.html', 'dj.html': 'de/dj.html', 'writing.html': 'de/writing.html', 'press.html': 'de/press.html',
-    'contact.html': 'de/contact.html', 'making-of.html': 'de/making-of.html', 'blog.html': 'blog/de/index.html', 'timeline.html': 'timeline/de/index.html' };
+    'contact.html': 'de/contact.html', 'making-of.html': 'de/making-of.html', 'imprint.html': 'de/imprint.html', 'privacy.html': 'de/privacy.html', 'blog.html': 'blog/de/index.html', 'timeline.html': 'timeline/de/index.html' };
   const to = h => { if (LANG !== 'de') return h; const [page, mark] = h.split('#'); return (GERMAN[page] || page) + (mark ? '#' + mark : ''); };   // a page of the site, in the language being read
   // one name for a page whichever language it is read in: 'bio.html' for bio.html and de/bio.html alike
   const pageKey = p => { p = p.replace(/^[a-z]+:\/\/[^/]+/, '').split(/[?#]/)[0].replace(/^\//, '').replace(/(^|\/)de\//, '$1') || 'index.html'; return p === 'blog/index.html' ? 'blog.html' : p === 'timeline/index.html' ? 'timeline.html' : p; };
   const T = LANG === 'de'
-    ? { skull: 'Der Schädel', nav: ['DJ', 'Bio', 'Autor', 'Blog', 'Presse', 'Kontakt'], else: 'Anderswo', menu: 'Menü', sound: 'Ton', on: 'Ton an', off: 'Ton aus',
+    ? { skull: 'Der Schädel', nav: ['DJ', 'Bio', 'Autor', 'Blog', 'Presse', 'Kontakt'], legal: ['Impressum', 'Datenschutz'], else: 'Anderswo', menu: 'Menü', sound: 'Ton', on: 'Ton an', off: 'Ton aus',
         isOff: 'Ton ist aus. Einschalten', isOn: 'Ton ist an. Ausschalten', mute: 'Ton ausschalten', unmute: 'Ton einschalten', tilt: 'Jetzt das Handy neigen', back: 'Zurück zum Schädel', gone: 'Nicht hier · Chris Helmbrecht' }
-    : { skull: 'The Skull', nav: ['DJ', 'Bio', 'Writing', 'Blog', 'Press', 'Contact'], else: 'Elsewhere', menu: 'Menu', sound: 'Sound', on: 'Sound on', off: 'Sound off',
+    : { skull: 'The Skull', nav: ['DJ', 'Bio', 'Writing', 'Blog', 'Press', 'Contact'], legal: ['Legal notice', 'Privacy'], else: 'Elsewhere', menu: 'Menu', sound: 'Sound', on: 'Sound on', off: 'Sound off',
         isOff: 'Sound is off. Turn it on', isOn: 'Sound is on. Turn it off', mute: 'Mute sound', unmute: 'Play sound', tilt: 'Now tilt your phone', back: 'Back to the skull', gone: '' };
 
   // Header + hamburger menu, shared by every page
@@ -29,6 +29,8 @@
   const OUT = [
     ['Shop', 'https://sublime1.myspreadshop.de/'], ['Fucking Moskau', 'https://fuckingmoskau.de'], ['dieneue.social', 'https://dieneue.social'],
   ];
+  // Legal notice and privacy: small, at the foot of the menu and at the foot of every page (on the start page in the lower corner)
+  const LEGAL = `<a href="${to('imprint.html')}">${T.legal[0]}</a><a href="${to('privacy.html')}">${T.legal[1]}</a>`;
   const next = other(LANG), twin = both ? (next === 'de' ? 'de/index.html' : 'index.html') : SL.twin(next);
   document.body.insertAdjacentHTML('afterbegin', `
     <header class="bar">
@@ -44,8 +46,11 @@
       ${NAV.map(([t, h]) => `<a href="${h}">${t}</a>`).join('')}
       <small>${T.else}</small>
       ${OUT.map(([t, h]) => `<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('')}
-      <a class="fine" href="${to('making-of.html#credits')}">Credits &amp; Sound</a>
+      <div class="fine"><a href="${to('making-of.html#credits')}">Credits &amp; Sound</a>${LEGAL}</div>
     </nav>`);
+  { const page = document.querySelector('main.page'), start = document.getElementById('skull');
+    if (page) page.insertAdjacentHTML('beforeend', `<footer class="legal">${LEGAL}</footer>`);
+    else if (start) document.body.insertAdjacentHTML('beforeend', `<footer class="legal corner">${LEGAL}</footer>`); }
   // The switch remembers the choice, and goes to the same spot of the other page (a photograph open in the timeline, a jump mark)
   const langLink = $('lang');
   if (langLink) langLink.addEventListener('click', () => { SL.choose(next); if (!both) langLink.href = twin + location.search + location.hash; });

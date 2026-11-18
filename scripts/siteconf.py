@@ -15,7 +15,8 @@ OG = SITE + '/assets/og.jpg'                  # the picture for link previews wh
 # German to the German pages; the switch in the header (js/site.js) goes from each page to its twin.
 LANGS = ('en', 'de')
 PLAIN = ('index.html', 'bio.html', 'dj.html', 'writing.html', 'press.html', 'contact.html', 'making-of.html')   # the hand-written pages
-DE = {**{p: 'de/' + p for p in PLAIN}, 'blog.html': 'blog/de/index.html', 'timeline.html': 'timeline/de/index.html'}
+LEGAL = ('imprint.html', 'privacy.html')      # legal notice and privacy: linked small at the foot of every menu and every page. Not in the sitemap or the llms files, and marked noindex
+DE = {**{p: 'de/' + p for p in PLAIN + LEGAL}, 'blog.html': 'blog/de/index.html', 'timeline.html': 'timeline/de/index.html'}
 def de(href):
     """The German twin of an English address inside the site. Pages that exist in one language only stay as they are."""
     page, sep, rest = href.partition('#')
@@ -35,11 +36,12 @@ NAV = {'en': [('The Skull', 'index.html'), ('DJ', 'dj.html'), ('Bio', 'bio.html'
               ('Blog', 'blog.html'), ('Press', 'press.html'), ('Contact', 'contact.html'), ('Making of', 'making-of.html')],
        'de': [('Der Schädel', 'index.html'), ('DJ', 'dj.html'), ('Bio', 'bio.html'), ('Autor', 'writing.html'), ('Timeline', 'timeline.html'),
               ('Blog', 'blog.html'), ('Presse', 'press.html'), ('Kontakt', 'contact.html'), ('Making-of', 'making-of.html')]}
+FOOT = {'en': [('Legal notice', 'imprint.html'), ('Privacy', 'privacy.html')], 'de': [('Impressum', 'imprint.html'), ('Datenschutz', 'privacy.html')]}   # the same names are in js/site.js
 OTHER = {'en': ('de', 'Deutsch'), 'de': ('en', 'English')}
 def noscript(lang='en', twin=None):
     """The menu as plain links, with the way to the same page in the other language at its end (twin: that page's address)."""
     o, name = OTHER[lang]
-    links = ''.join(f'<a href="{de(h) if lang == "de" else h}">{t}</a>' for t, h in NAV[lang] if TIMELINE or h != 'timeline.html')
+    links = ''.join(f'<a href="{de(h) if lang == "de" else h}">{t}</a>' for t, h in NAV[lang] + FOOT[lang] if TIMELINE or h != 'timeline.html')
     return f'<noscript><nav class="plain-nav" aria-label="Site">{links}' + (f'<a href="{twin}" lang="{o}" hreflang="{o}">{name}</a>' if twin else '') + '</nav></noscript>'
 
 import json
