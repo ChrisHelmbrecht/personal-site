@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 Disallow: /assets/source/
 
-Sitemap: https://new.chrishelmbrecht.com/sitemap.xml
+Sitemap: https://chrishelmbrecht.com/sitemap.xml

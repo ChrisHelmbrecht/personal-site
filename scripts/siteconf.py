@@ -4,7 +4,7 @@ AT LAUNCH: put the real address into SITE, then run
     python3 scripts/build-timeline.py && python3 scripts/build-press.py && python3 scripts/build-blog.py && python3 scripts/seo.py
 and commit. Every canonical link, link preview, feed, sitemap entry and llms.txt then names the real domain.
 """
-SITE = 'https://new.chrishelmbrecht.com'      # where the site lives, without a slash at the end
+SITE = 'https://chrishelmbrecht.com'      # where the site lives, without a slash at the end
 NAME = 'Chris Helmbrecht'
 ME = SITE + '/#chris'                         # the name search engines know Chris by across all pages (structured data)
 OG = SITE + '/assets/og.jpg'                  # the picture for link previews when a page has none of its own

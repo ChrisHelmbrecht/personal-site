@@ -1,5 +1,5 @@
-# Old addresses of the articles and where they live now. A plan, not switched on: at launch these lines go
-# into .htaccess as they are (mod_alias), once the new site answers under the old domain.
+# Old addresses of the articles and where they live now. Switched on since the launch (18 Nov 2026): these lines stand
+# at the end of .htaccess as they are (mod_alias). After a change here, copy them there again.
 
 Redirect 301 /en/venezuela-january-3-2026-the-day-the-dams-broke/ /blog/venezuela-january-3-2026-the-day-the-dams-broke.html
 Redirect 301 /en/100-years-ago-erik-satie-died-silent-punk-and-revolutionary-of-his-time/ /blog/100-years-ago-erik-satie-died-silent-punk-and-revolutionary-of-his-time.html

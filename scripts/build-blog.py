@@ -320,8 +320,8 @@ if not A.synthetic and not A.only:
     if TIMELINE: fixed += sorted(f.replace(os.sep, '/') for f in glob.glob('timeline/*.html') + glob.glob('timeline/de/*.html') if not f.endswith('index.html'))
     rows = [f'<url><loc>{SITE}/{u}</loc></url>' for u in fixed] + [f'<url><loc>{SITE}/{url(p)}</loc><lastmod>{p.get("updated") or p["date"]}</lastmod></url>' for l in by for p in by[l]]
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(rows) + '\n</urlset>\n')
-    red = ['# Old addresses of the articles and where they live now. A plan, not switched on: at launch these lines go',
-           '# into .htaccess as they are (mod_alias), once the new site answers under the old domain.', '']
+    red = ['# Old addresses of the articles and where they live now. Switched on since the launch (18 Nov 2026): these lines stand',
+           '# at the end of .htaccess as they are (mod_alias). After a change here, copy them there again.', '']
     red += [f"Redirect 301 {re.sub(r'^https?://[^/]+', '', p['old'])} /{url(p)}" for l in by for p in by[l] if p.get('old')]
     red += ['Redirect 301 /en/blog-2/ /blog.html']
     open('content/blog/redirects.txt', 'w').write('\n'.join(red) + '\n')
